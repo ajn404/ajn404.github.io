@@ -1,0 +1,35 @@
+---
+title: 写一个vscode插件并发布
+
+pubDatetime: 2023-08-30T05:42:45Z
+postSlug: vscode
+featured: false
+draft: false
+tags:
+  - vscode
+description: "vscode插件发布全流程"
+---
+
+### 步骤
+
+```shell
+npm install -g yo generator-code
+yo code extensionProject
+npm install --global @vscode/vsce
+vsce package
+vsce login ***
+vsce publish
+```
+
+### todo :配置 git actions 提交本项目的代码自动发版 vscode 插件
+
+### 相关链接
+
+- [掘金文档](https://juejin.cn/post/7121381959883816968)
+- [yo-npm](https://www.npmjs.com/package/yo)
+- [yo-yeoman](https://yeoman.io/)
+- [vscode-market](https://marketplace.visualstudio.com/)
+  _获取 token_
+- [azure-dev](https://dev.azure.com/)
+- [api 文档](https://code.visualstudio.com/api/references/vscode-api)
+- [插件 demo](https://marketplace.visualstudio.com/items?itemName=ajn404.ajn404-vscode-extension)

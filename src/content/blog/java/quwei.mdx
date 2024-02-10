@@ -1,0 +1,133 @@
+---
+title: 趣味实战springboot
+
+pubDatetime: 2023-10-08 17:00:00
+postSlug: spring
+featured: false
+draft: false
+tags:
+  - java
+  - basic
+  - springboot
+  - driverjs
+  - 向导
+description: "《趣味实战springboot》"
+---
+
+## 4.1 Spring MVC
+
+## driverjs
+
+**一个实现引导功能的 sdk**
+
+import Demo from "@components/react/little/driver.tsx";
+
+<Demo
+  client:load
+  elements='[
+    {"element":"#driverjs","popover":{"title":"driverjs","description":"driverjs很强哟,实现了向导的功能","side":"top","align":"start"}},
+    {"element":"header","popover":{"title":"header","description":"这里是页面的header","doneBtnText":"完成"}},
+    { "popover": { "title": "Happy Coding", "description": "欢迎来到猎奇者的世界👏👏👏👏👏👏,输入hh解锁VIP"}}    ]'
+/>
+## lombok
+
+> lombok 是一个可以通过简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 Java 代码的工具，简单来说，比如我们新建了一个类，然后在其中写了几个字段，然后通常情况下我们需要手动去建立 getter 和 setter 方法啊，构造函数啊之类的，lombok 的作用就是为了省去我们手动创建这些代码的麻烦，它能够在我们编译源码的时候自动帮我们生成这些方法。
+
+pom.xml
+
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+</dependency>
+```
+
+例如
+
+- @AllArgsConstructor: 自动生成全参数构造函数
+- @Data: 自动为所有字段添加@ToString, @EqualsAndHashCode, @Getter 方法，为非 final 字段添加@Setter,和@RequiredArgsConstructor!
+
+```java
+package com.example.fantasty.practice;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class User {
+    private String name;
+    private int age;
+}
+```
+
+```java
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class User {
+   private String name;
+   private int age;
+
+   // Constructor with all arguments
+   public User(String name, int age) {
+       this.name = name;
+       this.age = age;
+   }
+
+   public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return age == user.age && name.equals(user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+```
+
+## restful api
+
+REST（Representational State Transfer，表示状态转换）风格是一种用于构建 Web 服务的架构风格。它基于 HTTP 协议的基本操作（如 GET、POST、PUT、DELETE 等）来表示数据的获取、创建、更新和删除操作。
+
+REST 风格的 Web 服务通常具有以下特点：
+
+- 资源：REST 将 HTTP 请求映射到资源的操作。资源可以是一个实体（如用户、文章、订单等），也可以是一组操作（如 CRUD 操作）。
+- 统一接口：REST 使用 HTTP 请求方法来表示操作，如 GET 用于获取资源，POST 用于创建资源，PUT 用于更新资源，DELETE 用于删除资源。
+- 轻量级状态：REST 不推荐将整个对象作为响应，而是应该只返回资源的状态。这样可以避免传输大量数据，提高服务响应速度。
+- 层分离：REST 将服务分为不同的层次，如客户端和服务器，客户端和服务器之间通过 HTTP 协议进行通信。这样可以提高系统的可扩展性和可维护性。
+
+REST 风格的 Web 服务通常比 SOAP 风格的 Web 服务更易于使用和维护。

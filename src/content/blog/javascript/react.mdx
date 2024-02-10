@@ -1,0 +1,363 @@
+---
+title: react相关
+
+pubDatetime: 2023-12-7 10:41:00
+postSlug: react
+featured: false
+draft: false
+tags:
+  - react
+  - read source code
+description: "react使用以及源码阅读"
+---
+
+# 目录
+
+# react use and read source code
+
+react 使用以及源码阅读
+
+## npm link
+
+```bash
+ npm link react react-dom
+```
+
+实际上是将你正在开发的 React 和 React DOM 的本地版本与你的项目进行了“链接”，允许你实时进行更改测试，而无需反复将你的包发布到 npm。
+
+## processing
+
+[查看执行过程](https://gitee.com/xiaochen1024/react_source_demo)
+
+![react_process](/notes_astro3/assets/react_process.png)
+
+## todo:使用 react 大部分 feature 的一个小组件
+
+## react flow
+
+> React 源码中的这些类型定义是 Flow 类型系统的一部分。Flow 是一种 JavaScript 的静态类型检查工具，它允许在代码中添加类型注解，帮助开发者检测潜在的类型错误
+
+```js
+export type StatelessFunctionalComponent<P> =
+  React$StatelessFunctionalComponent<P>;
+export type ComponentType<-P> = React$ComponentType<P>;
+export type AbstractComponent<
+  -Config,
+  +Instance = mixed
+> = React$AbstractComponent<Config, Instance>;
+export type ElementType = React$ElementType;
+export type Element<+C> = React$Element<C>;
+export type Key = React$Key;
+export type Ref<C> = React$Ref<C>;
+export type Node = React$Node;
+export type Context<T> = React$Context<T>;
+export type Portal = React$Portal;
+export type ElementProps<C> = React$ElementProps<C>;
+export type ElementConfig<C> = React$ElementConfig<C>;
+export type ElementRef<C> = React$ElementRef<C>;
+export type Config<Props, DefaultProps> = React$Config<Props, DefaultProps>;
+export type ChildrenArray<+T> = $ReadOnlyArray<ChildrenArray<T>> | T;
+```
+
+## cd react
+
+```bash
+yarn cache clean -f
+```
+
+### synchronous rendering process in React Fiber
+
+- 异步可中断
+
+ReactFiberWorkLoop
+
+```js
+/** @noinline */
+function workLoopConcurrent() {
+  // 执行工作，直到调度器要求暂停
+  while (workInProgress !== null && !shouldYield()) {
+    // $FlowFixMe[incompatible-call] 在升级 Flow 时发现的问题
+    performUnitOfWork(workInProgress);
+  }
+}
+```
+
+Scheduler
+
+```js
+function unstable_scheduleCallback(
+  priorityLevel: PriorityLevel,
+  callback: Callback,
+  options?: { delay: number }
+): Task {
+  // 获取当前时间
+  var currentTime = getCurrentTime();
+
+  // 计算任务的开始时间
+  var startTime;
+  if (typeof options === "object" && options !== null) {
+    var delay = options.delay;
+    if (typeof delay === "number" && delay > 0) {
+      startTime = currentTime + delay;
+    } else {
+      startTime = currentTime;
+    }
+  } else {
+    startTime = currentTime;
+  }
+
+  // 根据优先级确定任务的超时时间
+  var timeout;
+  switch (priorityLevel) {
+    case ImmediatePriority:
+      // 立即超时
+      timeout = -1;
+      break;
+    case UserBlockingPriority:
+      // 最终会超时
+      timeout = userBlockingPriorityTimeout;
+      break;
+    case IdlePriority:
+      // 永不超时
+      timeout = maxSigned31BitInt;
+      break;
+    case LowPriority:
+      // 最终会超时
+      timeout = lowPriorityTimeout;
+      break;
+    case NormalPriority:
+    default:
+      // 最终会超时
+      timeout = normalPriorityTimeout;
+      break;
+  }
+
+  // 计算任务的过期时间
+  var expirationTime = startTime + timeout;
+
+  // 创建一个新的任务对象
+  var newTask: Task = {
+    id: taskIdCounter++,
+    callback,
+    priorityLevel,
+    startTime,
+    expirationTime,
+    sortIndex: -1,
+  };
+
+  // 如果开启了性能分析，进行相应的设置
+  if (enableProfiling) {
+    newTask.isQueued = false;
+  }
+
+  // 根据任务的开始时间或过期时间，将任务加入到相应的队列中
+  if (startTime > currentTime) {
+    // 这是一个延迟任务。
+    newTask.sortIndex = startTime;
+    push(timerQueue, newTask);
+    if (peek(taskQueue) === null && newTask === peek(timerQueue)) {
+      // 所有任务都是延迟任务，且这是最早延迟的任务。
+      if (isHostTimeoutScheduled) {
+        // 取消现有的超时。
+        cancelHostTimeout();
+      } else {
+        isHostTimeoutScheduled = true;
+      }
+      // 安排一个超时。
+      requestHostTimeout(handleTimeout, startTime - currentTime);
+    }
+  } else {
+    // 这是一个即时任务或者延迟任务已经过期。
+    newTask.sortIndex = expirationTime;
+    push(taskQueue, newTask);
+    if (enableProfiling) {
+      markTaskStart(newTask, currentTime);
+      newTask.isQueued = true;
+    }
+    // 如果没有已经安排的宿主回调，并且当前没有执行工作，则安排一个宿主回调。
+    if (!isHostCallbackScheduled && !isPerformingWork) {
+      isHostCallbackScheduled = true;
+      requestHostCallback();
+    }
+  }
+
+  return newTask;
+}
+```
+
+lane
+
+> 在 React 中，Lane 模型是一种用于调度和分配渲染优先级的机制。它是 React Fiber 架构的一部分，旨在提高渲染的效率和优先级管理。Lane 模型引入了一种将更新划分为不同优先级的概念，以便更好地响应用户操作并确保平滑的用户体验。
+
+1.优先级（Priority）： Lane 模型引入了多个不同的渲染优先级。不同的任务可以被分配到不同的优先级，例如 Immediate、UserBlocking、Normal、Low、Idle 等。这使得 React 能够在不同场景下灵活地分配和调整任务的优先级，以更好地响应用户交互。
+
+2.Lanes： Lane 是用于标识任务所属优先级的概念。每个 Lane 表示一个特定的渲染优先级。React 使用 Lanes 来追踪任务的优先级，并根据不同的优先级调度任务的执行。任务会被分配到相应的 Lane 上，从而确定其优先级。
+
+3.合并（Merging）： Lanes 支持合并操作。当多个更新具有相同的优先级时，它们可以被合并到同一个 Lane 中，以减少不必要的渲染操作。这有助于提高性能，避免重复的工作。
+
+4.中断和恢复： Lanes 允许中断和恢复渲染。在某些情况下，React 可能需要中断正在进行的工作以执行更紧急的任务。Lanes 模型提供了中断和恢复工作的机制，确保任务的有序执行。
+
+5.划分策略： 不同的任务会根据其性质和紧急程度被分配到不同的 Lane。例如，用户交互相关的任务可能会被分配到 UserBlocking 优先级的 Lane，以确保快速响应。
+
+6.渲染精细度： Lane 模型支持渲染的细粒度控制。通过划分为不同的 Lane，React 可以更精确地控制何时、何地以及以何种方式执行渲染工作。
+
+> Lane 模型的引入使得 React 能够更好地适应各种场景下的渲染需求，确保高优先级任务能够尽快得到处理，同时有效地管理低优先级任务的执行。这有助于提高 React 应用的性能和用户体验。
+
+## react components use class or function
+
+class
+
+```tsx
+import React, { Component } from "react";
+
+interface LifecycleExampleState {
+  counter: number;
+}
+
+class LifecycleExample extends Component<{}, LifecycleExampleState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      counter: 0,
+    };
+    console.log("Constructor");
+  }
+
+  static getDerivedStateFromProps(
+    nextProps: {},
+    nextState: LifecycleExampleState
+  ) {
+    console.log("getDerivedStateFromProps", nextProps, nextState);
+    return null;
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+
+  shouldComponentUpdate(nextProps: {}, nextState: LifecycleExampleState) {
+    console.log("shouldComponentUpdate", nextProps, nextState);
+    return true;
+  }
+
+  getSnapshotBeforeUpdate(prevProps: {}, prevState: LifecycleExampleState) {
+    console.log("getSnapshotBeforeUpdate", prevProps, prevState);
+    return null;
+  }
+
+  componentDidUpdate(
+    prevProps: {},
+    prevState: LifecycleExampleState,
+    snapshot: null
+  ) {
+    console.log("componentDidUpdate", prevProps, prevState, snapshot);
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    console.log("getDerivedStateFromError", error);
+    return null;
+  }
+
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.log("componentDidCatch", error, info);
+  }
+
+  handleIncrement = () => {
+    this.setState(prevState => ({
+      counter: prevState.counter + 1,
+    }));
+  };
+
+  render() {
+    console.log("Render");
+    return (
+      <div>
+        <h1>Counter: {this.state.counter}</h1>
+        <button onClick={this.handleIncrement}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default LifecycleExample;
+```
+
+function
+
+```tsx
+import React, { useState, useEffect, useReducer } from "react";
+
+interface LifecycleExampleProps {
+  initialCounter: number;
+}
+
+interface LifecycleExampleState {
+  counter: number;
+}
+
+type Action = { type: "increment" } | { type: "decrement" };
+
+const counterReducer = (
+  state: LifecycleExampleState,
+  action: Action
+): LifecycleExampleState => {
+  switch (action.type) {
+    case "increment":
+      return { ...state, counter: state.counter + 1 };
+    case "decrement":
+      return { ...state, counter: state.counter - 1 };
+    default:
+      return state;
+  }
+};
+
+const LifecycleExample: React.FC<LifecycleExampleProps> = ({
+  initialCounter,
+}) => {
+  const [state, dispatch] = useReducer(counterReducer, {
+    counter: initialCounter,
+  });
+
+  useEffect(() => {
+    console.log("Component Did Mount");
+
+    return () => {
+      console.log("Component Will Unmount");
+    };
+  }, []); // Empty dependency array means it runs once on mount and once on unmount
+
+  useEffect(() => {
+    console.log("Counter Value Changed:", state.counter);
+  }, [state.counter]); // Runs whenever counter value changes
+
+  const handleIncrement = () => {
+    dispatch({ type: "increment" });
+  };
+
+  const handleDecrement = () => {
+    dispatch({ type: "decrement" });
+  };
+
+  console.log("Render");
+
+  return (
+    <div>
+      <h1>Counter: {state.counter}</h1>
+      <button onClick={handleIncrement}>Increment</button>
+      <button onClick={handleDecrement}>Decrement</button>
+    </div>
+  );
+};
+
+export default LifecycleExample;
+```
+
+## link
+
+- [react dev zh](https://zh-hans.react.dev/)
+- [dispatchedUpdates](https://zhuanlan.zhihu.com/p/523683561)
+- https://flow.org/

@@ -1,0 +1,56 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Footer from "@components/astro/UI/Footer.astro";
+import Card from "@components/react/UI/Card";
+import getUniqueTags from "@utils/getUniqueTags";
+import getPostsByTag from "@utils/getPostsByTag";
+import slugify from "@utils/slugify";
+import { SITE } from "@config";
+import getSortedPosts from "@utils/getSortedPosts";
+
+export interface Props {
+  post: CollectionEntry<"blog">;
+  tag: string;
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  const tags = getUniqueTags(posts);
+
+  return tags.map(tag => {
+    return {
+      params: { tag },
+      props: { tag },
+    };
+  });
+}
+
+const { tag } = Astro.props;
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+const tagPosts = getPostsByTag(posts, tag);
+
+const sortTagsPost = getSortedPosts(tagPosts);
+---
+
+<Layout activeNav="tags" title={`Tag:${tag} | ${SITE.title}`}>
+  <Main
+    pageTitle={`Tag:${tag}`}
+    pageDesc={`所有标签为 "${tag}" 的文章`}
+  >
+     <section class="hero-section">
+        <div class="card-grid">
+      {
+        sortTagsPost.map(({ data }) => (
+          <Card client:load client:only="react" href={`${import.meta.env.BASE_URL}/posts/${slugify(data)}/`} frontmatter={data} />
+        ))
+      }
+        </div>
+    </section>
+  </Main>
+  <Footer />
+</Layout>

@@ -1,0 +1,1332 @@
+---
+title: 2024年1月记录
+
+pubDatetime: 2024-1-1 00:00:00
+postSlug: 2024-01
+featured: false
+draft: false
+tags:
+  - 2024-01
+  - records
+description: 2024年1月记录
+---
+
+## hello 2024
+
+## 目录
+
+## <span class="inline-block rotate-[120deg] hover:rotate-[-120deg]">16</span> System Design Concepts
+
+![16 System Design Concepts I Wish I Knew Before the Interview](/notes_astro3/assets/SystemDesignConcepts.webp)
+
+### 1. Domain Name System (DNS)
+
+Domain Name System(DNS，域名系统)是互联网基础设施的核心组件之一。它的作用类似于互联网的电话簿，将人们可读的域名(如 <span>www.example.com</span>)转换为计算机在网络上用于识别彼此的 IP 地址(如 "192.0.2.1")
+
+域名解析可以通过两种主要的方式进行：递归解析和迭代解析。
+
+<blockquote>
+<details >
+
+<summary>关于DNS的详细概述</summary>
+
+以下是关于 DNS 的详细概述：
+
+1. 目的：
+   名称解析：主要功能是将域名解析为 IP 地址。
+   层次结构：DNS 以层次化的方式运行，顶部是根域，然后是顶级域(TLD)，接着是二级域，以此类推。
+2. 组件：
+   域名：由点分隔的标签(单词或短语)序列。
+
+DNS 服务器：专门存储 DNS 记录并协助转换过程的服务器。有几种类型的 DNS 服务器：
+
+根服务器：处理 DNS 层次结构的顶级的请求。
+TLD 服务器：管理像 .com、.org、.net 等顶级域。
+权威 DNS 服务器：存储特定域的 DNS 记录。
+递归 DNS 服务器(或解析器)：代表客户端查询其他 DNS 服务器以获取最终答案。
+DNS 记录类型：这些记录存储有关域名的信息：
+
+A 记录：将域名映射到 IPv4 地址。
+AAAA 记录：将域名映射到 IPv6 地址。
+CNAME 记录：指向另一个域名的域名，从而创建一个别名。
+MX 记录：指定负责接受域上邮件的邮件服务器。
+TXT 记录：可以容纳任意文本，通常用于验证目的，如 SPF 和 DKIM。 3. DNS 解析过程：
+本地 DNS 解析器：当您在浏览器中输入域名时，您的设备首先检查其本地 DNS 缓存(内存)以查看是否已经知道相应的 IP 地址。
+
+递归查询：如果缓存中没有，请求被发送到递归 DNS 解析器(通常由您的 ISP 提供)。
+
+迭代查询：如果递归解析器没有答案，它会查询根 DNS 服务器。这些服务器将解析器定向到适当的 TLD 服务器。
+
+查找权威服务器：TLD 服务器将解析器定向到负责特定域的权威 DNS 服务器。
+
+获取答案：权威服务器将 IP 地址发送回递归解析器，后者然后将其存储在其缓存中并将其发送到您的设备。
+
+缓存：DNS 解析器缓存响应以加速将来的查询。
+
+4. 安全性：
+   DNSSEC(DNS 安全扩展)：通过提供认证和完整性检查来为 DNS 协议增加安全性的一套扩展。
+   总之，DNS 是一个关键系统，确保用户可以使用人性化的域名访问网站和服务，而计算机则使用 IP 地址进行通信。
+
+</details>
+</blockquote>
+
+<div id="custom-text-container">
+  <custom-text>
+    this is a custom element but no shadow root just react custom element
+  </custom-text>
+</div>
+
+### 2. Load Balancer
+
+<blockquote>
+<details >
+<summary>什么是Load Balancer</summary>
+
+"Load Balancer"（负载均衡器）是一个网络设备或服务，用于在多个服务器或网络资源之间分配传入的网络流量，以确保每个服务器或资源的负载相对均衡，从而提高性能、增加可用性和减少故障风险。
+
+当许多用户尝试访问同一个服务或应用时，流量可能会导致某些服务器过载，而其他服务器则可能处于低负载状态。通过使用负载均衡器，流量可以有效地分发到多个服务器，从而确保各服务器能够有效地处理请求，同时提高整体的服务性能和可用性。
+
+负载均衡器可以在多个层级上工作，包括：
+
+1. **网络层**：如使用基于 IP 地址的负载均衡。
+2. **应用层**：如 HTTP/HTTPS 流量的负载均衡，通常称为应用程序负载均衡。
+
+负载均衡器的工作方式可以根据具体的实现和需求而有所不同，但其核心目标始终是确保资源的有效使用和提高服务的性能和可用性。
+
+</details>
+</blockquote>
+
+<blockquote>
+<details >
+<summary>常用的算法</summary>
+
+Load balancers（负载均衡器）使用不同的算法来确定如何分配传入的流量。常见的算法包括：
+
+1. **轮询法（Round Robin）**:
+
+   - **描述**: 在这种算法中，请求按顺序均匀地分布到所有可用的服务器上，形成一个循环模式。每个新的请求都被发送到下一个服务器。
+   - **优点**: 实现简单，确保在所有服务器之间相对均匀地分配流量。
+   - **局限性**: 可能不考虑服务器的负载或容量；如果服务器具有不同的能力，它们可能不会同样有效地处理请求。
+
+2. **最少连接法（Least Connections）**:
+
+   - **描述**: 负载均衡器评估每个服务器上的当前活动连接数。然后，它将传入的请求发送到活动连接最少的服务器，旨在更均匀地分配负载并减少任何单个服务器过载的风险。
+   - **优点**: 在服务器容量或负载差异较大的环境中很有效。
+   - **局限性**: 如果所有服务器的活动连接数相似，则分配可能不会完全平衡。
+
+3. **IP 哈希法（IP Hash）**:
+   - **描述**: 在 IP 哈希算法中，客户端的 IP 地址通过哈希函数（例如，SHA-1、MD5）进行哈希。生成的哈希值确定应该由哪个后端服务器处理请求。重要的是，这意味着来自同一客户端（具有相同 IP 地址）的请求将始终路由到同一个服务器。
+   - **优点**: 通过将客户端的请求路由到一个一致的服务器来确保会话持久性，对于需要有状态交互或会话数据的应用程序至关重要。
+   - **局限性**: 如果服务器数量变化或某个服务器不可用，分布可能会受到影响。此外，如果客户端的数量或其 IP 地址模式存在显著差异，分布可能会偏斜。
+
+这些算法各有优缺点，选择最佳算法通常取决于需要负载均衡的应用程序或服务的特定要求和特性。许多现代负载均衡器允许进行灵活配置，结合多种算法或调整参数以在各种场景中优化性能。
+
+</details>
+</blockquote>
+
+### 3. API Gateway
+
+<blockquote>
+  <details>
+    <summary>2024/01/03 什么是API Gateway</summary>
+    API Gateway（应用程序编程接口网关）是一个服务，它充当应用程序和后端服务之间的中间层，负责处理API请求、路由、协议转换、增强安全性以及其他相关功能。API
+    Gateway 提供了一个集中式的入口点，使得开发者可以更容易地管理和监控多个微服务或后端服务。
+    <br />
+    以下是 API Gateway 的一些关键特点和功能：
+    <br />
+    1. **请求路由**：根据请求的路径、方法或其他标准将请求路由到相应的后端服务。
+    <br />
+    2. **协议转换**：转换客户端请求和后端服务之间的协议，例如将 HTTP 请求转换为 gRPC
+    请求。
+    <br />
+    3. **安全性**：提供身份验证、授权、数据加密等安全功能，确保只有授权的客户端可以访问特定的API。
+    <br />
+    4. **负载均衡**：在多个后端服务之间分发请求，以提高性能和可用性。
+    <br />
+    5. **限流和速率限制**：限制客户端的请求速率，防止过度使用或滥用API。
+    <br />
+    6. **请求和响应转换**：在请求和响应之间转换数据格式，例如从 JSON 到 XML 或反之。
+    <br />
+    7. **监控和日志记录**：收集API的使用情况、错误信息和其他关键指标，以便进行监控、分析和故障排除。
+    <br />
+    8. **版本管理**：支持多个API版本，使得开发者可以在不中断现有客户端的情况下进行API的更新和修改。
+    <br />
+    API Gateway 在现代的分布式系统和微服务架构中扮演着重要的角色，它简化了API管理、提高了安全性，并提供了一致的接入点，使得开发者和客户端可以更容易地与后端服务进行交互。
+  </details>
+</blockquote>
+
+### 4. CDN
+
+<blockquote>
+<details>
+<summary>2024/01/03 什么是CDN</summary>
+CDN（内容分发网络，Content Delivery Network）是一个系统或网络，用于将内容（如文档、图像、视频和其他文件）从源服务器缓存到多个地理位置的边缘节点，以便更快、更可靠地向全球用户提供内容。CDN的目的是减少网络延迟、提高内容传输的效率并降低原始服务器的负载。
+
+以下是 CDN 的一些主要特点和优势：
+
+1. **内容缓存**：CDN 将内容存储在离用户更近的位置，这些位置通常是位于不同地理区域的边缘服务器或数据中心。
+
+2. **高性能**：由于内容被缓存到离用户更近的位置，因此可以大大减少内容传输的延迟和时间。
+
+3. **高可用性和冗余**：CDN 网络通常具有高度冗余的结构，以确保即使在某些服务器或数据中心发生故障时，用户仍然可以访问内容。
+
+4. **负载均衡**：CDN 可以分发流量到多个服务器，从而减少单一服务器的负载，提高整体的性能和可用性。
+
+5. **安全性**：某些 CDN 提供了安全功能，如 DDoS 保护、SSL/TLS 加密和安全认证，以确保内容和用户数据的安全。
+
+6. **节省成本**：通过减少原始服务器的负载和网络带宽的使用，CDN 可以帮助组织节省网络运营和维护的成本。
+
+CDN 通常由多个组件和层次结构组成，包括源服务器、边缘节点、负载均衡器、缓存策略和管理工具。当用户请求内容时，CDN 会自动选择最佳的边缘节点来提供内容，从而确保最佳的性能和用户体验。
+
+许多大型的互联网公司和服务提供商都使用 CDN 来加速和优化其内容传输，从而满足全球用户的需求。
+
+</details>
+</blockquote>
+
+CDN（内容分发网络）的工作原理：
+
+<ul
+  class="relative m-0 w-full list-none overflow-hidden p-0 transition-[height] duration-200 ease-in-out"
+  data-te-stepper-init
+  data-te-stepper-type="vertical"
+>
+  <li
+    data-te-stepper-step-ref
+    class="dark:after:bg-neutral-600 relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-2.45rem)] after:w-px after:bg-[#e0e0e0] after:content-['']"
+  >
+    <div
+      data-te-stepper-head-ref
+      class="dark:after:bg-neutral-600 flex cursor-pointer items-center p-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-[''] hover:bg-[#f9f9f9] focus:outline-none dark:hover:bg-[#3b3b3b]"
+    >
+      <span
+        data-te-stepper-head-icon-ref
+        class="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-skin-card text-sm font-medium text-skin-base"
+      >
+        1
+      </span>
+      <span
+        data-te-stepper-head-text-ref
+        class="text-neutral-500 dark:text-neutral-300 after:absolute after:flex after:text-[0.8rem] after:content-[data-content]"
+      >
+        step1
+      </span>
+    </div>
+    <div
+      data-te-stepper-content-ref
+      class="transition-[height, margin-bottom, padding-top, padding-bottom] 6 left-0 overflow-hidden pl-[3.75rem] pr-6 duration-300 ease-in-out"
+    >
+      当用户从一个网站或应用请求内容时，这个请求会被发送到最近的CDN服务器，也被称为边缘服务器。
+    </div>
+  </li>
+  <li
+    data-te-stepper-step-ref
+    class="dark:after:bg-neutral-600 relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-2.45rem)] after:w-px after:bg-[#e0e0e0] after:content-['']"
+  >
+    <div
+      data-te-stepper-head-ref
+      class="dark:after:bg-neutral-600 flex cursor-pointer items-center p-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-[''] hover:bg-[#f9f9f9] focus:outline-none dark:hover:bg-[#3b3b3b]"
+    >
+      <span
+        data-te-stepper-head-icon-ref
+        class="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-skin-card text-sm font-medium text-[#40464f]"
+      >
+        2
+      </span>
+      <span
+        data-te-stepper-head-text-ref
+        class="text-neutral-500 dark:text-neutral-300 after:absolute after:flex after:text-[0.8rem] after:content-[data-content]"
+      >
+        step2
+      </span>
+    </div>
+    <div
+      data-te-stepper-content-ref
+      class="transition-[height, margin-bottom, padding-top, padding-bottom] 6 left-0 overflow-hidden pl-[3.75rem] pr-6 duration-300 ease-in-out"
+    >
+      如果这个边缘服务器已经缓存了所请求的内容，它会直接将内容提供给用户。这样做可以减少延迟并提高用户体验，因为内容需要传输的距离更短。
+      <img src="/notes_astro3/assets/CDN.webp" class="min-w-full" />
+
+    </div>
+
+  </li>
+  <li
+    data-te-stepper-step-ref
+    class="dark:after:bg-neutral-600 relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-2.45rem)] after:w-px after:bg-[#e0e0e0] after:content-['']"
+  >
+    <div
+      data-te-stepper-head-ref
+      class="dark:after:bg-neutral-600 flex cursor-pointer items-center p-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-[''] hover:bg-[#f9f9f9] focus:outline-none dark:hover:bg-[#3b3b3b]"
+    >
+      <span
+        data-te-stepper-head-icon-ref
+        class="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-skin-card text-sm font-medium text-[#40464f]"
+      >
+        3
+      </span>
+      <span
+        data-te-stepper-head-text-ref
+        class="text-neutral-500 dark:text-neutral-300 after:absolute after:flex after:text-[0.8rem] after:content-[data-content]"
+      >
+        step3
+      </span>
+    </div>
+    <div
+      data-te-stepper-content-ref
+      class="transition-[height, margin-bottom, padding-top, padding-bottom] 6 left-0 overflow-hidden pl-[3.75rem] pr-6 duration-300 ease-in-out"
+    >
+      如果边缘服务器上没有缓存所请求的内容，CDN会从源服务器或其他附近的CDN服务器中获取它。一旦内容被获取，它会被缓存到边缘服务器上并提供给用户。
+    </div>
+  </li>
+  <li
+    data-te-stepper-step-ref
+    class="dark:after:bg-neutral-600 relative h-fit after:absolute after:left-[2.45rem] after:top-[3.6rem] after:mt-px after:h-[calc(100%-2.45rem)] after:w-px after:bg-[#e0e0e0] after:content-['']"
+  >
+    <div
+      data-te-stepper-head-ref
+      class="dark:after:bg-neutral-600 flex cursor-pointer items-center p-6 leading-[1.3rem] no-underline after:bg-[#e0e0e0] after:content-[''] hover:bg-[#f9f9f9] focus:outline-none dark:hover:bg-[#3b3b3b]"
+    >
+      <span
+        data-te-stepper-head-icon-ref
+        class="mr-3 flex h-[1.938rem] w-[1.938rem] items-center justify-center rounded-full bg-skin-card text-sm font-medium text-[#40464f]"
+      >
+        4
+      </span>
+      <span
+        data-te-stepper-head-text-ref
+        class="text-neutral-500 dark:text-neutral-300 after:absolute after:flex after:text-[0.8rem] after:content-[data-content]"
+      >
+        step3
+      </span>
+    </div>
+    <div
+      data-te-stepper-content-ref
+      class="transition-[height, margin-bottom, padding-top, padding-bottom] 6 left-0 overflow-hidden pl-[3.75rem] pr-6 duration-300 ease-in-out"
+    >
+      为了确保内容保持最新，CDN会定期检查源服务器以获取变更，并相应地更新其缓存。
+    </div>
+  </li>
+</ul>
+
+> 简而言之，CDN 通过将内容缓存到多个位置的边缘服务器上，加速了内容的传输，从而提供更快速、更可靠的内容访问体验。
+
+### 5. Forward Proxy vs. Reverse Proxy
+
+<blockquote>
+<details>
+<summary>2024/01/03 正向代理和反向代理</summary>
+
+`vue-cli` 和 `nginx` 都可以用作代理服务器，但它们在实现和使用上有一些主要的区别。以下是它们之间的对比：
+
+### vue-cli 的代理：
+
+1. **目的**：vue-cli 的代理主要用于开发环境中，帮助前端开发者在本地开发时绕过 CORS（跨域资源共享）限制和进行开发调试。
+
+2. **配置**：在 `vue.config.js` 文件中，你可以为开发服务器设置代理配置，例如将某些 API 请求代理到另一个地址。
+
+3. **环境限制**：vue-cli 的代理仅在开发环境中有效，当你将应用部署到生产环境时，这些代理配置不会被应用。
+
+4. **用途**：主要用于开发时的调试和解决 CORS 问题，不适用于生产环境的反向代理或负载均衡。
+
+### nginx 的代理：
+
+1. **功能丰富**：nginx 是一个高性能的 Web 服务器和反向代理服务器，具有强大的负载均衡、缓存、SSL 终止、HTTP/2 支持等功能。
+
+2. **环境**：nginx 通常用于生产环境，作为反向代理、负载均衡器或静态资源服务器。
+
+3. **配置灵活**：nginx 的配置文件提供了丰富的选项和指令，允许进行复杂的路由、重定向、缓存策略等设置。
+
+4. **性能**：nginx 是为高并发和高性能设计的，能够有效地处理大量的并发请求。
+
+5. **用途**：除了代理功能，nginx 还可以用作静态文件服务器、负载均衡器、SSL 终止器、缓存服务器等，适用于多种生产环境的需求。
+
+总结：`vue-cli` 的代理主要用于开发环境中的调试和 CORS 问题解决，而 `nginx` 提供了一个功能丰富、高性能的生产环境代理和服务器解决方案。根据具体的需求和场景，你可以选择合适的代理工具或组合使用它们。
+
+Forward Proxy 和 Reverse Proxy 都是代理服务器的类型，但它们在功能和使用场景上有所不同。以下是它们之间的主要区别：
+
+### Forward Proxy（正向代理）：
+
+1. **客户端代理**：正向代理代表客户端发送请求到目标服务器，并从目标服务器接收响应。客户端必须配置以使用正向代理。
+
+2. **隐私和安全**：正向代理可以用于隐藏客户端的真实 IP 地址和身份，提供匿名性和隐私保护。
+
+3. **访问控制**：正向代理可以用于控制客户端的访问，例如，限制对特定网站的访问或阻止某些内容。
+
+4. **缓存**：正向代理可以缓存经常请求的内容，从而提高访问速度并减少网络带宽使用。
+
+5. **典型应用场景**：用于访问受限或被审查的内容，绕过防火墙限制，提供内容过滤和控制等。
+
+### Reverse Proxy（反向代理）：
+
+1. **服务器代理**：反向代理代表服务器接收客户端的请求，并将请求转发到目标服务器。客户端直接与反向代理通信，而不直接与目标服务器通信。
+
+2. **负载均衡**：反向代理可以将流量分发到多个后端服务器，实现负载均衡和高可用性。
+
+3. **安全性**：反向代理可以为后端服务器提供额外的安全层，如 SSL 终止、请求过滤和认证。
+
+4. **简化架构**：反向代理可以隐藏后端服务器的实际结构和配置，使得更容易管理和扩展应用。
+
+5. **典型应用场景**：用于 Web 应用程序的负载均衡、SSL 终止、内容缓存、安全防护、请求路由和请求转发等。
+
+总结：正向代理和反向代理都充当中间层，但它们在功能、位置和使用方式上有所不同。正向代理主要与客户端相关，而反向代理主要与服务器相关。根据具体的需求和应用场景，可以选择合适的代理类型。
+
+</details>
+</blockquote>
+
+### 6. Caching
+
+[mdn Cache](https://developer.mozilla.org/zh-CN/docs/Web/API/Cache)
+
+```js
+var CACHE_VERSION = 1;
+
+// 简写标识符映射到特定版本的缓存。
+var CURRENT_CACHES = {
+  font: "font-cache-v" + CACHE_VERSION,
+};
+
+self.addEventListener("activate", function (event) {
+  var expectedCacheNames = Object.keys(CURRENT_CACHES).map(function (key) {
+    return CURRENT_CACHES[key];
+  });
+
+  // 在 promise 成功完成之前，活跃的 worker 不会被视作已激活。
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames.map(function (cacheName) {
+          if (expectedCacheNames.indexOf(cacheName) == -1) {
+            console.log("Deleting out of date cache:", cacheName);
+
+            return caches.delete(cacheName);
+          }
+        }),
+      );
+    }),
+  );
+});
+
+self.addEventListener("fetch", function (event) {
+  console.log("Handling fetch event for", event.request.url);
+
+  event.respondWith(
+    // 打开以'font'开头的 Cache 对象。
+    caches.open(CURRENT_CACHES["font"]).then(function (·cache) {
+      return cache
+        .match(event.request)
+        .then(function (response) {
+          if (response) {
+            console.log(" Found response in cache:", response);
+
+            return response;
+          }
+        })
+        .catch(function (error) {
+          // 处理 match() 或 fetch() 引起的异常。
+          console.error("  Error in fetch handler:", error);
+
+          throw error;
+        });
+    }),
+  );
+});
+
+```
+
+import DriverDemo from "@components/react/little/driver.tsx";
+
+<blockquote>
+<details open>
+<summary>2023/01/03 代码解释</summary>
+
+这段代码是一个 Service Worker 的脚本，用于缓存特定版本的字体资源，并在激活时清理旧的缓存。以下是对代码的逐行解释：
+
+<div class="step-1">```javascript var CACHE_VERSION = 1; ```</div>
+
+<div class="step-2">
+    ```javascript
+   var CURRENT_CACHES = {
+     font: "font-cache-v" + CACHE_VERSION,
+   };
+   ```
+</div>
+
+<div class="step-3">
+   ```javascript
+   self.addEventListener("activate", function (event) {
+     ...
+   });
+   ```
+</div>
+
+<div class="step-4">
+   ```javascript
+   self.addEventListener("fetch", function (event) {
+     ...
+   });
+   ```
+</div>
+
+<DriverDemo
+  client:load
+  elements='[
+    {"element":".step-1","popover":{"showProgress":false,"title":"定义缓存版本","description":"这里定义了一个缓存版本，用于创建特定版本的缓存。","align":"center"}},
+    {"element":".step-2","popover":{"showProgress":false,"title":"定义当前缓存的映射","description":"CURRENT_CACHES 对象包含一个简写标识符 font，它映射到一个特定版本的缓存名，格式为 font-cache-v1"}},
+    {"element":".step-3","popover":{"showProgress":false,"side":"over","title":"处理ServiceWorker激活事件","description":"当 Service Worker 被激活时，它会检查所有缓存，删除不匹配当前版本的缓存,在此事件监听器中，它会列出所有预期的缓存名，然后比较实际的缓存名，并删除那些不匹配的旧缓存。"}},
+    {"element":".step-4","popover":{"showProgress":false,"title":"处理网络请求的 fetch 事件","description":"当浏览器尝试获取资源时，该事件监听器会查找缓存中是否有匹配的响应,在此事件监听器中，它会打开名为 font-cache-v1 的缓存，并尝试匹配请求。如果找到缓存的响应，它会返回缓存的响应；否则，它会继续获取资源。"}},
+    { "popover": { "title": "总结", "description": "总之，这段代码实现了一个 Service Worker，用于缓存字体资源，并在激活时清理旧的缓存。这有助于提高应用程序的性能和用户体验，特别是在网络连接不稳定或离线时。"}}    ]'
+/>
+
+</details>
+</blockquote>
+
+### 7. Data Partitioning
+
+<blockquote>
+<details>
+<summary>2023/01/04 什么是数据分区（Data Partitioning），具体怎么做</summary>
+
+**数据分区（Data Partitioning）** 是将大型数据集分割成更小、更易管理的部分或分区的过程。这种技术有助于提高查询性能、简化数据管理、实现更好的可扩展性和灵活性，以及增强数据安全性。
+
+数据分区的实现方式取决于所使用的数据库系统和具体的需求，但以下是一些常见的数据分区策略和实施步骤：
+
+1. **范围分区（Range Partitioning）**：根据数据的某个范围（如时间、数字范围等）将数据分区。
+
+   - **实施**：选择一个或多个分区键（例如日期列），并定义每个分区的范围。在创建表时，为每个分区指定一个名称和条件。
+
+2. **列表分区（List Partitioning）**：根据数据的固定列表值进行分区。
+
+   - **实施**：为每个分区定义一个列表值集合，并将数据映射到相应的分区。
+
+3. **哈希分区（Hash Partitioning）**：使用哈希函数将数据均匀地分散到多个分区中。
+
+   - **实施**：选择一个或多个分区键，并为表指定分区数。数据库系统将根据分区键值自动将数据哈希到相应的分区。
+
+4. **轮换分区（Round-robin Partitioning）**：按照轮换方式将数据均匀分配到各个分区中。
+
+   - **实施**：简单地将数据循环地分配到每个分区，无需基于任何特定的分区键。
+
+5. **联合分区（Composite Partitioning）**：结合上述的多种分区策略。
+   - **实施**：例如，可以先使用范围分区按日期划分，然后在每个日期分区内再应用哈希分区。
+
+实施数据分区时，还需要考虑以下关键因素：
+
+- **存储和性能**：分区可以提高查询性能，但可能增加存储需求和复杂性。
+- **数据维护**：如分区切分、合并或迁移。
+- **数据一致性和完整性**：确保数据在分区间的一致性和完整性。
+- **备份和恢复**：处理分区数据的备份和恢复策略。
+
+要成功地实施数据分区，建议深入了解所使用数据库系统的文档和最佳实践，并根据具体需求进行合理的规划和设计。
+
+</details>
+</blockquote>
+
+- todo: [learn postgresql](https://www.postgresqltutorial.com/postgresql-getting-started/load-postgresql-sample-database/)
+
+### 8. Database Replication
+
+数据库复制
+
+<blockquote>
+<details>
+<summary>2023/01/05 什么是Database Replication，postgrsql怎么做Database Replication</summary>
+
+数据库复制（Database Replication）是指将一个数据库的数据和结构复制到另一个或多个数据库的过程。其主要目的是提高数据的可用性、提供备份解决方案、分散读取负载或提供故障切换。
+
+PostgreSQL 支持多种复制方式，其中最常用的是流复制（Streaming Replication）。
+
+以下是如何在 PostgreSQL 中设置流复制的简要步骤：
+
+1. **设置主数据库**：
+
+   - 在 `postgresql.conf` 文件中，确保以下参数已设置或确认正确：
+     ```conf
+     listen_addresses = 'your_primary_server_ip'
+     wal_level = replica
+     max_wal_senders = 10
+     ```
+   - 在 `pg_hba.conf` 文件中，允许从备用服务器连接。例如：
+     ```conf
+     host    replication     replicator      your_secondary_server_ip/32        md5
+     ```
+   - 重新启动 PostgreSQL 以使更改生效。
+
+2. **创建备用服务器**：
+
+   - 安装 PostgreSQL 并设置与主服务器相同的版本。
+   - 创建一个空的数据目录。
+   - 设置 `postgresql.conf` 文件以连接到主服务器：
+     ```conf
+     primary_conninfo = 'host=your_primary_server_ip port=5432 user=replicator password=your_password'
+     standby_mode = on
+     ```
+   - 启动备用服务器。
+
+3. **初始化流复制**：
+
+   - 在备用服务器上，执行以下 SQL 命令：
+     ```sql
+     SELECT pg_start_backup('base_backup');
+     ```
+
+4. **从主服务器复制数据**：
+
+   - 在备用服务器上，使用 `pg_basebackup` 工具从主服务器获取基础备份：
+     ```bash
+     pg_basebackup -h your_primary_server_ip -D /path/to/standby/data -U replicator -v -P
+     ```
+
+5. **启动流复制**：
+   - 在备用服务器上，创建一个名为 `recovery.conf` 的文件，并设置以下内容：
+     ```conf
+     standby_mode = 'on'
+     primary_conninfo = 'host=your_primary_server_ip port=5432 user=replicator password=your_password'
+     ```
+   - 重新启动备用服务器。
+
+完成上述步骤后，您应该已经设置了 PostgreSQL 的流复制。在主服务器上进行的更改会自动复制到备用服务器，确保数据的冗余和可用性。
+
+请注意，此指南提供了一个基础的流复制设置。在生产环境中，您可能需要考虑更多的配置和最佳实践。
+
+</details>
+</blockquote>
+
+- [postgresql streaming-replication app-pgbasebackup](https://www.postgresql.org/docs/current/app-pgbasebackup.html)
+
+### 9. Distributed Messaging Systems
+
+**分布式消息系统**
+
+分布式消息传递系统能够以可靠、可扩展和容错的方式在多个可能在地理上分散的应用程序、服务或组件之间交换消息。它们通过解耦发送器和接收器组件来促进通信，使它们能够独立发展和操作。分布式消息传递系统在大规模或复杂的系统中特别有用，例如微服务架构或分布式计算环境中的系统。此类系统的示例包括 Apache Kafka 和 RabbitMQ。
+
+<blockquote>
+<details>
+<summary>2024/01/08 什么是分布式消息系统</summary>
+
+分布式消息系统是一种用于在多个计算机或系统之间传递和接收消息的软件系统。它们的主要目标是实现可靠、高效和可扩展的消息传递，使得在大规模、高并发的应用场景中能够实现数据的异步处理和解耦。
+
+以下是分布式消息系统的一些关键特点和概念：
+
+1. **解耦**: 通过使用消息队列，生产者和消费者之间的关系得以解耦。生产者只需要将消息发送到消息队列，而不需要知道具体的消费者是谁或如何处理消息。
+
+2. **可靠性**: 大多数分布式消息系统都提供了消息的持久化存储和高可靠性的传输保证，确保即使在系统故障或网络问题的情况下，消息也不会丢失。
+
+3. **高吞吐量**: 分布式消息系统通常设计为支持高吞吐量的消息处理，能够处理数百万或数十亿的消息。
+
+4. **水平扩展**: 分布式消息系统可以通过增加更多的节点来进行水平扩展，以满足不断增长的消息处理需求。
+
+5. **消息确认和回溯**: 大多数系统允许消费者确认消息的处理状态，并支持消息的回溯和重新处理。
+
+6. **消息路由和过滤**: 分布式消息系统通常支持根据特定的条件或规则对消息进行路由和过滤。
+
+常见的分布式消息系统包括：
+
+- **Kafka**: 由LinkedIn开发的开源消息系统，用于构建实时数据管道和流处理应用。
+- **RabbitMQ**: 一个广泛使用的开源消息代理，支持多种消息协议，如AMQP、MQTT等。
+- **ActiveMQ**: 一个流行的开源消息和集成模式的中间件，支持多种传输协议和消息协议。
+
+- **RocketMQ**: 由阿里巴巴开发的开源分布式消息系统，广泛应用于大规模的分布式系统和微服务架构。
+
+这些分布式消息系统在各种应用场景中都有广泛的应用，如日志收集、事件驱动架构、实时数据分析和流处理等。
+
+</details>
+</blockquote>
+
+<blockquote>
+<details>
+<summary>2024/01/08 分布式消息系统常见的应用</summary>
+
+分布式消息系统由于其高可靠性、高吞吐量和解耦的特点，被广泛应用于多种场景和应用中。以下是分布式消息系统常见的应用：
+
+1. **日志收集和分析**: 分布式消息系统能够收集和处理大量的日志数据，用于实时监控、故障排查、性能分析和业务智能等。
+
+2. **事件驱动架构**: 在微服务、大数据和云计算环境中，分布式消息系统常用于构建事件驱动的架构，实现服务间的解耦和异步通信。
+
+3. **实时数据处理**: 分布式消息系统能够支持实时数据流的收集、处理和分析，用于构建实时分析、实时报警和实时决策等应用。
+
+4. **系统集成和消息中间件**: 在企业应用集成和复杂系统中，分布式消息系统常用作消息中间件，实现不同系统和应用之间的消息传递和数据同步。
+
+5. **高可用性和灾备**: 分布式消息系统通过数据复制、故障转移和负载均衡等机制，提供高可用性和灾备能力，确保业务的连续性和数据的安全性。
+
+6. **消息队列和任务调度**: 分布式消息系统可以用作消息队列和任务调度器，实现任务的异步执行、延迟处理和优先级排序等功能。
+
+7. **实时推送和通知**: 在移动应用、社交网络和在线游戏等领域，分布式消息系统常用于实现实时推送和通知功能，提供更好的用户体验和互动性。
+
+8. **分布式计算和协同工作**: 在分布式计算、协同工作和分布式系统中，分布式消息系统可以用于实现任务的分发、计算结果的合并和协同工作的协调等。
+
+以上只是分布式消息系统可能应用的一部分，随着技术的发展和应用场景的变化，其应用领域将会更加广泛和多样化。
+
+</details>
+</blockquote>
+
+<blockquote>
+<details>
+<summary>2024/01/08 消息队列与消息系统的区别和联系</summary>
+
+消息队列（Message Queue）和消息系统（Message System）是常见于分布式系统中的两个核心组件，它们在处理和传递消息方面都非常重要。以下是它们之间的区别和联系：
+
+### 区别：
+
+1. **定义**：
+
+   - **消息队列**：是一种通信模式，用于在不同的组件或服务之间传递消息，它主要关注于如何存储、发送和接收消息。
+   - **消息系统**：是一个更为宽泛的术语，通常指的是一整套处理消息的组件和工具，包括但不限于消息队列，还可能包括消息的生成、路由、传输、消费等。
+
+2. **功能**：
+
+   - **消息队列**：主要提供了消息的存储、发送、接收等基本功能。
+   - **消息系统**：可能还包括消息的生成、路由、过滤、监控、错误处理等更多的高级功能。
+
+3. **使用场景**：
+   - **消息队列**：通常在需要解耦、异步处理、削峰填谷等场景下使用。
+   - **消息系统**：更广泛地应用于分布式系统、微服务架构、事件驱动架构等复杂系统中。
+
+### 联系：
+
+1. **互为组成部分**：消息系统通常会包含消息队列作为其核心组件之一，用于处理消息的存储和传递。
+
+2. **共同目标**：消息队列和消息系统都旨在实现消息的可靠传递、异步处理、解耦等目标，以支持更为灵活和可扩展的系统设计。
+
+3. **相互影响**：消息系统的设计和实现会受到消息队列的选择和配置的影响，反之亦然。
+
+总之，消息队列和消息系统在分布式系统中都扮演着重要角色，消息队列通常作为消息系统的核心组件之一，共同为复杂系统提供消息处理和传递的支持。
+
+</details>
+</blockquote>
+
+### 10. Microservices
+
+**微服务**
+
+微服务是一种架构风格，其中应用程序被构造为小型、松散耦合且可独立部署的服务的集合。每个微服务负责应用程序中的特定功能或域，并通过定义良好的 API 与其他微服务进行通信。这种方法与传统的整体架构不同，在传统的整体架构中，应用程序被构建为单个紧密耦合的单元。
+
+<blockquote>
+<details>
+<summary>2024/01/08 微服务的应用场景和技术梗概</summary>
+
+微服务架构是一种将单体应用程序拆分为多个小型、独立的服务的软件设计方法。这些服务运行在各自独立的进程中，通常通过轻量级的通信机制（如HTTP/REST、消息队列等）进行交互。微服务架构具有以下应用场景和技术梗概：
+
+### 应用场景：
+
+1. **大型、复杂应用**：
+   当单体应用变得过于庞大和复杂，导致开发和维护难度增加时，可以考虑采用微服务架构进行分解和重构。
+
+2. **敏捷开发和部署**：
+   微服务的独立性和松耦合性使得团队可以更快速地开发、测试和部署各个服务。
+
+3. **扩展和性能优化**：
+   微服务允许各个服务独立扩展和部署，从而更有效地处理高并发和大数据量的场景。
+
+4. **技术栈多样性**：
+   不同的微服务可以使用不同的编程语言、框架和数据存储技术，以满足特定的业务需求和性能要求。
+
+5. **灵活的团队协作**：
+   微服务架构支持多个小型团队并行开发和维护各自负责的服务，从而提高组织的敏捷性和创新性。
+
+### 技术梗概：
+
+1. **服务拆分**：
+   根据业务功能和数据边界，将单体应用拆分为多个独立的微服务。
+
+2. **服务通信**：
+   使用轻量级的通信协议，如HTTP/REST、[gRPC](#about-grpc)、消息队列（如Kafka、RabbitMQ）等，实现微服务之间的交互和数据共享。
+
+3. **服务发现和注册**：
+   使用服务注册中心，如Consul、Eureka、etcd等，管理和维护微服务的地址和状态信息。
+
+4. **负载均衡**：
+   通过负载均衡器，如Nginx、HAProxy等，分发请求到多个实例和版本的微服务，以实现高可用性和性能优化。
+
+5. **容错和故障处理**：
+   实施容错策略，如断路器模式（Circuit Breaker）、重试机制、熔断机制等，确保微服务系统的稳定性和可靠性。
+
+6. **日志和监控**：
+   使用日志管理和监控工具，如ELK Stack（Elasticsearch、Logstash、Kibana）、Prometheus、Grafana等，实时监控微服务的运行状态和性能指标。
+
+7. **持续集成和部署（CI/CD）**：
+   采用自动化的CI/CD工具和流程，如Jenkins、GitLab CI/CD、Spinnaker等，支持快速、频繁和可靠地部署微服务。
+
+综上所述，微服务架构适用于需要快速响应市场变化、实现技术创新和提高系统性能的现代应用开发场景。通过合理设计和实施微服务，可以实现更高的灵活性、可伸缩性和可维护性。
+
+</details>
+</blockquote>
+
+<blockquote id="about-grpc">
+
+<details>
+<summary>2024/01/08 about gRPC</summary>
+
+gRPC（gRPC Remote Procedure Call）是一个高性能、开源和通用的远程过程调用（RPC）框架。它由Google开发，并基于HTTP/2协议和Protocol Buffers（ProtoBuf）进行设计和实现。以下是关于gRPC的一些关键特点和概述：
+
+### 主要特点：
+
+1. **高性能**：
+   gRPC使用HTTP/2协议，支持双向流、多路复用、头部压缩等特性，提供了比传统HTTP/1.x更高效的网络通信性能。
+
+2. **跨语言支持**：
+   gRPC支持多种编程语言（如C、C++、Java、Go、Python、Node.js等），使得不同语言的应用程序可以轻松地进行通信。
+
+3. **IDL（接口定义语言）**：
+   gRPC使用Protocol Buffers（ProtoBuf）作为其IDL工具，提供了一种简洁、高效的方法来定义服务接口和消息格式。
+
+4. **强类型**：
+   通过ProtoBuf定义的消息类型和服务接口是强类型的，可以在编译时进行验证，提供更高的代码安全性和可维护性。
+
+5. **多种序列化格式**：
+   gRPC支持多种序列化和编码格式，如ProtoBuf、JSON、XML等，满足不同应用和场景的需求。
+
+### 工作原理：
+
+1. **定义服务接口**：
+   使用ProtoBuf语言定义服务的接口和消息格式，定义服务的请求和响应类型、方法、错误码等。
+
+2. **生成代码**：
+   使用gRPC的代码生成工具根据ProtoBuf定义文件自动生成客户端和服务端的代码库。
+
+3. **实现服务**：
+   在服务端实现定义的服务接口，处理客户端的请求，执行业务逻辑，并返回响应。
+
+4. **调用服务**：
+   在客户端通过生成的代码库创建Stub对象，调用远程服务的方法，发送请求并接收响应。
+
+5. **集成与部署**：
+   部署gRPC服务时，需要确保客户端和服务端使用相同的ProtoBuf定义文件和版本，以确保通信的一致性和兼容性。
+
+总之，gRPC是一个高效、跨语言的RPC框架，提供了一种简单、可靠的方法来实现分布式系统和微服务架构中的服务间通信。通过使用gRPC和ProtoBuf，开发人员可以轻松地定义、实现和管理复杂的服务接口和消息格式，从而加速应用程序的开发和部署。
+
+- [grpc-js](https://www.npmjs.com/package/@grpc/grpc-js)
+- [grpc-tools](https://www.npmjs.com/package/grpc-tools)
+- [grpc-blog](https://grpc.io/blog/postman-grpcweb/)
+
+</details>
+</blockquote>
+
+### 11. NoSQL Databases
+
+<details>
+NoSQL（Not Only SQL）是一种非关系型数据库，旨在处理大量的非结构化或半结构化数据。与传统的关系型数据库（如MySQL、PostgreSQL等）不同，NoSQL 数据库在设计上更加灵活，能够更好地满足现代应用程序的需求。
+
+以下是关于 NoSQL 的一些关键点：
+
+1. **分类**：
+
+   - **文档型数据库**（如 MongoDB）：存储的是类似于 JSON 的文档。
+   - **键值存储**（如 Redis, Amazon DynamoDB）：使用简单的键值对进行数据存储。
+   - **列存储数据库**（如 Apache Cassandra, Apache HBase）：数据以列的形式存储，适用于大量的数据写入和读取。
+   - **图形数据库**（如 Neo4j, Amazon Neptune）：专为处理图形数据结构而设计。
+
+2. **优点**：
+
+   - **灵活的模式**：NoSQL 数据库通常不需要预定义的模式，使得数据模型更加灵活。
+   - **横向扩展**：许多 NoSQL 数据库支持横向扩展，能够轻松地处理大量的数据和高并发请求。
+   - **适应多种数据类型**：NoSQL 数据库能够存储和处理各种类型的数据，如文本、图像、JSON 等。
+
+3. **缺点**：
+
+   - **缺乏事务支持**：某些 NoSQL 数据库可能不支持复杂的事务操作。
+   - **较少的工具和生态系统**：与关系型数据库相比，某些 NoSQL 数据库可能缺乏成熟的工具和广泛的生态系统支持。
+   - **学习曲线**：由于其不同的数据模型和查询语言，可能需要时间和努力来学习和适应 NoSQL 数据库。
+
+4. **应用场景**：
+   - NoSQL 数据库适用于需要处理大量非结构化或半结构化数据的应用，如社交网络、日志分析、内容管理、实时分析等。
+
+总的来说，NoSQL 提供了一种灵活和高效的方式来处理各种类型的数据，并能够满足现代应用程序的需求。选择合适的 NoSQL 数据库取决于具体的应用场景、性能要求和数据模型需求。
+
+</details>
+
+### 12. Database Index
+
+<details>
+<summary>2024/01/11 什么是数据库索引</summary>
+数据库索引是一种用于提高数据库查询性能的数据结构。它是数据库表中一个或多个列的排序结构，可以加速对数据库表中数据的检索操作。索引类似于书籍的目录，它提供了一种快速查找特定数据的方式，而不需要扫描整个表。
+
+以下是数据库索引的一些关键概念：
+
+1. **目的**：
+
+   - 提高查询性能：通过减少需要扫描的数据量，加速检索过程。
+   - 加速排序：在使用ORDER BY语句进行排序时，索引可以减少排序的时间。
+
+2. **工作原理**：
+
+   - 索引是一个数据结构，通常使用树（如B树、B+树）或哈希表等算法来组织。
+   - 索引包含索引键和对应的指向实际数据的指针或位置。
+
+3. **创建索引**：
+
+   - 索引可以在表的一个或多个列上创建。
+   - 常见的索引类型包括普通索引、唯一索引、主键索引等。
+
+4. **适用场景**：
+
+   - 频繁用于WHERE子句的列，用于加速检索。
+   - 经常用于连接的列，提高连接操作的速度。
+   - 一些常用于排序和分组的列，优化ORDER BY和GROUP BY操作。
+
+5. **影响**：
+
+   - 索引提高了读取速度，但可能降低写入速度。因为在插入、更新和删除时，数据库系统需要维护索引结构。
+   - 占用存储空间：索引本身需要额外的存储空间。
+
+6. **选择合适的列进行索引**：
+   - 需要根据查询的模式和业务需求来选择合适的列创建索引。
+   - 过多的索引可能导致性能下降，因此需要权衡。
+
+总体而言，数据库索引是数据库性能优化的关键工具，但在使用时需要根据实际情况谨慎选择和设计。
+
+</details>
+
+- 在 "users" 表的 "username" 列上创建一个唯一索引
+
+```sql
+CREATE UNIQUE INDEX idx_username ON users(username);
+```
+
+- 在 "users" 表的 "first_name" 和 "last_name" 列上创建一个联合索引
+
+```sql
+CREATE INDEX idx_full_name ON users(first_name, last_name);
+```
+
+### 13. Distributed File Systems
+
+<details >
+<summary>2024/01/15 DFS</summary>
+分布式文件系统（Distributed File System，DFS）是一种将文件存储和访问扩展到多台计算机的系统。与传统的本地文件系统不同，分布式文件系统允许在网络上分布的多个计算机上存储和访问文件。这种分布式的特性使得它更适用于大规模的、需要高可用性和容错性的系统。
+
+分布式文件系统通常具有以下特征：
+
+1. **分布性：** 文件系统的数据存储和访问被分布到多个计算机上，而不是集中在单一位置。
+
+2. **透明性：** 对用户而言，分布式文件系统通常提供透明的访问，就像是一个单一的文件系统。用户无需关心文件的物理存储位置。
+
+3. **可扩展性：** 可以通过添加更多的节点或存储服务器来扩展文件系统的容量和性能。
+
+4. **容错性：** 分布式文件系统通常设计成具有容错性，即使有节点或硬件故障，文件系统仍能够正常运行。
+
+5. **高性能：** 能够提供高吞吐量和低延迟，以满足大规模应用程序的需求。
+
+一些常见的分布式文件系统包括：
+
+- **Hadoop Distributed File System (HDFS):** 用于支持Apache Hadoop的分布式文件系统，设计用于存储大规模数据集。
+
+- **Google File System (GFS):** 由Google设计的分布式文件系统，为大规模数据存储和处理提供支持。
+
+- **Ceph:** 一个开源的分布式存储系统，提供对象存储、块存储和文件系统存储。
+
+- **Amazon S3 (Simple Storage Service):** 虽然它主要是一个对象存储服务，但也可以被看作是分布式文件系统的一种形式。
+
+这些系统允许大规模的数据存储和处理，适用于云计算环境和大规模数据分析。分布式文件系统在处理大规模数据时提供了灵活性和可扩展性，使得多个计算节点可以协同工作来完成复杂的任务。
+
+</details>
+
+<details >
+<summary>2024/01/15 hdfs node</summary>
+
+在Hadoop Distributed File System（HDFS）中，节点被分为两种类型：NameNode（名称节点）和DataNode（数据节点）。
+
+1. **NameNode（名称节点）：**
+
+   - NameNode是HDFS的主要组件之一，负责管理文件系统的命名空间和元数据。
+   - 它记录了文件系统中所有文件和目录的层次结构，并存储了每个文件的元数据，如文件的名称、权限、时间戳等。
+   - NameNode不存储实际的文件数据，而是维护一个映射表，将文件块的位置映射到相应的DataNode上。
+   - 由于NameNode存储了整个文件系统的元数据，它是HDFS的单点故障，因此对于高可用性，可以使用HA（High Availability）配置，其中有多个NameNode。
+
+2. **DataNode（数据节点）：**
+   - DataNode负责实际存储文件的数据块。
+   - 当客户端写入文件时，数据被切分成固定大小的块，这些块由DataNode存储。
+   - DataNode定期向NameNode报告它所存储的块的列表以及它的健康状况。
+   - 如果某个DataNode发生故障，HDFS可以通过备份的数据副本来保证数据的可靠性和容错性。
+   - HDFS中的数据块通常被复制到多个DataNode，以提高数据的可用性和容错性。
+
+这两种节点在HDFS中共同协作，形成一个分布式文件系统。NameNode负责维护文件系统的命名空间和元数据，而DataNode负责实际存储和管理数据块。通过这种分布式的方式，HDFS能够处理大规模的数据，并提供高可用性和容错性。
+
+</details>
+
+### 14. Notification System
+
+<details open>
+<summary>2023/11/41 什么是Notification System</summary>
+通知系统是一种用于向用户或系统管理员发送信息和提醒的软件工具或服务。这些通知可以是关于系统状态、事件、警报、更新或其他重要信息的消息。通知系统的目的是确保关键信息能够及时传达给相关方，以便他们能够采取适当的行动。
+
+通知系统可以包括以下功能：
+
+1. **实时警报：** 发送紧急事件或问题的通知，以便迅速采取纠正措施。
+
+2. **定期报告：** 提供定期生成的报告，总结系统性能、活动或其他指标。
+
+3. **用户通知：** 向用户发送关于其账户、服务或应用程序的重要信息。
+
+4. **自定义通知：** 允许用户根据其需求自定义通知设置，以确保只接收到关注的信息。
+
+5. **集成其他系统：** 与其他软件和服务集成，以获取有关整个系统生态的信息。
+
+通知系统的目标是提高响应速度、降低风险，并确保信息的及时传递。这种系统可以用于各种场景，包括企业管理、网络运维、安全监控等。
+
+在实践中，可以选择使用一些已有的通知框架，如Apache Kafka、RabbitMQ等，以简化通知系统的开发和管理过程。同时，云服务提供商也通常提供通知服务，如Amazon SNS、Google Cloud Pub/Sub等。这些框架和服务可以根据具体需求进行选择和集成。
+
+</details>
+
+### 15. Full-text Search
+
+<details open>
+<summary>2024/01/16 什么是Full-text Search</summary>
+
+全文搜索（Full-text Search）是一种用于在文本数据中进行复杂搜索的技术。它的目标是从大量的文本文档中快速、准确地找到包含用户查询关键词的文档或记录。全文搜索不仅匹配关键词，还考虑关键词在文本中的上下文、相关性和其他因素，以提供更精准的搜索结果。
+
+全文搜索通常包括以下关键特性：
+
+1. **分词（Tokenization）：** 将文本数据拆分为独立的词语或标记。这有助于建立索引以支持高效的搜索操作。
+
+2. **倒排索引（Inverted Index）：** 建立包含每个词语出现位置的索引。这样，搜索引擎可以快速定位包含查询词的文档。
+
+3. **排名算法（Ranking Algorithm）：** 根据搜索关键词在文档中的位置、频率和其他因素，对搜索结果进行排名，以提供最相关的结果。
+
+4. **模糊搜索（Fuzzy Search）：** 考虑拼写错误、同义词和近义词，以扩大搜索结果的范围。
+
+5. **语言处理：** 考虑自然语言处理技术，以理解搜索查询的语义，并提高搜索的准确性。
+
+6. **支持多字段搜索：** 允许用户在多个字段（如标题、内容、标签等）中进行搜索。
+
+7. **高性能：** 全文搜索引擎通常需要具备高性能，能够在大规模文本数据集上快速执行搜索操作。
+
+全文搜索广泛应用于各种信息管理系统、数据库系统和网络搜索引擎中。一些流行的全文搜索引擎包括Elasticsearch、Apache Solr、Microsoft Azure Search等。这些引擎提供了强大的全文搜索功能，可用于构建搜索引擎、电子商务网站、博客平台等各种应用。
+
+</details>
+
+<details open>
+<summary>2024/01/16 js实现分词</summary>
+
+在JavaScript中，可以使用不同的库或算法来实现分词。以下是一些常见的JavaScript分词实现方法：
+
+1. **Natural Node Module:**
+   [Natural](https://github.com/NaturalNode/natural)是一个Node.js模块，提供了分词等自然语言处理功能。你可以使用它来进行分词操作。
+
+   ```javascript
+   const natural = require("natural");
+   const tokenizer = new natural.WordTokenizer();
+
+   const text = "This is a sample text.";
+   const tokens = tokenizer.tokenize(text);
+   console.log(tokens);
+   ```
+
+2. **Nodejieba:**
+   [Nodejieba](https://github.com/yanyiwu/nodejieba)是基于结巴分词的Node.js模块，适用于中文分词。
+
+   ```javascript
+   const nodejieba = require("nodejieba");
+
+   const text = "这是一个样本文本。";
+   const result = nodejieba.cut(text);
+   console.log(result);
+   ```
+
+3. **Tokenizer from Natural Language Toolkit (NLTK):**
+   [NLTK](https://www.nltk.org/)是一个Python自然语言处理库，但也有JavaScript版本。你可以使用其中的分词器。
+
+请根据你的需求选择适合的分词工具。上述示例涵盖了英文和中文的分词方法，但有些工具可能支持更多语言。确保查阅相关文档以了解更多详细信息。
+
+</details>
+
+### 16. Distributed Coordination Services
+
+<details open>
+<summary>2024/01/16 什么是Distributed Coordination Services</summary>
+
+分布式协调服务（Distributed Coordination Services）是一类用于协调和管理分布式系统中各个节点之间相互合作的服务。在分布式系统中，多个节点需要进行协同工作，而分布式协调服务的目标是提供一种机制，使得节点之间能够协调、同步和共享信息，以确保系统的一致性、可靠性和可扩展性。
+
+以下是分布式协调服务的一些主要特性和用途：
+
+1. **分布式锁：** 提供分布式锁机制，确保在分布式系统中对共享资源的访问是互斥的，防止冲突和竞争条件。
+
+2. **选主机制：** 在分布式系统中，选择一个节点作为主节点，以确保系统中的某些任务只有一个节点执行。
+
+3. **分布式事务：** 支持分布式事务的管理，确保在多个节点上的操作能够按照一致的方式进行提交或回滚。
+
+4. **一致性协议：** 提供一致性协议，使得在分布式环境中的节点能够达成一致的状态。
+
+5. **配置管理：** 管理分布式系统中的配置信息，确保各个节点使用相同的配置。
+
+6. **通知和发布/订阅：** 提供通知机制，使得系统中的节点能够接收到关于状态变化等事件的通知。
+
+7. **分布式队列：** 提供分布式队列服务，支持消息的可靠传递和处理。
+
+一些流行的分布式协调服务包括：
+
+- **Apache ZooKeeper：** 用于分布式应用程序的协调服务，提供分布式锁、选主、配置管理等功能。
+
+- **etcd：** 一个高可用的键值存储系统，主要用于配置管理和服务发现。
+
+- **Consul：** 用于服务发现、配置和健康检查的工具，支持分布式系统的协调。
+
+- **Redis：** 虽然是一个缓存数据库，但也可以用作分布式锁和分布式队列的解决方案。
+
+这些分布式协调服务帮助开发人员构建具有高可用性、一致性和可扩展性的分布式系统。选择合适的服务取决于特定系统的需求和设计。
+
+</details>
+
+## other tech
+
+### 使用bun
+
+```shell
+bunx create-next-app@latest
+```
+
+- [组件使用的是shadcn](https://ui.shadcn.com/docs)
+
+### micro frontend
+
+- [qiankun](https://qiankun.umijs.org/zh/guide/getting-started)
+- [single-spa](https://single-spa.js.org/docs/getting-started-overview/)
+
+### sso
+
+<details>
+<summary>2024/01/11 如何实现单点登录</summary>
+实现多域名的单点登录（Single Sign-On，SSO）可以通过不同的方式，具体的方法取决于你的应用架构和需求。以下是一些可能的方法：
+
+1. **使用统一身份认证协议：**
+
+   - OAuth 2.0 和 OpenID Connect：这是一种常见的单点登录解决方案，允许用户在不同的域名之间共享身份信息。OAuth 2.0 用于授权，而 OpenID Connect 则建立在 OAuth 2.0 的基础上，提供了身份验证的标准化方法。
+   - SAML（Security Assertion Markup Language）：它是一种 XML 格式的标准，用于在不同域之间传递认证和授权数据。
+
+2. **使用共享的用户数据库：**
+
+   - 在多个域之间使用相同的用户数据库，确保用户在一个域中登录后，在其他域中也能够被识别。这通常需要一定程度的用户管理和同步机制。
+
+3. **跨域 Cookie：**
+
+   - 如果你的域名在同一顶级域（例如，example.com 和 sub.example.com），你可以设置域级别的 Cookie，以便在不同子域之间传递身份验证信息。
+
+4. **代理认证：**
+
+   - 在代理层（例如反向代理服务器）处理身份验证，确保用户在一个域名中登录后，代理将身份信息传递给其他域。
+
+5. **集中式身份提供者（IdP）：**
+   - 使用一个集中的身份提供者，所有的域都连接到该提供者。用户在一个域名中登录后，可以通过该身份提供者在其他域名中访问。
+
+无论选择哪种方法，都需要确保在不同域之间共享的身份信息是安全的，并且在传输和存储过程中采取了适当的安全措施。确保你的解决方案符合隐私和安全标准，以防止潜在的安全风险。
+
+</details>
+
+<details>
+<summary>2024/01/11 什么是域级别的cookie</summary>
+
+域级别的 cookie 是指由特定域名下的服务器设置的 cookie。在互联网上，网站通常通过 HTTP 协议与用户的浏览器进行通信，以在用户计算机上存储一些信息，这些信息通常以 cookie 的形式保存。每个 cookie 都与一个特定的域名相关联。
+
+域级别的 cookie 具有以下特征：
+
+1. **限制于特定域名：** Cookie 的域属性定义了可以访问该 cookie 的域名。这样设计的目的是为了防止其他域名的脚本或请求访问该 cookie。例如，如果一个网站设置了一个域为 `example.com` 的 cookie，那么只有在 `example.com` 或其子域下的页面才能访问该 cookie。
+
+2. **共享性：** 域级别的 cookie 在其所属域名及其子域下的所有页面之间共享。这允许用户在同一域名下的不同页面之间保持一致的状态。
+
+3. **安全性：** 当设置了 `Secure` 属性时，cookie 将仅在通过 HTTPS 连接时传输，以增强安全性。这有助于防止敏感信息在传输过程中被窃听。
+
+域级别的 cookie 是 Web 开发中常用的工具，用于跟踪用户会话、存储用户首选项等。开发人员可以使用服务器端脚本语言（如 PHP、Python、Node.js 等）或客户端脚本语言（如 JavaScript）来设置和处理这些 cookie。
+
+</details>
+
+<details>
+<summary>2024/01/11 如何用node实现</summary>
+
+在 Node.js 中，你可以使用 `express` 库来轻松地处理和设置 cookie。以下是一个简单的示例，演示如何在 Node.js 中使用 `express` 设置域级别的 cookie：
+
+首先，确保你已经安装了 `express`：
+
+```bash
+npm install express
+```
+
+然后，创建一个简单的 Node.js 文件，例如 `app.js`，并添加以下代码：
+
+```javascript
+const express = require("express");
+const cookieParser = require("cookie-parser");
+
+const app = express();
+const PORT = 3000;
+
+// 使用 cookie-parser 中间件来解析 cookie
+app.use(cookieParser());
+
+// 设置域级别的 cookie
+app.get("/set-cookie", (req, res) => {
+  // 设置一个名为 "exampleCookie" 的 cookie，域名为 ".example.com"
+  res.cookie("exampleCookie", "Hello, this is a domain-level cookie", {
+    domain: ".example.com",
+    secure: true,
+  });
+
+  res.send("Cookie has been set!");
+});
+
+// 获取 cookie
+app.get("/get-cookie", (req, res) => {
+  const exampleCookie = req.cookies.exampleCookie;
+
+  if (exampleCookie) {
+    res.send(`Value of exampleCookie: ${exampleCookie}`);
+  } else {
+    res.send("exampleCookie not found");
+  }
+});
+
+// 启动服务器
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+```
+
+在这个示例中，我们使用 `cookie-parser` 中间件来解析请求中的 cookie。然后，我们使用 `res.cookie` 方法设置一个名为 "exampleCookie" 的域级别 cookie，其域名为 ".example.com"。接着，我们通过 `/get-cookie` 路由来获取和显示这个 cookie。
+
+请注意，为了在本地测试域级别的 cookie，你需要将 ".example.com" 映射到你的本地环境中。你可以通过修改你的操作系统的 hosts 文件来实现。在生产环境中，确保使用真实的域名和合适的安全设置。
+
+</details>
+
+<details>
+<summary>2024/01/11 什么是共享的数据库</summary>
+
+共享的用户数据库是指多个应用程序、服务或系统之间共用的用户信息存储系统。这种数据库允许不同的应用程序共享相同的用户身份验证、权限和配置信息，以实现一次登录即可访问多个服务的便利性。这样的共享用户数据库有助于提高用户体验、简化管理和维护，并提供更一致的用户身份验证和授权机制。
+
+以下是共享的用户数据库可能涉及的一些关键方面：
+
+1. **用户身份验证：** 用户在一个应用程序中进行身份验证后，其他应用程序可以使用共享的用户数据库来验证用户的身份，而无需用户再次输入凭据。这通常通过单一登录（Single Sign-On，SSO）机制来实现。
+
+2. **权限管理：** 共享的用户数据库可以存储用户的权限和角色信息，确保用户在所有关联的应用程序中都具有一致的权限。这有助于简化对用户权限的管理和更新。
+
+3. **个人资料信息：** 用户数据库通常包含用户的基本个人资料信息，如姓名、电子邮件地址、联系方式等。这些信息在用户注册或更新个人资料时被存储，并在需要时被不同应用程序共享。
+
+4. **跨平台访问：** 不同的应用程序，可能存在于不同的平台或技术栈中，可以通过共享用户数据库来实现用户数据的跨平台访问。这对于企业内部的多个系统或云服务来说尤为有用。
+
+5. **同步更新：** 如果用户更改其个人资料、密码或其他信息，共享的用户数据库能够确保这些更改反映在所有关联的应用程序中，以维持数据的一致性。
+
+实施共享用户数据库需要仔细考虑安全性、隐私保护以及适应不同应用程序需求的灵活性。通常，采用标准的身份验证和授权协议，如OAuth和OpenID Connect，可以帮助实现安全而可扩展的共享用户数据库。
+
+</details>
+
+<details>
+<summary>postgresql</summary>
+
+在 PostgreSQL 中实现共享的数据库，通常会涉及以下几个方面：
+
+1. **创建用户表：** 在数据库中创建一个用于存储用户信息的表。该表应包含至少一个唯一标识符（例如用户ID）、用户名、密码哈希（最好使用安全的哈希算法存储密码）、角色/权限等信息。
+
+   ```sql
+   CREATE TABLE users (
+     user_id SERIAL PRIMARY KEY,
+     username VARCHAR(255) UNIQUE NOT NULL,
+     password_hash VARCHAR(255) NOT NULL,
+     roles VARCHAR(255)[] -- 可以存储用户角色，也可以使用关联表关联角色
+   );
+   ```
+
+2. **实施身份验证：** 使用密码哈希来存储用户的密码，并在用户登录时验证提供的密码是否与数据库中存储的密码哈希匹配。
+
+   ```sql
+   -- 示例查询：验证用户登录
+   SELECT * FROM users WHERE username = 'example_user' AND password_hash = 'hashed_password';
+   ```
+
+3. **授权和角色管理：** 使用 PostgreSQL 的角色和权限系统来管理用户的授权。可以为每个用户定义不同的角色，然后授予或撤销这些角色的权限。
+
+   ```sql
+   -- 示例：授予用户角色
+   GRANT app_user_role TO example_user;
+   ```
+
+4. **单一登录（SSO）机制：** 如果要实现单一登录，可以考虑使用 OAuth、OpenID Connect 等标准协议，或者自行实现一种会话共享机制。
+
+5. **跨数据库访问：** 如果需要在多个数据库之间共享用户信息，可以考虑将用户表存储在一个单独的共享数据库中，并在需要的数据库中设置外部引用或视图。
+
+6. **安全性考虑：** 确保密码存储的安全性，不要存储明文密码。考虑使用加盐哈希等技术提高密码安全性。同时，限制数据库用户的权限，确保他们只能执行其必需的操作。
+
+请注意，实施共享数据库涉及到具体的应用场景和需求，上述示例只是一个基本框架。在生产环境中，请仔细考虑安全性、性能和扩展性等因素，并遵循最佳实践。
+
+</details>
+
+### js weekly 671
+
+#### 1.console
+
+```js
+console.info(
+  "%c %cAdobe %cPhotoshop Web%c  %c2023.23.0.1%c  %c037a8af9746",
+  'padding-left: 36px; line-height: 36px; background-image: url("data:image/gif;base64,R0lGODlhIAAgAPEBAAAAAP///wAAAAAAACH5BAEAAAIALAAAAAAgACAAAAKkhC+py3zfopxGvIsztsCGD4La2FVAGBoBuZnox45WcqLsum5KDWdvf1nwTo+fLbgDqo7LFCJJbOY0oidt6ozVKrtib0qaCnlYcJh7rf5iK6HZaM64VeS6L+pWf89WT+6vRAUBBVQ1gpOTJ4IYdxCnOBSJ8ZhkZNekk5ZSxpTpt6Y1eEVm00j3VALDmBXVyPEJB2r2ShoLh2ASqvU60dsr5yuBUQAAOw=="); background-size: 32px; background-repeat: no-repeat; background-position: 2px 2px',
+  "background: #666; border-radius:0.5em 0 0 0.5em; padding:0.2em 0em 0.1em 0.5em; color: white; font-weight: bold",
+  "background: #666; border-radius:0 0.5em 0.5em 0; padding:0.2em 0.5em 0.1em 0em; color: white;",
+  "",
+  "background: #c3a650; border-radius:0.5em; padding:0.2em 0.5em 0.1em 0.5em; color: white;",
+  "",
+  "background: #15889f; border-radius:0.5em; padding:0.2em 0.5em 0.1em 0.5em; color: white;"
+);
+```
+
+- [好家伙](https://frontendmasters.com/blog/console-delight/)
+
+<details>
+  <summary>甚至可以写css-doodle</summary>
+  ```js console.info( '%c ', `line-height:100px;padding-block:50px;padding-left:100px;background-repeat:no-repeat;background-image:url("data:image/svg+xml,%3Csvg
+  xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100' stroke='%231B2D37'
+  fill='none'%3E%3Crect stroke-width='2' width='98' height='98' x='-49' y='-49' fill='%23d5f1ff'%3E%3C/rect%3E%3Cpolyline
+  stroke-dasharray='10' pathLength='10' points='0.00001 0,-0.991793 -1.8173446,-2.2402741
+  3.4823486,6.1949453 0.4474444,-3.4331809 -7.5362848,-6.2133014 8.2797801,12.2932314
+  1.7851273,-5.0423611 -13.5870507,-10.8698086 12.4970611,18.1990361 3.9991341,-5.7863618
+  -19.8785691,-16.1450444 16.0621084,23.818206 7.0663947,-5.6410665 -26.3168978,-21.9675334
+  18.9092802,29.059075 10.9548628,-4.591445 -32.806032,-28.2596767 20.9799619,33.8332657
+  15.6237668,-2.6317133 -39.248728,-34.9384013 22.223098,38.056466 21.0239282,0.2345778
+  -45.5473393,-41.915853 22.5956673,41.6491767 27.0981467,3.9945268 -51.6046566,-49.1001299
+  22.0630962,44.5374235 33.7816489,8.6259382 -57.3247487,-56.3960484 20.5996079,46.653429
+  41.0025973,14.0974514 -62.6137955,-63.7059392 18.188505,47.9362389 48.6826567,20.368742
+  -67.3809088,-70.9304643 14.8223821,48.3322984 56.7376131,27.3907928 -71.5389343,-77.9694531
+  10.5032683,47.7959744 65.0780416,35.1062339 -75.0052279,-84.7227478 5.2426967,46.2900186
+  73.6100184,43.4497494 -77.7024033,-91.0910542 -0.9382987,43.7859697 82.2358716,52.3485481
+  -79.559042,-96.9767918 -8.0092596,40.2644891 90.8549658,61.7228942 -80.5103629,-102.2849352
+  -15.9304529,35.7156303 99.3645155,71.4866962 -80.4988455,-106.9238436 -24.6530929,30.1390368
+  107.66042,81.5481482 -79.474802,-110.8060694 -34.1196343,23.5440691 115.6381161,91.8104205
+  -77.396894,-113.8491417 -44.264135,15.9498573 123.1934404'%3E%3Canimate attributeName='stroke-dashoffset'
+  from='10' to='0' dur='10s'%3E%3C/animate%3E%3C/polyline%3E%3C/svg%3E")` ); ```
+</details>
+
+#### [dnd](https://github.com/hello-pangea/dnd)
+
+#### [A Difference Between getElementByID and querySelector](https://kiru.io/til/entries/2024-01-16-javaScript-difference-querySelector-and-getElementById/)
+
+### art in p5
+
+<details open>
+<summary>fireworks</summary>
+
+import FireWorks from "@components/react/p5/art/firework.tsx";
+
+<FireWorks client:visible />
+
+</details>
+
+## daily
+
+> 博客
+
+- https://bobolo.io/
+- https://chodocs.cn/
+
+> github
+
+- 黄子毅 https://github.com/ascoders/weekly
+
+> Search
+
+- https://kaifa.baidu.com/
+- https://devv.ai/zh
+
+> algorithms
+
+- https://www.hello-algo.com/
+
+## 链接
+
+- [16 System Design Concepts I Wish I Knew Before the Interview](https://levelup.gitconnected.com/16-system-design-concepts-i-wish-i-knew-before-the-interview-b8586e40a73b)
+
+- [github代码搜索除了github1s 还有sourcegraph](https://sourcegraph.com/github.com/ajn404/notes_astro3/-/blob/astro.config.mjs)
+
+- [魔塔](https://modelscope.cn/my/overview)

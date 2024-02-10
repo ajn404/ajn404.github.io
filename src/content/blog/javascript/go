@@ -1,0 +1,30 @@
+---
+title:  玩转gojs
+
+pubDatetime: 2023-09-05T08:17:29Z
+postSlug: go.js
+featured: false
+draft: false
+tags:
+  - npm
+  - gojs
+  - canvas
+description:
+  "GoJS is a JavaScript library for implementing interactive diagrams"
+---
+
+## 下载
+
+```bash
+pnpm --filter @notes/docs i gojs -r
+```
+
+## getting started
+
+import GoDemo from '@components/react/gojs/common.tsx'
+
+<GoDemo client:load/>
+
+## 链接
+
+- [gojs-npmjs](https://www.npmjs.com/package/gojs)

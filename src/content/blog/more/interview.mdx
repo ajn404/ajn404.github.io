@@ -1,0 +1,144 @@
+---
+title: interview
+pubDatetime: 2023-10-19 14:05:00
+postSlug: interview
+featured: false
+draft: false
+tags:
+  - 八股
+  - interview
+description: "在前端面试过程中，对于记录面试经历是很有帮助的，这样可以更好地总结经验、查漏补缺，并在以后的面试中有所提升"
+---
+
+## 目录
+
+## basic
+
+### Hydration
+
+<details>
+<summary>Hydration</summary>
+```plaintext
+Hydration（即“水合”）在前端框架和库中是一个重要的概念。它主要与服务器渲染（Server-Side Rendering，SSR）和客户端渲染（Client-Side Rendering，CSR）相结合。下面我将详细解释它的意义和应用：
+
+服务器渲染 (SSR)：
+当一个页面首次加载时，如果使用服务器渲染，服务器会生成一个完整的 HTML 文档，并将其发送到客户端。这意味着浏览器可以立即看到内容，而不需要等待 JavaScript 下载和执行。
+
+客户端渲染 (CSR)：
+在客户端渲染中，页面的大部分或全部内容由 JavaScript 在浏览器中动态生成。这意味着浏览器首先需要下载和执行 JavaScript，然后才能看到完整的内容。
+
+水合 (Hydration)：
+当使用服务器渲染（SSR）并且随后启动客户端渲染（CSR）时，需要确保两者之间的内容一致性和可交互性。这就是“水合”所起的作用。水合是指客户端 JavaScript“接管”由服务器渲染生成的静态 HTML，将其转换为可交互的动态内容，同时保持用户界面的状态和事件处理程序。
+
+在 React、Vue 和其他一些现代前端框架中，水合是自动处理的。框架会比较服务器渲染生成的 HTML 与客户端 JavaScript 生成的内容，并确保它们之间的一致性。
+
+为什么水合很重要？
+
+性能优化：通过使用服务器渲染和水合，您可以提供更快的首次加载时间和更好的性能体验。
+
+SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这有助于提高页面的搜索排名。
+
+用户体验：通过尽快显示内容并立即添加交互性，可以提供更好的用户体验。
+
+总之，水合是前端开发中一个关键的概念，它结合了服务器渲染和客户端渲染的优点，为用户提供了更好的性能和体验。
+
+````
+</details>
+
+### Closure
+
+**闭包是对外部作用域变量的实时引用，而非复制**
+
+<details>
+
+<summary>2024/01/08 js闭包以及应用</summary>
+
+闭包（Closure）是JavaScript中的一个重要概念，它与作用域、变量生命周期等紧密相关。闭包在JavaScript中有着广泛的应用，下面我将首先简要解释闭包的概念，然后列举一些常见的闭包应用场景。
+
+### 什么是闭包？
+
+闭包是指有权访问另一个函数作用域中的变量的函数。简单来说，当一个函数在另一个函数内部定义时，并且这个内部函数引用了外部函数的变量，那么就产生了一个闭包。
+
+### 闭包的形成条件：
+
+1. 函数嵌套：一个函数定义在另一个函数内部。
+2. 内部函数引用了外部函数的变量。
+
+### 闭包的应用：
+
+1. **封装私有变量和方法**：
+    ```javascript
+    function createCounter() {
+        let count = 0;
+        return {
+            increment: function() {
+                count++;
+                return count;
+            },
+            decrement: function() {
+                count--;
+                return count;
+            }
+        };
+    }
+    const counter = createCounter();
+    console.log(counter.increment());  // 输出 1
+    console.log(counter.decrement());  // 输出 0
+    ```
+
+2. **模块模式**：通过闭包可以创建私有变量和方法，从而实现模块化的编程。
+
+3. **事件监听器**：
+    ```javascript
+    function attachEvent() {
+        let count = 0;
+        document.getElementById('btn').addEventListener('click', function() {
+            count++;
+            console.log(`Button clicked ${count} times.`);
+        });
+    }
+    attachEvent();
+    ```
+
+4. **循环与闭包**：在循环中使用闭包时，需要特别注意闭包与循环变量的交互。
+    ```javascript
+    for (var i = 0; i < 5; i++) {
+        setTimeout(function() {
+            console.log(i);  // 输出 5, 5, 5, 5, 5
+        }, 1000);
+    }
+    ```
+    上述代码会输出五次5，因为循环结束后i的值为5。为了解决这个问题，可以使用IIFE（立即调用函数表达式）。
+    ```javascript
+    for (var i = 0; i < 5; i++) {
+        (function(j) {
+            setTimeout(function() {
+                console.log(j);  // 输出 0, 1, 2, 3, 4
+            }, 1000);
+        })(i);
+    }
+    ```
+
+5. **实现函数柯里化**：通过闭包，可以实现函数柯里化，即将多参数的函数转化为一系列使用一个参数的函数。
+
+6. **缓存**：通过闭包缓存计算结果，提高性能。
+    ```javascript
+    function memoize(fn) {
+        const cache = {};
+        return function(...args) {
+            const key = JSON.stringify(args);
+            if (cache[key] === undefined) {
+                cache[key] = fn(...args);
+            }
+            return cache[key];
+        };
+    }
+    ```
+
+总结：闭包是JavaScript中的一个强大而灵活的特性，可以用于创建私有变量和方法、实现模块化、事件监听等。但同时也需要注意闭包可能带来的内存泄漏问题，因为闭包会保留外部函数的作用域链。
+</details>
+
+
+
+
+````

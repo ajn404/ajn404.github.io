@@ -1,0 +1,476 @@
+---
+title: nature of code
+pubDatetime: 2024-01-16T06:22:18Z
+postSlug: nature of code
+featured: true
+draft: false
+tags:
+  - 代码的本质
+  - p5
+  - canvas
+  - math
+description: "代码的本质"
+---
+
+## 目录
+
+## nature of code
+
+我与p5的缘分真的蛮深的,DANIEL SHIFFMAN也算是我的编程启蒙老师了,
+nature of code,这是一本他撰写的一本关于编程和计算机生成艺术的书籍，详细链接见[⬇️](#links)
+
+### code template
+
+<details>
+<summary>template</summary>
+
+import Template from "@components/react/p5/index.tsx";
+
+<Template client:visible />
+
+</details>
+
+### 0. Randomness
+
+`随机性` `柏林噪声` `概率`
+
+#### RandomnessA
+
+<details>
+<summary>RandomnessA</summary>
+```tsx
+step() {
+        const choice = p.floor(p.random(4));
+        switch (choice) {
+          case 0:
+            this.x++;
+            break;
+          case 1:
+            this.x--;
+            break;
+          case 2:
+            this.y++;
+            break;
+          case 3:
+            this.y--;
+            break;
+          default:
+            break;
+        }
+      }
+```
+import RandomnessA from "@components/react/p5/Randomness/RandomnessA.tsx";
+
+<RandomnessA client:visible />
+</details>
+
+#### RandomnessB
+
+<details class="mt-4">
+<summary>RandomnessB</summary>
+
+```tsx
+step() {
+          let xStep = p.random(-1, 1);
+          let yStep = p.random(-1, 1);
+
+          this.x += xStep;
+          this.y += yStep;
+
+      }
+
+```
+
+import RandomnessB from "@components/react/p5/Randomness/RandomnessB.tsx";
+
+<RandomnessB client:visible />
+</details>
+
+#### RandomnessC
+
+<details class="mt-4">
+<summary>RandomnessC</summary>
+
+import RandomnessC from "@components/react/p5/Randomness/RandomnessC.tsx";
+
+<RandomnessC client:visible />
+</details>
+
+#### Probability and Nonuniform Distributions
+
+- Create a random walker that has a greater tendency to move down and to the right. (The solution follows in the next section.)
+
+<details>
+<summary>Probability and Nonuniform Distributions
+概率和非均匀分布</summary>
+```ts
+let stuff = [1,1,2,4,5,6,7,8,8,8,9,9,9,9,10];
+let value = random(stuff);
+console.log(value);
+````
+
+```ts
+let probability = 0.1;
+let r = random(1);
+if (r < probability) {
+  console.log("success");
+}
+```
+
+</details>
+
+#### RandomnessD
+
+<details class="mt-4">
+<summary>RandomnessD  Tends to Move to the Right 趋于向右的随机分布</summary>
+
+import RandomnessD from "@components/react/p5/Randomness/RandomnessD.tsx";
+
+<RandomnessD client:visible />
+</details>
+
+#### mouseX,mouseY
+
+<details class="mt-4">
+
+<summary>上述例子使用鼠标交互，即使用mouseX,mouseY</summary>
+
+import RandomnessE from "@components/react/p5/Randomness/RandomnessE.tsx";
+
+<RandomnessE client:visible />
+</details>
+
+#### A Normal Distributions Of Random Numbers
+
+<details class="mt-4">
+<summary>A Normal Distributions Of Random Numbers</summary>
+
+import RandomnessF from "@components/react/p5/Randomness/RandomnessF.tsx";
+
+<RandomnessF client:visible />
+
+<details open>
+<summary>柯里化</summary>
+
+```tsx
+export default () => {
+  const common = (p: p5, sd = 0.41) => {
+    const heights = [];
+    p.setup = () => {
+      p.createCanvas(320, 240);
+      p.background(255);
+      const e = 2.71828183;
+      let m = 0;
+      for (let i = 0; i < p.width + 1; i++) {
+        let xcoord = p.map(i, 0, p.width, -3, 3);
+        let sq2pi = p.sqrt(2 * p.PI); //square root of 2 * PI
+        let xmsq = -1 * (xcoord - m) * (xcoord - m); //-(x - mu)^2
+        let sdsq = sd * sd; //variance (standard deviation squared)
+        heights[i] = (1 / (sd * sq2pi)) * p.pow(e, xmsq / sdsq); //P(x) function
+      }
+
+      p.stroke(0);
+      p.strokeWeight(2);
+      p.noFill();
+      p.beginShape();
+      for (let i = 0; i < heights.length; i++) {
+        let x = i;
+        let y = p.map(heights[i], 0, 1, p.height - 2, 2);
+        p.vertex(x, y);
+      }
+      p.endShape();
+    };
+  };
+  const sketchA = (p: p5) => common(p, 0.41);
+  const sketchB = (p: p5) => common(p, 1.5);
+
+  return (
+    <>
+      <div className="flex justify-around">
+        <Basic sketch={sketchA}></Basic>
+        <Basic sketch={sketchB}></Basic>
+      </div>
+    </>
+  );
+};
+```
+
+</details>
+
+</details>
+
+#### sigma
+
+<details class="mt-4">
+<summary>正态分布与标准差</summary>
+正态分布（也称为高斯分布）是统计学中一种重要的概率分布，其特点是对称、钟形曲线。在正态分布中，标准差是一个关键的参数，它衡量数据集中的值与平均值的离散程度。
+
+标准差用来度量数据的离散程度，它越大表示数据的波动越大，越小表示数据的波动越小。标准差的计算公式如下：
+
+$ \sigma = \sqrt{\frac{\sum\_{i=1}^{N}(x_i - \mu)^2}{N}} $
+
+其中：
+
+- $\sigma$ 是标准差，
+- $N$ 是数据集中的观测值数量，
+- $x_i$ 是每个观测值，
+- $\mu$ 是数据集的平均值。
+
+正态分布的特性之一是，约68%的数据在平均值附近的一个标准差范围内，约95%的数据在两个标准差范围内，约99.7%的数据在三个标准差范围内。
+
+如果你有特定的数据集或问题，可以提供更多信息，我可以帮你更具体地理解和解释。
+
+</details>
+
+#### randomGaussian
+
+<details class="pt-4">
+<summary>[randomGaussian 正态分布p5方法](https://p5js.org/reference/#/p5/randomGaussian)</summary>
+
+import UseRandomGaussian from "@components/react/p5/Randomness/useRandomGaussian.tsx";
+
+<UseRandomGaussian class="mt-4" client:visible />
+
+</details>
+
+#### SimulatePaint
+
+<details>
+<summary>实践一个油漆飞溅模拟</summary>
+
+import SimulatePaint from "@components/react/p5/Randomness/simulatePaint.tsx";
+
+<SimulatePaint client:visible />
+
+<details open class="!mt-4 ">
+<summary>'完美'地在type=range的input使用了useDebouce</summary>
+
+```tsx
+import { useDebounce } from "@uidotdev/usehooks";
+...
+const debouncedSd = useDebounce(sd, 300);
+    const sketch = useCallback(
+        (p: p5) => {
+            ...
+        },
+        [debouncedSd]
+    );
+    const handleSliderChange = (val: string) => {
+        setSd(parseFloat(val));
+    };
+
+    return (
+        <>
+            <input
+                type="range"
+                value={sd}
+                onChange={(e) => { handleSliderChange(e.target.value) }}
+            />
+            ...
+        </>
+```
+
+</details>
+
+</details>
+
+#### ResolveReject
+
+<details >
+<summary>接受拒绝分布</summary>
+
+import ResolveReject from "@components/react/p5/Randomness/ResolveReject.tsx";
+
+<ResolveReject client:visible />
+
+</details>
+
+#### PerlinCurve
+
+<details>
+<summary>柏林噪声</summary>
+
+import PerlinCurve from "@components/react/p5/Randomness/PerlinCurve.tsx";
+
+<PerlinCurve client:visible />
+
+```tsx
+let time = 0;
+const draw = () => {
+  let xoff = time;
+  for (let i = 0; i < p.width; i++) {
+    let noise_height = p.noise(xoff) * p.height;
+    xoff += 0.01;
+    p.vertex(i, noise_height);
+  }
+  p.endShape();
+  time += 0.01;
+};
+```
+
+</details>
+
+#### noise range
+
+<details>
+<summary>noise range</summary>
+
+import NoiseRange from "@components/react/p5/Randomness/NoiseRange.tsx";
+
+<NoiseRange client:visible />
+
+使用map映射noise生成的值
+
+</details>
+
+#### two-dimensional noise
+
+<details>
+<summary>two-dimensional noise</summary>
+
+import TwoDimensionalNoise from "@components/react/p5/Randomness/TwoDimensionalNoise.tsx";
+
+<TwoDimensionalNoise client:visible />
+
+</details>
+
+#### generate marble
+
+<details>
+<summary>generate marble</summary>
+
+import Marble from "@components/react/p5/Randomness/Marble.tsx";
+
+<Marble client:visible />
+
+</details>
+
+#### RandomnessG
+
+<details>
+
+<summary>RandomnessG</summary>
+
+import RandomnessG from "@components/react/p5/Randomness/RandomnessG.tsx";
+
+<RandomnessG client:visible />
+
+</details>
+
+#### landscape
+
+<details>
+<summary>landscape</summary>
+
+import Landscape from "@components/react/p5/Randomness/landScape.tsx";
+
+<Landscape client:visible />
+</details>
+
+#### wind simulation
+
+<details>
+<summary>wind simulation(actually just noise)</summary>
+
+import ComponentName from "@components/react/p5/Randomness/windSimulation.tsx";
+
+<ComponentName client:visible />
+
+<details open>
+<summary>code</summary>
+
+```tsx
+import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
+
+export default () => {
+  const sketch = (p: p5) => {
+    let yoff = 0;
+    let seed = 5;
+    let { PI } = p;
+
+    const branch = (h: number, xoff: number) => {
+      let sw = p.map(h, 2, 100, 1, 5);
+      p.strokeWeight(sw);
+      p.line(0, 0, 0, -h);
+      p.translate(0, -h);
+
+      h *= 0.7;
+      xoff += 0.1;
+
+      if (h > 4) {
+        let n = p.floor(p.random(1, 5));
+        for (let i = 0; i < n; i++) {
+          let noise = p.noise(xoff + i, yoff);
+          let theta = p.map(noise, 0, 1, -PI / 2, PI / 2);
+          if (n % 2 == 0) theta *= -1;
+          p.stroke(0);
+          p.push();
+          p.rotate(theta);
+          branch(h, xoff);
+          p.pop();
+        }
+      }
+    };
+
+    const setup = () => {
+      p.createCanvas(p.windowWidth / 4 + 20, 200);
+    };
+
+    const draw = () => {
+      p.background(255);
+      p.translate(p.width / 2, p.height);
+      yoff += 0.005;
+      p.randomSeed(seed);
+      branch(60, 0);
+    };
+
+    p.mouseClicked = () => {
+      yoff = p.random(1000);
+      seed = p.millis();
+    };
+    const resize = () => p.setup();
+    p.setup = setup;
+    p.draw = draw;
+    p.windowResized = resize;
+  };
+  return <Basic sketch={sketch} showControls></Basic>;
+};
+```
+
+</details>
+
+</details>
+
+todo: flow demo
+
+<details></details>
+
+### 1. Vectors
+
+### 2. Forces
+
+### 3. Oscillation
+
+### 4. Particle System
+
+### 5. Autonomous Agents
+
+### 6. Physical Libraries
+
+### 7. Cellular Automata
+
+### 8. Fractals
+
+### 9. Evolutionary Computing
+
+### 10. Neural Networks
+
+### 11. Neuroevolution
+
+## links
+
+- https://natureofcode.com/
+- https://p5js.org/
+- https://processing.org/
+- https://www.youtube.com/@TheCodingTrain

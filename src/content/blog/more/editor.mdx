@@ -1,0 +1,88 @@
+---
+title: 编辑器or富文本
+
+pubDatetime: 2023-09-18T09:35:28Z
+postSlug: editor
+featured: false
+draft: false
+tags:
+  - affine
+  - editor
+  - lit
+  - codemirror
+description: "编辑器or富文本"
+---
+
+## start demo use blocksuite (notion 风格)
+
+import Editor from "@components/react/editor/index.tsx";
+
+<Editor client:only="react" />
+
+```tsx
+import "@blocksuite/editor/themes/affine.css";
+import { useEffect, useRef } from "react";
+
+export default () => {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    import("@blocksuite/editor").then(res => {
+      const editor = new res.SimpleAffineEditor();
+      ref.current?.appendChild(editor);
+    });
+  });
+  return (
+    <>
+      <div className="editor" ref={ref}></div>
+    </>
+  );
+};
+```
+
+[blocksuite 全屏](/notes_astro3/editor)
+
+## codemirror
+
+import Javacript from "@components/vue/codemirror/javascript.vue";
+
+<Javacript client:only="vue" />
+
+vue
+
+```vue
+<script setup name="javascript">
+import useJavaScript from "./cJavascript";
+useJavaScript();
+</script>
+
+<template>
+  <div id="editor"></div>
+</template>
+```
+
+composition api
+
+```ts
+let useJavascript;
+
+import { EditorView, basicSetup } from "codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { ref, shallowRef, nextTick } from "vue";
+
+export default useJavascript = () => {
+  nextTick(() => {
+    const parent = document.querySelector("#editor");
+    let view = new EditorView({
+      extensions: [basicSetup, javascript()],
+      parent: parent || document.body,
+    });
+  });
+};
+```
+
+### 链接
+
+- [lit](https://lit.dev/)
+- [start](https://blocksuite.affine.pro/getting-started.html)
+- [stackblitz](https://stackblitz.com/github/toeverything/blocksuite?file=packages%2Fplayground%2Fapps%2Fdefault%2Fcomponents%2Fquick-edgeless-menu.ts)
+- [codemirror](https://codemirror.net/)

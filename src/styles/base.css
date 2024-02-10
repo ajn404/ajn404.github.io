@@ -1,0 +1,322 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Xingcao";
+  src: url("/notes_astro3/assets/Xingcao.ttf") format("truetype");
+}
+
+.xing-cao,.xing-cao * {
+  font-family: "Xingcao", "DM Sans", sans-serif;
+}
+
+@font-face {
+  font-family: 'xkcd'; 
+  src: url('/notes_astro3/assets/xkcd.woff') format('woff');
+}
+
+.font-xkcd,.font-xkcd *{
+  font-family: "xkcd","Xingcao", "DM Sans", sans-serif;
+}
+
+@layer base {
+  :root{
+    --color-fill: 33, 39, 55;
+    --color-text-base: 234, 237, 243;
+    --color-accent: 255, 107, 1;
+    --color-card: 52, 63, 96;
+    --color-card-muted: 138, 51, 2;
+    --color-border: 171, 75, 8;
+    --color-scroll: 255, 0, 85;
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+    --card: 20 14.3% 4.1%;
+    --card-foreground: 60 9.1% 97.8%;
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
+    --primary: 20.5 90.2% 48.2%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 20.5 90.2% 48.2%;
+    --radius: 0.75rem;
+  }
+  #sun-svg,
+  html[data-theme="dark"] #moon-svg {
+    display: none;
+  }
+  #moon-svg,
+  html[data-theme="dark"] #sun-svg {
+    display: block;
+  }
+  body {
+    @apply flex min-h-screen flex-col bg-skin-fill font-mono text-skin-base 
+    selection:bg-skin-accent selection:bg-opacity-70 selection:text-skin-inverted scroll-smooth;
+  }
+  section,
+  footer {
+    @apply mx-auto max-w-[100vw] px-4;
+  }
+  a {
+    @apply outline-2 outline-offset-1 outline-skin-fill 
+    focus-visible:no-underline focus-visible:outline-dashed;
+  }
+  svg {
+    @apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
+  }
+  .prose svg {
+    @apply w-auto h-auto block m-auto;
+  }
+
+  svg.icon-tabler {
+    @apply inline-block h-6 w-6 scale-125 fill-transparent 
+    stroke-current stroke-2 opacity-90 group-hover:fill-transparent 
+    sm:scale-110;
+  }
+  .prose {
+    @apply prose-headings:!mb-3 prose-headings:!text-skin-base 
+    prose-h3:italic prose-p:!text-skin-base 
+    prose-a:!text-skin-base prose-a:!decoration-dashed prose-a:underline-offset-8
+    hover:prose-a:text-skin-accent prose-blockquote:!border-l-skin-accent
+    prose-blockquote:border-opacity-50 prose-blockquote:opacity-80 prose-blockquote:!text-skin-base prose-figcaption:!text-skin-base prose-figcaption:opacity-70 prose-strong:!text-skin-base
+    prose-code:rounded prose-code:!text-skin-inverted prose-code:bg-skin-card 
+    prose-code:bg-opacity-75 prose-code:p-1 
+    prose-code:before:!content-[''] prose-code:after:!content-['']
+    prose-pre:!text-skin-base prose-ol:!text-skin-base 
+    prose-ul:overflow-x-clip prose-ul:!text-skin-base prose-li:marker:!text-skin-accent
+    prose-table:text-skin-base max-w-[100vw] overflow-auto prose-th:border
+    prose-th:border-skin-line prose-td:border 
+    prose-td:border-skin-line prose-img:mx-auto break-all
+    prose-img:!mt-2 prose-img:border-2 
+    prose-img:border-skin-line prose-hr:!border-skin-line;
+  }
+  .prose code {
+    color: #28a2b7 !important;
+    background-color: transparent !important;
+  }
+  .prose pre{
+    padding-right:1em;
+  }
+
+  .prose pre::-webkit-scrollbar{
+    display: none;
+    height:0;
+  }
+  .prose a {
+    @apply hover:!text-skin-accent;
+  }
+  .prose thead th:first-child,
+  tbody td:first-child,
+  tfoot td:first-child {
+    padding-left: 0.5714286em;
+  }
+  .prose h2#目录 {
+    @apply mb-2;
+  }
+  .prose details {
+    @apply inline-block cursor-pointer select-none text-skin-base;
+  }
+  .prose summary {
+    @apply focus-outline;
+  }
+  .prose h2#目录 + p {
+    @apply hidden;
+  }
+
+  /* ===== scrollbar ===== */
+  html {
+    overflow-y: scroll;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    @apply w-3 h-3;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-skin-fill;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-skin-card;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-skin-card-muted;
+  }
+}
+
+@layer components {
+  .display-none {
+    @apply hidden;
+  }
+  .focus-outline {
+    @apply outline-2 outline-offset-1 outline-skin-fill focus-visible:no-underline focus-visible:outline-dashed;
+  }
+
+  /* https://webgradients.com/ */
+  .color-warm-frame {
+    background-image: linear-gradient(
+      45deg,
+      #ff9a9e 0%,
+      #fad0c4 99%,
+      #fad0c4 100%
+    );
+  }
+
+  .snow-again{
+    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+  }
+
+  .color-spring-warmth {
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)!important;
+  }
+
+  .color-night-fade {
+    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+  }
+
+  .burning-spring {
+    background-image: linear-gradient(
+      to top,
+      #4fb576 0%,
+      #44c489 30%,
+      #28a9ae 46%,
+      #28a2b7 59%,
+      #4c7788 71%,
+      #6c4f63 86%,
+      #432c39 100%
+    );
+  }
+
+  .Ripe-Malinka {
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+  }
+
+  .Midnight-Bloom {
+    background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+  }
+
+  .tw-button {
+    @apply cursor-pointer inline-block rounded bg-skin-orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-skin-base shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-skin-yellow hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-skin-yellow focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-skin-gray active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)];
+  }
+}
+
+
+
+/* 引用 */
+blockquote {
+  margin: 0;
+}
+
+blockquote p {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+blockquote p::before {
+  content: "\201C";
+}
+
+blockquote p::after {
+  content: "\201D";
+}
+
+blockquote footer cite {
+  text-align: right;
+  width: 100%;
+  -webkit-text-stroke: 2px;
+}
+
+blockquote footer cite::before {
+  content: "----";
+}
+
+/* katex */
+.katex-html {
+  display: none;
+}
+
+.math.math-display {
+  padding-top: 1em;
+}
+
+/* 顶部framer */
+.progress-bar {
+  @apply backdrop-blur-3xl bg-gradient-to-r from-purple-500 to-pink-500;
+}
+
+/* 折叠 */
+details {
+  @apply flex flex-col w-full px-4 mt-4 py-2 Midnight-Bloom;
+}
+
+
+details::-webkit-scrollbar {
+  @apply w-0 h-0;
+}
+
+@keyframes loadingC {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 15px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+
+
+@media print {
+  #目录 + ul,#dev-overlay,#btn-back-to-top,header{
+    display: none;
+  }
+}
+
+
+.codepen{
+    height: 500px; 
+    box-sizing: border-box; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: 2px solid; 
+    margin: 1em 0; 
+    padding: 1em;
+}
+
+@layer demo {
+  .highlighted-text-shadow {
+    background: #000;
+    text-shadow:
+      0 .15ch 15px var(--shadow),
+      0 -2px 0 var(--highlight);
+  }
+}
+
+@layer demo.support {
+  :root {
+    --hue: 320; /* change me */
+    --shadow: oklch(25% .2 var(--hue));
+    --highlight: oklch(98% .05 var(--hue));
+  }
+}
+
+iframe{
+    max-width:calc(100% - 2em);
+}

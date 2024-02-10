@@ -1,0 +1,6 @@
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+User-agent: *
+Allow: /
+Disallow: /notes_astro3/posts/2023-12/

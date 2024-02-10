@@ -1,0 +1,83 @@
+---
+pubDatetime: 2024-01-11T16:05:00.000Z
+modDatetime: 2024-01-11T08:50:54Z
+title: js patterns
+featured: false
+draft: false
+tags:
+  - patterns
+description: "设计模式是在解决软件设计中常见问题时的经验总结和最佳实践，它们提供了一套通用的解决方案，有助于提高代码质量、可读性和可维护性。"
+---
+
+## 目录
+
+## Overview of React.js
+
+### Rendering with JSX
+
+- React.createElement
+
+```js
+import { createElement } from "react";
+
+function Greeting({ name }) {
+  return createElement("h1", { className: "greeting" }, "Hello");
+}
+```
+
+### Components/Props/State
+
+import { Badge } from "@components/react/practice/patternComponents.tsx";
+
+<Badge name="ajn403" client:load />
+
+<details>
+<summary>components</summary>
+
+- function components
+
+```tsx
+export const Badge = props => {
+  return (
+    <>
+      <div className="block m-auto h-[6em] w-[20em] bg-[red] text-center text-[white]">
+        Hello <br />
+        my name is
+        <div className="bg-[white] text-[black] font-bold h-[2em]">
+          {props.name}
+        </div>
+      </div>
+    </>
+  );
+};
+```
+
+- class components
+
+```tsx
+export class BadgeClass extends Component<{ name: string }> {
+  constructor(props: { name: "" }) {
+    super(props);
+  }
+  render() {
+    return (
+      <>
+        <div className="block m-auto h-[6em] w-[20em] mb-4 bg-[red] text-center text-[white]">
+          Hello <br />
+          my name is
+          <div className="bg-[white] text-[black]  font-bold h-[2em]">
+            {this.props.name}
+          </div>
+        </div>
+      </>
+    );
+  }
+}
+```
+
+</details>
+
+## links
+
+- [patterns](https://www.patterns.dev/)
+- [createElement](https://react.dev/reference/react/createElement)

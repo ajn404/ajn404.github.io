@@ -1,0 +1,104 @@
+---
+title: dom操作
+pubDatetime: 2023-12-19 02:35:54
+postSlug: dom
+featured: false
+draft: false
+tags:
+  - dom
+description: dom操作
+---
+
+# DOM operation tips
+
+## 目录
+
+## editor
+
+### Select a given line in a text area
+
+import Textarea from "@components/astro/dom/textarea.astro";
+
+<Textarea />
+
+```js
+document.addEventListener('DOMContentLoaded', () => {
+    const selectButton = document.getElementById('select-button');
+    if(selectButton)
+    selectButton.addEventListener('click', () => {
+        const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
+        if(!textarea) return
+        const lines = textarea.value.split('\n');
+        const lineIndex = 2;
+        const start = lines.slice(0, lineIndex).reduce((acc, curr) => acc + curr.length + 1, 0);
+        // Add the length of the previous lines and the newline character
+        const end = start + lines[lineIndex].length;
+        textarea.focus();
+        textarea.setSelectionRange(start, end);
+    });
+}
+)
+```
+
+### set css property
+
+```js
+document.addEventListener("DOMContentLoaded", () => {
+  const changeButton = document.getElementById("change-css");
+  if (changeButton)
+    changeButton.addEventListener("click", () => {
+      const root = document.documentElement;
+      const primaryColor =
+        getComputedStyle(root).getPropertyValue("--color-text-base");
+      console.log(primaryColor);
+      let r = Math.ceil(Math.random() * 255);
+      let g = Math.ceil(Math.random() * 255);
+      let b = Math.ceil(Math.random() * 255);
+
+      root.style.setProperty("--color-text-base", `${r},${g},${b}`);
+    });
+});
+```
+
+### inserNode on the select posion
+
+```js
+document.addEventListener("DOMContentLoaded", () => {
+  const insertButton = document.getElementById("insert-button");
+  if (!insertButton) return;
+  const handleInsert = () => {
+    // Get the current selection
+    const selection = window.getSelection();
+    // document.execCommand('bold', false, null);
+    // document.execCommand('createLink', false, 'https://www.bilibili.com/');
+    if (
+      !selection ||
+      selection.rangeCount === 0 ||
+      !selection.focusNode?.parentElement?.classList.contains("target-p")
+    )
+      return;
+
+    // Get the range of the current selection
+    const range = selection.getRangeAt(0);
+    // Create a new element to insert
+    const newElement = document.createElement("span");
+    newElement.innerHTML = "海子";
+    // Insert the new element at the current position
+    range.insertNode(newElement);
+  };
+
+  insertButton.addEventListener("click", handleInsert);
+});
+```
+
+### <div class="text-[red]">execCommand已废弃，随时不能用</div>
+
+[codepen演示](https://codepen.io/netsi1964/full/QbLLGW/)
+
+## more
+
+### element visiable? in container
+
+## collections
+
+- [CSSStyleDeclaration.setProperty](https://developer.mozilla.org/zh-CN/docs/Web/API/CSSStyleDeclaration/setProperty)

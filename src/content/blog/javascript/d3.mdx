@@ -1,0 +1,561 @@
+---
+title: 玩转d3.js
+pubDatetime: 2023-09-04T13:06:33Z
+postSlug: d3
+featured: true
+draft: false
+tags:
+  - npm
+  - d3
+  - svg
+  - canvas
+description: "d3,数据可视化工具"
+---
+
+import Tree from "@components/react/d3/tree";
+import Common from "@components/react/doodle/common.tsx";
+
+<Tree float="true" client:load />
+
+## 目录
+
+## 简介
+
+<fieldset class="max-w-full hidden">
+
+<legend>什么是D3</legend>
+
+    <blockquote cite="https://d3js.org/what-is-d3">
+
+  <p> D3 (or D3.js) is a free, open-source JavaScript library for visualizing data. Its low-level approach built on web standards offers unparalleled flexibility in authoring dynamic, data-driven graphics. For more than a decade D3 has powered groundbreaking and award-winning visualizations, become a foundational building block of higher-level chart libraries, and fostered a vibrant community of data practitioners around the world.</p>
+  <footer><cite>https://d3js.org/what-is-d3</cite></footer>
+</blockquote>
+
+</fieldset>
+
+## getting started
+
+```shell
+npm install d3
+```
+
+```html
+<!doctype html>
+<div id="container"></div>
+<script type="module">
+  import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+  // Declare the chart dimensions and margins.
+  const width = 640;
+  const height = 400;
+  const marginTop = 20;
+  const marginRight = 20;
+  const marginBottom = 30;
+  const marginLeft = 40;
+
+  // Declare the x (horizontal position) scale.
+  const x = d3
+    .scaleUtc()
+    .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+    .range([marginLeft, width - marginRight]);
+
+  // Declare the y (vertical position) scale.
+  const y = d3
+    .scaleLinear()
+    .domain([0, 100])
+    .range([height - marginBottom, marginTop]);
+
+  // Create the SVG container.
+  const svg = d3.create("svg").attr("width", width).attr("height", height);
+
+  // Add the x-axis.
+  svg
+    .append("g")
+    .attr("transform", `translate(0,${height - marginBottom})`)
+    .call(d3.axisBottom(x));
+
+  // Add the y-axis.
+  svg
+    .append("g")
+    .attr("transform", `translate(${marginLeft},0)`)
+    .call(d3.axisLeft(y));
+
+  // Append the SVG element.
+  container.append(svg.node());
+</script>
+```
+
+## demo
+
+### tree component
+
+```mdx
+import Tree from "@components/react/d3/tree";
+
+<Tree client:load />
+```
+
+### [Gear](https://observablehq.com/d/f4715544ebbb94fd)
+
+import Gear from "@components/react/d3/gear";
+
+<Gear client:load />
+
+<details>
+<summary>tsx component</summary>
+
+```tsx
+import * as d3 from "d3";
+import { useEffect, useRef } from "react";
+
+const Gear = () => {
+  const ref = useRef<SVGSVGElement | null>(null);
+
+  function gear({ teeth, radius, annulus, toothRadius, holeRadius }: any) {
+    const n = teeth;
+    let r2 = Math.abs(radius);
+    let r0 = r2 - toothRadius;
+    let r1 = r2 + toothRadius;
+    let r3 = holeRadius;
+    if (annulus) (r3 = r0), (r0 = r1), (r1 = r3), (r3 = r2 + toothRadius * 3);
+    const da = Math.PI / n;
+    let a0 = -Math.PI / 2 + (annulus ? Math.PI / n : 0);
+    const path = ["M", r0 * Math.cos(a0), ",", r0 * Math.sin(a0)];
+    let i = -1;
+    while (++i < n) {
+      path.push(
+        "A",
+        r0,
+        ",",
+        r0,
+        " 0 0,1 ",
+        r0 * Math.cos((a0 += da)),
+        ",",
+        r0 * Math.sin(a0),
+        "L",
+        r2 * Math.cos(a0),
+        ",",
+        r2 * Math.sin(a0),
+        "L",
+        r1 * Math.cos((a0 += da / 3)),
+        ",",
+        r1 * Math.sin(a0),
+        "A",
+        r1,
+        ",",
+        r1,
+        " 0 0,1 ",
+        r1 * Math.cos((a0 += da / 3)),
+        ",",
+        r1 * Math.sin(a0),
+        "L",
+        r2 * Math.cos((a0 += da / 3)),
+        ",",
+        r2 * Math.sin(a0),
+        "L",
+        r0 * Math.cos(a0),
+        ",",
+        r0 * Math.sin(a0)
+      );
+    }
+    path.push(
+      "M0,",
+      -r3,
+      "A",
+      r3,
+      ",",
+      r3,
+      " 0 0,0 0,",
+      r3,
+      "A",
+      r3,
+      ",",
+      r3,
+      " 0 0,0 0,",
+      -r3,
+      "Z"
+    );
+    return path.join("");
+  }
+
+  const graphic = () => {
+    const x = Math.sin((2 * Math.PI) / 3);
+    const y = Math.cos((2 * Math.PI) / 3);
+    const svgElement = d3.select(ref.current);
+
+    const svg = svgElement
+      .attr("width", 640)
+      .attr("viewBox", [-0.53, -0.53, 1.06, 1.06])
+      .attr("stroke", "black")
+      .attr("stroke-width", 1 / 640)
+      .attr(
+        "style",
+        `width:${100}vw;max-width: 100%; height: calc( 100vh - 100px);`
+      );
+
+    const frame = svg.append("g");
+
+    const path = frame
+      .selectAll()
+      .data([
+        {
+          fill: "#c6dbef",
+          teeth: 80,
+          radius: -0.5,
+          origin: [0, 0],
+          annulus: true,
+        },
+        { fill: "#6baed6", teeth: 16, radius: +0.1, origin: [0, 0] },
+        { fill: "#9ecae1", teeth: 32, radius: -0.2, origin: [0, -0.3] },
+        {
+          fill: "#9ecae1",
+          teeth: 32,
+          radius: -0.2,
+          origin: [-0.3 * x, -0.3 * y],
+        },
+        {
+          fill: "#9ecae1",
+          teeth: 32,
+          radius: -0.2,
+          origin: [0.3 * x, -0.3 * y],
+        },
+      ])
+      .join("path")
+      .attr("fill", d => d.fill)
+      .attr("d", d => gear({ ...d, toothRadius: 0.008, holeRadius: 0.02 }));
+
+    Object.assign(svg.node() as SVGSVGElement, {
+      update({ angle, frameAngle }: { angle: number; frameAngle: number }) {
+        path.attr(
+          "transform",
+          d => `translate(${d.origin}) rotate(${(angle / d.radius) % 360})`
+        );
+        frame.attr("transform", `rotate(${frameAngle % 360})`);
+      },
+    });
+  };
+  useEffect(() => {
+    graphic();
+
+    let id = 0;
+    const animate = () => {
+      const speed = 0.08;
+      let angle = 0;
+      let frameAngle = 0;
+
+      let start = 0;
+      const draw = function (timestamp: number) {
+        if (start === 0) {
+          start = timestamp;
+        }
+        (d3.select(ref.current).node() as any).update({ angle, frameAngle });
+        angle += speed;
+        frameAngle += speed / 360;
+        id = requestAnimationFrame(draw);
+      };
+      id = requestAnimationFrame(draw);
+    };
+    animate();
+    return () => {
+      cancelAnimationFrame(id);
+    };
+  });
+
+  return <svg ref={ref}></svg>;
+};
+
+export default Gear;
+```
+
+</details>
+
+## Visualizations
+
+### html + css
+
+<div class="border-lightgrey relative w-full border-[1px] border-solid bg-skin-fill">
+  <div class="h-3 w-[95%] bg-skin-accent" />
+</div>
+
+```html
+<div
+  class="border-lightgrey relative w-full border-[1px] border-solid bg-skin-fill"
+>
+  <div class="h-3 w-[95%] bg-skin-accent" />
+</div>
+```
+
+### css-doodle
+
+<Common client:load>
+  @grid: 1 / 100% 100vmin / #0a0c27; background-size: 200px 200px;
+  background-image: @doodle( @grid: 6 / 100%; @size: 4px; font-size: 4px; color:
+  hsl(@r240, 30%, 50%); box-shadow: @m3x5( calc(4em - @nx * 1em) calc(@ny * 1em)
+  @p(@m3(currentColor), @m2(transparent)), calc(2em + @nx * 1em) calc(@ny * 1em)
+  @lp ); );
+</Common>
+
+```tsx
+import Common from "@components/react/doodle/common.tsx";
+
+<Common client:load>
+  @grid: 1 / 100vmin 100vmin / #0a0c27; background-size: 200px 200px;
+  background-image: @doodle( @grid: 6 / 100%; @size: 4px; font-size: 4px; color:
+  hsl(@r240, 30%, 50%); box-shadow: @m3x5( calc(4em - @nx * 1em) calc(@ny * 1em)
+  @p(@m3(currentColor), @m2(transparent)), calc(2em + @nx * 1em) calc(@ny * 1em)
+  @lp ); );
+</Common>;
+```
+
+<Common client:load>
+  @grid: 1x1 / 100% 600px; gap: 2px; background: conic-gradient( at @r(30%, 70%)
+  0, @stripe( transparent 25%, @m32.@p( #781217, #9A1320, #0A2667, #D8A088,
+  #D6DDD1, #E95A22, #CA4122, #C74523, #2CACC9, #008C3B, #F5D700, #CA2821,
+  #EADF93, #003A59, #00609A, #6E746E, #E2E0B8, #1E272B, #468495, #E1E0CA,
+  #666F75, #84A16A, #413B4E, #98AEC7, #979DA4 ), transparent 25% ) );
+</Common>
+
+### webgl
+
+- [webgl in regl](/notes_astro3/posts/webgl)
+
+### svg
+
+- [svg basic](/notes_astro3/posts/svg)
+
+### d3 basic
+
+#### d3.arc()
+
+弧
+
+import PracticeArc from "@components/react/d3/practice-arc.tsx";
+
+<PracticeArc client:load />
+
+<details>
+  <summary>practice-arc</summary>
+
+```tsx
+import * as d3 from "d3";
+import { useEffect, useRef } from "react";
+
+export default () => {
+  const ref = useRef<SVGSVGElement | null>(null);
+  useEffect(() => {
+    const svgElement = d3.select(ref.current);
+    const g = svgElement
+      .attr("width", "100")
+      .attr("height", "100")
+      .append("path");
+
+    g.attr(
+      "d",
+      d3.arc()({
+        innerRadius: 19,
+        outerRadius: 40,
+        startAngle: -Math.PI / 2,
+        endAngle: Math.PI / 2,
+      })
+    )
+      .attr("fill", "cornflowerblue")
+      .attr("style", "transform: translate(50%, 50%)");
+  });
+
+  return <svg ref={ref}></svg>;
+};
+```
+
+</details>
+
+#### d3.axisBottom()
+
+底部坐标轴
+
+import PracticeAxisBottom from "@components/react/d3/practice-axis-bottom.tsx";
+
+<PracticeAxisBottom client:load />
+
+<details>
+  <summary>practice-axis-bottom</summary>
+
+```tsx
+import * as d3 from "d3";
+import { useEffect, useRef } from "react"
+
+const Template = () => {
+const ref = useRef<SVGSVGElement | null>(null);
+useEffect(() => {
+const xScale = d3.scaleLinear()
+.domain([0, 100])
+.range([10, 290])
+const svgElement = d3.select(ref.current).attr("style", "width:100%;max-height:4em");
+const axisGenerator = d3.axisBottom(xScale);
+svgElement.append("g")
+.call(axisGenerator)
+return () => {
+svgElement.remove();
+}
+})
+return (
+
+<svg ref={ref}></svg>) } export default Template;
+
+```
+
+</details>
+
+### [Learn to Create D3.js Data Visualizations by Exampl](https://www.sitepoint.com/d3-js-data-visualizations/)
+
+#### bar chart
+
+import BarChart from "@components/react/d3/barChart.tsx";
+
+<BarChart client:load />
+
+```js
+divElement
+  .selectAll("div")
+  .data([4, 8, 15, 16, 23, 42])
+  .enter()
+  .append("div")
+  .style("height", d => `${d}px`);
+```
+
+#### contribution chart
+
+import ContributionChart from "@components/react/d3/ContributionChart.tsx";
+
+<ContributionChart client:load />
+
+```jsx
+const colorMap = d3.interpolateRgb(d3.rgb("#d6e685"), d3.rgb("#1e6823"));
+
+divElement
+  .selectAll("div")
+  .data([0.2, 0.4, 0, 0, 0.13, 0.92])
+  .enter()
+  .append("div")
+  .style("background-color", d => {
+    return d == 0 ? "#eee" : colorMap(d);
+  });
+```
+
+- [interpolateRgb](https://d3js.org/d3-interpolate/color#interpolateRgb)
+
+> Interpolation is a key tool in graphics programming and animation
+
+import Interpolation from "@components/react/d3/interpolateRgb.tsx";
+
+<Interpolation client:load />
+
+### 手写风
+
+<div class="font-xkcd">手写风字体</div>
+
+<div class="flex justify-around gap-8">
+<div>
+
+原图案
+
+<svg style="width:100%" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<g id="noFilter">
+<circle cx="256" cy="256" r="241" fill="white" stroke="black" stroke-width="8"></circle>
+<path d="M88 236C88 252.974 93.6893 269.252 103.816 281.255C113.943 293.257 127.678 300 142 300C156.322 300 170.057 293.257 180.184 281.255C190.311 269.252 196 252.974 196 236H88ZM316 236C316 252.974 321.689 269.252 331.816 281.255C341.943 293.257 355.678 300 370 300C384.322 300 398.057 293.257 408.184 281.255C418.311 269.252 424 252.974 424 236H316Z" fill="black" stroke="black" stroke-width="8"></path>
+<path d="M68 335H444M117 376H396M146 350V402M200 350V430M256 350V436M312 350V430M366 350V402M77 335C92.4263 371.701 117.541 402.875 149.307 424.75C181.074 446.626 218.131 458.268 256 458.268C293.869 458.268 330.926 446.626 362.693 424.75C394.459 402.875 419.574 371.701 435 335H77Z" stroke="black" stroke-width="8"></path>
+</g>
+</defs>
+<g>
+<use href="#noFilter" fill="none" stroke-width="3px"></use>
+</g>
+<g  fill="none" stroke-width="2px">
+<use href="#noFilter"></use>
+</g>
+</svg>
+</div>
+<div>
+
+手写风滤镜
+
+<svg style="width:100%" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="noise3">
+<feTurbulence baseFrequency="0.001"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" scale="10"></feDisplacementMap>
+</filter>
+<filter id="noise4">
+<feTurbulence baseFrequency="0.01"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" scale="13"></feDisplacementMap>
+</filter>
+<g id="chooblarin">
+<circle cx="256" cy="256" r="241" fill="white" stroke="black" stroke-width="8"></circle>
+<path d="M88 236C88 252.974 93.6893 269.252 103.816 281.255C113.943 293.257 127.678 300 142 300C156.322 300 170.057 293.257 180.184 281.255C190.311 269.252 196 252.974 196 236H88ZM316 236C316 252.974 321.689 269.252 331.816 281.255C341.943 293.257 355.678 300 370 300C384.322 300 398.057 293.257 408.184 281.255C418.311 269.252 424 252.974 424 236H316Z" fill="black" stroke="black" stroke-width="8"></path>
+<path d="M68 335H444M117 376H396M146 350V402M200 350V430M256 350V436M312 350V430M366 350V402M77 335C92.4263 371.701 117.541 402.875 149.307 424.75C181.074 446.626 218.131 458.268 256 458.268C293.869 458.268 330.926 446.626 362.693 424.75C394.459 402.875 419.574 371.701 435 335H77Z" stroke="black" stroke-width="8"></path>
+</g>
+</defs>
+<g filter="url(#noise3)">
+<use href="#chooblarin" fill="none" stroke-width="3px"></use>
+</g>
+<g filter="url(#noise4)" fill="none" stroke-width="2px">
+<use href="#chooblarin"></use>
+</g>
+</svg>
+</div>
+</div>
+
+#### [use roughjs](https://roughjs.com/)
+
+```shell
+pnpm i roughjs
+```
+
+import Rough from "@components/react/little/rough.tsx";
+
+<Rough client:load />
+
+<details>
+<summary>代码</summary>
+
+```tsx
+import { useEffect, useRef } from "react";
+import rough from "roughjs";
+export default () => {
+  const svg = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    const rc = rough.svg(svg.current);
+    svg.current.appendChild(rc.line(60, 60, 190, 60));
+    svg.current.appendChild(rc.rectangle(10, 10, 100, 100));
+    svg.current.appendChild(
+      rc.rectangle(140, 10, 100, 100, {
+        fill: "rgba(255,0,0,0.2)",
+        fillStyle: "solid",
+        roughness: 2,
+      })
+    );
+  });
+  return (
+    <>
+      <div className="bg-[#fff]">
+        <svg ref={svg} className=""></svg>
+      </div>
+    </>
+  );
+};
+```
+
+</details>
+
+#### rough annotation
+
+import RoughAnnotation from "@components/react/little/roughAnnotation.tsx";
+
+<RoughAnnotation client:visible />
+
+## 链接
+
+- [d3.js 官网](https://d3js.org/what-is-d3)
+- [d3 in react](https://2019.wattenberger.com/blog/react-and-d3)
+- [探索 d3](https://observablehq.com/explore)
+- [d3 api index](https://d3js.org/api)
+- [webgl](https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API)

@@ -1,0 +1,47 @@
+---
+---
+
+<script>
+
+    const styles = new CSSStyleSheet();
+    styles.replaceSync(`:host{
+        font-size:2em;
+        font-style:italic;
+        color:rgba(var(--color-text-base), var(--tw-text-opacity));
+    }`)
+
+    class StopWatchElement extends HTMLElement{
+        static define(tag = 'stop-watch'){
+            customElements.define(tag, this);
+        }
+
+        // constructor(){
+        //     super();
+        //     this.attachShadow({mode: 'open'});
+        // }
+
+        shadowRoot = this.attachShadow({mode: 'open'});
+
+        #start = Date.now();
+        
+        connectedCallback(){
+            this.shadowRoot.adoptedStyleSheets = [styles];
+            this.#tick()
+        }
+        //私有方法
+        #tick(){
+            const milliseconds = Date.now() - this.#start
+            const minutes = String(Math.floor(milliseconds / (1000 * 60))).padStart(2, "0")
+            const seconds = String(Math.floor((milliseconds / 1000) % 60)).padStart(2, "0")
+            const hundredths = String(Math.floor((milliseconds % 1000) / 10)).padStart(2, "0")
+
+            this.shadowRoot.replaceChildren(`${minutes}:${seconds}:${hundredths}`)
+
+            requestAnimationFrame(this.#tick.bind(this));
+        }
+    }
+
+
+    StopWatchElement.define();
+
+</script>

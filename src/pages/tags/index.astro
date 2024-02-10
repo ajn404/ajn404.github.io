@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import Footer from "@components/astro/UI/Footer.astro";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Tag from "@components/astro/UI/Tag.astro";
+import getUniqueTags from "@utils/getUniqueTags";
+import { SITE } from "@config";
+
+const posts = await getCollection("blog");
+
+let tags = getUniqueTags(posts);
+---
+
+<Layout  activeNav="tags" title={`Tags | ${SITE.title}`}>
+  <Main pageTitle="Tags" pageDesc="所有博客的标签都在这里">
+    <ul>
+      {tags.map(tag => <Tag name={tag} size="lg" />)}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

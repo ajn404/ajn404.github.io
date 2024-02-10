@@ -1,0 +1,54 @@
+---
+title: git
+
+pubDatetime: 2023-08-29 11:23:50
+postSlug: git
+featured: false
+draft: false
+tags:
+  - git
+description: "git 常用命令"
+---
+
+## ssh key-gen
+
+```shell
+ssh-keygen -t rsa -C "你的邮箱地址"
+```
+
+## 变更 gitignore 需要执行
+
+```shell
+git rm -r --cached .
+git add .
+git commit -m "change .gitignore"
+git push
+```
+
+## [git check-ignore](https://git-scm.com/docs/git-check-ignore)
+
+```shell
+git check-ignore -v path/to/check
+```
+
+## [git cherry-pick](https://git-scm.com/docs/git-cherry-pick)
+
+```shell
+a - b - c - d  Main
+         \
+          e - f - g  Feature
+```
+
+```shell
+git checkout Main
+git cherry-pick f
+
+```
+
+```shell
+a - b - c - d - f  Main
+         \
+          e - f - g  Feature
+
+
+```

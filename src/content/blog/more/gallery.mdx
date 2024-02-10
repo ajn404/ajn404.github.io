@@ -1,0 +1,54 @@
+---
+title: gallery
+
+pubDatetime: 2023-09-13T06:51:45Z
+postSlug: gallery
+featured: false
+draft: true
+tags:
+  - glsl
+description: "glsl gallery"
+---
+
+import Gallery from "@components/react/fiber/gallery.tsx";
+
+<Gallery client:load />
+
+# 1
+
+> 1
+
+# 2
+
+# 3
+
+# 4
+
+# 5
+
+#### 浏览器打开文件
+
+```js
+const pickerOpts = {
+  types: [
+    {
+      description: "Images",
+      accept: {
+        "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+      },
+    },
+  ],
+  excludeAcceptAllOption: true,
+  multiple: false,
+};
+// create a reference for our file handle
+let fileHandle;
+
+async function getFile() {
+  // open file picker, destructure the one element returned array
+  [fileHandle] = await window.showOpenFilePicker(pickerOpts);
+
+  // run code with our fileHandle
+}
+getFile();
+```

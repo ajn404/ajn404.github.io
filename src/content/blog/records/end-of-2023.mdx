@@ -1,0 +1,435 @@
+---
+title: 2023年终复盘
+
+pubDatetime: 2023-12-22 02:43:52
+postSlug: 2023-summary
+featured: false
+draft: false
+tags:
+  - end-of-2023
+  - summary
+description: 2023年12月记录
+---
+
+import Text from "@components/react/UI/Text.tsx";
+
+<div class="m-auto flex items-center justify-around">
+  <img
+    src="/notes_astro3/assets/2023.jpg"
+    class=" m-0 w-1/4 rotate-[270deg]  transform-gpu rounded-lg shadow-lg dark:shadow-black/20"
+    alt="about learning"
+  />
+  <img
+    src="/notes_astro3/assets/obs.png"
+    class=" m-0 w-1/4 rounded-lg shadow-lg dark:shadow-black/20"
+    alt="about learning"
+  />
+  <video
+    src="/notes_astro3/assets/ajn404.mp4"
+    type="video/mp4"
+    loop
+    class="clip hidden w-1/4 rounded-lg shadow-lg dark:shadow-black/20"
+  />
+</div>
+
+import "@utils/videoHoverPlay.astro";
+
+## 目录
+
+## 申明
+
+<Text>本页面不包含任何敏感信息,且 robot.txt会阻止爬虫。</Text>
+
+Disallow: /notes_astro3/posts/2023-12/
+
+<div class="break-before-left "></div>
+
+## 今年过的真快
+
+相比于前三年的煎熬岁月,今年算是比较顺遂,相对快乐很多,所谓快乐的日子总是短暂的,当然也可能是年纪大了,对时间变得不敏感了。😮‍💨
+
+## 关于工作
+
+有以下几个方面的动作:
+
+1.移动端项目的 workspace 优化,原来使用两个 gitlab 仓库,现在合并在一个仓库中,这样方面了后续的打包流程,也方便了后续的版本管理或者 code review。
+
+2.移动端项目打包流程优化,一个是,原来是两个项目来回跑,现在合并在一个项目里,通过 bash 脚本实现一个命令就能打包 apk；另外可以通过 jenkins 点击进行打包,同 bash 脚本,写了不同环境的 jenkins job,这样即使是不懂项目的内部人员也可以快速进行打包
+
+3.移动端基本的业务功能开发,这部分大头在一期的时候,包含样式改造,功能改造,需求开发,安全问题修复等等,忙麻了
+
+4.pc 端功能开发,接触到了伟大的 bootstrap table 和 jquery 等始祖技术,以及使用:has(),:is()等选择器优化 web 样式,真是一场酣畅淋漓的新旧结合,史诗级混合
+
+总结以上便是,
+
+<Text class="w-full" client:load>
+  巩固了
+  vue2+element+cordova的技术栈,完成了基本的业务开发,并在此过程中,简单接触很多之前没接触的业务和功能,收获颇丰,对前端开发有了更深入的理解。
+</Text>
+
+<div class="break-before-left "></div>
+
+<section>
+  <h2>工作时间线</h2>
+  <ol class="border-info-100 list-none border-l-2">
+    <li>
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              基本业务开发
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-6之前
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            这段时间是上一个项目的基本业务开发阶段,以及到下一个项目的过渡时期
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              一期
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-6=>2023-9
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            移动端基本的业务功能开发,包含样式改造,功能改造,需求开发,安全问题修复等等,忙麻了
+          </p>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              二期
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-9至今
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            pc端功能开发,接触到了伟大的bootstrap
+            table和jquery等始祖技术,以及使用:has(),:is()等选择器优化web样式,真是一场酣畅淋漓的新旧结合,史诗级混合
+          </p>
+        </div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<hr class="my-12 h-0.5 border-t-0 bg-skin-inverted opacity-100 dark:opacity-50" />
+
+<div class="break-before-left "></div>
+
+## 关于学习
+
+今年学习可以从技术的纵向和横向发展来谈
+
+### 纵向
+
+前端职业的纵向发展,是关于**js,css,html 三剑客的深入**,**各种 sdk 的研究或方法论或设计模式**,以及细分领域的拓展
+
+第一个是根基,没什么要说的,关于
+
+#### 各种 sdk 的研究或方法论或设计模式
+
+随着前端技术的复杂性增加,各种软件开发工具包（SDK）和库的出现使得前端开发更加高效和便捷。例如,React、Vue 和 Angular 等流行的前端框架都有自己的生态系统和最佳实践。
+深入研究这些 SDK 的内部工作原理、设计模式和最佳实践帮助我更好地利用它们来解决实际问题,并为复杂的应用程序设计提供框架;p5js,ml5js,vtkjs,threejs 等的使用开阔了我视野,
+原来 js 在细分领域已经有如此多如此广的应用
+
+目前当然也只能是研究方法论,设计模式,看看使用了什么函数,原则,深入到引擎,编译器,范式,语言,我还不够资格,明年继续努力
+
+#### 细分领域的拓展
+
+前端开发不仅仅是 HTML、CSS 和 JavaScript 的组合,它还涉及到多个细分领域,如前端性能优化、安全性、访问性、移动开发、桌面应用程序开发等。
+
+对于我来说,拓展这些细分领域的知识和技能可以使我在职业生涯中获得更多的机会和挑战,同时也可以提高我在团队中的价值和影响力。
+
+但目前来看,学得还不够,明年继续努力
+
+<div class="break-before-left "></div>
+
+### 横向
+
+今年黄玄的演讲让我认识到前端不只是我之前理解的前端,凡是有人机交互的地方就有前端,人工智能时代,对于前端的定义,与互联网时代,大为不同,具体怎么不同,其实我也不知道,但这值得思考,需要不停的探索,是技术的变革,抑或是需求的变革和拓展,所以横向的知识拓展,亦不能停
+
+至于今年我在横向的认知,无非以下几点
+
+1.语言：rust
+
+2.博客：mdbook/astro/vuepress2
+
+3.方向：webgl,webgpu,webrtc,webassembly,webagi
+
+4.模版: nextjs-dashboard,rust-digital-garden,vue3-elementplus-template
+
+5.其他: 工程化,写文,游戏,算法等等
+
+<div class="break-before-left "></div>
+
+<section>
+  <h2>学习时间线</h2>
+  <ol class="border-info-100 list-none border-l-2">
+    <li class=" break-inside-avoid">
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              vuepress记录笔记阶段
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-1-1=>2023-2-29
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            vuepress的笔记,记录自己的学习,相关网址：{" "}
+            <a src="https://ajn404.github.io/note/">note</a>{" "}
+            关于p5js,ecma,glsl,threejs,vtkjs,rust和一些总结,vuepress能追溯到我的大学时代
+          </p>
+        </div>
+      </div>
+    </li>
+    <li class=" break-inside-avoid">
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              rust practice
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-2-29=>2023-7-24
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            跟随rust圣经以及杨旭老哥,过了一遍rust基础,这门语言目前开枝散叶,用途非常广泛,可惜国内相关岗位和业务还不多,也就随便学了些语言特性和编程范式,
+            如果以后rust的生态变得非常繁荣,跟进它会变得相对简单
+          </p>
+        </div>
+      </div>
+    </li>
+    <li class=" break-inside-avoid">
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              vue3 spline tauri ml5 gsap shell
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-2=>2023-7
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            学rust的时候接触到tauri,尝试使用tauri写一个单页应用然后打包成各个平台均能运行的软件,最后使用git-action确实构建了各种版本的release,但是vue3构建的单页应用,在tauri打包的情况下不知为何首页是空白的,后面也没解决,最后
+            只在该仓库下留了一个page
+            ,下一阶段的任务便是解决这个问题,一,提pr,二,可以换个前端框架,之后学nextjs,写了一个dashboard,就可以拿来做模板,第三,尝试新版本的tauri,倾向于其二
+          </p>
+        </div>
+      </div>
+    </li>
+    <li class=" break-inside-avoid">
+      <div class="flex-start md:flex">
+        <div class="bg-info-100 text-info-700 -ml-[13px] flex h-[25px] w-[25px] items-center justify-center rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="bg-neutral-50 dark:bg-neutral-700 mb-6 ml-6 block max-w-full rounded-lg p-4 shadow-md shadow-black/5 dark:shadow-black/10">
+          <div class="mb-4 flex justify-between">
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              astro mono_notes
+            </a>
+            <a
+              href="#!"
+              class="text-info hover:text-info-600 focus:text-info-600 active:text-info-700 text-sm transition duration-150 ease-in-out"
+            >
+              2023-8=>2023-9
+            </a>
+          </div>
+          <p class="text-neutral-700 dark:text-neutral-200 mb-6">
+            开始接触astro,astro群岛的前端架构,支持多框架语言,服务端渲染以及template,shadow
+            dom,@astro/lit等等。。
+            从使用astro记录博客开始,对各种东西的整理从单纯的笔记到笔记中实践到单纯的实践,一步步走到了现在,这其中相关的技术有:ts,React,web
+            components,
+            算法（主要是动态规划,[相关页面](https://ajn404.gitee.io/mono_notes/posts/2023-10/)）...
+          </p>
+        </div>
+      </div>
+    </li>
+  </ol>
+</section>
+<hr class="my-12 h-0.5 border-t-0 bg-skin-inverted opacity-100 dark:opacity-50" />
+
+## 关于发展
+
+<Text client:load>
+  前端的整体发展变幻莫测,个人的路该怎么走,明年是否还是像今年一样,锁碎的知识记一大堆,整体的框架根本没有。。
+</Text>
+
+所以今后的日子,我将更加注重个人 roadmap 的构建,不盲目,但也不拘谨,工作上,注重业务知识的成长,代码上,严于律己,不写垃圾代码,增加架构,单元测试,性能优化等方向的努力,
+
+<Text>言而总之，明年继续加油</Text>
+
+## 链接
+
+- [tailwindui](https://tailwindui.com/)
+- [roadmap](https://roadmap.sh/)
+
+<div class=" float-right flex items-center ">
+  <img
+    src="/notes_astro3/assets/ajn404.jpeg"
+    class="m-0 mr-2 mt-[-5px] h-6 w-6 rounded-full"
+    alt="avatar"
+    loading="lazy"
+  />
+  <div class="flex items-center gap-2">
+    <span>
+      {" "}
+      Published <u>2023-12-22 12:22:22</u> by{" "}
+    </span>
+    <a href="#!" class="font-medium">
+      ajn404
+    </a>
+  </div>
+</div>

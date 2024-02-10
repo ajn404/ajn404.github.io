@@ -1,0 +1,121 @@
+---
+title: mdx语法
+
+pubDatetime: 2023-09-01T03:36:16Z
+postSlug: 语法
+featured: false
+draft: false
+tags:
+  - synctax
+description: "mdx语法大纲"
+---
+
+## 目录
+
+## 折叠
+
+```html
+<details>
+  <summary>summary</summary>
+  content****
+</details>
+```
+
+<details>
+  <summary>summary</summary>
+  content****
+</details>
+
+## 代码块
+
+```js
+console.log("js");
+```
+
+## 使用变量
+
+export const title = {
+  text: "MDX变量",
+};
+
+```ts
+export const title = {
+  text: "MDX变量",
+};
+```
+
+> {title.text}
+
+## 获取 formatter 的变量
+
+```mdx
+> {frontmatter.title}
+```
+
+> {frontmatter.title}
+
+> {frontmatter.description}
+
+> {frontmatter.tags}
+
+> {frontmatter.pubDatetime}
+
+## 表格
+
+| 表头 1 | 表头 2 | 表头 3 |
+| ------ | ------ | ------ |
+| 内容 1 | 内容 2 | 内容 3 |
+| 内容 4 | 内容 5 | 内容 6 |
+
+```js
+| 表头1 | 表头2 | 表头3 |
+|-------|-------|-------|
+| 内容1 | 内容2 | 内容3 |
+| 内容4 | 内容5 | 内容6 |
+```
+
+## 摘抄
+
+<fieldset>
+  <legend>什么是****(gojs)</legend>
+  <blockquote cite="https://gojs.net/latest/">
+    <p>
+      {" "}
+      引用的摘要：A Web Framework for Rapidly Building Interactive Diagrams
+    </p>
+    <footer>
+      <cite>https://gojs.net/latest/</cite>
+    </footer>
+  </blockquote>
+</fieldset>
+
+## react 组件
+
+- 渐变文字
+
+import Text from "@components/react/UI/Text.tsx";
+
+<Text client:load>七月不远 性别的诞生不远 爱情不远————马鼻子下 湖泊含盐</Text>
+
+```mdx
+import Text from "@components/react/UI/Text.tsx";
+
+<Text client:load>文字渐变色背景使用</Text>
+```
+
+- css-doodle
+
+import Common from "@components/react/doodle/common.tsx";
+
+<Common  client:load grid="5">
+:doodle \{
+    grid-gap: 1px;
+    width: 100%;
+    height: 8em;
+}
+background: #60569e;
+</Common>
+
+## 链接
+
+- [markdown 中使用数学公式](/notes_astro3/posts/math)

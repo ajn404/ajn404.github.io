@@ -1,0 +1,161 @@
+---
+title: markdown中使用数学公式
+
+pubDatetime: 2023-09-05T03:15:34Z
+postSlug: math
+featured: false
+draft: false
+tags:
+  - npm
+  - math
+description: "添加数学公式，使用rehype-katex和remark-math"
+---
+
+## 添加插件
+
+```bash
+pnpm --filter @notes/docs i remark-math rehype-katex -r
+```
+
+```js
+import remarkToc from "remark-toc";
+import remarkMath from "remark-math";
+import { defineConfig } from "astro/config";
+//***
+export default defineConfig({
+
+    // ***
+    markdown: {
+        remarkPlugins: [
+            remarkMath,
+        ],
+        rehypePlugins: [
+            rehypeKatex,
+
+         ],
+})
+```
+
+### 使用
+
+```mdx
+$$\frac{abc123}{xyz123}$$
+
+$$\overline{X}=\frac{1}{n}\sum_{i=1}^{n}x_i$$
+```
+
+$$\frac{abc123}{xyz123}$$
+
+$$\overline{X}=\frac{1}{n}\sum_{i=1}^{n}x_i$$
+
+### 隐藏原始语法
+
+```css
+.katex-html {
+  display: none;
+}
+```
+
+### 语法
+
+| 希腊字母     | 语法           |
+| ------------ | -------------- |
+| $\Beta$      | `$\Beta$`      |
+| $\Gamma$     | `$\Gamma$`     |
+| $\Theta$     | `$\Theta$`     |
+| $\Lambda$    | `$\Lambda$`    |
+| $\Sigma$     | `$\Sigma$`     |
+| $\Phi$       | `$\Phi$`       |
+| $\Psi$       | `$\Psi$`       |
+| $\Omega$     | `$\Omega$`     |
+| $\varGamma$  | `$\varGamma$`  |
+| $\varTheta$  | `$\varTheta$`  |
+| $\varLambda$ | `$\varLambda$` |
+| $\varPhi$    | `$\varPhi$`    |
+| $\varPsi$    | `$\varPsi$`    |
+| $\varOmega$  | `$\varOmega$`  |
+| $\alpha$     | `$\alpha$`     |
+| $\beta$      | `$\beta$`      |
+| $\epsilon$   | `$\epsilon$`   |
+| $\theta$     | `$\theta$`     |
+| $\rho$       | `$\rho$`       |
+| $\sigma$     | `$\sigma$`     |
+
+| 特殊呈现                                                        | 语法                                 |
+| --------------------------------------------------------------- | ------------------------------------ | ------------- | --------------- |
+| $$a^{prime}$$                                                   | `$$a^{prime}$$`                      |
+| $a’$                                                            | `$a’$`                               | $$a^{prime}$$ | `$$a^{prime}$$` |
+| $\bar{y}$                                                       | `$\bar{y}$`                          |
+| $\hat{\theta}$                                                  | `$\hat{\theta}$`                     |
+| $\vec{F}$                                                       | `$\vec{F}$`                          |
+| $\overline{AB}$                                                 | `$\overline{AB}$`                    |
+| $\overbrace{a+b+c}^{\text{a+b+c}}+\overbrace{d+e}^{\text{d+e}}$ | `$\overbrace{a+b+c}^{\text{note}}$`  |
+| $\underbrace{a+b+c}^{\text{note}}$                              | `$\underbrace{a+b+c}^{\text{note}}$` |
+| $x_{n}$                                                         | `$x_{n}$`                            |
+| $x^{2}$                                                         | `$x^{2}$`                            |
+| $\frac{a}{b}$                                                   | `$\frac{a}{b}$`                      |
+| $\dfrac{a}{b}$                                                  | `$\dfrac{a}{b}$`                     |
+| $\binom{a}{b}$                                                  | `$\binom{a}{b}$`                     |
+| $\dbinom{a}{b}$                                                 | `$\dbinom{a}{b}$`                    |
+| $\lparen x \rparen$                                             | `$\lparen x \rparen$`                |
+| $\lbrack x \rbrack$                                             | `$\lbrack x \rbrack$`                |
+| $\lbrace x \rbrace$                                             | `$\lbrace x \rbrace$`                |
+| $\lvert x \rvert$                                               | `$\lvert x \rvert$`                  |
+
+| 符号                           | 语法                             |
+| ------------------------------ | -------------------------------- |
+| $\sum$                         | `$\sum$`                         |
+| $\sum_{i=1}^{n}$               | `$\sum_{i=1}^{n}$`               |
+| $\displaystyle \sum_{i=1}^{n}$ | `$\displaystyle \sum_{i=1}^{n}$` |
+| $\prod_{i=1}^{n}$              | `$\prod_{i=1}^{n}$`              |
+| $\sqrt{x}$                     | `$\sqrt{x}$`                     |
+| $\sqrt[n]{x}$                  | `$\sqrt[n]{x}$`                  |
+| $\ne$                          | `$\ne$`                          |
+| $\neq$                         | `$\neq$`                         |
+| $\sim$                         | `$\sim$`                         |
+| $\thicksim$                    | `$\thicksim$`                    |
+| $\le$                          | `$\le$`                          |
+| $\ge$                          | `$\ge$`                          |
+| $\geqq$                        | `$\geqq$`                        |
+| $\leqq$                        | `$\leqq$`                        |
+
+$$\alpha\tag{tag}$$
+
+```
+$$\alpha \tag{tag}$$
+```
+
+$$\left|\begin{matrix}a & b & c \\d & e & f \\g & h & i\end{matrix} \right|$$
+
+```
+$$\left|\begin{matrix}
+    a & b & c \\
+    d & e & f \\
+    g & h & i
+   \end{matrix} \right|$$
+```
+
+$$\bigcap\bigcup\bigoplus\bigotimes\sum\int\oint\iint$$
+
+```
+ $$
+\bigcap\bigcup\bigoplus\bigotimes\sum\int\oint\iint
+$$
+```
+
+$\leftarrow$、$\Leftarrow$、$\nLeftarrow$、$\rightleftarrows$
+
+```
+ $\leftarrow$、$\Leftarrow$、$\nLeftarrow$、$\rightleftarrows$
+```
+
+$T^{i_1 i_2 \dots i_p}_{j_1 j_2 \dots j_q} = T(x^{i_1},\dots,x^{i_p},e_{j_1},\dots,e_{j_q})$
+
+```
+$T^{i_1 i_2 \dots i_p}_{j_1 j_2 \dots j_q} = T(x^{i_1},\dots,x^{i_p},e_{j_1},\dots,e_{j_q})$
+```
+
+## 链接
+
+- [公式速查](/notes_astro3/posts/tools/math-table)
+- [csdn:markdown——Math](https://blog.csdn.net/clover_daisy/article/details/80403595)

@@ -1,0 +1,72 @@
+
+
+
+### bash
+
+- for循环
+
+```bash
+for i in {5..50..5}; do
+    echo "Welcome $i"
+done
+```
+
+- function
+
+```bash
+myfunc() {
+    local myresult='some value'
+    echo "$myresult"
+}
+result=$(myfunc)
+
+echo $result
+```
+
+- conditionals
+
+```bash
+# String
+if [[ -z "$string" ]]; then
+  echo "String is empty"
+elif [[ -n "$string" ]]; then
+  echo "String is not empty"
+else
+  echo "This never happens"
+fi
+```
+
+- [bash cheatsheets](https://devhints.io/bash)
+
+### jenkins
+
+> Jenkins 是一个开源的用于构建、部署和自动化软件开发过程的持续集成（CI）和持续部署（CD）工具。它能够自动化构建、测试和部署代码，帮助开发团队更加高效地协同工作，并确保软件项目的稳定性。
+
+一个简单的pipeline
+
+```json
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // 构建步骤
+                sh 'mvn clean install'
+            }
+        }
+        stage('Test') {
+            steps {
+                // 测试步骤
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // 部署步骤
+                sh 'deploy-script.sh'
+            }
+        }
+    }
+}
+
+```

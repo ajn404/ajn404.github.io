@@ -1,0 +1,19 @@
+---
+
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("keydown", function (event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === "k") {
+        window.location.href = "/notes_astro3/search";
+        event.preventDefault();
+      }
+
+      if ((event.ctrlKey || event.metaKey) && event.key === "k" && event.shiftKey) {
+        window.location.href = "/notes_astro3/posts";
+        event.preventDefault();
+      }
+    });
+  });
+</script>

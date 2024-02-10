@@ -1,0 +1,181 @@
+---
+title: svg速查
+
+pubDatetime: 2023-09-07T02:43:53Z
+postSlug: svg
+featured: false
+draft: false
+tags:
+  - svg
+description: "svg some features"
+---
+
+## tags
+
+- [animateTransform](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/animateTransform)
+
+<svg
+  width="120"
+  height="120"
+  viewBox="0 0 120 120"
+  style="fill:#996611"
+  version="1.1"
+>
+  <polygon points="60,30 90,90 30,90">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 60 70"
+      to="360 60 70"
+      dur="10s"
+      repeatCount="indefinite"
+    />
+  </polygon>
+</svg>
+
+```html
+<animateTransform
+  attributeName="transform"
+  attributeType="XML"
+  type="rotate"
+  from="0 60 70"
+  to="360 60 70"
+  dur="10s"
+  repeatCount="indefinite"
+/>
+```
+
+## attribute
+
+- [transform](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Attribute/transform)
+
+<svg
+  viewBox="-40 0 150 100"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <g
+    fill="grey"
+    transform="rotate(-10 50 100)
+                translate(-36 45.5)
+                skewX(40)
+                scale(1.2 0.5)"
+  >
+    <path
+      id="heart"
+      d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z"
+    />
+  </g>
+</svg>
+
+## 效果
+
+- 简单投影
+
+```html
+<svg height="120" width="120">
+  <defs>
+    <filter id="f1" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20"></feOffset>
+      <feBlend in="SourceGraphic" in2="offOut" mode="normal"></feBlend>
+    </filter>
+  </defs>
+  <rect
+    width="90"
+    height="90"
+    stroke="green"
+    stroke-width="3"
+    fill="yellow"
+    filter="url(#f1)"
+  ></rect>
+</svg>
+```
+
+<svg height="120" width="120">
+  <defs>
+    <filter id="f1" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20"></feOffset>
+      <feBlend in="SourceGraphic" in2="offOut" mode="normal"></feBlend>
+    </filter>
+  </defs>
+  <rect
+    width="90"
+    height="90"
+    stroke="green"
+    stroke-width="3"
+    fill="yellow"
+    filter="url(#f1)"
+  ></rect>
+</svg>
+> [blend-mode](https://developer.mozilla.org/zh-CN/docs/Web/CSS/blend-mode)
+
+<div class="border-10 h-[20px] w-full bg-gradient-to-r from-cyan-500 to-blue-500" />
+
+- 颜色变换(高斯模糊)
+  > feGaussianBlur/feColorMatrix/feOffset/feBlend
+
+<svg height="140" width="140">
+  <defs>
+    <filter id="f4" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20"></feOffset>
+      <feColorMatrix
+        result="matrixOut"
+        in="offOut"
+        type="matrix"
+        values="      0.2 0 0 0       
+                    0 0 0.2 0 0      
+                    0 0 0 0.2 0       
+                    0 0 0 0 1 0"
+      ></feColorMatrix>
+      <feGaussianBlur
+        result="blurOut"
+        in="matrixOut"
+        stdDeviation="10"
+      ></feGaussianBlur>
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend>
+    </filter>
+  </defs>
+  <rect
+    width="90"
+    height="90"
+    stroke="green"
+    stroke-width="3"
+    fill="#8855ee"
+    filter="url(#f4)"
+  ></rect>
+</svg>
+
+- svg 实现线性渐变
+
+import CustomerSvg from "@components/react/d3/svg.tsx";
+
+<CustomerSvg type="linear" client:load />
+
+```tsx
+<svg height="150" width="400">
+  <defs>
+    <linearGradient
+      id="grad1"
+      x1={x1 + "%"}
+      y1={y1 + "%"}
+      x2={x2 + "%"}
+      y2={y2 + "%"}
+    >
+      <stop
+        offset="0%"
+        style={{ stopColor: "rgb(255,255,0)", stopOpacity: 1 }}
+      ></stop>
+      <stop
+        offset="100%"
+        style={{ stopColor: "rgb(255,0,0)", stopOpacity: 1 }}
+      ></stop>
+    </linearGradient>
+  </defs>
+  <ellipse cx="200" cy="70" rx="85" ry="55" fill="url(#grad1)"></ellipse>
+</svg>
+```
+
+## 链接
+
+- [mdn svg](https://developer.mozilla.org/zh-CN/docs/Web/SVG)

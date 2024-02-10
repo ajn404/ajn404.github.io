@@ -1,0 +1,74 @@
+@use "sass:string";
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: -0.75em;
+  right: 0;
+  height: 10px;
+  transform-origin: 50%;
+  z-index: 9999;
+}
+
+.text-container {
+  .anim-text-flow,
+  .anim-text-flow-hover:hover {
+    $animationSteps: 20;
+    $animationDuration: 10;
+    $animationElement: span;
+    $animationElementsCount: 100;
+    $delayBetweenLetters: 0.2;
+
+    #{$animationElement} {
+      animation-name: anim-text-flow-keys;
+      animation-duration: #{$animationDuration}s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes anim-text-flow-keys {
+      @for $i from 0 through $animationSteps {
+        #{percentage($i * calc(1 / $animationSteps))} {
+          color: hsla(random(365), 60%, 60%, 1);
+        }
+      }
+    }
+
+    $totalDelayTime: $animationElementsCount * $delayBetweenLetters;
+
+    @for $i from 1 through $animationElementsCount {
+      #{$animationElement}:nth-of-type(#{$i}) {
+        animation-delay: #{($i * $delayBetweenLetters) - $totalDelayTime}s;
+      }
+    }
+  }
+
+  .txt {
+    display: block;
+    font-size: 1em;
+  }
+}
+
+$gradient-colors: (); // 存储渐变的颜色
+@for $i from 0 through 10 {
+  $saturation: random(100);
+  $lightness: random(50);
+  $gradient-colors: append(
+    $gradient-colors,
+    hsl(random(360), $saturation * 1%, $lightness * 1%),
+    comma
+  );
+  $gradient-colors: append(
+    $gradient-colors,
+    hsl(random(360), $saturation * 1%, $lightness * 1%),
+    comma
+  );
+  $random-gradient: conic-gradient(
+    string.slice(#{join($gradient-colors, ", ")}, 1, -5)
+  );
+
+  .random-gradient#{$i} {
+    background-image: $random-gradient;
+  }
+}

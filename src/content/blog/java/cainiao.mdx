@@ -1,0 +1,76 @@
+---
+title: 菜鸟教程中的java
+
+pubDatetime: 2023-10-07 09:44:00
+postSlug: cainiao
+featured: false
+draft: false
+tags:
+  - java
+  - basic
+  - 菜鸟教程
+description: "菜鸟教程学Java"
+---
+
+## @SpringBootApplication
+
+@SpringBootApplication 是一个用于 Spring Boot 应用程序的注解，它包括了以下几个注解：
+
+- @SpringBootApplication：这个注解是所有 Spring Boot 应用程序的入口点，它告诉 Spring Boot 这个类是一个 Spring Boot 应用程序的启动类。
+
+- @EnableAutoConfiguration：这个注解告诉 Spring Boot 自动配置所有需要的组件，例如数据源、消息代理、事务管理器等。
+
+- @ComponentScan：这个注解告诉 Spring Boot 在指定的包中查找所有 bean，例如，如果类路径为 com.example.demo.controller，则 Spring Boot 将在 com.example.demo.controller 包及其子包中查找 bean。
+
+- @ConfigurationProperties：这个注解用于将配置文件中的属性映射到 Java 类中的属性。
+
+- @PropertySource：这个注解用于指定配置文件的位置，例如 application.properties。
+
+下面是一个简单的 Spring Boot 应用程序的示例：
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+   public static void main(String[] args) {
+       SpringApplication.run(DemoApplication.class, args);
+   }
+
+}
+```
+
+在这个示例中，@SpringBootApplication 告诉 Spring Boot 这个类是一个 Spring Boot 应用程序的启动类，@EnableAutoConfiguration 告诉 Spring Boot 自动配置所有需要的组件，@ComponentScan 告诉 Spring Boot 在 DemoApplication 类所在的包及其子包中查找 bean，main 方法用于启动 Spring Boot 应用程序。
+
+## 拓展日志
+
+要在应用程序启动时添加额外的日志记录，可以通过继承 SpringApplication 类并在其构造函数中调用 logStartupInfo(boolean)方法来实现。下面是一个示例：
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.logging.LoggingProperties;
+import org.springframework.boot.logging.StdOutConsoleLogAppender;
+
+@SpringBootApplication
+public class DemoApplication extends SpringApplication {
+
+   public DemoApplication(String[] args) {
+       super(args);
+       // 设置日志级别
+       LoggingProperties loggingProperties = new LoggingProperties();
+       loggingProperties.setLogLevel(LoggingLevel.FULL);
+       // 设置控制台输出日志
+       StdOutConsoleLogAppender consoleLogAppender = new StdOutConsoleLogAppender();
+       consoleLogAppender.setLoggingProperties(loggingProperties);
+       // 添加控制台输出日志
+       addLogAppender(consoleLogAppender);
+   }
+}
+```
+
+在这个示例中，我们创建了一个名为 DemoApplication 的新类，它继承了 SpringApplication 类。在构造函数中，我们首先设置日志级别为 FULL，然后创建了一个 StdOutConsoleLogAppender 对象，并将其设置为使用我们刚刚设置的日志级别。最后，我们将这个 StdOutConsoleLogAppender 添加到应用程序中。
+
+这样，在应用程序启动时，控制台将会输出额外的日志记录。

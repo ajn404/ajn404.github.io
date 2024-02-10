@@ -1,0 +1,255 @@
+---
+import "@styles/navbar.css";
+---
+
+<script>
+  const init = function () {
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    const linkStarts = new WeakMap();
+    const linkEnds = new WeakMap();
+
+    let isMobile = false;
+    function handleMediaChange(e) {
+      if (e.matches) {
+        isMobile = false;
+      } else {
+        isMobile = true;
+      }
+    }
+
+    mediaQuery.onchange = handleMediaChange;
+
+    // 初始化时也可能需要调用一次
+    handleMediaChange(mediaQuery);
+
+    if (document.getElementById("目录")) {
+      addIntersectionObserver();
+      addResizeObserver();
+    }
+
+    function addIntersectionObserver() {
+        
+      const observer = new IntersectionObserver(sections => {
+        sections.forEach(heading => {
+          const id = heading.target.getAttribute("id");
+          const link = document.querySelector(`#目录+ul li a[href="#${id}"]`);
+          if (!link) return;
+          const addRemove = heading.intersectionRatio > 0 ? "add" : "remove";
+          link.classList[addRemove]("active");
+        });
+
+        updatePath();
+        document.getElementById("目录") &&
+          new IntersectionObserver(target => {
+            if (target[0].isIntersecting) {
+              target[0].target.classList.add("active");
+            } else {
+              target[0].target.classList.remove("active");
+            }
+          }).observe(document.getElementById("目录"));
+
+        //     document.querySelector('#目录+ul li:has(a.active)+li:not(:has(a.active))')&&
+        //   document.querySelector('#目录+ul li:has(a.active)+li:not(:has(a.active))').scrollIntoView({behavior: "smooth"});
+      });
+      document.querySelectorAll("h2, h3, h4, h5 ").forEach(section => {
+        observer.observe(section);
+      });
+
+      document.getElementById("目录") &&
+        new IntersectionObserver(target => {
+          if (target[0].isIntersecting) {
+            target[0].target.classList.add("active");
+          } else {
+            target[0].target.classList.remove("active");
+          }
+        }).observe(document.getElementById("目录"));
+
+    //   document.querySelector("body>header") &&
+    //     new IntersectionObserver(tar => {
+    //       if (tar[0].isIntersecting) {
+    //         tar[0].target.classList.add("active");
+    //         document.querySelector("#目录+ul")?.classList.remove("top-4")
+
+    //         document.querySelector("#theme-btn")?.classList.remove("top-5");
+    //         document.querySelector("#theme-btn")?.classList.remove("fixed");
+
+    //       } else {
+    //         document.querySelector("#目录+ul")?.classList.add("top-4");
+    //         document.querySelector("#theme-btn")?.classList.add("top-5");
+    //         document.querySelector("#theme-btn")?.classList.add("fixed");
+            
+            
+    //         tar[0].target.classList.remove("active");
+    //       }
+    //     }).observe(document.querySelector("body>header"));
+
+      document.querySelector("footer.mt-auto") &&
+        new IntersectionObserver(target => {
+          if (target[0].isIntersecting) {
+            target[0].target.classList.add("active");
+          } else {
+            target[0].target.classList.remove("active");
+          }
+        }).observe(document.querySelector("footer.mt-auto"));
+
+      //   if (document.querySelector("#目录+ul")) {
+      //     let obs = new IntersectionObserver(
+      //       entries => {
+      //         if(entries.length===0) return
+      //         for(let i =0;i<entries.length;i++){
+      //             let tar = entries[i].target;
+      //             console.log(tar);
+      //             if(tar.classList.contains("active")){
+      //                 console.log(tar);
+      //                 tar.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      //             }
+      //         }
+      //       },
+      //       {
+      //         root: document.querySelector("#目录+ul"),
+      //       }
+      //     );
+      //     document.querySelectorAll("#目录+ul li a").forEach(element => {
+      //       obs.observe(element);
+      //     });
+      //   }
+    }
+
+    function initSvg() {
+      const appElement = document.querySelector("#目录+ul");
+      if (!appElement) return;
+
+      const svgElement = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "svg"
+      );
+      const pathElement = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+
+      svgElement.classList.add("toc-progress");
+      svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+      pathElement.classList.add("toc-marker");
+      pathElement.setAttribute("fill", "none");
+      pathElement.setAttribute("stroke", "currentColor");
+      pathElement.setAttribute("stroke-linecap", "round");
+      pathElement.setAttribute("stroke-width", "2");
+      pathElement.setAttribute("stroke-dashoffset", "1");
+      pathElement.setAttribute("stroke-linejoin", "round");
+
+      svgElement.appendChild(pathElement);
+      appElement.appendChild(svgElement);
+    }
+
+    function addResizeObserver() {
+      initSvg();
+      if (!document.querySelector("#目录+ul")) return;
+      const observer = new ResizeObserver(() => {
+        if (isMobile) {
+          drawPath();
+          updatePath();
+        }
+      });
+      observer.observe(document.querySelector("#目录+ul"));
+    }
+
+    function drawPath() {
+      const path: SVGPathElement = document.querySelector("path.toc-marker");
+      if (!path) return;
+      const links: any[] = Array.from(document.querySelectorAll("#目录+ul a"));
+      if (!links.length) return;
+
+      // Start with an empty array of path data values (joined with
+      // spaces later)
+      let pathData = [];
+      let left = 0; // The last x position / indentation
+
+      // Iterate over each link to build up the pathData
+      links.forEach((link, i) => {
+        const x = link.offsetLeft;
+        const y = link.offsetTop;
+        const height = link.offsetHeight;
+        if (i === 0) {
+          // The top of the first link starts at 0px along the path.
+          linkStarts.set(link, 0);
+          // Like drawing with a pen...
+          // 'M'ove to the top left of the first link,
+          // and then draw a 'L'ine to the bottom left
+          pathData.push("M", x, y, "L", x, y + height);
+        } else {
+          // If the current link is indented differently than the last,
+          // then come down to the current link's top before moving
+          // left or right. This ensures we get 90-degrees angle at the
+          // corners.
+          if (left !== x) pathData.push("L", left, y);
+
+          // Draw a line to the top left of the current link
+          pathData.push("L", x, y);
+
+          // Apply the current path data to the path element
+          path.setAttribute("d", pathData.join(" "));
+
+          // Get the total length of the path now that it extends
+          // to the top of this link, and store it in our linkStarts
+          // WeakMap.
+          linkStarts.set(link, path.getTotalLength());
+
+          // Draw a line to the bottom left of the current link
+          pathData.push("L", x, y + height);
+        }
+
+        // Save the current link's x position to compare with the next
+        // link
+        left = x;
+
+        // Apply the current path data to the path element again
+        path.setAttribute("d", pathData.join(" "));
+
+        // Get the length of the path that now extends to the
+        // bottom of this link, and store it in our linkEnds WeakMap.
+        linkEnds.set(link, path.getTotalLength());
+      });
+    }
+
+    function updatePath() {
+      const path: SVGPathElement = document.querySelector("path.toc-marker");
+      if (!path) return;
+      const pathLength = path.getTotalLength();
+      const activeLinks = document.querySelectorAll("#目录+ul a.active");
+      let linkStart = pathLength;
+      let linkEnd = 0;
+      activeLinks.forEach(link => {
+        // Set linkStart to the top of the earliest active link
+        linkStart = Math.min(linkStart, linkStarts.get(link));
+        // Set linkEnd to the bottom of the furthest active link
+        linkEnd = Math.max(linkEnd, linkEnds.get(link));
+      });
+      // If there are no active links, hide the path
+      path.style.display = activeLinks.length ? "inline" : "none";
+      // FINALLY, do the thing!
+      path.setAttribute(
+        "stroke-dasharray",
+        `1 ${linkStart} ${linkEnd - linkStart} ${pathLength}`
+      );
+    }
+  };
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>
+
+<style is:inline>
+  svg.toc-progress {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  path.toc-marker {
+    transition: stroke-dasharray 0.3s ease;
+  }
+</style>

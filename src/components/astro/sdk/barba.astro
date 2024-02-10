@@ -1,0 +1,23 @@
+---
+
+---
+
+    <script>
+import gsap from "gsap";
+import barba from '@barba/core';
+    barba.init({
+        transitions: [{
+          name: 'opacity-transition',
+          leave(data) {
+            gsap.to(data.current.container, {
+              opacity: 0
+            });
+          },
+          enter(data) {
+            gsap.from(data.next.container, {
+              opacity: 0
+            });
+          }
+        }]
+      });
+    </script>

@@ -1,0 +1,21 @@
+
+
+# webcomponents and lit
+
+demo.ts
+
+```ts
+import { LitElement, html } from 'lit';
+
+export class MyElement extends LitElement {
+    render() {
+        return html` <p>Hello world! From my-element</p> `;
+    }
+}
+
+customElements.define('my-element', MyElement);
+```
+
+## 链接
+
+- [lit官方文档](https://lit.dev/)

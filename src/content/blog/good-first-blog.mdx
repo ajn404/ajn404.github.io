@@ -1,0 +1,221 @@
+---
+title: 第一篇博客
+
+pubDatetime: 2023-08-28 02:49:58
+postSlug: 第一篇博客
+featured: false
+draft: false
+tags:
+  - astro
+  - mdx
+description: "first-blog"
+---
+
+## 目录
+
+## 旅途开始
+
+- 新建仓库
+
+[![Reactjs](https://github-readme-stats.vercel.app/api/pin/?username=ajn404&repo=notes_astro3&show_owner=true)](https://github.com/ajn404/notes_astro3)
+
+<details>
+<summary>使用astro-paper主题</summary>
+
+```shell
+# npm 6.x
+npm create astro@latest --template satnaing/astro-paper
+# npm 7+, extra double-dash is needed:
+npm create astro@latest -- --template satnaing/astro-paper
+# yarn
+yarn create astro --template satnaing/astro-paper
+```
+
+</details>
+
+### p5js
+
+import Basic from "@components/react/p5/noise.tsx";
+
+<Basic client:load></Basic>
+
+### text
+
+import Text from "@components/react/UI/Text.tsx";
+
+<Text client:load>文字渐变色背景使用</Text>
+
+### framer-motion useScroll
+
+```tsx
+import "./styles.css";
+import { motion, useScroll } from "framer-motion";
+
+export default function App() {
+  const { scrollYProgress } = useScroll();
+  return (
+    <>
+      <motion.div
+        className="progress-bar"
+        style={{ scaleX: scrollYProgress }}
+      />
+    </>
+  );
+}
+```
+
+### css-doodle
+
+### basic
+
+import Doodle from "@components/react/doodle/basic.tsx";
+
+<Doodle client:only="react" />
+
+#### noise
+
+todo:这个组件会使滑动卡卡的,分析原因
+
+```tsx
+import Noise from "@components/react/doodle/noise.tsx";
+<Noise client:load />;
+```
+
+```tsx
+import "css-doodle";
+import {
+  useEffect,
+  useState,
+  type ReactNode,
+  type ReactElement,
+  useRef,
+} from "react";
+
+interface Props {
+  children: ReactNode;
+  download?: Boolean;
+}
+
+const Doodle: React.FunctionComponent<Props> = ({ children, download }) => {
+  let value = (children as ReactElement).props.value;
+  let doodle = useRef<any>(null);
+  let [show, setShow] = useState(false);
+  const click = () => {
+    setShow(show => !show);
+  };
+  useEffect(() => {
+    setShow(true);
+  });
+  const downloadClick = () => {
+    doodle.current &&
+      doodle.current.export({
+        scale: 8,
+        download: true,
+      });
+  };
+  return (
+    <div>
+      {show && (
+        <css-doodle ref={doodle} onClick={click}>
+          {value}
+        </css-doodle>
+      )}
+      {download && <button onClick={downloadClick}>下载</button>}
+    </div>
+  );
+};
+
+export default Doodle;
+```
+
+import Common from "@components/react/doodle/common.tsx";
+
+<Common client:load>
+  @grid: 50x1 / 50vmin; @place: center; @size: calc(75% / @I * @i); transform:
+  rotate(calc(@i * 5deg)); border-radius: 30%; border: 1px solid hsla( calc(10 +
+  4 * @i), 70%, 68%, @r.8 );
+</Common>
+
+<Common  client:load download={true}>
+@grid: 14 / 50vmin;
+@random \{
+border-left: 1px solid #5d81bc
+}
+@random \{
+  border-top: 1px solid #5d81bc;
+}
+@random(.25) \{
+  background: linear-gradient(
+    @p(#fff, tan, #5d81bc), @lp
+  )
+  50% / @r(60%) @lr
+  no-repeat;
+}
+@random \{
+  filter: drop-shadow(0 0 10px #fff);
+}
+</Common>
+
+在 mdx 中使用 dooble 组件，inner children 中的'\{'需要替换成'\{'
+
+```mdx
+import Common from "@components/react/doodle/common.tsx";
+
+<Common  client:load>
+@grid: 14 / 50vmin;
+@random \{
+border-left: 1px solid #5d81bc
+}
+@random \{
+  border-top: 1px solid #5d81bc;
+}
+@random(.25) \{
+  background: linear-gradient(
+    @p(#fff, tan, #5d81bc), @lp
+  )
+  50% / @r(60%) @lr
+  no-repeat;
+}
+@random \{
+  filter: drop-shadow(0 0 10px #fff);
+}
+</Common>
+```
+
+### [惯性滚动](https://www.npmjs.com/package/@studio-freight/lenis)
+
+```shell
+pnpm i @studio-freight/lenis
+```
+
+```ts
+const lenis = new Lenis();
+lenis.on("scroll", e => {
+  console.log(e);
+});
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+```
+
+### Remark 和 Rehype
+
+> Remark 和 Rehype 都是用于将 Markdown 转换为 HTML 的工具。
+
+<br />
+Remark 是一个基于 Node.js 的 Markdown 解析器，它将 Markdown 文本解析为 HTML。它支持插件系统，允许用户自定义解析过程。Remark
+通常用于生成静态站点，例如博客或文档。
+<br />
+Rehype 是一个基于 Remark 的工具，它提供了额外的功能，例如代码高亮、表格和引用。Rehype
+支持多种语言，包括 JavaScript、Python、CSS 和 HTML。Rehype 通常与 Remark 一起使用，以便在解析
+Markdown 时应用额外的功能。
+
+例如[rehype-autolink-headings](https://github.com/rehypejs/rehype-autolink-headings) is a rehype plugin to add links from headings back to themselves.
+
+### 链接
+
+- [css-doodle](https://css-doodle.com/)
+- [observablehq yuanchuan](https://observablehq.com/@yuanchuan)
+- [shadcn-ui](https://github.com/shadcn-ui/ui)

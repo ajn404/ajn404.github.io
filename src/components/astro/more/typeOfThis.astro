@@ -1,0 +1,17 @@
+---
+
+---
+
+
+<script>
+function MyClickHandler(event:Event) {
+  console.log("Button Clicked!");
+  this.disabled = !this.disabled;
+}
+
+// MyClickHandler(new Event("click"));
+
+document.getElementById("clickMe").addEventListener("click", MyClickHandler);
+</script>
+
+<button id="clickMe" class="flex bg-skin-purple text-skin-orange px-5 disabled:text-skin-yellow">Click Me!</button>

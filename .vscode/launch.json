@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "./node_modules/.bin/astro dev",
+      "name": "Development server",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "pnpm run dev",
+      "name": "run docs",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "pnpm run cz",
+      "name": "commit-cz",
+      "request": "launch",
+      "type": "node-terminal"
+    }
+  ]
+}

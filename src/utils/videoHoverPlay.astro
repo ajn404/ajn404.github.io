@@ -1,0 +1,21 @@
+
+
+---
+---
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const clip:NodeListOf<HTMLVideoElement> = document.querySelectorAll(".clip");
+    if(clip&&clip.length>0)
+for (let i = 0; i < clip.length; i++) {
+  clip[i].addEventListener("mouseenter", function (e) {
+    clip[i].play();
+  });
+  clip[i].addEventListener("mouseout", function (e) {
+    clip[i].pause();
+  });
+}
+})
+
+</script>

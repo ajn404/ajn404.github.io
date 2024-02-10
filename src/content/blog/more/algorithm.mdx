@@ -1,0 +1,225 @@
+---
+title: dynamic programming
+
+pubDatetime: 2023-09-04T10:07:03Z
+postSlug: 动态规划简介
+featured: false
+draft: false
+tags:
+  - dp
+  - algorithm
+  - math
+description: "动态规划基础,dp,算法,数学"
+---
+
+## 目录
+
+## 概念
+
+> programming:表格法
+
+> 同分治算法一样，是通过组合子问题的解来解决原问题。
+
+> 动态规划算法通常用于求解最优化问题。
+
+> 应用于子问题重叠的情况
+
+## 步骤
+
+- 1. 分析最优解的性质，并刻画其结构特征
+- 2. 递归地定义最优解的值
+- 3. 计算最优解的值，通常采用自底向上的方法
+- 4. 利用计算出的信息构造一个最优解
+
+### 最优解的结构特征
+
+> 当完成首次切割后，我们将两段钢条看作两个独立的切割问题实。通过组合两个相关子问题的最优解，并在所有可能的两段切割中选取组合收益最大的，构成原问题的最优解。
+
+## 例子
+
+### 1.钢条切割
+
+> 问题描述：
+> 给定 1 个长度为 n 的钢条和钢条切割价格条目，求将钢条切割为若干
+> 小段后，得到的最大收益。
+
+| 长度 i      | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   | 10  |
+| ----------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 价格$p_{i}$ | 1   | 5   | 8   | 9   | 10  | 17  | 17  | 20  | 24  | 30  |
+
+- 长度为 n 英寸
+- 销售收益$r_{n}$
+
+- 假设最优解切割为 k 段,最优切割方案为
+
+$$n = i_{1}+i_{2}+...+i_{k}$$
+
+- 将钢条切割为 k 段，最大收益为
+
+$$r_{n} = p_{i_{1}} + p_{i_{2}} + ... + p_{i_{k}}$$
+
+- 最优收益$r_{i}$对应的最优切割方案
+
+$$r_{1} = 1 \tag{1=1无切割}$$
+
+$$r_{2} = 5 \tag{2=2}$$
+
+$$r_{3} = 8 \tag{3=3}$$
+
+$$r_{4} = 10 \tag{4=2+2}$$
+
+$$r_{5} = 13 \tag{5=3+2}$$
+
+$$r_{6} = 17 \tag{6=6}$$
+
+$$r_{7} = 18 \tag{7=6+1/7=2+2+3}$$
+
+$$r_{8} = 22 \tag{8=6+2}$$
+
+$$r_{9} = 25 \tag{9=6+3}$$
+
+$$r_{10} = 30 \tag{10=10}$$
+
+更一般的，对于$r_{n}\geqq{1}$,我们可以用更短的钢条最优收益来描述
+
+$$r_{n} = max(p_n, r_{i_1}+r_{i_{n-1}},...,r_{i_{n-1}}+r_{i_1})$$
+
+$p_n$指不分割的方案
+钢条切割问题满足*最优子结构*
+
+> 另一种相似但是更为简单的方案:_i 部分不分割，剩下的 n-i 部分进行分割_，即问题分解的方式为：将长度为 n 的钢条分解为左边开始一段不分割以及剩余部分继续分解的结果，公式描述为:
+
+$$r_{n} = max_{\substack{1\leqq{i}\leqq{n}}}(p_{i}+r_{n-1})$$
+
+```js
+CUT-ROD(p,n)
+if n=0
+    return 0
+else
+    q = -∞
+    for j=1 to n
+        q = max{q, p[j]+CUT-ROD(p,n-j)}
+    return q
+```
+
+$$T(n) = 1+\sum_0^{n-1}T(j) \hookrightarrow  T(n)=2^n$$
+
+#### 下面展示如何用动态规划解决此问题
+
+- 1.带备忘的自顶向下法
+
+> 仍然按照自然的递归形式编写过程，使用散列表会这数组保存已求解的子问题
+
+```js
+MEMOIZED-CUT-ROD(p,n)
+    let r[0..n] be a new Array;
+    for i=0 to n
+        r[i]=-∞;
+    //将辅助函数r[n]的值初始化为-∞
+    return MEMOIZED-CUT-ROD-AUX(p,n,r)
+
+//上述CUT-ROD的变体，提供备忘机制
+MEMOIZED-CUT-ROD-AUX(p,n,r)
+    //已知直接返回
+    if(r[n]>=0)
+        return r[n]
+    if(n==0)
+        q = 0
+    else
+        q = -∞
+        for j=1 to n
+            q = max{q, p[j]+MEMOIZED-CUT-ROD-AUX(p,n-j,r)}
+    //将q存入
+    r[n] = q
+    return q
+```
+
+- 2.自底向上法
+
+> 按照问题的递归结构，自底向上求解,将子问题按照规模排序，再由小到大解决
+
+```js
+BOTTOM-UP-CUT-ROD(p,n)
+    let r[0..n] be a new Array;
+    r[0] = 0
+    for j=1 to n
+        q = -∞
+        for i=1 to j
+            q = max{q, p[i]+r[j-i]}
+        r[j] = q
+    return r[n]
+```
+
+- 分析自顶向上
+
+> 第一行创建一个新数组保存子问题的解,第二行将数组第一个值初始化为 0
+
+```js
+let r[0..n] be a new Array;
+r[0] = 0
+```
+
+> 3-6 行升序求解从 1 到 n 的规模为 j 的子问题
+
+```js
+for j=1 to n
+        q = -∞
+        for i=1 to j
+```
+
+> 7 行解决子问题，不必调用递归，直接访问 r[j-i],即以保存的子问题的解
+
+```js
+q = max{q, p[i]+r[j-i]}
+```
+
+> 8 行将子问题的解存入数组，9 行返回最优解
+
+##### 两种方法具有相同的渐进运行时间，$O(n^2)$
+
+> 自底向上 嵌套的两层 for 循环
+
+> 自顶向下 递归调用, 使用聚合分析,其中
+
+```js
+ for j=1 to n
+            q = max{q, p[j]+MEMOIZED-CUT-ROD-AUX(p,n-j,r)}
+```
+
+> 对每个子问题只求解一次，求解规模为$\sum_0^n{i}$ = O($n^2$)
+
+#### 自顶向下递归树的简化版/自顶向下的子问题图
+
+import Graph from "@components/react/echarts/graph.tsx";
+
+<Graph client:load />
+
+> n=4
+> 这是一个有向图,每个顶点唯一地对应一个子问题,标号代表子问题的规模
+
+#### 重构解
+
+上述算法能返回最终的最优收益值，但并没有返回解本身。下面我们拓展动态规划算法，使其返回最优收益值的同时，返回一个最优解。
+
+```js
+EXTENDED-BOTTOM-UP-CUT-ROD(p,n)
+    let r[0..n] and s[0..n] be a new Array;
+    r[0]=0
+    for j=1 to n
+        q = -∞
+        for i=1 to j
+            if q < p[i]+r[j-i]
+                q = p[i]+r[j-i]
+                s[j] = i
+        r[j] = q
+    return r and s
+```
+
+## 链接
+
+- [bellman-fords-shortest-path](https://algorithm-visualizer.org/dynamic-programming/bellman-fords-shortest-path)
+- [labuladong 的算法小抄](https://labuladong.gitee.io/algo/intro/visualize/)
+- [observer](https://observablehq.com/@observablehq/plot-impact-of-vaccines)
+- http://graphics.wsj.com/infectious-diseases-and-vaccines/
+- [observable plot](https://observablehq.com/plot/)
+- [神采飞扬 泊松盘采样](https://zhuanlan.zhihu.com/p/484414050)

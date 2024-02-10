@@ -1,0 +1,138 @@
+---
+title: glsl with kodelife
+
+pubDatetime: 2023-09-13T06:51:45Z
+postSlug: glsl-kodelife
+featured: false
+draft: false
+tags:
+  - glsl
+  - math
+  - three
+  - shader
+  - react-fiber
+  - webgl
+description: "glsl"
+---
+
+## glsl with kodelife
+
+### mix
+
+```glsl
+#***
+varying vec2 v_texcoord;
+
+void main(void)
+{
+    vec2 uv = -1. + 2. * v_texcoord;
+
+    vec4 tl = vec4(1.,0.,0.,1.);
+    vec4 tr = vec4(0.,0.,1.,1.);
+    vec4 bl = vec4(0.,1.,0.,1.);
+    vec4 br = vec4(1.,1.,0.,1.);
+    vec4 color = mix(mix(tl,tr,uv.x),mix(bl,br,uv.x),uv.y);
+    gl_FragColor = color;
+}
+```
+
+### 使用 three-fiber 和@react-three/drei
+
+import Shader from "@components/react/fiber/shader.tsx";
+
+<Shader client:load />
+
+useFrame 是 @react-three/fiber 库中的一个 Hook，它允许你在动画帧中执行一些操作。这在创建自定义动画或者在游戏中处理逻辑时非常有用。useFrame 接受一个参数，即一个函数，该函数会在每一帧被调用。这个函数可以执行一些操作，例如更新组件的状态、调整对象的位置等。
+
+### uniform float time
+
+import TimeShader from "@components/react/fiber/timeShader.tsx";
+
+<TimeShader client:load />
+
+```tsx
+export const TimeShaderMaterial = shaderMaterial(
+  {
+    time: 0,
+  },
+  `varying vec2 vUv;
+      void main() {
+        vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+        vec4 viewPosition = viewMatrix * modelPosition;
+        vec4 projectionPosition = projectionMatrix * viewPosition;
+        gl_Position = projectionPosition;
+        vUv = uv;
+      }`,
+  `uniform float time;
+    varying vec2 vUv;
+    void main() {
+      vec2 uv = vUv;
+      vec4 tl = vec4((cos(time)+1.)/2.,0.,0.,(sin(time)+1.)/2.);
+    vec4 tr = vec4(0.,0.,(sin(time)+1.)/2.,(cos(time)+1.)/2.);
+    vec4 bl = vec4(0.,(cos(time)+1.)/2.,(sin(time)+1.)/2.,1.);
+    vec4 br = vec4((sin(time)+1.)/2.,1.,0.,(cos(time)+1.)/2.);
+    vec4 color = mix(mix(tl,tr,uv.x),mix(bl,br,uv.x),uv.y);
+    gl_FragColor = color;
+    }`
+);
+```
+
+> 生成文本二维码
+
+```shell
+printf "ajn404 love from china" \ | curl -F-=\<- qrenco.de
+```
+
+### image fade shader
+
+import DemoImageFadeShader from "@components/react/fiber/demoImageFadeShader.tsx";
+
+<DemoImageFadeShader client:load />
+
+```tsx
+export const ImageFadeMaterial = shaderMaterial(
+  {
+    effectFactor: 1.2,
+    dispFactor: 0,
+    tex: undefined,
+    tex2: undefined,
+    disp: undefined,
+  },
+  ` varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    }`,
+  ` varying vec2 vUv;
+    uniform sampler2D tex;
+    uniform sampler2D tex2;
+    uniform sampler2D disp;
+    uniform float _rot;
+    uniform float dispFactor;
+    uniform float effectFactor;
+    void main() {
+      vec2 uv = vUv;
+      vec4 disp = texture2D(disp, uv);
+      vec2 distortedPosition = vec2(uv.x + dispFactor * (disp.r*effectFactor), uv.y);
+      vec2 distortedPosition2 = vec2(uv.x - (1.0 - dispFactor) * (disp.r*effectFactor), uv.y);
+      vec4 _texture = texture2D(tex, distortedPosition);
+      vec4 _texture2 = texture2D(tex2, distortedPosition2);
+      vec4 finalTexture = mix(_texture, _texture2, dispFactor);
+      gl_FragColor = finalTexture;
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`
+);
+extend({ ImageFadeMaterial });
+```
+
+## [gallery](/notes_astro3/posts/gallery)
+
+## 链接
+
+- [kodelife](https://hexler.net/kodelife)
+- [Shaders for the web](https://www.bilibili.com/video/BV1Xr4y1a7oH/?p=3&spm_id_from=pageDriver&vd_source=02db1920b427080386bde23999077d89)
+- [shader 语法](https://ajn404.github.io/note/markdown/notes/glsl.html)
+
+- [pmnd](https://docs.pmnd.rs/)
+- [drei](https://drei.pmnd.rs/)

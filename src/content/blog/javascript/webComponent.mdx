@@ -1,0 +1,554 @@
+---
+title: web component
+
+pubDatetime: 2024-1-4 10:41:00
+postSlug: web-component
+featured: false
+draft: false
+tags:
+  - web-components
+description: Web Components 是一种用于在Web应用中创建可复用的自定义元素的技术
+---
+
+## 目录
+
+## custom text
+
+<div id="custom-text-container">
+  <custom-text>关于web component的一些学习笔记</custom-text>
+</div>
+
+```html
+<div id="custom-text-container">
+  <custom-text> 关于web component的一些学习笔记 </custom-text>
+</div>
+```
+
+问题:
+
+1.需要给一个 id 为 custom-text-container 的父元素或者祖先元素
+
+2.在 vue 中使用会报错
+
+```plaintext
+The error message you're seeing,
+"Failed to resolve component: custom-text,"
+suggests that there is a problem with how your Vue application is trying to register or
+use a custom component named custom-text.
+```
+
+## learn bt webcomponents.guide
+
+### 1.introduction
+
+import "@components/astro/custom/stopWatch.astro";
+
+<stop-watch role="timer"></stop-watch>
+
+- [:host](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:host)
+- [Element.attachShadow()](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/attachShadow)
+
+### 2.Class(js basic)
+
+<blockquote>
+
+<details class="xing-cao">
+<summary>basic</summary>
+
+- 定义一个类
+
+```js
+class Point {}
+
+const Point = class {};
+
+console.log(class {});
+```
+
+- 使用instanceof 判断类型
+
+```js
+// creates a new `Point` object
+const mypoint = new Point();
+
+// Check `mypoint` is an `instanceof` `Point`
+console.assert(mypoint instanceof Point);
+```
+
+- 定义public api
+
+```js
+class Point {
+  // Public "Fields"
+  x = 0;
+  y = 0;
+
+  // This is called whenever `new Point()` is called
+  constructor(x, y) {
+    // A class instance refers to itself with `this`.
+    this.x = x;
+    this.y = y;
+  }
+
+  // Methods
+  translate(deltaX, deltaY) {
+    this.x += deltaX;
+    this.y += deltaY;
+  }
+
+  equals(otherPoint) {
+    return this.x === otherPoint.x && this.y === otherPoint.y;
+  }
+
+  // This is a "well known" method, called whenever
+  // a `Point` is converted to a `String`
+  toString() {
+    return `(${x}, ${y})`;
+  }
+}
+
+const mypoint = new Point(1, 1);
+mypoint.translate(5, 5);
+
+console.assert(mypoint.equals(new Point(6, 6)));
+
+// String(mypoint) is the equivalent of mypoint.toString()
+console.assert(String(mypoint) === "(6, 6)");
+```
+
+- 类还可以使用 get \<name>() 或 set \<name>() 使用元属性派生新状态。这些方法作用
+  与属性类似，但您可以向它们添加自定义逻辑，定义使用现有类数据生成的新属性
+  价值。如果您定义 get \<name> 而没有 set \<name> ，则该属性将为只读。
+
+```js
+class Point {
+  x = 0;
+  y = 0;
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  get isEmpty() {
+    return this.x === 0 && this.y === 0;
+  }
+}
+const mypoint = new Point(0, 0);
+console.assert(mypoint.isEmpty);
+// This will throw an Error
+mypoint.isEmpty = false;
+```
+
+- 定义私有API
+- [js class private suger](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes/Private_properties)
+
+```js
+class CaseChange {
+  #original = "";
+  constructor(original) {
+    this.#original = original;
+  }
+
+  upper() {
+    return this.#original.toUpperCase();
+  }
+
+  lower() {
+    return this.#original.toLowerCase();
+  }
+}
+
+const myupper = new CaseChange("Hello World");
+
+console.assert(myupper.upper() === "HELLO WORLD");
+console.assert(myupper.lower() === "hello world");
+
+// This will throw an error
+// private fields can't be used outside a class
+console.log(myupper.#original);
+
+// This will also throw an error
+myupper.#original = "Hello";
+```
+
+- 私有状态和公有方法实现相应功能呢
+
+```js
+class Timer {
+  #startTime = Date.now();
+
+  get startTime() {
+    return this.#startTime;
+  }
+
+  set startTime(newTime) {
+    this.#startTime = newTime;
+    this.resetTimer();
+  }
+
+  resetTimer() {
+    console.log("Timer has been reset");
+  }
+}
+const mytimer = new Timer();
+console.assert(mytimer.startTime === Date.now());
+mytimer.startTime = 0;
+// Will log "Timer has been reset"
+```
+
+- 拓展类
+- [extends](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes/extends)
+
+```js
+class Point {
+  constructor(x, y) {
+    this.x = 0;
+    this.y = 0;
+  }
+
+  equals(otherPoint) {
+    return this.x === otherPoint.x && this.y === otherPoint.y;
+  }
+}
+
+class Point3D extends Point {
+  constructor(x, y, z) {
+    super(x, y);
+    this.z = z;
+  }
+
+  equals(otherPoint) {
+    return super.equals(otherPoint) && this.z === otherPoint.z;
+  }
+}
+```
+
+</details>
+
+</blockquote>
+
+<blockquote>
+<details>
+<summary>2024/01/09 `extends` 和 `implements`</summary>
+
+在 JavaScript 和 TypeScript 中，`extends` 和 `implements` 都与类的继承和实现相关，但它们的用途和语义有所不同。以下是它们的主要区别和联系：
+
+### 在 JavaScript 中：
+
+1. **`extends`**：
+
+   - `extends` 关键字用于创建一个子类，该子类继承了父类的属性和方法。
+   - 子类可以使用 `super` 关键字调用父类的构造函数和方法。
+   - 这是原型继承的一种形式。
+
+   ```js
+   class Animal {
+     constructor(name) {
+       this.name = name;
+     }
+
+     speak() {
+       console.log(`${this.name} makes a noise.`);
+     }
+   }
+
+   class Dog extends Animal {
+     speak() {
+       super.speak(); // 调用父类的 speak 方法
+       console.log(`${this.name} barks.`);
+     }
+   }
+
+   const dog = new Dog("Rex");
+   dog.speak(); // 输出：Rex makes a noise.  Rex barks.
+   ```
+
+### 在 TypeScript 中：
+
+1. **`extends`**：
+
+   - TypeScript 的 `extends` 与 JavaScript 中的相同，用于类继承。
+   - 在 TypeScript 中，除了从父类继承属性和方法外，子类还可以添加额外的属性和方法。
+
+   ```typescript
+   class Animal {
+     constructor(public name: string) {}
+
+     speak() {
+       console.log(`${this.name} makes a noise.`);
+     }
+   }
+
+   class Dog extends Animal {
+     speak() {
+       super.speak();
+       console.log(`${this.name} barks.`);
+     }
+   }
+
+   const dog = new Dog("Rex");
+   dog.speak(); // 输出：Rex makes a noise.  Rex barks.
+   ```
+
+2. **`implements`**：
+
+   - `implements` 关键字用于确保类满足特定的接口（也可以称为协议或合约）的要求。
+   - 当一个类实现了一个接口时，它必须提供该接口定义的所有属性和方法。
+
+   ```typescript
+   interface Animal {
+     name: string;
+     speak(): void;
+   }
+
+   class Dog implements Animal {
+     constructor(public name: string) {}
+
+     speak() {
+       console.log(`${this.name} barks.`);
+     }
+   }
+
+   const dog: Animal = new Dog("Rex");
+   dog.speak(); // 输出：Rex barks.
+   ```
+
+### 联系：
+
+- 无论是在 JavaScript 还是 TypeScript 中，`extends` 都用于类继承，而 `implements` 则用于实现接口。
+- 在 TypeScript 中，使用 `extends` 时，你可以同时继承多个类（但只能继承一个基类），而 `implements` 可以实现多个接口。
+- 通过使用 `extends` 和 `implements`，你可以在 TypeScript 中实现更加严格和类型安全的类和接口结构。
+
+总之，`extends` 和 `implements` 在 JavaScript 和 TypeScript 中都是类和对象继承和实现的关键字，但它们的主要用途和语义略有不同。
+
+</details>
+</blockquote>
+
+<blockquote>
+
+<details>
+<summary>2024/01/09 关于js中的class，有什么有趣的知识点吗</summary>
+JavaScript 的 `class` 语法是 ES6 (ECMAScript 2015) 新增的，它为 JavaScript 提供了一种更加面向对象的编程方式。以下是一些关于 JavaScript 中 `class` 的有趣知识点：
+
+1. **类是函数**：在技术上，JavaScript 中的类仍然是函数。当你使用 `class` 关键字声明一个类时，它实际上是一个函数。例如，`typeof ClassName` 会返回 `"function"`。
+
+2. **类的方法默认是不可枚举的**：在传统的 JavaScript 构造函数中，添加到原型的方法是可枚举的，这意味着它们会出现在对象的 `for...in` 循环中。但是，类的方法默认是不可枚举的。
+
+3. **类可以继承其他类**：使用 `extends` 关键字，一个类可以继承另一个类的属性和方法。
+
+4. **构造函数**：类可以有一个特殊的方法名为 `constructor`，它是一个构造函数，用于初始化新创建的对象。
+
+5. **静态方法**：使用 `static` 关键字可以定义一个静态方法，这意味着该方法直接与类本身关联，而不是与类的实例关联。
+
+6. **Getter 和 Setter**：类中可以使用 `get` 和 `set` 关键字定义 getter 和 setter 方法，这允许你在访问或修改属性时执行特定的行为。
+
+7. **继承内建对象**：在 JavaScript 中，你可以继承内建的对象（如 `Array`、`Error` 等）并扩展它们以创建自定义的子类。
+
+8. **原型链**：虽然 `class` 语法为 JavaScript 添加了类似于其他面向对象语言的语法，但在内部，它仍然使用原型链来实现继承。
+
+9. **`new` 关键字**：使用 `new` 关键字实例化类会自动调用构造函数，创建一个新的对象，并将其设置为 `this`。
+
+10. **类表达式**：除了使用 `class` 声明，JavaScript 还支持类表达式，这允许你在运行时动态地创建类。
+
+总的来说，JavaScript 中的 `class` 语法为开发者提供了一种更加结构化和面向对象的编程方式，使得代码更加清晰和可维护。
+
+</details>
+
+</blockquote>
+
+- [class in ts]()
+
+### 3.Event Basics (js basic)
+
+- EventTarget
+
+<details>
+<summary>Click to expand</summary>
+```js
+class Timer extends EventTarget {}
+
+const mytimer = new Timer();
+
+// Now these are all available:
+mytimer.addEventListener();
+mytimer.dispatchEvent();
+mytimer.removeEventListener();
+
+// This will call `console.log` whenever the
+// `start` event type is dispatched
+mytimer.addEventListener("start", event => {
+console.log("something started!");
+});
+
+````
+
+</details>
+
+
+- dispatchEvent
+
+<details>
+<summary>Click to expand</summary>
+```js
+class Timer extends EventTarget {
+  start() {
+    this.dispatchEvent(new Event("start"))
+  }
+
+  pause() {
+    this.dispatchEvent(new Event("paused"))
+  }
+
+  unpause() {
+    this.dispatchEvent(new Event("unpaused"))
+  }
+
+  stop() {
+    this.dispatchEvent(new Event("stop"))
+  }
+}
+
+const mytimer = new Timer()
+
+mytimer.addEventListener("start", () => console.log("timer started!"))
+mytimer.addEventListener("stop", () => console.log("timer stopped!"))
+
+mytimer.start()
+// logs: "timer started!"
+
+mytimer.pause()
+// nothing is logged because there are no 'paused' listeners
+
+mytimer.stop()
+// logs "timer stopped!"
+
+````
+
+</details>
+
+- extends Event
+
+<details>
+<summary>Click to expand</summary>
+
+```js
+class TickEvent extends Event {
+  // Our TickEvent class only takes a count,
+  // we hard code the .type
+  constructor(count = 0) {
+    // hardcode the .type of the element to 'tick'.
+    super("tick");
+
+    this.count = count;
+  }
+}
+
+class Timer extends EventTarget {
+  start() {
+    // Call #tick(1) after one second
+    setTimeout(() => this.#tick(1), 1000);
+  }
+
+  #tick(times) {
+    this.dispatchEvent(new TickEvent(times));
+
+    // Call #tick(n + 1) after one second
+    setTimeout(() => this.#tick(times + 1), 1000);
+  }
+}
+
+const mytimer = new Timer();
+
+mytimer.addEventListener("tick", event => {
+  console.log(`timer has ticked ${event.count} times!`);
+});
+
+mytimer.start();
+```
+
+</details>
+
+### 4.Events in more detail
+
+- removeEventListener
+
+<details>
+<summary>Click to expand</summary>
+
+```js
+const target = new EventTarget()
+
+const logger = {
+  log() { ... }
+}
+
+target.addEventListener('start', logger.log.bind(logger))
+
+// this wont do anything because `.bind` copies the function
+target.removeEventListener('start', logger.log.bind(logger))
+```
+
+</details>
+
+- AbortController
+
+<details>
+<summary>Click to expand</summary>
+```js
+const controller = new AbortController();
+const signal = controller.signal;
+
+// 设置 fetch 请求的 signal 选项
+fetch('https://www.google.com', { signal })
+.then(response => response)
+.then(data => console.log(data))
+.catch(error => {
+if (error.name === 'AbortError') {
+console.log('Fetch aborted');
+} else {
+console.error('Error during fetch:', error);
+}
+});
+
+// 在需要的时候中断请求
+setTimeout(() => controller.abort(), 100);
+
+````
+```js
+const target = new EventTarget()
+
+const controller = new AbortController()
+
+const logger = { log() { ... } }
+
+
+target.addEventListener(
+  'start',
+  logger.log.bind(logger),
+
+  // Pass the "signal" using the third options argument
+  { signal: controller.signal }
+)
+
+target.addEventListener(
+  'start',
+  (event) => { console.log('Timer started!') },
+
+  // Pass the "signal" using the third options argument
+  { signal: controller.signal }
+)
+
+// Remove all events that were given `controller.signal`:
+
+controller.abort()
+````
+
+</details>
+
+- lose This
+
+## links
+
+- [web component learn](https://webcomponents.guide/learn/)
+- [community](https://mastodon.online/tags/WebComponents)
+- [codepen tram-lite](https://codepen.io/JRJurman/pen/BaboYKM?editors=1000)

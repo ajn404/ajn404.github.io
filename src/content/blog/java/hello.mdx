@@ -1,0 +1,460 @@
+---
+title: 初识java
+
+pubDatetime: 2023-09-28 17:11:00
+postSlug: java
+featured: false
+draft: false
+tags:
+  - java
+description: "java!!!"
+---
+
+## 目录
+
+## hello java!!!!
+
+```java
+package org.example;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+    }
+}
+```
+
+## spring Boot
+
+> 约定大于配置
+
+### 问？spring 项目中 controller,dao,service 都是什么
+
+- 答！⬇️
+
+在 Spring 项目中, controller、dao 和 service 分别表示控制器、数据访问对象(Data Access Object)和业务逻辑服务层(Service Layer)。
+
+控制器(Controller): 控制器是 Spring MVC 中的核心组件,它负责接收用户请求,调用服务层(Service Layer)和数据访问对象(Data Access Object)完成相应的业务操作,并将结果返回给客户端。控制器通常位于项目的 src/main/java 目录下,与 Service 和 DAO 层分开存放。控制器中通常包含一个处理请求的方法,如@RequestMapping、@GetMapping、@PostMapping 等注解。
+
+数据访问对象(DAO, Data Access Object): DAO 层是直接与数据库进行交互的层,它封装了对数据库的操作,如查询、插入、更新和删除等。DAO 层通常位于项目的 src/main/java 目录下,与 Service 层分开存放。DAO 层中通常包含一个接口,该接口定义了对数据库的基本操作,如查询、插入、更新和删除等。同时,DAO 层中还需要一个实现该接口的具体类,该类实现具体的操作。
+
+业务逻辑服务层(Service Layer): 业务逻辑服务层是处理业务逻辑的层,它负责处理业务逻辑,并与 DAO 层进行交互,完成相应的业务操作。业务逻辑服务层通常位于项目的 src/main/java 目录下,与 Controller 层和 DAO 层分开存放。业务逻辑服务层中通常包含一个接口,该接口定义了需要实现的业务方法,如查询、插入、更新和删除等。同时,业务逻辑服务层中还需要一个实现该接口的具体类,该类实现具体的业务方法。
+
+以上是 Spring 项目中 controller、dao 和 service 的基本概念,它们分别负责不同的功能,共同协作完成项目的开发和维护。
+
+### 问? spring 项目中的装饰器 RequestMapping
+
+- 答！⬇️
+
+Spring 项目中的装饰器 RequestMapping 是 Spring MVC 中用于映射 HTTP 请求到特定的处理方法或 Controller 的一个核心注解。它可以帮助开发者更灵活地定义 Controller 中的处理方法来响应不同的 HTTP 请求,如 GET、POST、PUT、DELETE 等。
+
+RequestMapping 的语法如下:
+
+```java
+@RequestMapping(value = "/uri", method = RequestMethod.GET)
+public String handleRequest() {
+   // 处理请求逻辑
+}
+```
+
+其中,value 属性指定请求的 URI,method 属性指定请求的方法,如 GET、POST、PUT、DELETE 等。RequestMapping 还可以与@RequestParam、@PathVariable、@RequestBody 等注解配合使用,以获取请求参数或请求体中的数据。
+
+RequestMapping 的常用属性:
+
+- value: 指定请求的 URI,可以指定多个 URI,用逗号分隔。
+- method: 指定请求的方法,可以指定多个请求方法,用逗号分隔。
+- requestMapping: 与 value 和 method 属性等价,可以同时指定请求的 URI 和方法。
+- params: 指定请求参数的名称,用逗号分隔。当请求参数的名称与 Controller 中的方法参数名称不同时,可以使用该属性指定参数名称。
+- headers: 指定请求头中字段的名称,用逗号分隔。
+- consumes: 指定处理请求时所接受的请求内容类型,如 application/json、application/xml 等。
+- produces: 指定处理请求时所返回的响应内容类型,如 application/json、application/xml 等。
+
+总之,RequestMapping 是 Spring MVC 中用于映射 HTTP 请求到处理方法的一个核心注解,可以帮助开发者更好地组织和管理 Controller 中的处理方法,提高代码的可读性和可维护性。
+
+## java 版本和 springboot 版本
+
+...
+
+## first demo
+
+`src/main/java/com/example/demo`
+
+```java
+package com.example.demo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+@RestController
+public class DemoApplication {
+    public static void main(String[] args) {
+      SpringApplication.run(DemoApplication.class, args);
+    }
+    @GetMapping("/hello")
+    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+      return String.format("Hello %s!", name);
+    }
+}
+
+```
+
+这是一个使用 Spring Boot 框架编写的 Java 程序,它定义了一个名为 DemoApplication 的 RESTful Web 服务。以下是程序的各个部分解释:
+
+**包声明**
+包声明定义了程序所在的包路径,这里是 com.example.demo。
+
+**导入**
+程序中使用了多个 Java 类库,包括 Spring Boot、Spring、Java Web 和 String 等。这些类库被导入到程序中,以便使用它们的类和方法。
+
+**类定义**
+这是一个使用 Spring Boot 注解@SpringBootApplication 的类,它表示这是一个 Spring Boot 应用程序的入口点。
+
+**类级别注解**
+这是一个使用 Spring Boot 注解@RestController 的类,它表示这是一个 RESTful Web 服务控制器。
+
+**main 方法**
+main 方法是程序的入口点,它使用 SpringApplication.run()方法启动 Spring Boot 应用程序。
+
+**方法定义**
+这是一个使用@GetMapping 注解的方法,它表示这是一个 HTTP GET 请求映射。
+
+**方法参数**
+hello 方法接收两个参数:name 和 value。其中,name 是一个请求参数,它是一个可选参数,默认为"World"。value 是一个默认参数,它是一个请求参数,默认为"World"。
+
+**方法返回值**
+hello 方法返回一个字符串,它是一个格式化后的字符串,其中包含请求参数 name。
+
+总之,这是一个使用 Spring Boot 框架编写的 Java 程序,它定义了一个 RESTful Web 服务控制器,该控制器处理 HTTP GET 请求,并返回一个格式化的字符串。
+
+### java springboot 项目如何添加依赖 Spring Web
+
+在 Java Spring Boot 项目中添加依赖 Spring Web，可以通过在 pom.xml 文件中添加以下依赖来实现：
+
+```xml
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+这将自动包含 Spring Web 的所有依赖项，包括**Tomcat、JSP、Spring MVC**等。
+
+### mvnw
+
+Maven Wrapper（简称 mvnw）是一个 Maven 的命令行工具，它提供了一个简单的命令行界面，用于执行 Maven 构建任务。Maven 是一个构建和项目管理工具，用于简化 Java 项目的构建、管理和发布过程。Maven Wrapper 是 Maven 的官方推荐方式，用于简化 Maven 项目的构建过程。
+
+Maven Wrapper 是一个包含 Maven 依赖的 jar 包，它提供了一个简单的命令行界面，用于执行 Maven 构建任务。Maven Wrapper 可以自动下载所需的依赖，避免了手动下载依赖的繁琐过程。使用 Maven Wrapper 可以确保项目使用的 Maven 版本是一致的，避免了版本不一致导致的问题。
+
+Maven Wrapper 的安装和使用非常简单。首先需要在项目的根目录下创建一个名为“mvnw”的文件，然后使用 Java 运行这个文件即可启动 Maven Wrapper。Maven Wrapper 会自动下载所需的依赖并执行构建任务。
+
+例如，在 Linux 或 macOS 系统上，可以在项目根目录下创建一个名为“mvnw”的文件，然后使用以下命令启动 Maven Wrapper：
+
+`./mvnw clean install`
+
+Maven Wrapper 提供了一系列 Maven 命令，如 clean、compile、test、package 等，可以方便地执行 Maven 构建任务。
+
+### spring mvc 与前端中的 mvc 有什么区别和联系
+
+Spring MVC 和前端中的 MVC（Model-View-Controller）都是 MVC 设计模式的一种实现。
+
+Spring MVC 是一个基于 Java 的 Web 应用程序框架，主要用于开发 Web 应用程序。它提供了模型（Model）、视图（View）和控制器（Controller）三个部分的功能。模型负责处理业务逻辑和数据，视图负责呈现用户界面，控制器负责接收用户请求并调用模型和视图。Spring MVC 通过使用 Java 注解来简化开发，并提供了丰富的功能，如模板引擎、数据验证、分页等功能。
+
+前端中的 MVC 是指在前端应用程序中，通过将数据模型（Model）、视图（View）和控制器（Controller）分离，实现可重用性和可扩展性的架构设计。在前端开发中，通常使用 JavaScript 和 HTML 作为视图，使用后端返回的数据作为模型，使用 AJAX 技术实现与后端的通信。
+
+虽然 Spring MVC 和前端中的 MVC 在实现上有一些不同，但它们的核心思想是相同的。通过将应用程序分成三个部分，可以实现代码的重用、可维护性和可扩展性。同时，它们都可以提高应用程序的性能和可扩展性。
+
+### Servlet
+
+Servlet 是一个 Java 类，它是 Java Web 应用程序的一部分。它是一个容器，可以处理 HTTP 请求和响应，它是 Java Web 应用程序的核心组件之一。
+
+Servlet 接收 HTTP 请求，解析请求的内容，调用相关的 Java 代码来处理请求，然后生成 HTTP 响应，将响应发送给浏览器。Servlet 可以处理多种 HTTP 请求，如 GET、POST、PUT、DELETE 等。Servlet 通常与 Java Web 应用程序服务器（如 Tomcat、Jetty 等）一起使用，负责处理 HTTP 请求和响应。
+
+Servlet 的实现是基于 Java EE（Java Enterprise Edition）规范，它提供了许多功能，如多线程、日志记录、数据验证等。Servlet 可以通过使用 Java 注解来简化开发，并提供了丰富的功能。
+
+Servlet 是 Java Web 应用程序中非常重要的组件，它为开发复杂的 Web 应用程序提供了一个高效、灵活的框架。
+
+以下是一个简单的 Servlet 使用案例：
+
+1.创建一个 Java 类，实现 javax.servlet.http.HttpServlet 接口，并重写 doGet 方法。例如：
+
+```java
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+   private static final long serialVersionUID = 1L;
+
+   protected void doGet(HttpServletRequest request, HttpServletResponse response)
+           throws ServletException, IOException {
+       response.setContentType("text/html");
+       try (PrintWriter out = response.getWriter()) {
+           out.println("<h1>Hello, Servlet!</h1>");
+       }
+   }
+}
+```
+
+2.创建一个 HTML 页面，用于测试 Servlet。例如：
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <title>Servlet Test</title>
+  </head>
+  <body>
+    <a href="hello">访问Servlet</a>
+  </body>
+</html>
+```
+
+3.将 Java 类部署到 Web 服务器（如 Tomcat、Jetty 等）。 4.访问 HTML 页面，点击“访问 Servlet”链接，可以看到浏览器显示“Hello, Servlet!”。
+这个简单的例子展示了如何使用 Servlet 处理 HTTP 请求，并生成响应。Servlet 可以处理多种 HTTP 请求，如 GET、POST、PUT、DELETE 等，也可以处理更复杂的业务逻辑。
+
+### Spring Mvc 中的 DispatcherServlet
+
+DispatcherServlet 是 Spring MVC 中的核心组件，它负责接收 HTTP 请求、解析请求内容、调用相应的处理程序、处理响应并返回给浏览器。DispatcherServlet 是 Spring Web 应用程序的默认调度器，它实现了 javax.servlet.http.HttpServlet 接口，并使用了 Spring 框架的依赖注入和面向切面编程等技术。
+
+DispatcherServlet 的主要功能包括：
+
+- 解析请求：DispatcherServlet 会解析 HTTP 请求，并将其转换为 Spring MVC 中的请求对象（如 org.springframework.web.servlet.mvc.Request）。
+- 调用处理程序：DispatcherServlet 会根据请求对象中的 URL 映射找到对应的处理程序（HandlerMapping），并将其调用。处理程序可以是控制器（Controller）或者视图（View）。
+- 处理响应：DispatcherServlet 会将处理程序的响应转换为 HTTP 响应对象（如 javax.servlet.http.HttpServletResponse），并将其发送给浏览器。
+- 视图解析：DispatcherServlet 会根据视图名称找到对应的视图解析器（ViewResolver），并将其调用，将响应对象转换为 HTML 页面。
+- 数据绑定：DispatcherServlet 会使用数据绑定器（DataBinder）将请求参数绑定到处理程序需要的对象上。
+- 异常处理：DispatcherServlet 会捕获并处理应用程序中的异常，并将错误信息返回给浏览器。
+
+DispatcherServlet 的配置可以通过 Spring 配置文件或者 Java 代码进行。可以通过配置 DispatcherServlet 的属性，如映射 URL、视图解析器、数据绑定器等，来调整 Spring MVC 的运行方式。
+
+## gradle 项目配置
+
+Gradle 是一种构建和发布 Java 项目的自动化构建工具。Spring Boot 是一个基于 Spring 框架的快速开发框架，用于构建 Web 应用和 RESTful 服务。要配置一个基于 Gradle 和 Spring Boot 的项目，需要创建一个 build.gradle 文件。
+
+以下是一个简单的 Gradle Spring Boot 项目的 build.gradle 文件示例
+
+```gradle
+// 设置 Gradle 版本
+gradle.version = '7.2'
+
+// 设置 Spring Boot 版本
+bootVersion = '2.7.2'
+
+// 设置 JVM 版本
+jvmVersion = '1.8'
+
+// 定义项目依赖
+repositories {
+   mavenCentral()
+   maven { url 'https://repo1.maven.org/maven2/org/springframework/boot' }
+}
+
+dependencies {
+   implementation 'org.springframework.boot:spring-boot-starter-web'
+   implementation 'org.springframework.boot:spring-boot-starter-test'
+   runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+// 设置构建工具
+buildscript {
+   repositories {
+       mavenCentral()
+   }
+   dependencies {
+       classpath 'org.gradle:gradle-tooling-plugin:4.2.5'
+   }
+}
+
+// 设置 JPA 依赖
+plugins {
+   id 'org.springframework.boot' version '2.7.2'
+   id 'org.springframework.boot.data.jpa' version '2.7.2'
+}
+
+// 设置 JPA 配置
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+// 设置 JPA 实体
+jpa {
+   showSql = true
+   hibernate {
+       ddl-auto = 'update'
+   }
+}
+```
+
+这个 build.gradle 文件定义了项目的基本配置，包括 Gradle 和 Spring Boot 的版本、依赖、构建工具、JPA 配置等。你可以根据实际项目需求进行调整。
+
+在创建一个新的 Spring Boot 项目时，Gradle 会自动生成一个 build.gradle 文件。如果你需要自定义项目配置，可以修改这个文件。
+
+### 关于注解
+
+注解（Annotation）是 Java 中一种增强功能的方式，它允许开发者在不修改原始类或方法的情况下，对它们进行功能扩展。注解通过使用 @ 符号标识，可以在类、方法、字段等元素上使用。
+
+在 Java 中，有多种类型的注解，包括：
+
+系统注解：由 Java 平台定义，如 @Override、@Deprecated 等。
+接口注解：用于实现接口中的功能，如 @Autowired、@Qualifier 等。
+组件扫描注解：用于指定组件扫描的规则，如 @Component、@Service、@Repository 等。
+切面注解：用于 AOP（面向切面编程），如 @Aspect、@Pointcut、@Around 等。
+事件注解：用于事件驱动的编程模型，如 @EventListener。
+测试注解：用于单元测试，如 @Test、@RunWith 等。
+
+下面以几个常用的注解为例，介绍它们的使用方法：
+
+- @Override：用于标识方法是否是父类方法的覆盖实现。当子类的方法与父类的方法同名时，需要使用 @Override 注解来表明子类的方法是父类方法的覆盖实现。
+
+```java
+class Parent {
+   void doSomething() {
+       // ...
+   }
+}
+
+class Child extends Parent {
+   @Override
+   void doSomething() {
+       // ...
+   }
+}
+```
+
+- @Autowired：用于依赖注入，自动将外部对象注入到带有此注解的方法或字段中。
+
+```java
+@Service
+public class MyService {
+   private final MyRepository myRepository;
+
+   @Autowired
+   public MyService(MyRepository myRepository) {
+       this.myRepository = myRepository;
+   }
+}
+```
+
+- @Component：用于标识类是一个组件，可以被 Spring 容器扫描到并实例化。
+
+```java
+@Component
+public class MyComponent {
+   // ...
+}
+```
+
+- @PostConstruct：用于标识一个方法是一个依赖注入之后的初始化操作。
+
+```java
+@PostConstruct
+public void init() {
+   // ...
+}
+```
+
+- @PreDestroy：用于标识一个方法是一个依赖注入对象销毁之前的操作。
+
+```java
+@PreDestroy
+public void cleanup() {
+   // ...
+}
+```
+
+这些只是 Java 注解的一部分，还有很多其他的注解可以用于不同的场景。要熟练掌握注解的使用，需要不断练习和实践
+
+### gradle springboot3 项目添加 knife4j 4.3.0 的 starter 应该怎么做
+
+要在 Gradle Spring Boot 项目中添加 Knife4j 4.3.0 的 starter，请按照以下步骤操作：
+
+在项目的根目录下创建一个名为 build.gradle 的文件（如果已经存在则跳过此步骤）。
+在 build.gradle 文件中，添加以下依赖：
+
+```gradle
+dependencies {
+  implementation 'com.github.xiaoymin:knife4j-openapi3-jakarta-spring-boot-starter:4.3.0'
+}
+```
+
+这将添加 Knife4j 4.3.0 的 starter 依赖到项目的依赖列表中。
+
+保存 build.gradle 文件。
+运行 ./gradlew build 命令以构建项目。
+这将在项目中添加 Knife4j 4.3.0 的 starter 依赖，并构建项目。
+
+注意：请确保在添加依赖之前已经将项目的构建工具设置为 Gradle。如果尚未设置，请将项目的构建工具设置为 Gradle，方法如下：
+
+对于 IntelliJ IDEA：打开项目的 build.gradle 文件，然后在 build.gradle 文件顶部添加以下内容
+
+```gradle
+plugins {
+   id 'java'
+   id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+```
+
+完成上述步骤后，Knife4j 4.3.0 的 starter 依赖将被添加到项目中，并可以正常使用。
+
+### 遇到的问题
+
+- Full component analysis cannot be performed until the Pom is valid.
+
+> 那就解决
+
+<div class="red">
+This error message typically indicates that there is an issue with the Pom (Project Object Model) file in your Java project. The Pom is a configuration file that contains information about the project, such as its dependencies, build tools, and other metadata.
+
+To resolve this error, you should first ensure that your Pom file is valid and contains all the necessary information. You can do this by running the following command in your project directory:
+
+</div>
+
+```
+mvn validate
+```
+
+```zsh
+└─(00:01:40)──> mvn validate                                                                                                                                                               ──(五,1006)─┘
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------< com.ajn404:learn >--------------------------
+[INFO] Building learn 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.143 s
+[INFO] Finished at: 2023-10-06T00:01:44+08:00
+[INFO] ------------------------------------------------------------------------
+```
+
+If the validation fails, you will see error messages that indicate the issues in your Pom file. You should address these issues before attempting to perform a full component analysis.
+
+Once you have a valid Pom file, you can perform a full component analysis by running the following command:
+
+```
+mvn dependency:analyze
+```
+
+This command will analyze your project's dependencies and provide a report that shows which dependencies are being used and which are not. You can use this report to identify any unused dependencies that can be removed to reduce the size of your project.
+
+If you encounter any issues or errors during the analysis, you can consult the Maven documentation for more information on how to resolve them.
+
+- You must accept the terms of legal notice of the beta Java specification to enable support for "21 - Record patterns, pattern matching for switch". The implementation of an early-draft specification developed under the Java Community Process (JCP) is made available for testing and evaluation purposes only and is not compatible with any specification of the JCP.
+
+> 这段文字的意思是：在使用 "21 - Record patterns, pattern matching for switch" 功能之前，您必须接受 Java 规范的 legal notice，以启用对这种功能的支持。根据 JCP（Java 社区进程）的开发，该功能是基于早期草稿的实现，仅用于测试和评估，与 JCP 任何规范都不兼容。
+> 这段文字是在说明在使用一种尚未正式发布的功能之前，必须遵守一些规则和条件。这种功能可能是基于某个早期版本的规范，可能不兼容现有的规范。为了避免潜在的问题，在使用这种功能之前，必须先接受相关的 legal notice。
+
+## 链接
+
+- [Spring Boot 简介及快速搭建，一文让你搞懂 springboot 的前世今生](https://juejin.cn/post/7090786484172619807?searchId=2023092816522912FB8DB49DAA7AC6D936)
+- [Spring 官网](https://spring.io/)
+- [knife4j 文档](https://doc.xiaominfo.com/)
