@@ -41,7 +41,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       <h1>前端探索</h1>
       <a
         target="_blank"
-        href=`${import.meta.env.BASE_URL}/rss.xml`
+        href=`rss.xml`
         class="rss-link"
         aria-label="rss feed"
         title="RSS Feed"
@@ -82,7 +82,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         <div class="card-grid">
               {featuredPosts.map(({ data }) => (
                 <Card client:load client:only="react"
-                  href={`${import.meta.env.BASE_URL}/posts/${slugify(data)}`}
+                  href={`posts/${slugify(data)}`}
                   frontmatter={data}
                   secHeading={false}
                 />
@@ -104,7 +104,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
             ({ data }, index) =>
               index < 4 && (
                 <Card client:load client:only="react"
-                  href={`${import.meta.env.BASE_URL}/posts/${slugify(data)}`}
+                  href={`posts/${slugify(data)}`}
                   frontmatter={data}
                   secHeading={false}
                 />
@@ -114,7 +114,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     </div>
     </section>
       <div class="all-posts-btn-wrapper">
-        <LinkButton href="/posts">
+        <LinkButton href="posts">
           所有文章
           <svg xmlns="http://www.w3.org/2000/svg"
             ><path

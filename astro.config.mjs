@@ -25,12 +25,11 @@ export default defineConfig({
     port: 3333,
     open: true,
   },
-  base: "/notes_astro3",
   build: {
     assets: "static",
     inlineStylesheets: "always",
   },
-  site: "https://ajn404.github.io/notes_astro3/", // replace this with your deployed domain
+  site: "https://ajn404.github.io", // replace this with your deployed domain
   prefetch: true,
   integrations: [
     mdx({
