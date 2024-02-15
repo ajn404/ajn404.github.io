@@ -1,0 +1,31 @@
+---
+import { Button } from "@shadcn/ui/button.tsx";
+import "@styles/shadcn.css";
+import { MenubarDemo } from "@shadcn/demo/Menubar";
+import { DataTableDemo } from "@shadcn/demo/Table";
+import PlainCard from '@shadcn/card/PlainCard'
+import HoverCardDemo from "@shadcn/card/HoverCard";
+
+---
+
+<html lang="en">
+  <head>
+    <title>Astro Shadcn Play</title>
+  </head>
+  <body>
+    <div class="grid gap-8 auto-rows-max m-4">
+      <div>
+        <Button variant="outline" client:load>Hello World</Button>
+      </div>
+      <div>
+        <MenubarDemo client:load />
+      </div>
+      <div class="col-span-2">
+        <DataTableDemo client:load />
+      </div>
+      <div>
+        <HoverCardDemo client:load/>
+      </div>
+    </div>
+  </body>
+</html>

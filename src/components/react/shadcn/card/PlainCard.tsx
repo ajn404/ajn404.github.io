@@ -28,7 +28,7 @@ export default forwardRef<
     </CardContent>
     <CardFooter>
       <a
-        href={props.title ? "/notes_astro3/fantastic/" + props.title : "#"}
+        href={props.title ? "/fantastic/" + props.title : "#"}
         className={`group inline-block ${className} ${buttonVariants({
           variant: "outline",
         })}`}
@@ -41,7 +41,7 @@ export default forwardRef<
     </CardFooter>
     {props.title && (
       <iframe
-        src={"/notes_astro3/fantastic/" + props.title}
+        src={"/fantastic/" + props.title}
         className=" h-20px m-4 mx-auto overflow-scroll"
       ></iframe>
     )}

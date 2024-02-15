@@ -1,0 +1,40 @@
+---
+import Layout from "@layouts/Layout.astro";
+---
+
+
+
+<script>
+    import AudioMotionAnalyzer from 'audiomotion-analyzer';
+    let audio = document.getElementById('audio_motion') as HTMLAudioElement;
+    let an:AudioMotionAnalyzer|null  = null;
+    audio.onplay = () =>{
+        if(!an)
+          an = new AudioMotionAnalyzer(
+            document.getElementById('container') as HTMLElement,
+            {
+                source: audio,
+                colorMode:"bar-index",
+            }
+        );
+    }
+</script>
+
+<style>
+    #container {
+        height: calc(100vh - 30px);
+        background: radial-gradient(ellipse at top, #e66465, transparent),
+            radial-gradient(ellipse at bottom, #4d9f0c, transparent);
+    }
+</style>
+
+<Layout>
+       <main>
+         <div id="container" class="min-h-[70vh] ">  
+        </div>
+        <audio id="audio_motion" class="w-full h-[30px]" controls>
+            <source src="/notes_astro3/assets/sorry.mp3" type="audio/mpeg" />
+        </audio>
+       </main>
+
+</Layout>

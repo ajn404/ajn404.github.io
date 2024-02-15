@@ -116,9 +116,7 @@ function Frames({
   return (
     <group
       ref={ref}
-      onClick={e => (
-        e.stopPropagation(), setLocation("/notes_astro3/posts/gallery#5")
-      )}
+      onClick={e => (e.stopPropagation(), setLocation("/posts/gallery#5"))}
       onPointerMissed={() => setLocation("/")}
     >
       {images.map(

@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "Xingcao";
-  src: url("/notes_astro3/assets/Xingcao.ttf") format("truetype");
+  src: url("/assets/Xingcao.ttf") format("truetype");
 }
 
 .xing-cao,.xing-cao * {
@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: 'xkcd'; 
-  src: url('/notes_astro3/assets/xkcd.woff') format('woff');
+  src: url('/assets/xkcd.woff') format('woff');
 }
 
 .font-xkcd,.font-xkcd *{

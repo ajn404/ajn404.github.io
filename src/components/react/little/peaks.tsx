@@ -75,7 +75,7 @@ export default () => {
       </div>
       <div id="overview-container" className=" h-[200px]"></div>
       <audio id="audio" controls>
-        <source src="/notes_astro3/assets/sorry.mp3" type="audio/mpeg" />
+        <source src="/assets/sorry.mp3" type="audio/mpeg" />
       </audio>
     </div>
   );
