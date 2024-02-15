@@ -26,7 +26,7 @@ const next = pageNum < totalPages ? "" : "disabled";
         <div class="card-grid">
       {
         posts.map(({ data }) => (
-          <Card client:load client:only="react" href={`posts/${slugify(data)}`} frontmatter={data} />
+          <Card client:load client:only="react" href={`/posts/${slugify(data)}`} frontmatter={data} />
         ))
       }
     </div>
