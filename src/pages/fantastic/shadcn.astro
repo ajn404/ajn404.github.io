@@ -6,6 +6,8 @@ import { DataTableDemo } from "@shadcn/demo/Table";
 import PlainCard from '@shadcn/card/PlainCard'
 import HoverCardDemo from "@shadcn/card/HoverCard";
 
+import NavigationMenu from "@shadcn/demo/ComplexNavigationMenu";
+
 ---
 
 <html lang="en">
@@ -20,12 +22,17 @@ import HoverCardDemo from "@shadcn/card/HoverCard";
       <div>
         <MenubarDemo client:load />
       </div>
-      <div class="col-span-2">
-        <DataTableDemo client:load />
-      </div>
       <div>
         <HoverCardDemo client:load/>
       </div>
+      <div>
+        <NavigationMenu client:load/>
+      </div>
+      <div class="col-span-2">
+        <DataTableDemo client:load />
+      </div>
+      
+
     </div>
   </body>
 </html>
