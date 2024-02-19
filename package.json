@@ -94,6 +94,7 @@
     "maath": "^0.10.7",
     "mdast-util-to-string": "^4.0.0",
     "next-themes": "^0.2.1",
+    "novel": "^0.2.4",
     "p5": "^1.9.0",
     "peaks.js": "^3.2.1",
     "qiankun": "^2.10.16",
