@@ -1,0 +1,120 @@
+---
+author: ajn4044
+pubDatetime: 2024-02-08T11:34:11.000Z
+title: 2024-02
+featured: false
+draft: false
+tags:
+  - 2024-02
+  - records
+description: 2024-02
+---
+
+记录2024 2月的内容
+
+## 目录
+
+## Cytoscape.js
+
+[单页链接](/fantastic/cytoscape)
+
+Graph/Network Visualization and Analysis Library
+
+## use with
+
+```js
+with (expression) statement;
+```
+
+```js
+function f(foo, values) {
+  with (foo) {
+    console.log(values);
+  }
+}
+```
+
+```js
+var a, x, y;
+var r = 10;
+
+with (Math) {
+  a = PI * r * r;
+  x = r * cos(PI);
+  y = r * sin(PI / 2);
+}
+```
+
+## nodejs
+
+- [roadmap](https://roadmap.sh/nodejs)
+
+## react practice
+
+<details>
+<summary>re-render</summary>
+
+import ReRender from "@components/react/practice/reRender";
+
+<ReRender client:load />
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import React, { useState, useEffect } from "react";
+
+function A(props: { state: number }) {
+  console.log("A");
+  return <B />;
+}
+
+function B() {
+  console.log("B");
+  return <C />;
+}
+
+function C() {
+  console.log("C");
+  return null;
+}
+
+function D() {
+  console.log("D");
+  return null;
+}
+
+export default function App() {
+  const [state, setState] = useState(0);
+  useEffect(() => {
+    setState(state => state + 1);
+  }, []);
+  console.log("App");
+  return (
+    <div>
+      <A state={state} />
+      <D />
+    </div>
+  );
+}
+```
+
+result
+
+```js
+"App";
+"A";
+"B";
+"C";
+"D";
+"App";
+"A";
+"B";
+"C";
+"D";
+```
+
+</details>
+
+## 链接
+
+- [cytoscape demo](https://js.cytoscape.org/#demos)
