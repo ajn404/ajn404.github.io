@@ -22,7 +22,7 @@ export const LOGO_IMAGE = {
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
-    href: "https://github.com/ajn404/notes_astro3",
+    href: "https://github.com/ajn404/ajn404.github.io",
     linkTitle: ` ${SITE.title}的代码仓库`,
     active: true,
   },

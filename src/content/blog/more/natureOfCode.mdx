@@ -9,7 +9,7 @@ tags:
   - p5
   - canvas
   - math
-description: "代码的本质"
+description: "代码的本质 use p5 to know the world"
 ---
 
 ## 目录
@@ -30,7 +30,7 @@ import Template from "@components/react/p5/index.tsx";
 
 </details>
 
-### 0. Randomness
+### 0. [Randomness](https://natureofcode.com/random/)
 
 `随机性` `柏林噪声` `概率`
 
@@ -446,7 +446,61 @@ todo: flow demo
 
 <details></details>
 
-### 1. Vectors
+### 1. [Vectors](https://natureofcode.com/vectors/)
+
+#### ball
+
+<details>
+<summary>traveling around ball</summary>
+
+import Ball from "@components/react/p5/Vector/ball";
+
+<Ball client:visible />
+
+```tsx
+import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
+
+export default () => {
+  const sketch = (p: p5) => {
+    let x = 100;
+    let y = 200;
+    let xSpeed = 1.5;
+    let ySpeed = 0.8;
+    const setup = () => {
+      p.createCanvas(p.windowWidth / 2, 240);
+    };
+    const draw = () => {
+      p.background(255);
+      x += xSpeed;
+      y += ySpeed;
+      if (x + 8 > p.width || x < 8) {
+        xSpeed *= -1;
+      }
+      if (y + 8 > p.height || y < 8) {
+        ySpeed *= -1;
+      }
+      p.stroke(10);
+      p.fill(127, 30, 30);
+      p.circle(x, y, 16);
+    };
+    const resize = () => p.setup();
+    p.setup = setup;
+    p.draw = draw;
+    p.windowResized = resize;
+  };
+  return <Basic sketch={sketch} showControls></Basic>;
+};
+```
+
+</details>
+
+#### still ball but use p5.Vector
+
+<details>
+<summary>Click to expand</summary>
+
+</details>
 
 ### 2. Forces
 
