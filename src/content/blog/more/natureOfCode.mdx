@@ -21,7 +21,7 @@ nature of code,这是一本他撰写的一本关于编程和计算机生成艺�
 
 ### code template
 
-<details>
+<details open>
 <summary>template</summary>
 
 import Template from "@components/react/p5/index.tsx";
@@ -36,7 +36,7 @@ import Template from "@components/react/p5/index.tsx";
 
 #### RandomnessA
 
-<details>
+<details open>
 <summary>RandomnessA</summary>
 ```tsx
 step() {
@@ -100,7 +100,7 @@ import RandomnessC from "@components/react/p5/Randomness/RandomnessC.tsx";
 
 - Create a random walker that has a greater tendency to move down and to the right. (The solution follows in the next section.)
 
-<details>
+<details open>
 <summary>Probability and Nonuniform Distributions
 概率和非均匀分布</summary>
 ```ts
@@ -235,7 +235,7 @@ import UseRandomGaussian from "@components/react/p5/Randomness/useRandomGaussian
 
 #### SimulatePaint
 
-<details>
+<details open>
 <summary>实践一个油漆飞溅模拟</summary>
 
 import SimulatePaint from "@components/react/p5/Randomness/simulatePaint.tsx";
@@ -276,7 +276,7 @@ const debouncedSd = useDebounce(sd, 300);
 
 #### ResolveReject
 
-<details >
+<details open>
 <summary>接受拒绝分布</summary>
 
 import ResolveReject from "@components/react/p5/Randomness/ResolveReject.tsx";
@@ -287,7 +287,7 @@ import ResolveReject from "@components/react/p5/Randomness/ResolveReject.tsx";
 
 #### PerlinCurve
 
-<details>
+<details open>
 <summary>柏林噪声</summary>
 
 import PerlinCurve from "@components/react/p5/Randomness/PerlinCurve.tsx";
@@ -312,7 +312,7 @@ const draw = () => {
 
 #### noise range
 
-<details>
+<details open>
 <summary>noise range</summary>
 
 import NoiseRange from "@components/react/p5/Randomness/NoiseRange.tsx";
@@ -325,7 +325,7 @@ import NoiseRange from "@components/react/p5/Randomness/NoiseRange.tsx";
 
 #### two-dimensional noise
 
-<details>
+<details open>
 <summary>two-dimensional noise</summary>
 
 import TwoDimensionalNoise from "@components/react/p5/Randomness/TwoDimensionalNoise.tsx";
@@ -336,7 +336,7 @@ import TwoDimensionalNoise from "@components/react/p5/Randomness/TwoDimensionalN
 
 #### generate marble
 
-<details>
+<details open>
 <summary>generate marble</summary>
 
 import Marble from "@components/react/p5/Randomness/Marble.tsx";
@@ -347,7 +347,7 @@ import Marble from "@components/react/p5/Randomness/Marble.tsx";
 
 #### RandomnessG
 
-<details>
+<details open>
 
 <summary>RandomnessG</summary>
 
@@ -359,7 +359,7 @@ import RandomnessG from "@components/react/p5/Randomness/RandomnessG.tsx";
 
 #### landscape
 
-<details>
+<details open>
 <summary>landscape</summary>
 
 import Landscape from "@components/react/p5/Randomness/landScape.tsx";
@@ -369,7 +369,7 @@ import Landscape from "@components/react/p5/Randomness/landScape.tsx";
 
 #### wind simulation
 
-<details>
+<details open>
 <summary>wind simulation(actually just noise)</summary>
 
 import ComponentName from "@components/react/p5/Randomness/windSimulation.tsx";
@@ -444,13 +444,13 @@ export default () => {
 
 todo: flow demo
 
-<details></details>
+<details open></details>
 
 ### 1. [Vectors](https://natureofcode.com/vectors/)
 
 #### ball
 
-<details>
+<details open>
 <summary>traveling around ball</summary>
 
 import Ball from "@components/react/p5/Vector/ball";
@@ -497,7 +497,7 @@ export default () => {
 
 #### still ball but use p5.Vector
 
-<details>
+<details open>
 <summary>vector add</summary>
 
 import BallUseVector from "@components/react/p5/Vector/ballUseVector";
@@ -543,7 +543,7 @@ export default () => {
 
 #### 3d
 
-<details >
+<details open>
 <summary>ball in 3d</summary>
 
 import BallUseVector3D from "@components/react/p5/Vector/ballUseVector3D";
@@ -568,6 +568,8 @@ export default () => {
       p.stroke(88);
       console.log(pos, p.width);
 
+      p.orbitControl();
+
       // 边界检测
       if (pos.x + 16 > p.width / 3 || pos.x - 16 < -p.width / 3) {
         velocity.x = velocity.x * -1;
@@ -578,11 +580,13 @@ export default () => {
       if (pos.z + 16 > p.width / 3 || pos.z - 16 < -p.width / 3) {
         velocity.z = velocity.z * -1;
       }
-
+      p.noFill();
+      p.box((p.width * 2) / 3, (p.height * 2) / 3, (p.width * 2) / 3);
       pos.add(velocity);
       // 在3D空间绘制球体
       p.push(); // 保存当前的变换状态
       p.translate(pos.x, pos.y, pos.z); // 将坐标系移动到小球的位置
+      p.fill(126, 127, 128);
       p.sphere(16); // 绘制球体
       p.pop(); // 恢复之前的变换状态
     };
@@ -599,7 +603,7 @@ export default () => {
 
 #### vector subtraction
 
-<details >
+<details open>
 <summary>vector subtraction visualization</summary>
 
 import Subtraction from "@components/react/p5/Vector/Subtraction";
@@ -610,7 +614,7 @@ import Subtraction from "@components/react/p5/Vector/Subtraction";
 
 #### vector mul divide
 
-<details >
+<details open>
 <summary>vector mul divide visualization</summary>
 
 import Mul from "@components/react/p5/Vector/Mul";
@@ -627,6 +631,55 @@ import Mul from "@components/react/p5/Vector/Mul";
 import Magnitude from "@components/react/p5/Vector/Magnitude";
 
 <Magnitude client:visible />
+
+</details>
+
+#### normalize
+
+<details open>
+<summary>vector normalize</summary>
+
+import Normalize from "@components/react/p5/Vector/normalize";
+
+<Normalize client:visible />
+
+</details>
+
+#### Mover
+
+<details open>
+<summary>Mover</summary>
+
+import Mover from "@components/react/p5/Vector/BaseMoverDemo";
+
+<Mover client:visible />
+
+```tsx
+import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
+import { Mover } from "./Mover";
+
+export default () => {
+  const sketch = (p: p5) => {
+    let mover: Mover;
+    const setup = () => {
+      p.createCanvas(p.windowWidth / 2, 240);
+      mover = new Mover(p);
+    };
+    const draw = () => {
+      p.background(255);
+      mover.move();
+      mover.checkEdges();
+      mover.show();
+    };
+    const resize = () => p.setup();
+    p.setup = setup;
+    p.draw = draw;
+    p.windowResized = resize;
+  };
+  return <Basic sketch={sketch} showControls></Basic>;
+};
+```
 
 </details>
 

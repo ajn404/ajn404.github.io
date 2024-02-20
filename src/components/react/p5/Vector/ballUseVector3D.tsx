@@ -15,6 +15,8 @@ export default () => {
       p.stroke(88);
       console.log(pos, p.width);
 
+      p.orbitControl();
+
       // 边界检测
       if (pos.x + 16 > p.width / 3 || pos.x - 16 < -p.width / 3) {
         velocity.x = velocity.x * -1;
@@ -25,11 +27,13 @@ export default () => {
       if (pos.z + 16 > p.width / 3 || pos.z - 16 < -p.width / 3) {
         velocity.z = velocity.z * -1;
       }
-
+      p.noFill();
+      p.box((p.width * 2) / 3, (p.height * 2) / 3, (p.width * 2) / 3);
       pos.add(velocity);
       // 在3D空间绘制球体
       p.push(); // 保存当前的变换状态
       p.translate(pos.x, pos.y, pos.z); // 将坐标系移动到小球的位置
+      p.fill(126, 127, 128);
       p.sphere(16); // 绘制球体
       p.pop(); // 恢复之前的变换状态
     };
