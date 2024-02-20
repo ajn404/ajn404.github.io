@@ -5,10 +5,11 @@ export default () => {
   const sketch = (p: p5) => {
     let x = 100;
     let y = 200;
-    let xSpeed = 1.5;
-    let ySpeed = 0.8;
+    let xSpeed = 0.5;
+    let ySpeed = 0.5;
     const setup = () => {
-      p.createCanvas(p.windowWidth / 2, 240);
+      p.createCanvas(p.windowWidth / 2, 80);
+      (x = p.width / 2), (y = p.height / 2);
     };
     const draw = () => {
       p.background(255);
