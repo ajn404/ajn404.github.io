@@ -119,6 +119,41 @@ result
 ## javascript 高级
 
 - 标签函数: 对于有n个插值的模板字面量，传给标签函数的表达式参数的个数始终是n，而传给标签函数的第一个参数所包含的字符串个数则始终是n+1。
+- Symbol
+  <details open>
+<summary>more details about symbol</summary>
+
+可以使用Symbol.keyFor()来查询全局注册表，这个方法接收符号，返回该全局符号对应的字符串键。如果查询的不是全局符号，则返回undefined
+
+```js
+let s1 = Symbol("s1");
+console.log(Symbol.keyFor(s1)); // undefined
+let s2 = Symbol.for("s2");
+console.log(Symbol.keyFor(s2)); // s2
+```
+
+```js
+let a1 = Symbol('a1'),
+    a2 = Symbol('a2'),
+    a3 = Symbol('a3'),
+    a4 = Symbol('a4');
+let obj = {
+    [a1]:'a1'
+}
+
+obj[a2] = 'a2';
+console.log(obj)
+//{Symbol(a1): "a1",Symbol(a2): "a2"}
+
+Object.defineProperty(obj, a3, {
+    value: 'a3'
+};
+
+console.log(obj)
+
+```
+
+</details>
 
 ## 其他
 

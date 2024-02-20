@@ -4,8 +4,8 @@ import { useCallback, useRef, useState } from "react";
 
 import { cn } from "@utils/utils";
 import { Slider } from "@shadcn/ui/slider";
-import { useDebounce } from "@uidotdev/usehooks";
-import { flushSync, unstable_batchedUpdates } from "react-dom";
+// import { useDebounce } from "@uidotdev/usehooks";
+// import { flushSync, unstable_batchedUpdates } from "react-dom";
 
 export default () => {
   let [len, setLen] = useState(0);
