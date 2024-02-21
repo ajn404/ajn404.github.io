@@ -4,16 +4,19 @@ import { Mover } from "./Mover";
 
 export default () => {
   const sketch = (p: p5) => {
-    let mover: Mover;
+    let mover: Mover[];
     const setup = () => {
       p.createCanvas(p.windowWidth / 2, 240);
-      mover = new Mover(p);
+      mover = new Array(300).fill(0).map(() => new Mover(p));
+      p.frameRate(120);
     };
     const draw = () => {
       p.background(255);
-      mover.move();
-      mover.checkEdges();
-      mover.show();
+      mover.forEach(m => {
+        m.move();
+        m.checkEdges();
+        m.show();
+      });
     };
     const resize = () => p.setup();
     p.setup = setup;

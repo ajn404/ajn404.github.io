@@ -1,32 +1,38 @@
-// motion 101
-
 import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
 
-export class Mover {
+class MouseMover {
   position: p5.Vector;
   velocity: p5.Vector;
   circleRadius: number = 20;
   acceleration: p5.Vector;
   p: p5;
   color: p5.Color;
+  trend: number = 0.2;
   constructor(p: p5) {
+    this.circleRadius = p.random(1, 20);
+    //球越大，趋势越小
+    this.trend = p.map(this.circleRadius, 1, 20, 1, 0.5);
     this.position = p.createVector(
       p.random(this.circleRadius, p.width - this.circleRadius),
       p.random(this.circleRadius + 1, p.height - this.circleRadius - 1)
     );
+
     this.velocity = p.createVector(p.random(-2, 2), p.random(-2, 2));
-    // this.acceleration = p.createVector(-0.001, 0.01);
-    // this.velocity.limit(10);
     this.p = p;
     this.color = p.color(p.random(0, 255), p.random(0, 255), p.random(0, 255));
   }
 
   move() {
-    this.acceleration = this.p.createVector(
-      this.p.random(-0.01, 0.01),
-      this.p.random(-0.01, 0.01)
-    );
-    this.acceleration.mult(this.p.random(2));
+    let mouse = this.p.createVector(this.p.mouseX, this.p.mouseY);
+    let dir = mouse;
+    dir.sub(this.position);
+    //靠近的趋势
+    dir.setMag(this.trend);
+
+    // this.acceleration = this.p.createVector(this.p.random(-0.01, 0.01), this.p.random(-0.01, 0.01));
+    this.acceleration = dir;
+    // this.acceleration.mult(this.p.random(2));
     this.velocity.limit(10);
 
     this.velocity.add(this.acceleration);
@@ -55,18 +61,29 @@ export class Mover {
     ) {
       this.velocity.y *= -1;
     }
-
-    // //motion 101 is so boring
-    // if (this.position.x > p.width) {
-    //   this.position.x = 0;
-    // } else if (this.position.x < 0) {
-    //   this.position.x = p.width;
-    // }
-
-    // if (this.position.y > p.height) {
-    //   this.position.y = 0;
-    // } else if (this.position.y < 0) {
-    //   this.position.y = p.height;
-    // }
   }
 }
+
+export default () => {
+  const sketch = (p: p5) => {
+    let movers: MouseMover[];
+    const setup = () => {
+      p.createCanvas(p.windowWidth / 2, 240);
+      movers = new Array(1000).fill(0).map(() => new MouseMover(p));
+      p.frameRate(120);
+    };
+    const draw = () => {
+      p.background(255);
+      movers.forEach(m => {
+        m.move();
+        m.checkEdges();
+        m.show();
+      });
+    };
+    const resize = () => p.setup();
+    p.setup = setup;
+    p.draw = draw;
+    p.windowResized = resize;
+  };
+  return <Basic sketch={sketch} showControls></Basic>;
+};
