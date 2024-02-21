@@ -4,6 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import { SITE } from "@config";
 
 import PlainCard from "@shadcn/card/PlainCard";
+import { describe } from "node:test";
 
 console.log(import.meta);
 
@@ -41,12 +42,20 @@ const fantasticList = [
     describtion: "锁屏",
   },
   {
-    name:"note",
+    name:"ajn404.github.io/note",
     describtion:"笔记"
   },
   {
-    name:"log.github.io",
+    name:"ajn404.github.io/log.github.io",
     describtion:"此地无银三百两"
+  },
+  {
+    name:"ajn404.github.io/rengm/",
+    describtion:"vuepress的使用边界"
+  },
+  {
+    name:"code-reference.vercel.app",
+    describtion:"vercel next dashboard crud demo"
   }
 ];
 ---

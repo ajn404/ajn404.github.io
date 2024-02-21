@@ -49,6 +49,31 @@ with (Math) {
 
 - [roadmap](https://roadmap.sh/nodejs)
 - The process.cwd() method returns the current working directory of the Node.js process.
+  <ul>
+<li>
+<details>
+<summary>process.nextTick()</summary>
+`process.nextTick()` 方法用于在当前操作完成后，立即调度一个函数执行。它会在事件循环的当前轮次结束时执行，但在 I/O 事件之前执行。这使得它比 `setTimeout(fn, 0)` 更加高效。
+
+要使用 `process.nextTick()`，只需传递一个函数作为参数即可。这个函数会在当前操作完成后尽快执行。例如：
+
+```javascript
+console.log("Start");
+
+process.nextTick(() => {
+  console.log("Inside process.nextTick callback");
+});
+
+console.log("End");
+```
+
+在上面的例子中，首先输出 "Start"，然后是 "End"，最后输出 "Inside process.nextTick callback"。这是因为 `process.nextTick()` 的回调函数会在当前操作完成后立即执行，即使它是在同一个事件循环内被调用的。
+
+需要注意的是，`process.nextTick()` 的回调函数会在当前代码的同步执行完成后立即执行，因此如果在回调函数中有大量计算或者阻塞操作，可能会影响其他事件的处理。因此，应该确保在 `process.nextTick()` 中执行的代码是轻量级的，避免阻塞事件循环。
+
+</details>
+</li> 
+</ul>
 
 ## react practice
 
@@ -270,3 +295,4 @@ import BigCalendar from "@components/react/little/bigCalendar";
 ## 链接
 
 - [cytoscape demo](https://js.cytoscape.org/#demos)
+- [glob](https://www.npmjs.com/package/glob)
