@@ -157,6 +157,47 @@ console.log(obj)
 
 </details>
 
+<details open>
+<summary>Symbol.hasInstance</summary>
+
+```js
+class Bar {}
+class Zar extends Bar {
+  static [Symbol.hasInstance]() {
+    return false;
+  }
+}
+
+let b = new Bar();
+console.log(b instanceof Bar); // true
+console.log(Bar[Symbol.hasInstance](b)); //true
+
+let z = new Zar();
+console.log(z instanceof Zar); // false
+console.log(Zar[Symbol.hasInstance](z)); // false
+```
+
+</details>
+
+<details >
+<summary>Symbol.isConcatSpreadable</summary>
+
+```js
+let initial = [1, 2, 3];
+let arr = [4, 5, 6];
+console.log(initial.concat(arr)); // [1,2,3,4,5,6];
+
+arr[Symbol.isConcatSpreadable] = false;
+console.log(initial.concat(arr)); // [1,2,3,[4,5,6]];
+```
+
+</details>
+
+<details>
+<summary>Symbol.iterator</summary>
+
+</details>
+
 ## 其他
 
 <details>
@@ -218,7 +259,11 @@ console.log(obj)
 </details>
 
 <details open>
-<summary>symbol.asyncIterator</summary>
+<summary>react dnd big calender</summary>
+
+import BigCalendar from "@components/react/little/bigCalendar";
+
+<BigCalendar client:only="react" />
 
 </details>
 

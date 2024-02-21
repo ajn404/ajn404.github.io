@@ -1,0 +1,13 @@
+.rbc-btn-group{
+    button{
+        color: rgba(var(--color-text-base), var(--tw-text-opacity)) !important;
+        &.rbc-active{
+        color: black !important;
+}
+    }
+}
+
+.rbc-off-range-bg{
+    background: black!important;
+}
+

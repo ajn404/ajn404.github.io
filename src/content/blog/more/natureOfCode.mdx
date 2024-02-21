@@ -693,12 +693,39 @@ import InteractiveMotionBall from "@components/react/p5/Vector/InteractiveMotion
 <InteractiveMotionBall client:visible />
 </details>
 
-<div class="!border-[#889] !font-extrabold p-4 m-3 bg-skin-purple text-skin-green">
+<div class="!border-[#889] !font-extrabold p-4 m-3 ">
   It’s important to note that the moving object has no knowledge about trying to
   stop at a destination;
 </div>
 
-### 2. Forces
+### 2. [Forces](https://natureofcode.com/forces/)
+
+<details>
+<summary>牛顿第二定律</summary>
+
+牛顿第二定律是经典力学中的一个基本原理，描述了力、质量和加速度之间的关系。它可以用数学公式表示为：
+
+\[ F = ma \]
+
+其中，
+
+- \( F \) 表示作用在物体上的力（单位是牛顿），
+- \( m \) 表示物体的质量（单位是千克），
+- \( a \) 表示物体的加速度（单位是米/秒^2）。
+
+这个定律说明，当一个力作用于一个物体时，它会产生该物体的加速度，且这个加速度的大小与作用力成正比，与物体的质量成反比。换句话说，较大的力会导致较大的加速度，而较大的质量会导致较小的加速度。
+
+</details>
+
+Using forces, simulate a helium-filled balloon floating upward and bouncing off the top of a window. Can you add a wind force that changes over time, perhaps according to Perlin noise?
+
+<details>
+<summary>exec 2.1</summary>
+
+import Balloon from "@components/react/p5/Forces/balloon.tsx";
+
+<Balloon client:visible />
+</details>
 
 ### 3. Oscillation
 

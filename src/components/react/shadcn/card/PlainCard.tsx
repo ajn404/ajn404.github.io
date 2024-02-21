@@ -19,16 +19,14 @@ export default forwardRef<
   React.HTMLAttributes<HTMLAnchorElement>
 >(({ className, children, ...props }, ref) => (
   <Card>
-    <CardHeader>
-      <CardTitle>{props.title}</CardTitle>
-    </CardHeader>
+    <CardHeader>{/* <CardTitle>{props.title}</CardTitle> */}</CardHeader>
     <CardContent>
       <slot name="des" />
       {children}
     </CardContent>
     <CardFooter>
       <a
-        href={props.title ? "/fantastic/" + props.title : "#"}
+        href={props.title || "#"}
         className={`group inline-block ${className} ${buttonVariants({
           variant: "outline",
         })}`}
@@ -41,7 +39,7 @@ export default forwardRef<
     </CardFooter>
     {props.title && (
       <iframe
-        src={"/fantastic/" + props.title}
+        src={props.title}
         className=" h-20px m-4 mx-auto overflow-scroll"
       ></iframe>
     )}
