@@ -16,6 +16,7 @@ import { remarkCodeHike } from "@code-hike/mdx";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import path from "path";
 import { fileURLToPath } from "url";
+import auth from "auth-astro";
 
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
@@ -31,6 +32,7 @@ export default defineConfig({
   },
   site: "https://ajn404.github.io", // replace this with your deployed domain
   prefetch: true,
+  output: "server",
   integrations: [
     mdx({
       syntaxHighlight: "shiki",
@@ -49,6 +51,7 @@ export default defineConfig({
     vue({
       appEntrypoint: "/src/components/vue/_app",
     }),
+    auth(),
     tailwind({
       config: {
         applyBaseStyles: false,

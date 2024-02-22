@@ -13,9 +13,16 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const socialCount = SOCIALS.filter(social => social.active).length;
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+import { SignIn, SignOut } from 'auth-astro/components'
 ---
 
 <Layout>
+  {session ? <p>Welcome {session.user?.name}</p> : <p>Not logged in</p>}
+   <SignIn provider="github" />
+    <SignOut />
   <main id="main-content">
     <section id="hero">
       <h1>今日方知我为我</h1>
@@ -36,10 +43,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
-        记录个人成长以及知识仓库<br/>
-        <span class="text-sm opacity-50">穿插个人的一些技术探索，奇奇🥸怪怪🧠，可可☄️爱爱☃️</span>
+        记录个人成长以及知识仓库<br />
+        <span class="text-sm opacity-50"
+          >穿插个人的一些技术探索，奇奇🥸怪怪🧠，可可☄️爱爱☃️</span
+        >
       </p>
-    
+
       {
         // only display if at least one social link is enabled
         socialCount > 0 && (
@@ -58,17 +67,19 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         <>
           <section id="featured">
             <h2>feature</h2>
-              <section class="hero-section">
-        <div class="card-grid">
-              {featuredPosts.map(({ data }) => (
-                <Card client:load client:only="react"
-                  href={`posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-             </div>
-    </section>
+            <section class="hero-section">
+              <div class="card-grid">
+                {featuredPosts.map(({ data }) => (
+                  <Card
+                    client:load
+                    client:only="react"
+                    href={`posts/${slugify(data)}`}
+                    frontmatter={data}
+                    secHeading={false}
+                  />
+                ))}
+              </div>
+            </section>
           </section>
           <Hr />
         </>
@@ -77,22 +88,24 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
     <section id="recent-posts">
       <h2>最近的文章</h2>
-        <section class="hero-section">
+      <section class="hero-section">
         <div class="card-grid">
-        {
-          sortedPosts.map(
-            ({ data }, index) =>
-              index < 4 && (
-                <Card client:load client:only="react"
-                  href={`posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              )
-          )
-        }
-    </div>
-    </section>
+          {
+            sortedPosts.map(
+              ({ data }, index) =>
+                index < 4 && (
+                  <Card
+                    client:load
+                    client:only="react"
+                    href={`posts/${slugify(data)}`}
+                    frontmatter={data}
+                    secHeading={false}
+                  />
+                )
+            )
+          }
+        </div>
+      </section>
       <div class="all-posts-btn-wrapper">
         <LinkButton href="posts">
           所有文章
@@ -108,8 +121,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <div id="editor-container"></div>
   <Footer />
 </Layout>
-
-
 
 <style>
   /* ===== Hero Section ===== */
@@ -148,3 +159,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply my-8 text-center;
   }
 </style>
+
+<script>
+  const { signIn, signOut } = await import("auth-astro/client");
+  (document.querySelector("#login") as HTMLButtonElement).onclick = () =>
+    signIn("github");
+  (document.querySelector("#logout") as HTMLButtonElement).onclick = () =>
+    signOut();
+</script>
