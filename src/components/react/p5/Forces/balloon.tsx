@@ -6,7 +6,7 @@ export default () => {
     let balloon: Balloon;
     let gravity: p5.Vector;
     p.setup = () => {
-      p.createCanvas(600, 400);
+      p.createCanvas(p.windowWidth / 2, 80);
       balloon = new Balloon(p.width / 2, p.height, 20);
       gravity = p.createVector(0, -0.01); // Gravity force (upward)
     };
