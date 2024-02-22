@@ -13,13 +13,13 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const socialCount = SOCIALS.filter(social => social.active).length;
-import { getSession } from "auth-astro/server";
+//import { getSession } from "auth-astro/server";
 
-const session = await getSession(Astro.request);
+//const session = await getSession(Astro.request);
 ---
 
 <Layout>
-  {
+  <!-- {
     session ? (
       <div>
         <p>Welcome {session.user?.name}</p>
@@ -28,7 +28,7 @@ const session = await getSession(Astro.request);
     ) : (
       <button id="login">Login</button>
     )
-  }
+  } -->
   <main id="main-content">
     <section id="hero">
       <h1>今日方知我为我</h1>

@@ -18,6 +18,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import auth from "auth-astro";
 import vercel from "@astrojs/vercel/serverless";
+import node from "@astrojs/node";
 
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
@@ -33,12 +34,10 @@ export default defineConfig({
   },
   site: "https://ajn404.github.io", // replace this with your deployed domain
   prefetch: true,
-  output: "server",
-  adapter: vercel({
-    webAnalytics: {
-      enabled: true,
-    },
-  }),
+//   output: "server",
+//   adapter: node({
+//     mode: "standalone",
+//   }),
   integrations: [
     mdx({
       syntaxHighlight: "shiki",
@@ -57,7 +56,7 @@ export default defineConfig({
     vue({
       appEntrypoint: "/src/components/vue/_app",
     }),
-    auth(),
+    // auth(),
     tailwind({
       config: {
         applyBaseStyles: false,
