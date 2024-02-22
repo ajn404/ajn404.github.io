@@ -50,6 +50,6 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: docs
-          build_dir: .vercel/output
+          build_dir: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
