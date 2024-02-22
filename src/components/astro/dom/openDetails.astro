@@ -1,0 +1,29 @@
+---
+import { ChevronRight } from "lucide-react";
+
+import { Button } from "@shadcn/ui/button";
+---
+
+<Button variant="outline" size="icon" className="fixed z-50" id="open-details">
+  <ChevronRight className="h-4 w-4" />
+</Button>
+
+<script>
+  let open = false;
+  let button = document.getElementById("open-details");
+
+  (button as HTMLButtonElement).onclick = () => {
+    document
+      .querySelectorAll("details")
+      .forEach((el: HTMLDetailsElement) => (el.open = !open));
+    open = !open;
+
+    if (open) {
+      button.classList.add("rotate-90");
+      button.classList.remove("rotate-0");
+    } else {
+      button.classList.add("rotate-0");
+      button.classList.remove("rotate-90");
+    }
+  };
+</script>
