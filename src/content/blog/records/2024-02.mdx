@@ -20,31 +20,6 @@ description: 2024-02
 
 Graph/Network Visualization and Analysis Library
 
-## use with
-
-```js
-with (expression) statement;
-```
-
-```js
-function f(foo, values) {
-  with (foo) {
-    console.log(values);
-  }
-}
-```
-
-```js
-var a, x, y;
-var r = 10;
-
-with (Math) {
-  a = PI * r * r;
-  x = r * cos(PI);
-  y = r * sin(PI / 2);
-}
-```
-
 ## nodejs
 
 - [roadmap](https://roadmap.sh/nodejs)
@@ -223,7 +198,86 @@ console.log(initial.concat(arr)); // [1,2,3,[4,5,6]];
 <details>
 <summary>Symbol.iterator</summary>
 
+这个符号作为一个属性表示“一个方法，该方法返回对象默认的迭代器，由for-of语句使用”
+
+```js
+class Foo {
+  *[Symbol.iterator]() {}
+}
+let f = new Foo();
+console.log(f[Symbol.iterator]());
+//Generator {<suspended>}
+```
+
+Symbol.iterator函数生成的对象应该通过其next()方法返回一个对象，该对象有两个属性：done和value。
+可以显式地调用next()方法返回，也可以隐式地通过生成器函数返回
+
+```js
+class Emitter {
+  constructor(max) {
+    this.max = max;
+    this.count = 0;
+  }
+  *[Symbol.iterator]() {
+    while (this.count < this.max) {
+      yield this.count++;
+    }
+  }
+}
+
+function count() {
+  let emitter = new Emitter(5);
+  for (let x of emitter) {
+    console.log(x);
+  }
+}
+//0
+//1
+//2
+//3
+//4
+```
+
 </details>
+
+<details open>
+<summary>[Symbol.match](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/match)</summary>
+
+这个符号作为属性表示"一个正则表达式方法，该方法用正则表达式去匹配字符串，由String.prototype.match使用"
+
+```js
+
+```
+
+</details>
+
+- use with
+
+```js
+with (expression) statement;
+```
+
+```js
+function f(foo, values) {
+  with (foo) {
+    console.log(values);
+  }
+}
+```
+
+```js
+var a, x, y;
+var r = 10;
+
+with (Math) {
+  a = PI * r * r;
+  x = r * cos(PI);
+  y = r * sin(PI / 2);
+}
+```
+
+- Reflect.ownKeys 方法返回一个由目标对象自身的属性键组成的数组。它的返回值等同于 Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target))
+- structuredClone()
 
 ## 其他
 
@@ -280,9 +334,10 @@ console.log(initial.concat(arr)); // [1,2,3,[4,5,6]];
 </details>
 
 <details open>
-<summary>莫名其妙的链接</summary>
+<summary>一些链接</summary>
 
 - https://aovgun.weebly.com/uploads/9/8/7/3/98730038/l3motionphysicsf1920.pdf
+- https://github.com/nodejs/node/blob/673f49ac94f47700a7f8a1af082df6fa57c925ef/lib/internal/console/constructor.js#L380
 
 </details>
 

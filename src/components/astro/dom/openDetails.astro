@@ -4,26 +4,66 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "@shadcn/ui/button";
 ---
 
-<Button variant="outline" size="icon" className="fixed z-50" id="open-details">
+<Button
+  title="Expand all"
+  variant="outline"
+  size="icon"
+  className="fixed z-50  -left-3 transition transform hover:translate-x-3"
+  id="open-details"
+>
   <ChevronRight className="h-4 w-4" />
 </Button>
 
 <script>
   let open = false;
-  let button = document.getElementById("open-details");
+  let button = document.getElementById("open-details") as HTMLButtonElement;
 
-  (button as HTMLButtonElement).onclick = () => {
+  button.style.top = "50%";
+  button.onclick = () => {
     document
       .querySelectorAll("details")
       .forEach((el: HTMLDetailsElement) => (el.open = !open));
     open = !open;
 
-    if (open) {
+    if (open || isDragging) {
       button.classList.add("rotate-90");
       button.classList.remove("rotate-0");
+      button.title = "Collapse all";
     } else {
       button.classList.add("rotate-0");
       button.classList.remove("rotate-90");
+      button.title = "Expand all";
     }
   };
+
+  // add drag action
+
+  let isDragging = false;
+  let startY, currentY;
+
+  button.addEventListener("mousedown", startDragging);
+  window.addEventListener("mouseup", stopDragging);
+  window.addEventListener("mousemove", drag);
+
+  function startDragging(event) {
+    isDragging = true;
+    startY = event.clientY - button.offsetTop;
+  }
+
+  function stopDragging() {
+    isDragging = false;
+    button.classList.remove("translate-x-3");
+  }
+
+  function drag(event) {
+    if (isDragging) {
+      event.preventDefault();
+      currentY = event.clientY;
+      let newY = currentY - startY;
+      const maxTop = window.innerHeight - button.offsetHeight;
+      newY = Math.min(maxTop, Math.max(0, newY)); // Ensure the button doesn't go out of bounds
+      button.style.top = newY + "px";
+      button.classList.add("translate-x-3");
+    }
+  }
 </script>

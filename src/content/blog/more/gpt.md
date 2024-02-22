@@ -349,3 +349,58 @@ React DSL 解析器和运行时可以用于简化开发过程，使新开发者�
 6. **多媒体替代文本**: 对于图片、音频和视频等多媒体内容，提供相应的替代文本或描述，以便屏幕阅读器或其他辅助技术能够读取和理解。
 
 通过关注和实施可访问性最佳实践，开发人员可以创建更加包容和用户友好的数字产品和服务，满足不同用户群体的需求和期望。
+
+### Regex
+
+<details open>
+<summary>正则表达式</summary>
+
+Reading regular expressions (regex) can initially seem daunting, but with some practice and understanding of the basic syntax, you can become proficient at interpreting them. Here are some fundamental components to help you read regex:
+
+1. **Literal Characters**: Characters in a regex match themselves. For example, the regex `abc` matches the string "abc" exactly.
+
+2. **Metacharacters**: These are characters with special meanings in regex. Some common metacharacters include:
+
+   - `.` (dot): Matches any single character except newline.
+   - `*`: Matches zero or more occurrences of the preceding character.
+   - `+`: Matches one or more occurrences of the preceding character.
+   - `?`: Matches zero or one occurrence of the preceding character.
+   - `^`: Anchors the match to the start of the string.
+   - `$`: Anchors the match to the end of the string.
+   - `\`: Escapes a metacharacter, allowing it to be treated as a literal character.
+
+3. **Character Classes**: Enclosed in square brackets `[]`, character classes match any one character within the brackets. For example, `[abc]` matches either "a", "b", or "c".
+
+4. **Quantifiers**: These specify the number of occurrences of the preceding character or group. For example, `a{2,4}` matches "aa", "aaa", or "aaaa".
+
+5. **Groups**: Enclosed in parentheses `()`, groups capture and remember matches. For example, `(ab)+` matches "ab", "abab", "ababab", etc.
+
+6. **Alternation**: Represented by the `|` character, alternation allows matching of multiple alternatives. For example, `cat|dog` matches either "cat" or "dog".
+
+7. **Modifiers**: These affect the behavior of the entire regex pattern. Common modifiers include:
+
+   - `i`: Case-insensitive matching.
+   - `g`: Global matching (find all matches rather than stopping after the first match).
+   - `m`: Multiline matching.
+
+8. **Anchors**: These specify a position in the string. Common anchors include `^` for the start of the string and `$` for the end of the string.
+
+Here's an example regex and how to interpret it:
+
+```
+/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+```
+
+This regex is often used to validate email addresses. Broken down:
+
+- `^` asserts the start of the string.
+- `([a-z0-9_\.-]+)` captures the username part of the email address.
+- `@` matches the "@" symbol.
+- `([\da-z\.-]+)` captures the domain name part of the email address.
+- `\.` matches the dot before the top-level domain.
+- `([a-z\.]{2,6})` captures the top-level domain.
+- `$` asserts the end of the string.
+
+Regular expressions can become quite complex, but breaking them down into smaller components and understanding each part's role can make them more manageable to read and work with. Practice and experimentation are key to mastering regex.
+
+</details>

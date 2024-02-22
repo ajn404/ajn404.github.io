@@ -7,6 +7,7 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import NavToc from './NavToc.astro'
 import Code from './Code.astro'
+import OpenDetails from "@components/astro/dom/openDetails.astro";
 export interface Props {
   post: CollectionEntry<"blog">;
 }
@@ -18,6 +19,9 @@ const { Content, remarkPluginFrontmatter } = data;
 
 const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   .href;
+
+
+
 
 ---
 
@@ -55,6 +59,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     </ul>
     <!-- <NavToc/> -->
   </main>
+  <OpenDetails></OpenDetails>
   <button
   type="button"
   data-te-ripple-color="light"

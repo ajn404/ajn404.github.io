@@ -3,11 +3,12 @@ import { Button } from "@shadcn/ui/button.tsx";
 import "@styles/shadcn.css";
 import { MenubarDemo } from "@shadcn/demo/Menubar";
 import { DataTableDemo } from "@shadcn/demo/Table";
-import PlainCard from '@shadcn/card/PlainCard'
 import HoverCardDemo from "@shadcn/card/HoverCard";
 
 import NavigationMenu from "@shadcn/demo/ComplexNavigationMenu";
 import ResizeHandle from "@shadcn/demo/ResizeHandle";
+import Carousel from "@shadcn/demo/carousel";
+
 
 
 ---
@@ -36,6 +37,12 @@ import ResizeHandle from "@shadcn/demo/ResizeHandle";
       <div class="col-span-2">
         <ResizeHandle client:load />
       </div>
+
+      <div class="col-span-2">
+        <Carousel client:load />
+      </div>
+
+      
       
 
     </div>
