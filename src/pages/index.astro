@@ -16,13 +16,19 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 import { getSession } from "auth-astro/server";
 
 const session = await getSession(Astro.request);
-import { SignIn, SignOut } from 'auth-astro/components'
 ---
 
 <Layout>
-  {session ? <p>Welcome {session.user?.name}</p> : <p>Not logged in</p>}
-   <SignIn provider="github" />
-    <SignOut />
+  {
+    session ? (
+      <div>
+        <p>Welcome {session.user?.name}</p>
+        <button id="logout">Logout</button>
+      </div>
+    ) : (
+      <button id="login">Login</button>
+    )
+  }
   <main id="main-content">
     <section id="hero">
       <h1>今日方知我为我</h1>
