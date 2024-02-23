@@ -16,7 +16,6 @@ export default () => {
 
       // Apply gravity
       balloon.applyForce(gravity);
-
       // Apply wind using Perlin noise
       let windForce = p.createVector(
         p.map(p.random(0.5), 0, 0.5, -0.5, 0.5),

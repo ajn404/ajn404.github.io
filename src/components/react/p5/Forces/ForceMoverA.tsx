@@ -1,7 +1,7 @@
 import type p5 from "p5";
 import { Mover } from "../Vector/Mover";
 
-export class ForceMover extends Mover {
+export class ForceMoverA extends Mover {
   mass: number;
   constructor(p: p5) {
     super(p);
