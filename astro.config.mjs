@@ -1,24 +1,18 @@
-import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
-import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
+import tailwind from "@astrojs/tailwind";
 import vue from "@astrojs/vue";
-import remarkToc from "remark-toc";
-import remarkMath from "remark-math";
+import { defineConfig } from "astro/config";
+import path from "path";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeKatex from "rehype-katex";
 import remarkCollapse from "remark-collapse";
-import sitemap from "@astrojs/sitemap";
-import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
-import copy from "rollup-plugin-copy";
+import remarkMath from "remark-math";
+import remarkToc from "remark-toc";
 import css from "rollup-plugin-css-only";
-
-import { remarkCodeHike } from "@code-hike/mdx";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import path from "path";
 import { fileURLToPath } from "url";
-import auth from "auth-astro";
-import vercel from "@astrojs/vercel/serverless";
-import node from "@astrojs/node";
+import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
 
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);

@@ -300,9 +300,26 @@ Object.getOwnPropertySymbols(RegExp.prototype);
 //[Symbol(Symbol.match), Symbol(Symbol.matchAll), Symbol(Symbol.replace), Symbol(Symbol.search), Symbol(Symbol.split)]
 ```
 
+```js
+class Replace1 {
+  constructor(value) {
+    this.value = value;
+  }
+  [Symbol.replace](string) {
+    // return `s/${string}/${this.value}/g`;
+    return string.replace("f", this.value);
+  }
+}
+console.log("foo".replace(new Replace1("bar")));
+```
+
 </details>
 
-- use with
+这段跳过跳过，还有Symbol.search Symbol.species Symbol.split Symbol.toPrimitive Symbol.toStringTag Symbol.unscopables
+
+Symbol.unscopables，不推荐使用with 也不推荐使用Symbol.unscopables
+
+- 至于how to use with
 
 ```js
 with (expression) statement;
@@ -329,6 +346,122 @@ with (Math) {
 
 - Reflect.ownKeys 方法返回一个由目标对象自身的属性键组成的数组。它的返回值等同于 Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target))
 - structuredClone()
+
+- Object
+
+<details open>
+<summary>more details about Object</summary>
+
+`console.log(Object.getOwnPropertyDescriptors(Object.prototype))`
+
+```js
+{
+    "constructor": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "__defineGetter__": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "__defineSetter__": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "hasOwnProperty": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "__lookupGetter__": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "__lookupSetter__": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "isPrototypeOf": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "propertyIsEnumerable": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "toString": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "valueOf": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    },
+    "__proto__": {
+        "enumerable": false,
+        "configurable": true
+    },
+    "toLocaleString": {
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+    }
+}
+```
+
+[Object.prototype.propertyIsEnumerable()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable)
+
+</details>
+
+- 操作符
+
+<details open>
+<summary>操作符细节</summary>
+
+> 一元操作符
+
+- 递增递减操作符
+
+四个递增递减操作符能应用于字符串，布尔值，浮点数和对象。
+
+```js
+let a = false;
+a++; // 0
+a; //1
+let b = {
+  valueOf() {
+    return -1;
+  },
+};
+b++; //-1
+b; //0
+```
+
+- 一元加减
+
+同样是上述规则
+
+```js
+let a = 2;
+let b = -a; // -2
+let c = +a; // 2
+
+let d = false;
++d; // 0
+```
+
+- 位操作符
+
+</details>
 
 ## 其他
 

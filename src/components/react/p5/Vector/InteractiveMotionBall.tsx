@@ -1,9 +1,9 @@
-import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { useCallback, useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
 import { Slider } from "@shadcn/ui/slider";
+import { useDebounce } from "@uidotdev/usehooks";
 import { cn } from "@utils/utils";
+import type p5 from "p5";
+import { useCallback, useState } from "react";
 
 class MouseMover {
   position: p5.Vector;
