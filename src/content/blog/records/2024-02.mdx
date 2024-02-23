@@ -246,7 +246,58 @@ function count() {
 这个符号作为属性表示"一个正则表达式方法，该方法用正则表达式去匹配字符串，由String.prototype.match使用"
 
 ```js
+console.log(RegExp.prototype[Symbol.match]);
+//ƒ [Symbol.match]() { [native code] }
 
+const str = "Hello, World!";
+const regex = /Hello/;
+console.log(str.match(regex));
+//['Hello', index: 0, input: 'Hello, World!', groups: undefined]
+```
+
+给这个方法传入非正则表达式会导致该值被准换成RegExp对象，例如上述`console.log(str.match(regex))`,regex不是RegExp对象，所以会被隐式地转换成RegExp对象
+
+如果要改变这种行为，让方法直接使用参数，则可以重新定义Symbol.match函数以取代默认正则表达式求值的行为，从而让match()方法使用正则表达式实例
+
+```js
+class FootWatcher {
+  constructor(regexp) {
+    this.regexp = regexp;
+  }
+  static [Symbol.match](target) {
+    return target.match(this.regexp);
+  }
+}
+
+const foot = new FootWatcher(/foo/);
+console.log("footBar".match(foot));
+//['o', index: 1, input: 'footBar', groups: undefined]
+```
+
+```js
+class StringMatch {
+  constructor(str) {
+    this.str = str;
+  }
+  static [Symbol.match](target) {
+    return target.includes(this.str);
+  }
+}
+console.log("footBar".match(new StringMatch("Bar")));
+```
+
+</details>
+
+<details open>
+<summary>Symbol.replace</summary>
+
+类上，Symbol.replace 这个属性指定了当一个字符串替换所匹配字符串时所调用的方法。String.prototype.replace() 方法会调用此方法。
+
+等等，没完了是不是
+
+```js
+Object.getOwnPropertySymbols(RegExp.prototype);
+//[Symbol(Symbol.match), Symbol(Symbol.matchAll), Symbol(Symbol.replace), Symbol(Symbol.search), Symbol(Symbol.split)]
 ```
 
 </details>
@@ -354,3 +405,5 @@ import BigCalendar from "@components/react/little/bigCalendar";
 
 - [cytoscape demo](https://js.cytoscape.org/#demos)
 - [glob](https://www.npmjs.com/package/glob)
+- [react native template](https://github.com/thecodingmachine/react-native-boilerplate)
+- [random visualization](https://alterebro.com/random-distribution/)

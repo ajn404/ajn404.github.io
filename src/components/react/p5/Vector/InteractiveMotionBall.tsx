@@ -1,5 +1,9 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
+import { useCallback, useState } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { Slider } from "@shadcn/ui/slider";
+import { cn } from "@utils/utils";
 
 class MouseMover {
   position: p5.Vector;
@@ -65,25 +69,49 @@ class MouseMover {
 }
 
 export default () => {
-  const sketch = (p: p5) => {
-    let movers: MouseMover[];
-    const setup = () => {
-      p.createCanvas(p.windowWidth / 2, 240);
-      movers = new Array(1000).fill(0).map(() => new MouseMover(p));
-      p.frameRate(120);
-    };
-    const draw = () => {
-      p.background(255);
-      movers.forEach(m => {
-        m.move();
-        m.checkEdges();
-        m.show();
-      });
-    };
-    const resize = () => p.setup();
-    p.setup = setup;
-    p.draw = draw;
-    p.windowResized = resize;
-  };
-  return <Basic sketch={sketch} showControls></Basic>;
+  let [num, setNum] = useState(1000);
+  let debounceNum = useDebounce(num, 200);
+  const sketch = useCallback(
+    (p: p5) => {
+      let movers: MouseMover[];
+      const setup = () => {
+        p.createCanvas(p.windowWidth / 2, 240);
+        movers = new Array(debounceNum).fill(0).map(() => new MouseMover(p));
+        p.frameRate(120);
+      };
+      const draw = () => {
+        p.background(255);
+        movers.forEach(m => {
+          m.move();
+          m.checkEdges();
+          m.show();
+        });
+      };
+      const resize = () => p.setup();
+      p.setup = setup;
+      p.draw = draw;
+      p.windowResized = resize;
+    },
+    [debounceNum]
+  );
+  return (
+    <>
+      slider值num:{num}
+      <br />
+      小球数量debounceNum:{debounceNum}
+      <br />
+      <Slider
+        defaultValue={[50]}
+        max={1000}
+        min={1}
+        step={1}
+        className={cn("w-[100%] m-4")}
+        onValueChange={value => {
+          setNum(value[0]);
+        }}
+        value={[num]}
+      />
+      <Basic sketch={sketch} showControls></Basic>
+    </>
+  );
 };
