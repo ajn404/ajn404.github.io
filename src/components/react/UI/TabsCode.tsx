@@ -2,44 +2,52 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shadcn/ui/tabs";
 import Code from "@components/react/editor/code";
 import { useEffect, useState, useMemo } from "react";
 
-import ForceA from "@components/react/p5/Forces/ForceA";
+import { ForceA, ForceB } from "@components/react/p5/Forces/index";
 import ForceACode from "@components/react/p5/Forces/ForceA.tsx?raw";
+import ForceBCode from "@components/react/p5/Forces/ForceB.tsx?raw";
 
-type componentName = "ForceA";
+type ComponentName = "ForceA" | "ForceB";
 
-const components = {
-  ForceA: {
-    component: ForceA,
-    code: ForceACode,
-  },
+const components: Record<
+  ComponentName,
+  { component: React.ComponentType<any>; code: string }
+> = {
+  ForceA: { component: ForceA, code: ForceACode },
+  ForceB: { component: ForceB, code: ForceBCode },
 };
 
 interface Props {
-  componentName: string;
+  componentName: ComponentName;
 }
 
-export default function DynamicComponent(props: Props) {
-  const [code, setCode] = useState("");
+export default function DynamicComponent({ componentName }: Props) {
+  const [code, setCode] = useState<string>("");
   const [Component, setComponent] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const SetComponent = async () => {
+    let isMounted = true;
+    const loadComponent = async () => {
       try {
-        setCode(components[props.componentName as componentName].code);
-        setComponent(
-          components[props.componentName as componentName].component
-        );
+        if (components[componentName]) {
+          setCode(components[componentName].code);
+          setComponent(components[componentName].component);
+          setError(null);
+        } else {
+          setError(`Component not found: ${componentName}`);
+        }
       } catch (error) {
-        console.error(
-          `Failed to load component: ${props.componentName}`,
-          error
-        );
-        setError(`Failed to load component: ${props.componentName}`);
+        console.error(`Failed to load component: ${componentName}`, error);
+        setError(`Failed to load component: ${componentName}`);
       }
     };
-    SetComponent();
-  }, [props.componentName]);
+
+    loadComponent();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [componentName]);
 
   const memoizedComponent = useMemo(() => Component, [Component]);
 

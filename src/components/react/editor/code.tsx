@@ -20,5 +20,5 @@ export default ({ children }) => {
     }
   }, [children]);
 
-  return <div id="editor" ref={editorRef}></div>;
+  return <div id="editor" className="bg-[#000]" ref={editorRef}></div>;
 };

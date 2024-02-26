@@ -1,13 +1,13 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { ForceMoverA } from "./ForceMoverA";
+import { ForceMoverB } from "./ForceMoverB";
 
 export default () => {
   const sketch = (p: p5) => {
-    let mover: ForceMoverA;
+    let mover: ForceMoverB;
     const setup = () => {
       p.createCanvas(p.windowWidth / 2, 240);
-      mover = new ForceMoverA(p);
+      mover = new ForceMoverB(p);
       p.frameRate(120);
     };
     const draw = () => {
