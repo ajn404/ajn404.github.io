@@ -9,6 +9,7 @@ export class Mover {
   acceleration: p5.Vector;
   p: p5;
   color: p5.Color;
+  name: string = "mover";
   constructor(p: p5) {
     this.position = p.createVector(
       p.random(this.circleRadius, p.width - this.circleRadius),
@@ -39,6 +40,18 @@ export class Mover {
     p.fill(this.color);
     p.strokeWeight(2);
     p.circle(this.position.x, this.position.y, this.circleRadius * 2);
+  }
+
+  showName() {
+    const p = this.p;
+    const size = this.circleRadius / 2;
+    p.textSize(size);
+    p.fill(255);
+    p.text(
+      this.name,
+      this.position.x - (size * this.name.length) / 4,
+      this.position.y + size / 4
+    );
   }
 
   checkEdges() {
