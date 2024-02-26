@@ -2,6 +2,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shadcn/ui/tabs";
 import Code from "@components/react/editor/code";
 import { useEffect, useState, useMemo } from "react";
 
+import ForceA from "@components/react/p5/Forces/ForceA";
+import ForceACode from "@components/react/p5/Forces/ForceA.tsx?raw";
+
+type componentName = "ForceA";
+
+const components = {
+  ForceA: {
+    component: ForceA,
+    code: ForceACode,
+  },
+};
+
 interface Props {
   componentName: string;
 }
@@ -12,14 +24,12 @@ export default function DynamicComponent(props: Props) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchComponent = async () => {
+    const SetComponent = async () => {
       try {
-        const [codeModule, componentModule] = await Promise.all([
-          import(`${props.componentName}.tsx?raw`),
-          import(`${props.componentName}.tsx`),
-        ]);
-        setCode(codeModule.default);
-        setComponent(componentModule.default);
+        setCode(components[props.componentName as componentName].code);
+        setComponent(
+          components[props.componentName as componentName].component
+        );
       } catch (error) {
         console.error(
           `Failed to load component: ${props.componentName}`,
@@ -28,8 +38,7 @@ export default function DynamicComponent(props: Props) {
         setError(`Failed to load component: ${props.componentName}`);
       }
     };
-
-    fetchComponent();
+    SetComponent();
   }, [props.componentName]);
 
   const memoizedComponent = useMemo(() => Component, [Component]);
