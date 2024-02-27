@@ -41,21 +41,14 @@ const Button = ({
 );
 
 const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
-  console.log("rendering");
-
   const container = useRef<HTMLDivElement>(null);
   const trueContainer = useRef<HTMLDivElement>(null);
-
   let [p, setP] = useState<p5>(null);
-  let P5;
-  let [loading, setLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const start = async () => {
     if (container.current) {
       const p5 = await import("p5");
-      P5 = p5.default;
-      setP(new P5(sketch || defaultSketch, container.current));
-      setLoading(false);
+      setP(new p5.default(sketch || defaultSketch, container.current));
     }
   };
 
@@ -63,22 +56,16 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const stop = () => p && p.isLooping() && p.noLoop();
   const begin = () => p && !p.isLooping() && p.loop();
   const init = async () => {
-    console.log("init");
-
-    setLoading(true);
     p && remove();
     await start();
   };
 
   const toggleFullscreen = async () => {
-    console.log("toggle fullscreen");
-
     if (trueContainer.current && !isFullscreen) {
       if (trueContainer.current.requestFullscreen) {
         trueContainer.current.requestFullscreen();
         trueContainer.current.style.backgroundColor = "black";
       }
-      await init();
       setIsFullscreen(true);
     } else if (
       trueContainer.current &&
@@ -88,17 +75,18 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       }
-      await init();
       trueContainer.current.style.backgroundColor = "";
       setIsFullscreen(false);
     } else {
-      await init();
       trueContainer.current.style.backgroundColor = "";
       setIsFullscreen(false);
     }
+    await init();
+    console.log("1");
   };
 
   useEffect(() => {
+    console.log("2");
     if (p && isFullscreen) {
       p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
       p.windowResized = async () => {
@@ -107,7 +95,8 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       };
     }
     const obs = new IntersectionObserver(([entry]) => {
-      entry.isIntersecting && !showControls && begin(); //没有按钮自动启动
+      entry.isIntersecting && !container.current.innerHTML && init();
+      entry.isIntersecting && begin(); //没有按钮自动启动
       !entry.isIntersecting && stop();
     });
     obs.observe(container.current);
@@ -122,13 +111,14 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   };
 
   useEffect(() => {
-    console.log("useEffect2");
     (async () => {
+      console.log("3");
       await init();
       document.addEventListener("fullscreenchange", handleFullscreenChange);
       container.current.style.minHeight = (p?.height || "0") + "px";
       trueContainer.current.style.backgroundColor = "";
     })();
+
     return document.removeEventListener(
       "fullscreenchange",
       handleFullscreenChange
