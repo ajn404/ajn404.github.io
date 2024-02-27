@@ -1,6 +1,5 @@
 import type p5 from "p5";
 import { useEffect, useRef, memo, useState } from "react";
-import { flushSync } from "react-dom";
 
 type Sketch = (p: p5) => void;
 
@@ -42,17 +41,21 @@ const Button = ({
 );
 
 const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
+  console.log("rendering");
+
   const container = useRef<HTMLDivElement>(null);
   const trueContainer = useRef<HTMLDivElement>(null);
 
   let [p, setP] = useState<p5>(null);
   let P5;
+  let [loading, setLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const start = async () => {
     if (container.current) {
       const p5 = await import("p5");
       P5 = p5.default;
       setP(new P5(sketch || defaultSketch, container.current));
+      setLoading(false);
     }
   };
 
@@ -60,11 +63,16 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const stop = () => p && p.isLooping() && p.noLoop();
   const begin = () => p && !p.isLooping() && p.loop();
   const init = async () => {
+    console.log("init");
+
+    setLoading(true);
     p && remove();
     await start();
   };
 
   const toggleFullscreen = async () => {
+    console.log("toggle fullscreen");
+
     if (trueContainer.current && !isFullscreen) {
       if (trueContainer.current.requestFullscreen) {
         trueContainer.current.requestFullscreen();
@@ -103,16 +111,28 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       !entry.isIntersecting && stop();
     });
     obs.observe(container.current);
-
-    return remove;
+    return () => {
+      obs.disconnect();
+      remove();
+    };
   }, [isFullscreen, p]);
 
+  const handleFullscreenChange = () => {
+    setIsFullscreen(!!document.fullscreenElement);
+  };
+
   useEffect(() => {
+    console.log("useEffect2");
     (async () => {
       await init();
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
       container.current.style.minHeight = (p?.height || "0") + "px";
       trueContainer.current.style.backgroundColor = "";
     })();
+    return document.removeEventListener(
+      "fullscreenchange",
+      handleFullscreenChange
+    );
   }, []);
 
   return (
@@ -124,7 +144,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
         ></div>
         {/* 控制按钮 */}
         {showControls && (
-          <div className="flex pt-4 justify-around">
+          <div className="flex pt-4 select-none justify-around">
             <Button onClick={stop}>stop</Button>
             <Button onClick={begin}>begin</Button>
             <Button onClick={init}>init</Button>
