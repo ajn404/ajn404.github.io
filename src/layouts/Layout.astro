@@ -7,6 +7,7 @@ import "@styles/card.scss";
 import Header from "@components/astro/UI/Header.astro";
 // import { ViewTransitions } from "astro:transitions";
 import "./KeySearch.astro"
+import { Toaster } from "@shadcn/ui/sonner"
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -89,6 +90,7 @@ const socialImageURL = new URL(
   <body class="top-[100px]" >
         {activeNav&&<Header  activeNav={activeNav} />}
         <slot  />
+        <Toaster client:load/>
   </body>
 </html>
 

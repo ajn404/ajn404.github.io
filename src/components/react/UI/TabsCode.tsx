@@ -49,7 +49,15 @@ export default function DynamicComponent({ componentName }: Props) {
     };
   }, [componentName]);
 
-  const memoizedComponent = useMemo(() => Component, [Component]);
+  const [dynamicState, setDynamicState] = useState<any>(null);
+
+  const handleStateChange = (newState: any) => {
+    setDynamicState(newState);
+  };
+
+  const memoizedComponent = useMemo(() => {
+    return Component || <div>loading...</div>;
+  }, [Component]);
 
   return (
     <>

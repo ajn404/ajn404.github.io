@@ -1,7 +1,7 @@
 import type p5 from "p5";
 import { Mover } from "../Vector/Mover";
 
-export class ForceMoverB extends Mover {
+export class ForceMoverC extends Mover {
   mass: number;
   constructor(p: p5, name?: string, circleRadius?: number, color?: p5.Color) {
     super(p);

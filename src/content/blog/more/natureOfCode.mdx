@@ -833,7 +833,176 @@ import TabsCode from "@components/react/UI/TabsCode";
 
 让我来看看这个新写的组件会请求几次ForceA
 
-<TabsCode componentName="ForceB" client:load/>
+<TabsCode componentName="ForceB" client:load />
+
+<details open>
+<summary>这个组件🙅，内部调用的动态组件不知道为什么不能使用useState</summary>
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shadcn/ui/tabs";
+import Code from "@components/react/editor/code";
+import { useEffect, useState, useMemo } from "react";
+
+import { ForceA, ForceB } from "@components/react/p5/Forces/index";
+import ForceACode from "@components/react/p5/Forces/ForceA.tsx?raw";
+import ForceBCode from "@components/react/p5/Forces/ForceB.tsx?raw";
+
+type ComponentName = "ForceA" | "ForceB";
+
+const components: Record<
+  ComponentName,
+  { component: React.ComponentType<any>; code: string }
+> = {
+  ForceA: { component: ForceA, code: ForceACode },
+  ForceB: { component: ForceB, code: ForceBCode },
+};
+
+interface Props {
+  componentName: ComponentName;
+}
+
+export default function DynamicComponent({ componentName }: Props) {
+  const [code, setCode] = useState<string>("");
+  const [Component, setComponent] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadComponent = async () => {
+      try {
+        if (components[componentName]) {
+          setCode(components[componentName].code);
+          setComponent(components[componentName].component);
+          setError(null);
+        } else {
+          setError(`Component not found: ${componentName}`);
+        }
+      } catch (error) {
+        console.error(`Failed to load component: ${componentName}`, error);
+        setError(`Failed to load component: ${componentName}`);
+      }
+    };
+
+    loadComponent();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [componentName]);
+
+  const memoizedComponent = useMemo(() => Component, [Component]);
+
+  return (
+    <>
+      <Tabs defaultValue="demo" className="w-full">
+        <TabsList>
+          <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsTrigger value="demo">Demo</TabsTrigger>
+        </TabsList>
+        <TabsContent value="code">
+          {error ? error : <Code>{code}</Code>}
+        </TabsContent>
+        <TabsContent value="demo">{memoizedComponent}</TabsContent>
+      </Tabs>
+    </>
+  );
+}
+```
+
+动态组件的渲染使用了useMemo来避免在每次渲染时重新创建组件。然而，useMemo只是对于组件的引用进行了缓存，但并不会在组件内部创建实际的状态。因此，即使你在动态组件中调用了useState，它也不会正常工作，因为该组件的每次渲染都会重新创建，并且每次重新创建时都会重新初始化状态。(AI)
+
+<details open>
+<summary>继续问ai,这个组件中动态组件内部为什么不能调用useState,useRef等</summary>
+
+在你的代码中，动态组件被存储在`Component`状态中，并在渲染时被调用。然而，React 的规则是在组件的顶层使用 Hook，而不是在条件语句、循环或嵌套函数中使用。动态组件内部可能不能直接调用`useState`、`useRef`等 Hook，因为它们被认为是在组件的非顶层调用。
+
+为了解决这个问题，你可以通过传递函数作为props给动态组件，然后在动态组件内部调用该函数来更新父组件的状态。下面是一个修改后的示例：
+
+```tsx
+import React, { useEffect, useState, useMemo } from "react";
+
+// 其他导入语句
+
+type ComponentName = "ForceA" | "ForceB";
+
+const components: Record<
+  ComponentName,
+  { component: React.ComponentType<any>; code: string }
+> = {
+  ForceA: { component: ForceA, code: ForceACode },
+  ForceB: { component: ForceB, code: ForceBCode },
+};
+
+interface Props {
+  componentName: ComponentName;
+}
+
+export default function DynamicComponent({ componentName }: Props) {
+  const [code, setCode] = useState<string>("");
+  const [Component, setComponent] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadComponent = async () => {
+      try {
+        if (components[componentName]) {
+          setCode(components[componentName].code);
+          setComponent(components[componentName].component);
+          setError(null);
+        } else {
+          setError(`Component not found: ${componentName}`);
+        }
+      } catch (error) {
+        console.error(`Failed to load component: ${componentName}`, error);
+        setError(`Failed to load component: ${componentName}`);
+      }
+    };
+
+    loadComponent();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [componentName]);
+
+  const memoizedComponent = useMemo(() => Component, [Component]);
+
+  const [dynamicState, setDynamicState] = useState<any>(null);
+
+  const handleStateChange = (newState: any) => {
+    setDynamicState(newState);
+  };
+
+  if (memoizedComponent) {
+    // 如果动态组件已加载，将动态组件渲染出来，并传递一个用于更新父组件状态的函数作为 props
+    return (
+      <>
+        <Tabs defaultValue="demo" className="w-full">
+          {/* 这里省略 Tabs 相关的代码 */}
+          <TabsContent value="demo">
+            <memoizedComponent handleStateChange={handleStateChange} />
+          </TabsContent>
+        </Tabs>
+      </>
+    );
+  }
+
+  // 如果动态组件尚未加载，渲染加载中的状态或错误消息
+  return <>{/* 这里省略加载中或错误状态的渲染代码 */}</>;
+}
+```
+
+在上述修改中，动态组件被渲染并传递了一个名为`handleStateChange`的函数作为props。在动态组件内部，你可以调用`handleStateChange`函数来更新父组件的状态。
+
+还是报错🤣，ai果然不能替代人类
+
+`React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: <Fragment />. Did you accidentally export a JSX literal instead of a component?`
+
+</details>
+
+</details>
+
 </details>
 
 ### 3. Oscillation

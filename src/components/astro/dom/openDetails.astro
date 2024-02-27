@@ -20,19 +20,19 @@ import { Button } from "@shadcn/ui/button";
 
   button.style.top = "50%";
   button.onclick = () => {
-    document
-      .querySelectorAll("details")
-      .forEach((el: HTMLDetailsElement) => (el.open = !open));
+    let target = document
+      .querySelectorAll("details");
+    target.forEach((el: HTMLDetailsElement) => (el.open = !open));
     open = !open;
 
     if (open || isDragging) {
       button.classList.add("rotate-90");
       button.classList.remove("rotate-0");
-      button.title = "Collapse all";
+      button.title = "Collapse all "+target.length+" details";
     } else {
       button.classList.add("rotate-0");
       button.classList.remove("rotate-90");
-      button.title = "Expand all";
+      button.title = "Expand all "+target.length+" details";
     }
   };
 
