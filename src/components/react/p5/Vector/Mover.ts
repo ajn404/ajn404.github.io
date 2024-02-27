@@ -52,6 +52,11 @@ export class Mover {
       this.position.x - (size * this.name.length) / 4,
       this.position.y + size / 4
     );
+    p.text(
+      `速度x: ${this.velocity.x.toFixed(2)},y: ${this.velocity.y.toFixed(2)}`,
+      this.position.x - (size * this.name.length) / 4,
+      this.position.y - size
+    );
   }
 
   checkEdges() {
@@ -68,18 +73,5 @@ export class Mover {
     ) {
       this.velocity.y *= -1;
     }
-
-    // //motion 101 is so boring
-    // if (this.position.x > p.width) {
-    //   this.position.x = 0;
-    // } else if (this.position.x < 0) {
-    //   this.position.x = p.width;
-    // }
-
-    // if (this.position.y > p.height) {
-    //   this.position.y = 0;
-    // } else if (this.position.y < 0) {
-    //   this.position.y = p.height;
-    // }
   }
 }
