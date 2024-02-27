@@ -130,7 +130,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       remove();
     };
-  }, []);
+  }, [sketch]);
 
   return (
     <>
