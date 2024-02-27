@@ -1,5 +1,12 @@
 import type p5 from "p5";
 import { useEffect, useRef, memo, useState } from "react";
+import {
+  EnterFullScreenIcon,
+  ExitFullScreenIcon,
+  EyeOpenIcon,
+  PlayIcon,
+  StopIcon,
+} from "@radix-ui/react-icons";
 
 type Sketch = (p: p5) => void;
 
@@ -119,10 +126,10 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       trueContainer.current.style.backgroundColor = "";
     })();
 
-    return document.removeEventListener(
-      "fullscreenchange",
-      handleFullscreenChange
-    );
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      remove();
+    };
   }, []);
 
   return (
@@ -135,11 +142,17 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
         {/* 控制按钮 */}
         {showControls && (
           <div className="flex pt-4 select-none justify-around">
-            <Button onClick={stop}>stop</Button>
-            <Button onClick={begin}>begin</Button>
-            <Button onClick={init}>init</Button>
+            <Button onClick={stop}>
+              <StopIcon />
+            </Button>
+            <Button onClick={begin}>
+              <PlayIcon />
+            </Button>
+            <Button onClick={init}>
+              <EyeOpenIcon></EyeOpenIcon>
+            </Button>
             <Button onClick={toggleFullscreen}>
-              {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
             </Button>
           </div>
         )}
