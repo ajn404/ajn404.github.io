@@ -9,17 +9,19 @@ import { cn } from "@utils/utils";
 export default () => {
   let moverWithWind: ForceMoverC;
   let wind: p5.Vector;
-  let [mass, setMass] = useState(0.1);
+  let [mass, setMass] = useState(2.8);
   let debounceMass = useDebounce(mass, 200);
+  let [maxHeight, setMaxHeight] = useState(0);
+  let [height, setHeight] = useState(0);
 
   const sketch = useCallback(
     (p: p5) => {
       const setup = () => {
-        p.createCanvas(p.windowWidth / 2, 240);
+        p.createCanvas((p.windowWidth * 2) / 3, debounceMass * 100);
         moverWithWind = new ForceMoverC(
           p,
           "press mouse",
-          32,
+          debounceMass * 15,
           null,
           debounceMass
         );
@@ -37,22 +39,28 @@ export default () => {
         moverWithWind.show();
         moverWithWind.showName();
         moverWithWind.checkEdges();
+        setHeight(Number((p.height - moverWithWind.position.y).toFixed(2)));
+        if (p.height - moverWithWind.position.y >= maxHeight) {
+          setMaxHeight(
+            Number((p.height - moverWithWind.position.y).toFixed(2))
+          );
+        }
       };
       const resize = () => p.setup();
       p.setup = setup;
       p.draw = draw;
       p.windowResized = resize;
     },
-    [debounceMass]
+    [debounceMass, maxHeight]
   );
   return (
     <>
       小球质量{mass}(单位:any)
       <Slider
-        defaultValue={[0.1]}
-        max={10}
-        min={0.1}
-        step={0.1}
+        defaultValue={[2.8]}
+        max={5}
+        min={1}
+        step={0.01}
         className={cn("w-[100%] m-4")}
         onValueChange={value => {
           setMass(value[0]);
@@ -60,6 +68,9 @@ export default () => {
         value={[mass]}
       />
       风力大小为 f = m*a;这里的m = mass;a = 0.1; f = {(mass * 0.1).toFixed(2)}
+      <br />
+      小球高度{height} <br />
+      最大高度{maxHeight}
       <Basic sketch={sketch} showControls></Basic>
     </>
   );

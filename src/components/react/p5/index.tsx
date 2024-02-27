@@ -1,5 +1,6 @@
 import type p5 from "p5";
-import { useEffect, useRef, memo } from "react";
+import { useEffect, useRef, memo, useState } from "react";
+import { flushSync } from "react-dom";
 
 type Sketch = (p: p5) => void;
 
@@ -22,71 +23,119 @@ const defaultSketch: Sketch = (p: p5) => {
 interface Props {
   sketch: Sketch;
   showControls?: boolean; // defaults to false
-  showSetBackground?: boolean; // defaults to false
 }
 
-export default memo(({ sketch, showControls }: Props) => {
-  const container = useRef(null);
-  let p: p5;
-  let P5;
+const Button = ({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="inline-block text-skin-inverted rounded bg-skin-inverted px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
+  >
+    {children}
+  </button>
+);
 
+const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
+  const container = useRef<HTMLDivElement>(null);
+  const trueContainer = useRef<HTMLDivElement>(null);
+
+  let [p, setP] = useState<p5>(null);
+  let P5;
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const start = async () => {
     if (container.current) {
       const p5 = await import("p5");
       P5 = p5.default;
-      p = new P5(sketch || defaultSketch, container.current);
-      container.current.style.minHeight = p.height + "px";
+      setP(new P5(sketch || defaultSketch, container.current));
     }
   };
+
   const remove = () => p && p.remove();
-  const stop = () => p.isLooping() && p.noLoop();
-  const begin = () => !p.isLooping() && p.loop();
+  const stop = () => p && p.isLooping() && p.noLoop();
+  const begin = () => p && !p.isLooping() && p.loop();
   const init = async () => {
     p && remove();
     await start();
   };
 
+  const toggleFullscreen = async () => {
+    if (trueContainer.current && !isFullscreen) {
+      if (trueContainer.current.requestFullscreen) {
+        trueContainer.current.requestFullscreen();
+        trueContainer.current.style.backgroundColor = "black";
+      }
+      await init();
+      setIsFullscreen(true);
+    } else if (
+      trueContainer.current &&
+      isFullscreen &&
+      document.fullscreenElement
+    ) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+      await init();
+      trueContainer.current.style.backgroundColor = "";
+      setIsFullscreen(false);
+    } else {
+      await init();
+      trueContainer.current.style.backgroundColor = "";
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (p && isFullscreen) {
+      p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
+      p.windowResized = async () => {
+        await init();
+        p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
+      };
+    }
+    const obs = new IntersectionObserver(([entry]) => {
+      entry.isIntersecting && !showControls && begin(); //没有按钮自动启动
+      !entry.isIntersecting && stop();
+    });
+    obs.observe(container.current);
+
+    return remove;
+  }, [isFullscreen, p]);
+
   useEffect(() => {
     (async () => {
       await init();
-      const obs = new IntersectionObserver(tar => {
-        !tar[0].isIntersecting && stop();
-        tar[0].isIntersecting && !showControls && begin(); //没有按钮自动启动
-      });
-      obs.observe(container.current);
+      container.current.style.minHeight = (p?.height || "0") + "px";
+      trueContainer.current.style.backgroundColor = "";
     })();
-    return remove;
-  });
-
-  const StopButtonClass = `inline-block text-skin-inverted rounded bg-skin-inverted px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]`;
+  }, []);
 
   return (
     <>
-      <div className="p5_container mt-4">
+      <div ref={trueContainer} className="p5_container mt-4">
         <div
           ref={container}
-          className={`flex w-full max-w-full justify-center`}
+          className="flex w-full max-w-full justify-center"
         ></div>
         {/* 控制按钮 */}
         {showControls && (
           <div className="flex pt-4 justify-around">
-            <button type="button" onClick={stop} className={StopButtonClass}>
-              stop
-            </button>
-
-            <button
-              type="button"
-              onClick={begin}
-              className="inline-block text-skin-inverted rounded bg-skin-green  px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
-            >
-              begin
-            </button>
-            <button type="button" className={StopButtonClass} onClick={init}>
-              init
-            </button>
+            <Button onClick={stop}>stop</Button>
+            <Button onClick={begin}>begin</Button>
+            <Button onClick={init}>init</Button>
+            <Button onClick={toggleFullscreen}>
+              {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            </Button>
           </div>
         )}
       </div>
     </>
   );
 });
+
+export default P5Canvas;

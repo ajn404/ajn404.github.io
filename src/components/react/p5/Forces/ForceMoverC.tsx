@@ -16,7 +16,7 @@ export class ForceMoverC extends Mover {
     this.color = color || this.color;
     this.velocity = p.createVector(0, 0);
     this.acceleration = p.createVector(0, 0);
-    this.mass = 1;
+    this.mass = mass || 1;
   }
   applyForce(force: p5.Vector) {
     let f = force.copy(); // 创建一个副本
@@ -44,19 +44,14 @@ export class ForceMoverC extends Mover {
       this.position.x + this.circleRadius >= p.width ||
       this.position.x <= this.circleRadius
     ) {
-      this.velocity.x *= -1;
       if (this.position.x + this.circleRadius >= p.width) {
         this.position.x = p.width - this.circleRadius;
       }
+      this.velocity.x *= -1;
     }
-    if (
-      this.position.y + this.circleRadius >= p.height ||
-      this.position.y <= this.circleRadius
-    ) {
+    if (this.position.y > p.height - this.circleRadius) {
       this.velocity.y *= -1;
-      if (this.position.y + this.circleRadius >= p.height) {
-        this.position.y = p.height - this.circleRadius;
-      }
+      this.position.y = p.height - this.circleRadius;
     }
   }
 }

@@ -1005,16 +1005,31 @@ export default function DynamicComponent({ componentName }: Props) {
 
 </details>
 
-#### 非动态加载组件
+import { ForceC, ForceD } from "@components/react/p5/Forces";
+
+#### wind ForceC(非动态加载组件)
 
 <details open>
 <summary>ForceC 回归单独加载组件</summary>
 
-import ForceC from "@components/react/p5/Forces/ForceC";
-
 <ForceC client:load />
 
+为啥这里第一次弹不回去了，但后面又弹到了第一次弹回去的最大高度
+
 </details>
+
+#### a lot of Mover that ForceD
+
+<details open>
+<summary>ForceD</summary>
+
+<ForceD client:load />
+
+可以看到小球比大球“快”多了
+
+</details>
+
+#### exercise2.3
 
 ### 3. Oscillation
 
