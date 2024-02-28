@@ -35,7 +35,7 @@ export default () => {
         p.frameRate(120);
       };
       const draw = () => {
-        p.background(moverWithWind[0].color);
+        p.background(0);
         moverWithWind.forEach(m => {
           m.applyForce(p.createVector(0, 0.1));
           if (p.mouseIsPressed) {

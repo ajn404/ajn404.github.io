@@ -3,7 +3,7 @@ import Basic from "../index";
 
 export default () => {
   const sketch = (p: p5) => {
-    let walker;
+    let walker: Walker;
     p.setup = () => {
       p.createCanvas(p.windowWidth / 2, 240);
       walker = new Walker();
@@ -24,7 +24,8 @@ export default () => {
         this.y = p.height / 2;
       }
       show() {
-        p.stroke(0);
+        p.stroke(255, 0, 0);
+        p.strokeWeight(4);
         p.point(this.x, this.y);
       }
       step() {

@@ -52,15 +52,13 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const trueContainer = useRef<HTMLDivElement>(null);
   let [p, setP] = useState<p5>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  console.log(p);
 
   const start = async () => {
     if (container.current) {
       const p5 = await import("p5");
-      setP(new p5.default(sketch || defaultSketch, container.current));
+      !p && setP(new p5.default(sketch || defaultSketch, container.current));
     }
   };
-
   const remove = () => {
     p && p.remove();
     p && setP(null);
@@ -86,17 +84,14 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       trueContainer.current.style.backgroundColor = "";
       setIsFullscreen(false);
     }
-    // await init();
-    console.log("1");
   };
 
   useEffect(() => {
-    console.log("effect1");
     if (p && isFullscreen) {
-      p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
+      p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
       p.windowResized = async () => {
         await init();
-        p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
+        p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
       };
     }
     const obs = new IntersectionObserver(async ([entry]) => {
@@ -125,7 +120,6 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   }, [sketch]);
 
   useEffect(() => {
-    console.log("effect3");
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     container.current.style.minHeight = (p?.height || "0") + "px";
     trueContainer.current.style.backgroundColor = "";
@@ -147,7 +141,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
           <div
             className={
               "flex pt-4 select-none justify-around" +
-              (isFullscreen ? " fixed bottom-0 left-0 w-full" : "")
+              (isFullscreen ? " fixed bottom-10 left-0 w-full" : "")
             }
           >
             <Button onClick={stop}>

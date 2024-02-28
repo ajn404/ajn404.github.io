@@ -35,10 +35,11 @@ export default () => {
     let len = 0;
     const setup = () => {
       p.createCanvas(p.windowWidth / 4, 240);
-      len = Math.floor(p.width);
-      list = new Array(len).fill(0).map(() => p.random(p.height));
     };
     const draw = () => {
+      len = len || Math.floor(p.width);
+      list = list || new Array(len).fill(0).map(() => p.random(p.height));
+
       p.background(255).noFill().stroke(0).strokeWeight(2).beginShape();
       for (let i = 0; i < p.width; i++)
         p.vertex(i, list[(i + p.frameCount) % len]);

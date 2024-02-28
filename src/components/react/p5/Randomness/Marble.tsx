@@ -4,9 +4,8 @@ import Basic from "@components/react/p5/index.tsx";
 export default () => {
   const sketch = (p: p5) => {
     let w = p.windowWidth / 2;
-    let h = (w * 4) / 7;
     const setup = () => {
-      p.createCanvas(w, h);
+      p.createCanvas(w, p.windowHeight / 3);
       p.loadPixels();
       let xoff = 0.0;
       for (let x = 0; x < p.width; x++) {
@@ -31,5 +30,5 @@ export default () => {
     p.draw = draw;
     p.windowResized = resize;
   };
-  return <Basic sketch={sketch} showControls></Basic>;
+  return <Basic sketch={sketch}></Basic>;
 };

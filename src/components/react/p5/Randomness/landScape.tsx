@@ -73,6 +73,7 @@ export default () => {
       land = new Terrain(10, p.windowWidth / 2 - 20, 400);
     };
     const draw = () => {
+      p.orbitControl();
       land.calculate();
       p.background(255);
       p.push();
