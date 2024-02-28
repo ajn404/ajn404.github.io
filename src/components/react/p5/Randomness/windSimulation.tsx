@@ -13,10 +13,10 @@ export default () => {
       p.line(0, 0, 0, -h);
       p.translate(0, -h);
 
-      h *= 0.7;
+      h *= 0.71;
       xoff += 0.1;
 
-      if (h > 4) {
+      if (h > p.height / 60) {
         let n = p.floor(p.random(1, 5));
         for (let i = 0; i < n; i++) {
           let noise = p.noise(xoff + i, yoff);
@@ -40,7 +40,7 @@ export default () => {
       p.translate(p.width / 2, p.height);
       yoff += 0.005;
       p.randomSeed(seed);
-      branch(60, 0);
+      branch(p.height / 5, 0);
     };
 
     p.mouseClicked = () => {

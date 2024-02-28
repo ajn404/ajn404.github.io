@@ -67,7 +67,7 @@ export default () => {
         }}
         value={[mass]}
       />
-      <Basic sketch={sketch}></Basic>
+      <Basic sketch={sketch} showControls></Basic>
     </>
   );
 };

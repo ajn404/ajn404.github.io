@@ -3,9 +3,9 @@ import { useEffect, useRef, memo, useState } from "react";
 import {
   EnterFullScreenIcon,
   ExitFullScreenIcon,
-  EyeOpenIcon,
   PlayIcon,
   StopIcon,
+  ResumeIcon,
 } from "@radix-ui/react-icons";
 
 type Sketch = (p: p5) => void;
@@ -52,6 +52,8 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const trueContainer = useRef<HTMLDivElement>(null);
   let [p, setP] = useState<p5>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  console.log(p);
+
   const start = async () => {
     if (container.current) {
       const p5 = await import("p5");
@@ -63,37 +65,30 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const stop = () => p && p.isLooping() && p.noLoop();
   const begin = () => p && !p.isLooping() && p.loop();
   const init = async () => {
-    p && remove();
+    remove();
     await start();
   };
 
   const toggleFullscreen = async () => {
     if (trueContainer.current && !isFullscreen) {
       if (trueContainer.current.requestFullscreen) {
-        trueContainer.current.requestFullscreen();
+        await trueContainer.current.requestFullscreen();
         trueContainer.current.style.backgroundColor = "black";
       }
       setIsFullscreen(true);
-    } else if (
-      trueContainer.current &&
-      isFullscreen &&
-      document.fullscreenElement
-    ) {
+    } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen();
+        await document.exitFullscreen();
       }
       trueContainer.current.style.backgroundColor = "";
       setIsFullscreen(false);
-    } else {
-      trueContainer.current.style.backgroundColor = "";
-      setIsFullscreen(false);
     }
-    await init();
+    // await init();
     console.log("1");
   };
 
   useEffect(() => {
-    console.log("2");
+    console.log("effect1");
     if (p && isFullscreen) {
       p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
       p.windowResized = async () => {
@@ -101,8 +96,8 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
         p.resizeCanvas(window.innerWidth, window.innerHeight - 60);
       };
     }
-    const obs = new IntersectionObserver(([entry]) => {
-      entry.isIntersecting && !container.current.innerHTML && init();
+    const obs = new IntersectionObserver(async ([entry]) => {
+      entry.isIntersecting && !container.current.innerHTML && (await init());
       entry.isIntersecting && begin(); //没有按钮自动启动
       !entry.isIntersecting && stop();
     });
@@ -119,18 +114,23 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
 
   useEffect(() => {
     (async () => {
-      console.log("3");
       await init();
-      document.addEventListener("fullscreenchange", handleFullscreenChange);
-      container.current.style.minHeight = (p?.height || "0") + "px";
-      trueContainer.current.style.backgroundColor = "";
     })();
+    return () => {
+      remove();
+    };
+  }, [sketch]);
 
+  useEffect(() => {
+    console.log("effect3");
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    container.current.style.minHeight = (p?.height || "0") + "px";
+    trueContainer.current.style.backgroundColor = "";
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       remove();
     };
-  }, [sketch]);
+  }, [p]);
 
   return (
     <>
@@ -141,7 +141,12 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
         ></div>
         {/* 控制按钮 */}
         {showControls && (
-          <div className="flex pt-4 select-none justify-around">
+          <div
+            className={
+              "flex pt-4 select-none justify-around" +
+              (isFullscreen ? " fixed bottom-0 left-0 w-full" : "")
+            }
+          >
             <Button onClick={stop}>
               <StopIcon />
             </Button>
@@ -149,7 +154,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
               <PlayIcon />
             </Button>
             <Button onClick={init}>
-              <EyeOpenIcon></EyeOpenIcon>
+              <ResumeIcon></ResumeIcon>
             </Button>
             <Button onClick={toggleFullscreen}>
               {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}

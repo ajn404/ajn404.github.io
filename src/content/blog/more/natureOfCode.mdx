@@ -822,7 +822,7 @@ import Balloon from "@components/react/p5/Forces/balloon.tsx";
 
 #### forceA mouse press to model wind
 
-<details open>
+<details >
 <summary>forceA</summary>
 
 有一说一，我想要的不是这个，但不管怎么说先留着
@@ -835,7 +835,7 @@ import TabsCode from "@components/react/UI/TabsCode";
 
 <TabsCode componentName="ForceB" client:load />
 
-<details open>
+<details >
 <summary>这个组件🙅，内部调用的动态组件不知道为什么不能使用useState</summary>
 
 ```tsx
@@ -911,7 +911,7 @@ export default function DynamicComponent({ componentName }: Props) {
 
 动态组件的渲染使用了useMemo来避免在每次渲染时重新创建组件。然而，useMemo只是对于组件的引用进行了缓存，但并不会在组件内部创建实际的状态。因此，即使你在动态组件中调用了useState，它也不会正常工作，因为该组件的每次渲染都会重新创建，并且每次重新创建时都会重新初始化状态。(AI)
 
-<details open>
+<details >
 <summary>继续问ai,这个组件中动态组件内部为什么不能调用useState,useRef等</summary>
 
 在你的代码中，动态组件被存储在`Component`状态中，并在渲染时被调用。然而，React 的规则是在组件的顶层使用 Hook，而不是在条件语句、循环或嵌套函数中使用。动态组件内部可能不能直接调用`useState`、`useRef`等 Hook，因为它们被认为是在组件的非顶层调用。
@@ -1009,7 +1009,7 @@ import { ForceC, ForceD } from "@components/react/p5/Forces";
 
 #### wind ForceC(非动态加载组件)
 
-<details open>
+<details >
 <summary>ForceC 回归单独加载组件</summary>
 
 <ForceC client:load />
@@ -1020,7 +1020,7 @@ import { ForceC, ForceD } from "@components/react/p5/Forces";
 
 #### a lot of Mover that ForceD
 
-<details open>
+<details >
 <summary>ForceD</summary>
 
 <ForceD client:load />
