@@ -8,7 +8,6 @@ import {
   ResumeIcon,
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
-import { TriangleIcon } from "lucide-react";
 
 type Sketch = (p: p5) => void;
 
@@ -99,6 +98,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       p.windowResized = async () => {
         await init();
         p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
+        container.current.style.minHeight = p?.height + "px";
       };
     }
     const obs = new IntersectionObserver(async ([entry]) => {
@@ -129,7 +129,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
 
   useEffect(() => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    container.current.style.minHeight = (p?.height || "0") + "px";
+    container.current.style.minHeight = p?.height + "px";
     trueContainer.current.style.backgroundColor = "";
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
