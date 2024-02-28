@@ -11,8 +11,6 @@ export default () => {
   let wind: p5.Vector;
   let [mass, setMass] = useState(2.8);
   let debounceMass = useDebounce(mass, 200);
-  let [maxHeight, setMaxHeight] = useState(0);
-  let [height, setHeight] = useState(0);
 
   const sketch = useCallback(
     (p: p5) => {
@@ -28,6 +26,18 @@ export default () => {
         p.frameRate(120);
         moverWithWind.position = p.createVector(p.width / 2, p.height / 2);
       };
+      const applyEdgeForce = (p, mover, position, radius, force) => {
+        const distance = p.createVector(...position).dist(mover.position);
+        if (
+          distance < radius ||
+          position[0] < 0 ||
+          position[1] < 0 ||
+          position[0] > p.width ||
+          position[1] > p.height
+        ) {
+          mover.applyForce(force);
+        }
+      };
       const draw = () => {
         p.background(moverWithWind.color);
         moverWithWind.applyForce(p.createVector(0, 0.1));
@@ -35,48 +45,38 @@ export default () => {
           wind = p.createVector(0.1, 0);
           moverWithWind.applyForce(wind); // 应用风
         }
-
         moverWithWind.move();
         moverWithWind.show();
         moverWithWind.showName();
-        // moverWithWind.checkEdges();
 
-        let distanceX = p
-          .createVector(p.width, moverWithWind.position.y)
-          .dist(moverWithWind.position);
-        let distanceY = p
-          .createVector(moverWithWind.position.x, p.height)
-          .dist(moverWithWind.position);
-        if (
-          distanceX < moverWithWind.circleRadius ||
-          moverWithWind.position.x > p.width
-        ) {
-          moverWithWind.applyForce(p.createVector(-10, 0));
-        }
-        if (
-          distanceY < moverWithWind.circleRadius ||
-          moverWithWind.position.y > p.height
-        ) {
-          moverWithWind.applyForce(p.createVector(0, -1));
-        }
-        let distanceXL = p
-          .createVector(0, moverWithWind.position.y)
-          .dist(moverWithWind.position);
-        let distanceYL = p
-          .createVector(moverWithWind.position.x, 0)
-          .dist(moverWithWind.position);
-        if (
-          distanceXL < moverWithWind.circleRadius ||
-          moverWithWind.position.x < 0
-        ) {
-          moverWithWind.applyForce(p.createVector(1, 0));
-        }
-        if (
-          distanceYL < moverWithWind.circleRadius ||
-          moverWithWind.position.y < 0
-        ) {
-          moverWithWind.applyForce(p.createVector(0, 1));
-        }
+        applyEdgeForce(
+          p,
+          moverWithWind,
+          [p.width, moverWithWind.position.y],
+          moverWithWind.circleRadius,
+          p.createVector(-1, 0)
+        );
+        applyEdgeForce(
+          p,
+          moverWithWind,
+          [0, moverWithWind.position.y],
+          moverWithWind.circleRadius,
+          p.createVector(1, 0)
+        );
+        applyEdgeForce(
+          p,
+          moverWithWind,
+          [moverWithWind.position.x, p.height],
+          moverWithWind.circleRadius,
+          p.createVector(0, -1)
+        );
+        applyEdgeForce(
+          p,
+          moverWithWind,
+          [moverWithWind.position.x, 0],
+          moverWithWind.circleRadius,
+          p.createVector(0, 1)
+        );
       };
       const resize = () => p.setup();
       p.setup = setup;
@@ -101,8 +101,6 @@ export default () => {
       />
       风力大小为 f = m*a;这里的m = mass;a = 0.1; f = {(mass * 0.1).toFixed(2)}
       <br />
-      小球高度{height} <br />
-      最大高度{maxHeight}
       <Basic sketch={sketch} showControls></Basic>
     </>
   );

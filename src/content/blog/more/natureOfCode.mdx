@@ -1038,6 +1038,94 @@ import { ForceE } from "@components/react/p5/Forces";
 
 <ForceE client:visible />
 
+真有意思 真有意思
+
+```tsx
+let distanceX = p
+  .createVector(p.width, moverWithWind.position.y)
+  .dist(moverWithWind.position);
+let distanceY = p
+  .createVector(moverWithWind.position.x, p.height)
+  .dist(moverWithWind.position);
+if (
+  distanceX < moverWithWind.circleRadius ||
+  moverWithWind.position.x > p.width
+) {
+  moverWithWind.applyForce(p.createVector(-1, 0));
+}
+if (
+  distanceY < moverWithWind.circleRadius ||
+  moverWithWind.position.y > p.height
+) {
+  moverWithWind.applyForce(p.createVector(0, -1));
+}
+let distanceXL = p
+  .createVector(0, moverWithWind.position.y)
+  .dist(moverWithWind.position);
+let distanceYL = p
+  .createVector(moverWithWind.position.x, 0)
+  .dist(moverWithWind.position);
+if (distanceXL < moverWithWind.circleRadius || moverWithWind.position.x < 0) {
+  moverWithWind.applyForce(p.createVector(1, 0));
+}
+if (distanceYL < moverWithWind.circleRadius || moverWithWind.position.y < 0) {
+  moverWithWind.applyForce(p.createVector(0, 1));
+}
+```
+
+优化代码
+
+import ForceF from "@components/react/p5/Forces/ForceF";
+
+<ForceF client:visible />
+
+```tsx
+const applyEdgeForce = (p, mover, position, radius, force) => {
+  const distance = p.createVector(...position).dist(mover.position);
+  if (
+    distance < radius ||
+    position[0] < 0 ||
+    position[1] < 0 ||
+    position[0] > p.width ||
+    position[1] > p.height
+  ) {
+    mover.applyForce(force);
+  }
+};
+applyEdgeForce(
+  p,
+  moverWithWind,
+  [p.width, moverWithWind.position.y],
+  moverWithWind.circleRadius,
+  p.createVector(-1, 0)
+);
+applyEdgeForce(
+  p,
+  moverWithWind,
+  [0, moverWithWind.position.y],
+  moverWithWind.circleRadius,
+  p.createVector(1, 0)
+);
+applyEdgeForce(
+  p,
+  moverWithWind,
+  [moverWithWind.position.x, p.height],
+  moverWithWind.circleRadius,
+  p.createVector(0, -1)
+);
+applyEdgeForce(
+  p,
+  moverWithWind,
+  [moverWithWind.position.x, 0],
+  moverWithWind.circleRadius,
+  p.createVector(0, 1)
+);
+```
+
+import ForceG from "@components/react/p5/Forces/ForceG";
+
+<ForceG client:visible />
+
 </details>
 
 ### ⚠️
