@@ -6,9 +6,9 @@ export default () => {
   const sketch = (p: p5) => {
     const setup = () => {
       p.createCanvas(p.windowWidth / 2, 240);
-      centre = p.createVector(p.width / 2, p.height / 2);
     };
     const draw = () => {
+      centre = p.createVector(p.width / 2, p.height / 2);
       mouse = p.createVector(p.mouseX, p.mouseY);
       p.background(255);
       p.stroke(125, 99, 199);

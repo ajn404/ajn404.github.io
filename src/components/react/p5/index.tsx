@@ -61,7 +61,10 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
     }
   };
 
-  const remove = () => p && p.remove();
+  const remove = () => {
+    p && p.remove();
+    p && setP(null);
+  };
   const stop = () => p && p.isLooping() && p.noLoop();
   const begin = () => p && !p.isLooping() && p.loop();
   const init = async () => {
