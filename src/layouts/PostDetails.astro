@@ -5,28 +5,32 @@ import Tag from "@components/astro/UI/Tag.astro";
 import Datetime from "@components/react/UI/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
-import NavToc from './NavToc.astro'
-import Code from './Code.astro'
+import NavToc from "./NavToc.astro";
+import Code from "./Code.astro";
 import OpenDetails from "@components/astro/dom/openDetails.astro";
 export interface Props {
   post: CollectionEntry<"blog">;
 }
-const { post, } = Astro.props;
-const { title, author, description, ogImage, canonicalURL, pubDatetime, tags } = post.data;
+const { post } = Astro.props;
+const { title, author, description, ogImage, canonicalURL, pubDatetime, tags } =
+  post.data;
 const data = await post.render();
 
 const { Content, remarkPluginFrontmatter } = data;
 
 const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   .href;
-
-
-
-
 ---
 
-<Layout activeNav="posts" title={title} author={author} description={description} ogImage={ogUrl} canonicalURL={canonicalURL}>
-  <div class=" flex w-full max-w-[100vw] justify-start px-2">
+<Layout
+  activeNav="posts"
+  title={title}
+  author={author}
+  description={description}
+  ogImage={ogUrl}
+  canonicalURL={canonicalURL}
+>
+  <div class="flex w-full max-w-[100vw] justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
       onclick="history.back()"
@@ -41,63 +45,73 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   <main id="main-content">
     <h1 class="post-title" transition:name={slugifyStr(title)}>{title}</h1>
     <Datetime datetime={pubDatetime} size="lg" className="my-2" />
-     <div class="flex flex-wrap gap-4 text-sm justify-end">
-        <span>
-            预计阅读时长：{remarkPluginFrontmatter.minutesRead}
-        </span>
-        <span>
-            字数：{remarkPluginFrontmatter.wordsRead}
-        </span>
+    <div class="flex flex-wrap gap-4 text-sm justify-end">
+      <span>
+        预计阅读时长：{remarkPluginFrontmatter.minutesRead}
+      </span>
+      <span>
+        字数：{remarkPluginFrontmatter.wordsRead}
+      </span>
     </div>
-    <div class="contentbox flex " id="contentbox">
-    <article id="article" role="article" class="prose mx-auto mt-8 max-w-[100vw] w-full">
-      <Content components={{ pre: Code}} />
-    </article>
+    <div class="contentbox flex" id="contentbox">
+      <article
+        id="article"
+        role="article"
+        class="prose mx-auto mt-8 max-w-[100vw] w-full"
+      >
+        <Content components={{ pre: Code }} />
+      </article>
     </div>
     <ul class="tags-container">
       {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
     </ul>
     <!-- <NavToc/> -->
   </main>
-  <OpenDetails></OpenDetails>
+  <OpenDetails />
   <button
-  type="button"
-  data-te-ripple-color="light"
-  class="!fixed bottom-20 hidden rounded-full  p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
-  id="btn-back-to-top">
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    class="h-4 w-4"
-    role="img"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 448 512">
-    <path
-      fill="currentColor"
-      d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"></path>
-  </svg>
-</button>
+    type="button"
+    data-te-ripple-color="light"
+    class="!fixed bottom-20 hidden rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+    id="btn-back-to-top"
+  >
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      data-prefix="fas"
+      class="h-4 w-4"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 448 512"
+    >
+      <path
+        fill="currentColor"
+        d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
+      ></path>
+    </svg>
+  </button>
 
- <button
-  type="button"
-  data-te-ripple-color="dark"
-  class="!fixed bottom-5   rotate-180  hidden rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
-  id="btn-back-to-bottom">
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    data-prefix="fas"
-    class="h-4 w-4"
-    role="img"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 448 512">
-    <path
-      fill="currentColor"
-      d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"></path>
-  </svg>
-</button>
-  
+  <button
+    type="button"
+    data-te-ripple-color="dark"
+    class="!fixed bottom-5 rotate-180 hidden rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+    id="btn-back-to-bottom"
+  >
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      data-prefix="fas"
+      class="h-4 w-4"
+      role="img"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 448 512"
+    >
+      <path
+        fill="currentColor"
+        d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
+      ></path>
+    </svg>
+  </button>
+
   <Footer />
 </Layout>
 
@@ -113,4 +127,21 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   }
 </style>
 
+<script>
+  import Stats from "stats.js";
+  const stats = new Stats();
+  stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
+  document.body.appendChild(stats.dom);
+  stats.dom.style.right = "0";
+  stats.dom.style.bottom = "0";
+  stats.dom.style.top = "auto";
+  stats.dom.style.left = "auto";
 
+
+  function animate() {
+    stats.begin();
+    stats.end();
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+</script>

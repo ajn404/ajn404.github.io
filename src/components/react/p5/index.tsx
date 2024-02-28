@@ -6,7 +6,9 @@ import {
   PlayIcon,
   StopIcon,
   ResumeIcon,
+  ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
+import { TriangleIcon } from "lucide-react";
 
 type Sketch = (p: p5) => void;
 
@@ -70,6 +72,11 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
     await start();
   };
 
+  const clear = () => {
+    remove();
+    container.current && (container.current.innerHTML = "");
+  };
+
   const toggleFullscreen = async () => {
     if (trueContainer.current && !isFullscreen) {
       if (trueContainer.current.requestFullscreen) {
@@ -96,10 +103,10 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
     }
     const obs = new IntersectionObserver(async ([entry]) => {
       entry.isIntersecting && !container.current.innerHTML && (await init());
-      entry.isIntersecting && begin(); //没有按钮自动启动
+      entry.isIntersecting && !showControls && begin(); //没有按钮自动启动
       !entry.isIntersecting && stop();
     });
-    obs.observe(container.current);
+    obs.observe(trueContainer.current);
     return () => {
       obs.disconnect();
       remove();
@@ -116,6 +123,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
     })();
     return () => {
       remove();
+      container.current.innerHTML = "";
     };
   }, [sketch]);
 
@@ -152,6 +160,9 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
             </Button>
             <Button onClick={init}>
               <ResumeIcon></ResumeIcon>
+            </Button>
+            <Button onClick={clear}>
+              <ExclamationTriangleIcon></ExclamationTriangleIcon>
             </Button>
             <Button onClick={toggleFullscreen}>
               {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
