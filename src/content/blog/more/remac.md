@@ -1,13 +1,12 @@
 ---
 title: 重装mac
-
 pubDatetime: 2023-09-19T08:52:10Z
 postSlug: remac
 featured: false
-draft: false
+draft: true
 tags:
   - 重装mac
-
+  - 2023-09
 description: "restart everything in mac"
 ---
 
