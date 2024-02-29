@@ -1,6 +1,5 @@
 ---
 title: react相关
-
 pubDatetime: 2023-12-7 10:41:00
 postSlug: react
 featured: false
@@ -8,7 +7,8 @@ draft: false
 tags:
   - react
   - read source code
-description: "react使用以及源码阅读"
+  - 2023-12
+description: "react使用/练习/源码阅读"
 ---
 
 # 目录
@@ -205,7 +205,7 @@ lane
 
 ## react components use class or function
 
-class
+- class
 
 ```tsx
 import React, { Component } from "react";
@@ -286,7 +286,7 @@ class LifecycleExample extends Component<{}, LifecycleExampleState> {
 export default LifecycleExample;
 ```
 
-function
+- function
 
 ```tsx
 import React, { useState, useEffect, useReducer } from "react";
@@ -355,6 +355,223 @@ const LifecycleExample: React.FC<LifecycleExampleProps> = ({
 
 export default LifecycleExample;
 ```
+
+## react practice
+
+<blockquote>
+<details>
+<summary>re-render</summary>
+
+import ReRender from "@components/react/practice/reRender";
+
+<ReRender client:only="react" />
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import React, { useState, useEffect } from "react";
+
+function A(props: { state: number }) {
+  console.log("A");
+  return <B />;
+}
+
+function B() {
+  console.log("B");
+  return <C />;
+}
+
+function C() {
+  console.log("C");
+  return null;
+}
+
+function D() {
+  console.log("D");
+  return null;
+}
+
+export default function App() {
+  const [state, setState] = useState(0);
+  useEffect(() => {
+    setState(state => state + 1);
+  }, []);
+  console.log("App");
+  return (
+    <div>
+      <A state={state} />
+      <D />
+    </div>
+  );
+}
+```
+
+result
+
+```js
+"App";
+"A";
+"B";
+"C";
+"D";
+"App";
+"A";
+"B";
+"C";
+"D";
+```
+
+</details>
+
+</blockquote>
+
+<blockquote>
+<details open>
+<summary>re-render context</summary>
+
+[useContext](https://react.dev/reference/react/useContext)
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import React, {
+  useState,
+  memo,
+  createContext,
+  useEffect,
+  useContext,
+} from "react";
+import ReactDOM from "react-dom";
+
+const MyContext = createContext(0);
+
+function B() {
+  const count = useContext(MyContext);
+  console.log("B");
+  return null;
+}
+
+const A = memo(() => {
+  console.log("A");
+  return <B />;
+});
+
+function C() {
+  console.log("C");
+  return null;
+}
+function App() {
+  const [state, setState] = useState(0);
+  useEffect(() => {
+    setState(state => state + 1);
+  }, []);
+  console.log("App");
+  return (
+    <MyContext.Provider value={state}>
+      <A />
+      <C />
+    </MyContext.Provider>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+```
+
+result
+
+```js
+"App";
+"A";
+"B";
+"C";
+"App";
+"B";
+"C";
+```
+
+</details>
+</blockquote>
+
+<blockquote>
+<details open>
+<summary>suspense</summary>
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+
+const resource = (() => {
+  let data = null;
+  let status = "pending";
+  let fetcher = null;
+  return {
+    get() {
+      if (status === "ready") {
+        return data;
+      }
+      if (status === "pending") {
+        fetcher = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            data = 1;
+            status = "ready";
+            resolve();
+          }, 100);
+        });
+        status = "fetching";
+      }
+
+      throw fetcher;
+    },
+  };
+})();
+
+function A() {
+  console.log("A1");
+  const data = resource.get();
+  console.log("A2");
+  return <p>{data}</p>;
+}
+
+function Fallback() {
+  console.log("fallback");
+  return null;
+}
+
+function App() {
+  console.log("App");
+  return (
+    <div>
+      <Suspense fallback={<Fallback />}>
+        <A />
+      </Suspense>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+```
+
+import SuspenseA from "@components/react/practice/suspenseA";
+
+<SuspenseA client:only="react" />
+
+```js
+"App";
+"A1";
+"fallback";
+"A1";
+"A2";
+```
+
+</details>
+</blockquote>
+
+import SuspenseB from "@components/react/practice/suspenseB";
+
+<SuspenseB client:only="react" />
 
 ## link
 

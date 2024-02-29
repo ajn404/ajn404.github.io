@@ -28,24 +28,24 @@ const resource = (() => {
 })();
 
 function A() {
-  console.log("A1");
+  console.log("SuspenseB A1");
   const data = resource.get();
-  console.log("A2");
+  console.log("SuspenseB A2");
   return <p>{data}</p>;
 }
 
 function B() {
-  console.log("B");
+  console.log("SuspenseB B");
   return null;
 }
 
 function Fallback() {
-  console.log("fallback");
+  console.log("SuspenseB fallback");
   return null;
 }
 
 export default () => {
-  console.log("App");
+  console.log("SuspenseB App");
   return (
     <div>
       <Suspense fallback={<Fallback />}>
