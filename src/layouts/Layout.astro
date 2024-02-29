@@ -9,7 +9,7 @@ import Header from "@components/astro/UI/Header.astro";
 import "./KeySearch.astro"
 import { Toaster } from "@shadcn/ui/sonner"
 
-const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION||"oiTGKD7piiaRlZMEPHyQRioUB3lwoLNll7yZPPG7gEg";
 
 export interface Props {
   title?: string;
