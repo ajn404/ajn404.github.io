@@ -3,4 +3,3 @@ Disallow: /nogooglebot/
 
 User-agent: *
 Allow: /
-Disallow: /posts/2023-12/

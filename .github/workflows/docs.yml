@@ -9,7 +9,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    name: Build Docs / astro赛高
+    name: Build Astro Doc
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build Astro site
+      - name: Build site
         run: pnpm run build
 
       - name: Deploy to GitHub Pages
