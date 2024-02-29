@@ -17,6 +17,7 @@
     ],
     "description": "Adds the frontmatter block for the AstroPaper Blog post"
   },
+  
   "Blog Template": {
     "scope": "markdown",    
     "prefix": "template",
@@ -39,6 +40,16 @@
       "<summary>${1:Click to expand}</summary>",
       "$2",
       "</details>"
+    ],
+    "description": "details tag in mdx"
+  },
+  "blockquote Template": {
+    "scope": "markdown",    
+    "prefix": "blockquote",
+    "body": [
+      "<blockquote>",
+      "${1:details}",
+      "</blockquote>"
     ],
     "description": "details tag in mdx"
   },

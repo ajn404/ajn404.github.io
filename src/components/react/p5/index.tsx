@@ -149,9 +149,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
           <div
             className={
               "flex pt-4 select-none justify-around" +
-              (isFullscreen
-                ? " fixed mb-10 pb-10 left-0 w-full Ripe-Malinka "
-                : "")
+              (isFullscreen ? " fixed mb-10 pb-10 left-0 w-full" : "")
             }
           >
             <Button onClick={stop}>

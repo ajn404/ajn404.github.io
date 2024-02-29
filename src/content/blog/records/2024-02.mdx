@@ -54,6 +54,7 @@ console.log("End");
 
 ## react practice
 
+<blockquote>
 <details>
 <summary>re-render</summary>
 
@@ -117,6 +118,140 @@ result
 ```
 
 </details>
+
+</blockquote>
+
+<blockquote>
+<details open>
+<summary>re-render context</summary>
+
+[useContext](https://react.dev/reference/react/useContext)
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import React, {
+  useState,
+  memo,
+  createContext,
+  useEffect,
+  useContext,
+} from "react";
+import ReactDOM from "react-dom";
+
+const MyContext = createContext(0);
+
+function B() {
+  const count = useContext(MyContext);
+  console.log("B");
+  return null;
+}
+
+const A = memo(() => {
+  console.log("A");
+  return <B />;
+});
+
+function C() {
+  console.log("C");
+  return null;
+}
+function App() {
+  const [state, setState] = useState(0);
+  useEffect(() => {
+    setState(state => state + 1);
+  }, []);
+  console.log("App");
+  return (
+    <MyContext.Provider value={state}>
+      <A />
+      <C />
+    </MyContext.Provider>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+```
+
+result
+
+```js
+"App";
+"A";
+"B";
+"C";
+"App";
+"B";
+"C";
+```
+
+</details>
+</blockquote>
+
+<blockquote>
+<details open>
+<summary>suspense</summary>
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+
+const resource = (() => {
+  let data = null;
+  let status = "pending";
+  let fetcher = null;
+  return {
+    get() {
+      if (status === "ready") {
+        return data;
+      }
+      if (status === "pending") {
+        fetcher = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            data = 1;
+            status = "ready";
+            resolve();
+          }, 100);
+        });
+        status = "fetching";
+      }
+
+      throw fetcher;
+    },
+  };
+})();
+
+function A() {
+  console.log("A1");
+  const data = resource.get();
+  console.log("A2");
+  return <p>{data}</p>;
+}
+
+function Fallback() {
+  console.log("fallback");
+  return null;
+}
+
+function App() {
+  console.log("App");
+  return (
+    <div>
+      <Suspense fallback={<Fallback />}>
+        <A />
+      </Suspense>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+```
+
+</details>
+</blockquote>
 
 ## javascript 高级
 
