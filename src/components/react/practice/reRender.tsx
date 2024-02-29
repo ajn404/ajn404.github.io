@@ -3,22 +3,22 @@
 import React, { useState, useEffect } from "react";
 
 function A(props: { state: number }) {
-  console.log("A");
+  console.log("reRender A");
   return <B />;
 }
 
 function B() {
-  console.log("B");
+  console.log("reRender B");
   return <C />;
 }
 
 function C() {
-  console.log("C");
+  console.log("reRender C");
   return null;
 }
 
 function D() {
-  console.log("D");
+  console.log("reRender D");
   return null;
 }
 
@@ -27,7 +27,7 @@ export default function App() {
   useEffect(() => {
     setState(state => state + 1);
   }, []);
-  console.log("App");
+  console.log("reRender App");
   return (
     <div>
       <A state={state} />

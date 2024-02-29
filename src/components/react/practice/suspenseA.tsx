@@ -12,10 +12,10 @@ const resource = (() => {
       if (status === "pending") {
         fetcher = new Promise((resolve, reject) => {
           setTimeout(() => {
-            data = 1;
+            data = "success";
             status = "ready";
-            resolve("res");
-          }, 100);
+            resolve(null);
+          }, 1000);
         });
         status = "fetching";
       }
@@ -26,19 +26,19 @@ const resource = (() => {
 })();
 
 function A() {
-  console.log("A1");
+  console.log("suspenseA A1");
   const data = resource.get();
-  console.log("A2");
+  console.log("suspenseA A2");
   return <p>{data}</p>;
 }
 
 function Fallback() {
-  console.log("fallback");
+  console.log("suspenseA fallback");
   return null;
 }
 
 export default () => {
-  console.log("App");
+  console.log("suspenseA App");
   return (
     <div>
       <Suspense fallback={<Fallback />}>

@@ -60,7 +60,7 @@ console.log("End");
 
 import ReRender from "@components/react/practice/reRender";
 
-<ReRender client:load />
+<ReRender client:only="react" />
 
 ```tsx
 // This is a React Quiz from BFE.dev
@@ -248,6 +248,18 @@ function App() {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
+```
+
+import SuspenseA from "@components/react/practice/suspenseA";
+
+<SuspenseA client:only="react" />
+
+```js
+"App";
+"A1";
+"fallback";
+"A1";
+"A2";
 ```
 
 </details>
