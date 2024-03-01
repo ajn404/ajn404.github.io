@@ -1,13 +1,14 @@
 ---
-title: 10月gpt问答
-
+title: gpt问答
 pubDatetime: 2023-10-18 22:13:00
-postSlug: gpt-2023-10
+postSlug: gpt
 featured: false
 draft: false
 tags:
   - gpt
-description: "使用peakjs等实现简单的音乐可视化"
+  - ai
+  - 2023-10
+description: "openai chatgpt问答"
 ---
 
 ### 目录

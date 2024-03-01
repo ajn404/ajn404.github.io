@@ -4,13 +4,13 @@ const MyContext = createContext(0);
 
 function B({ children }) {
   const count = useContext(MyContext);
-  console.log("B");
+  console.log("reRender Context B");
   return children;
 }
 
 const A = ({ children }) => {
   const [state, setState] = useState(0);
-  console.log("A");
+  console.log("reRender Context A");
   useEffect(() => {
     setState(state => state + 1);
   }, []);
@@ -18,16 +18,16 @@ const A = ({ children }) => {
 };
 
 function C() {
-  console.log("C");
+  console.log("reRender Context C");
   return null;
 }
 
 function D() {
-  console.log("D");
+  console.log("reRender Context D");
   return null;
 }
 export default () => {
-  console.log("App");
+  console.log("reRender Context App");
   return (
     <A>
       <B>

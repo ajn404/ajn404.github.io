@@ -569,9 +569,147 @@ import SuspenseA from "@components/react/practice/suspenseA";
 </details>
 </blockquote>
 
+<blockquote>
+<details open>
+<summary>suspenseB</summary>
+
 import SuspenseB from "@components/react/practice/suspenseB";
 
 <SuspenseB client:only="react" />
+
+```tsx
+// This is a React Quiz from BFE.dev
+
+import { Suspense } from "react";
+
+const resource = (() => {
+  let data = null;
+  let status = "pending";
+  let fetcher = null;
+  return {
+    get() {
+      if (status === "ready") {
+        return data;
+      }
+      if (status === "pending") {
+        fetcher = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            data = "success";
+            status = "ready";
+            resolve("success");
+          }, 100);
+        });
+        status = "fetching";
+      }
+
+      throw fetcher;
+    },
+  };
+})();
+
+function A() {
+  console.log("SuspenseB A1");
+  const data = resource.get();
+  console.log("SuspenseB A2");
+  return <p>{data}</p>;
+}
+
+function B() {
+  console.log("SuspenseB B");
+  return null;
+}
+
+function Fallback() {
+  console.log("SuspenseB fallback");
+  return null;
+}
+
+export default () => {
+  console.log("SuspenseB App");
+  return (
+    <div>
+      <Suspense fallback={<Fallback />}>
+        <A />
+        <B />
+      </Suspense>
+    </div>
+  );
+};
+
+/* 
+App
+A1
+B
+fallback
+A1
+A2
+B
+*/
+```
+
+</details>
+</blockquote>
+
+<blockquote>
+<details open>
+<summary>reRender context</summary>
+
+```tsx
+import { useState, createContext, useEffect, useContext } from "react";
+
+const MyContext = createContext(0);
+
+function B({ children }) {
+  const count = useContext(MyContext);
+  console.log("B");
+  return children;
+}
+
+const A = ({ children }) => {
+  const [state, setState] = useState(0);
+  console.log("A");
+  useEffect(() => {
+    setState(state => state + 1);
+  }, []);
+  return <MyContext.Provider value={state}>{children}</MyContext.Provider>;
+};
+
+function C() {
+  console.log("C");
+  return null;
+}
+
+function D() {
+  console.log("D");
+  return null;
+}
+export default () => {
+  console.log("App");
+  return (
+    <A>
+      <B>
+        <C />
+      </B>
+      <D />
+    </A>
+  );
+};
+```
+
+</details>
+
+import ReRenderContext from "@components/react/practice/reRenderWithContext";
+
+<ReRenderContext client:load="react"/>
+</blockquote>
+
+<blockquote>
+<details open>
+<summary>Click to expand</summary>
+
+- useLayoutEffect is a version of useEffect that fires before the browser repaints the screen.
+  </details>
+</blockquote>
 
 ## link
 
