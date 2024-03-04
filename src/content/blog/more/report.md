@@ -17,9 +17,10 @@ description: 个人报告
 
 ## vue项目
 
-- 整体1.理解项目结构
+- 整体
 
-  2.理解路由配置
+  1.理解项目结构
+  q 2.理解路由配置
   什么是动态路由,dynamic router
 
   3.理解store配置
@@ -33,7 +34,9 @@ description: 个人报告
   2.理解组件通信
   vuex,props,emit,ref,eventBus,provide/inject(vue3),vue-router
 
-- 其他1.开发技巧
+- 其他
+
+  1.开发技巧
   调试除了插件可以用console.log或者debugger，有时候console.log看不见试试console.info
   试试用code-snippets
 
