@@ -19,11 +19,8 @@ description: 个人报告
 
 - 整体
 
-  1.理解项目结构
-  q 2.理解路由配置
-  什么是动态路由,dynamic router
-
-  3.理解store配置
+  1.理解项目结构2.理解路由配置
+  什么是动态路由,dynamic router 3.理解store配置
   vuex之类的store manager与浏览器存储的区别，以及state,mutation,mapState,mapGetter
 
 - 组件
