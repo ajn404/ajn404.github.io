@@ -17,7 +17,7 @@ export default () => {
         mult = 0.005;
         p.createCanvas(p.windowHeight / 2, p.windowHeight / 2);
         p.noiseDetail(1, 0.5);
-        // p.angleMode(p.DEGREES);
+        p.angleMode(p.DEGREES);
         p.frameRate(120);
         p.pixelDensity(3);
         p.background(0);
@@ -55,14 +55,6 @@ export default () => {
       const resize = setup;
       p.setup = setup;
       p.draw = draw;
-      // p.mouseClicked = () => {
-      //     console.log(p.mouseX,p.mouseY);
-
-      //     if (p.mouseX >= 0 && p.mouseY >= 0) {
-      //         p.saveCanvas('flowFieldA', 'png')
-      //     }
-
-      // };
       p.windowResized = resize;
     },
     [debounceDensity]
