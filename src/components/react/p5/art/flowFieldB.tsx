@@ -7,7 +7,7 @@ export default () => {
     let mult = 0.005;
 
     const setup = () => {
-      p.createCanvas(p.windowHeight / 2, p.windowHeight / 2);
+      p.createCanvas(p.windowWidth / 2, p.windowWidth / 2);
       p.background(30);
       // p.angleMode(p.RADIANS);
       let density = 20;

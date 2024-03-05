@@ -15,7 +15,7 @@ export default () => {
       const setup = () => {
         points = [];
         mult = 0.005;
-        p.createCanvas(p.windowHeight / 2, p.windowHeight / 2);
+        p.createCanvas(p.windowWidth / 2, p.windowWidth / 2);
         p.noiseDetail(1, 0.5);
         p.angleMode(p.DEGREES);
         p.frameRate(120);
