@@ -17,6 +17,7 @@ description: js周报中有意思的链接/自己探索值得实践的内容
 ## daily
 
 - [frontend focus](https://frontendfoc.us/)
+- [javascript weeekly](https://javascriptweekly.com/)
 
 ## 2024-2-23=> 2024-2-29
 

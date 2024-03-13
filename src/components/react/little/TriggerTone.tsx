@@ -31,7 +31,7 @@ export default () => {
       // trigger the attack immediately
       synth.triggerAttack(note, now);
       // wait one second before triggering the release
-      synth.triggerRelease(now + 10);
+      synth.triggerRelease(now + 0.1);
     }
   }
 
@@ -39,6 +39,10 @@ export default () => {
     <>
       <p>Tone.js</p>
       <button onClick={() => play("A3")}>Play A3</button>
+      <button onClick={() => play("A1")}>Play A1</button>
+      <button onClick={() => play("A2")}>Play A2</button>
+      <button onClick={() => play("A4")}>Play A4</button>
+      <button onClick={() => play("C3")}>Play A3</button>
     </>
   );
 };

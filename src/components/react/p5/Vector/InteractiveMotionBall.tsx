@@ -82,8 +82,16 @@ export default () => {
       const draw = () => {
         p.background(255);
         movers.forEach(m => {
-          m.move();
-          m.checkEdges();
+          if (
+            p.mouseX > 0 &&
+            p.mouseX < p.width &&
+            p.mouseY > 0 &&
+            p.mouseY < p.height
+          ) {
+            m.move();
+            m.checkEdges();
+            // p.background(255, 0, 0);
+          }
           m.show();
         });
       };
