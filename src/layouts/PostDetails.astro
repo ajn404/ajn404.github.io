@@ -127,25 +127,6 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   }
 </style>
 
-<script>
-  import Stats from "stats.js";
-  const stats = new Stats();
-  stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
-  document.body.appendChild(stats.dom);
-  stats.dom.style.right = "0";
-  stats.dom.style.bottom = "0";
-  stats.dom.style.top = "auto";
-  stats.dom.style.left = "auto";
-
-
-  function animate() {
-    stats.begin();
-    stats.end();
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
-</script>
-
 <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5654752430032858" -->
      crossorigin="anonymous"></script>
 <ins class="adsbygoogle"
