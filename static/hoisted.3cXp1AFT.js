@@ -1,0 +1,1 @@
+import"./hoisted.v6M0quUo.js";document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector(".slider");function c(n){const e=document.querySelectorAll(".item");n.target.matches(".next")&&t.append(e[0]),n.target.matches(".prev")&&t.prepend(e[e.length-1])}document.addEventListener("click",c,!1)});

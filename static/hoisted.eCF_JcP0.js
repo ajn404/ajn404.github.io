@@ -1,0 +1,1 @@
+import{A as n}from"./audioMotion-analyzer.1VhI_U_4.js";import"./hoisted.v6M0quUo.js";let o=document.getElementById("audio_motion"),e=null;o.onplay=()=>{e||(e=new n(document.getElementById("container"),{source:o,colorMode:"bar-index"}))};
