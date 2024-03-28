@@ -1,3 +1,8 @@
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
+ 
+
 function withOpacity(variableName) {
     return ({ opacityValue }) => {
         if (opacityValue !== undefined) {
@@ -5,6 +10,18 @@ function withOpacity(variableName) {
         }
         return `rgb(var(${variableName}))`;
     };
+}
+
+// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
+function addVariablesForColors({ addBase, theme }: any) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+ 
+  addBase({
+    ":root": newVars,
+  });
 }
 
 /** @type {import('tailwindcss').Config} */
@@ -144,6 +161,7 @@ module.exports = {
         require("@tailwindcss/typography"),
         // //下面两个插件好像有点冲突
         require("tw-elements/dist/plugin.cjs"),
-        require("tailwindcss-animate")],
+        require("tailwindcss-animate"),addVariablesForColors],
+    
     darkMode: "class"
 };

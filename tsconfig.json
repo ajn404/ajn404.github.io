@@ -17,7 +17,8 @@
       "@pages/*": ["pages/*"],
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
-      "@shadcn/*": ["components/react/shadcn/*"]
+      "@shadcn/*": ["components/react/shadcn/*"],
+      "@aceternity/*": ["components/react/aceternity/*"]
     }
   }
 }
