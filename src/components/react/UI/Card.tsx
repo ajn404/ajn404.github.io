@@ -27,7 +27,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
   let image;
 
   //564*846
-  let src = `/assets/bg/${Math.floor(Math.random() * 6) + 1}.${
+  let src = `/assets/bg/${Math.floor(Math.random() * 7) + 1}.${
     Math.floor(Math.random() * 10) % 2 === 1 ? "jpg" : "png"
   }`;
 
