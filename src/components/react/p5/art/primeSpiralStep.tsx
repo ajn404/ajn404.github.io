@@ -50,30 +50,6 @@ export default () => {
   );
   return (
     <>
-      半径{Num},半径越小数量越多
-      <Slider
-        defaultValue={[5]}
-        max={10}
-        min={1}
-        step={0.1}
-        className={cn("w-[100%] m-4")}
-        onValueChange={value => {
-          setNum(value[0]);
-        }}
-        value={[Num]}
-      />
-      帧率{frameRate}
-      <Slider
-        defaultValue={[60]}
-        max={120}
-        min={1}
-        step={1}
-        className={cn("w-[100%] m-4")}
-        onValueChange={value => {
-          setFrameRate(value[0]);
-        }}
-        value={[frameRate]}
-      />
       <Basic sketch={sketch}></Basic>
     </>
   );

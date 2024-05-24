@@ -1,0 +1,145 @@
+---
+author: ajn404
+pubDatetime: 2024-05-01T15:34:51Z
+title: 2024年5🈷️记录
+featured: false
+draft: false
+postSlug: 2024-05
+tags:
+  - "2024"
+  - 2024-05
+description: 2024年5🈷️记录
+---
+
+## 目录
+
+### records
+
+- 彻底搬到北京了
+
+### 回顾基础
+
+底层逻辑依然是跟着roadmap走
+
+#### js
+
+1.简介
+
+- 是什么
+- 历史
+- 版本
+- 如何运行
+
+deno,node,bun
+
+```
+bunx shadcn-ui@latest add button
+```
+
+2.关于变量
+
+- 变量声明 var let const
+- 变量提升
+- 命名规则
+- 函数作用域 块 函数 全局
+
+  3.数据类型
+
+- 原始数据类型 string undefined bigint number null Symbol Boolean
+- Object
+  内置Objects 例如 String , Number
+  继承，原型
+  原型链
+- typeof
+
+  4.type casting
+
+In programming language, casting is a way of telling the compiler to change an expression or value from one type to another
+
+- 显式类型转换
+- 隐式类型转换
+- 类型转换vs强制类型转换
+
+  5.数据结构
+
+<blockquote>
+  A Data structure is a format to organize, manage and store data in a way that
+  allows efficient access and modification. JavaScript has primitive (built-in)
+  and non-primitive (not built-in) data structures. Primitive data structures
+  come by default with the programming language and you can implement them out
+  of the box (like arrays and objects). Non-primitive data structures don’t come
+  by default and you have to code them up if you want to use them.
+</blockquote>
+
+- key集合
+  Map,WeakMap,Set,WeakSet
+- 结构化数据
+  <blockquote>
+    Structured data is used by search-engines, like Google, to understand the
+    content of the page, as well as to gather information about the web and the
+    world in general.
+  </blockquote>
+  JSON
+- 索引集合
+
+  - [类型化数组](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Typed_arrays)
+    JavaScript 类型化数组是一种类似数组的对象，并提供了一种用于在内存缓冲中访问原始二进制数据的机制。
+    这部分有点难，缓冲和视图那里，基本上只会手抄别人的模板，这里的mdn文章需要**精读**
+  - 数组
+
+  6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+
+- 操作符
+  == === Object.is()
+- 相等算法
+  IsLooselyEqual：==
+  IsStrictlyEqual：===
+  SameValue：Object.is()
+  SameValueZero：被许多内置运算使用
+
+  {" "}
+  <blockquote>
+    通常情况下，唯一需要关注 Object.is
+    对零的特殊行为的时机是在实施特定的元编程范式时，特别是涉及属性描述符时，当你的工作需要镜像
+    Object.defineProperty 的某些特性时。如果你的用例不需要这样做，建议避免使用
+    Object.is，而改用 ===。即使你的要求涉及将两个 NaN 值之间的比较计算为
+    true，通常特殊处理 NaN 检查（使用先前版本的 ECMAScript 中提供的 isNaN
+    方法）比解决相关计算如何影响零的符号更为简单。
+  </blockquote>
+  7.循环和遍历
+
+#### react
+
+#### 计算机网络
+
+### tips/小知识
+
+- in
+
+```js
+const car = { make: "Honda", model: "Accord", year: 1998 };
+
+console.log("make" in car);
+// Expected output: true
+
+delete car.make;
+if ("make" in car === false) {
+  car.make = "Suzuki";
+}
+
+console.log(car.make);
+// Expected output: "Suzuki"
+```
+
+- ??
+
+Nullish coalescing operator 空值合并运算符
+
+```js
+0 ?? 42; //0
+null ?? "some"; //some
+```
+
+<blockquote>
+  ??只在第一个操作数为null 或 undefined 时（而不是其他假值）返回第二个操作数
+</blockquote>
