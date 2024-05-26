@@ -87,7 +87,7 @@ In programming language, casting is a way of telling the compiler to change an e
     这部分有点难，缓冲和视图那里，基本上只会手抄别人的模板，这里的mdn文章需要**精读**
   - 数组
 
-  6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+    6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
 
 - 操作符
   == === Object.is()
@@ -98,6 +98,8 @@ In programming language, casting is a way of telling the compiler to change an e
   SameValueZero：被许多内置运算使用
 
   {" "}
+
+  {" "}
   <blockquote>
     通常情况下，唯一需要关注 Object.is
     对零的特殊行为的时机是在实施特定的元编程范式时，特别是涉及属性描述符时，当你的工作需要镜像
@@ -106,6 +108,7 @@ In programming language, casting is a way of telling the compiler to change an e
     true，通常特殊处理 NaN 检查（使用先前版本的 ECMAScript 中提供的 isNaN
     方法）比解决相关计算如何影响零的符号更为简单。
   </blockquote>
+
   7.循环和遍历
 
 - for
@@ -116,6 +119,124 @@ In programming language, casting is a way of telling the compiler to change an e
 - for of
 - break/continue
   [labeled statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label)
+
+  8.control flow
+
+- Conditional Statements
+
+  if/else Switch
+
+- Exception Handling 异常处理
+  throw
+
+  try/Catch/finally
+
+  Utilizing Error Objects 利用错误对象
+
+  Error构造函数:
+
+  AggregateError 聚合错误
+
+  EvalError EvalError（评估错误）
+
+  InternalError 内部错误
+
+  RangeError 范围错误
+
+  ReferenceError 引用错误
+
+  SyntaxError 语法错误
+
+```js
+try {
+  willGiveErrorSometime();
+} catch (error) {
+  if (error instanceof RangeError) {
+    rangeErrorHandler(error);
+  } else if (error instanceof ReferenceError) {
+    referenceErrorHandle(error);
+  } else {
+    errorHandler(error);
+  }
+}
+```
+
+9.[表达式与运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_Operators)
+
+这里只记一些之前不知道的/记不太清楚的：
+
+- delete
+
+```js
+delete Math.PI; // returns false (cannot delete predefined properties)
+```
+
+```js
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+delete trees[3];
+if (3 in trees) {
+  // 不会被执行
+}
+```
+
+```js
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+trees[3] = undefined;
+if (3 in trees) {
+  // this gets executed（会被执行）
+}
+```
+
+- typeof
+
+```js
+typeof null === "object";
+typeof undefined === "undefined";
+```
+
+- void
+
+你可以使用 void 运算符指明一个超文本链接。该表达式是有效的，但是并不会在当前文档中进行加载。
+
+如下创建了一个超链接文本，当用户单击该文本时，不会有任何效果。
+
+```html
+<a href="javascript:void(0)">Click here to do nothing</a>
+```
+
+下面的代码创建了一个超链接，当用户单击它时，提交一个表单。
+
+```html
+<a href="javascript:void(document.form.submit())">Click here to submit</a>
+```
+
+- this
+  指代当前的对象
+
+```js
+function validate(obj, lowval, hival) {
+  if (obj.value < lowval || obj.value > hival) console.log("Invalid Value!");
+}
+```
+
+```html
+<p>Enter a number between 18 and 99:</p>
+<input type="text" name="age" size="3" onChange="validate(this, 18, 99);" />
+```
+
+- 数值推导(实验性)
+
+```js
+[for (i of [ 1, 2, 3 ]) i*i ];
+// [ 1, 4, 9 ]
+
+var abc = [ "A", "B", "C" ];
+[for (letters of abc) letters.toLowerCase()];
+// [ "a", "b", "c" ]
+
+```
+
+Comprehensions 特性被许多编程语言所采用，该特性能够使你快速地通过一个已有的数组来创建出一个新的数组
 
 #### react
 
