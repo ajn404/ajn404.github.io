@@ -87,7 +87,7 @@ In programming language, casting is a way of telling the compiler to change an e
     这部分有点难，缓冲和视图那里，基本上只会手抄别人的模板，这里的mdn文章需要**精读**
   - 数组
 
-    6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+  6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
 
 - 操作符
   == === Object.is()
@@ -96,6 +96,8 @@ In programming language, casting is a way of telling the compiler to change an e
   IsStrictlyEqual：===
   SameValue：Object.is()
   SameValueZero：被许多内置运算使用
+
+  {" "}
 
   {" "}
 
@@ -238,6 +240,51 @@ var abc = [ "A", "B", "C" ];
 
 Comprehensions 特性被许多编程语言所采用，该特性能够使你快速地通过一个已有的数组来创建出一个新的数组
 
+10.函数
+
+- 声明以及调用
+- 函数传参 (默认参数)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters]/[剩余参数](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+- arrow function
+- IIFE 立即调用函数表达式
+- Arguments对象
+
+```js
+// ES2015
+const args = Array.from(arguments);
+const args = [...arguments];
+```
+
+```js
+function myConcat(separator) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return args.join(separator);
+}
+
+myConcat.apply(null, ["-", ";", "."]);
+```
+
+- 作用域与函数[调用栈](https://developer.mozilla.org/zh-CN/docs/Glossary/Call_stack)
+
+<blockquote>
+  <p>
+    调用栈是解释器（比如 Web 浏览器中的 JavaScript
+    解释器）用来追踪其在调用多个函数的脚本中所处位置的机制——当前正在运行的函数是哪一个，以及在该函数内部调用了哪些函数，等等。
+  </p>
+  <p>
+    当脚本调用一个函数时，解释器就会把该函数添加进调用栈，然后开始执行这个函数。
+    正在调用栈中执行的函数调用的其他任何函数也将会被添加进调用栈。一旦这个函数被调用，便会立即执行。
+    当前函数执行完毕后，解释器将其清出调用栈，继续执行当前执行环境下的剩余的代码。
+    当分配的调用栈空间被占满时，会引发“堆栈溢出”错误。
+  </p>
+</blockquote>
+递归/词法作用域/闭包
+
+- 内置函数
+
+  11.[严格模式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)
+
+  12.使用this关键字
+
 #### react
 
 #### 计算机网络
@@ -273,3 +320,5 @@ null ?? "some"; //some
 <blockquote>
   ??只在第一个操作数为null 或 undefined 时（而不是其他假值）返回第二个操作数
 </blockquote>
+
+## 链接

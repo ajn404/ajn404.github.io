@@ -227,11 +227,11 @@ blockquote p {
 }
 
 blockquote p::before {
-  content: "\201C";
+  content: " "!important;
 }
 
 blockquote p::after {
-  content: "\201D";
+  content: " "!important;
 }
 
 blockquote footer cite {
