@@ -15,17 +15,17 @@ description: 2024年5🈷️记录
 
 ## 目录
 
-### records
+## records
 
 彻底搬到北京了
 
-### 回顾基础
+## 回顾基础
 
 底层逻辑依然是跟着roadmap走
 
-#### js
+### js
 
-##### 1.简介
+#### 1.简介
 
 - 是什么
 - 历史
@@ -38,14 +38,14 @@ deno,node,bun
 bunx shadcn-ui@latest add button
 ```
 
-##### 2.关于变量
+#### 2.关于变量
 
 - 变量声明 var let const
 - 变量提升
 - 命名规则
 - 函数作用域 块 函数 全局
 
-##### 3.数据类型
+#### 3.数据类型
 
 - 原始数据类型 string undefined bigint number null Symbol Boolean
 - Object
@@ -54,7 +54,7 @@ bunx shadcn-ui@latest add button
   原型链
 - typeof
 
-##### 4.type casting
+#### 4.type casting
 
 In programming language, casting is a way of telling the compiler to change an expression or value from one type to another
 
@@ -62,7 +62,7 @@ In programming language, casting is a way of telling the compiler to change an e
 - 隐式类型转换
 - 类型转换vs强制类型转换
 
-##### 5.数据结构
+#### 5.数据结构
 
 <blockquote>
   A Data structure is a format to organize, manage and store data in a way that
@@ -90,7 +90,7 @@ In programming language, casting is a way of telling the compiler to change an e
 
   - 数组
 
-##### 6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
+#### 6.[相等性比较](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness)
 
 - 操作符
   == === Object.is()
@@ -115,7 +115,7 @@ In programming language, casting is a way of telling the compiler to change an e
     方法）比解决相关计算如何影响零的符号更为简单。
   </blockquote>
 
-##### 7.循环和遍历
+#### 7.循环和遍历
 
 - for
 - do while
@@ -126,7 +126,7 @@ In programming language, casting is a way of telling the compiler to change an e
 - break/continue
   [labeled statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label)
 
-##### 8.control flow
+#### 8.control flow
 
 - Conditional Statements
 
@@ -167,7 +167,7 @@ try {
 }
 ```
 
-##### 9.[表达式与运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_Operators)
+#### 9.[表达式与运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_Operators)
 
 这里只记一些之前不知道的/记不太清楚的：
 
@@ -244,7 +244,7 @@ var abc = [ "A", "B", "C" ];
 
 Comprehensions 特性被许多编程语言所采用，该特性能够使你快速地通过一个已有的数组来创建出一个新的数组
 
-##### 10.函数
+#### 10.函数
 
 - 声明以及调用
 - 函数传参 (默认参数)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters]/[剩余参数](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
@@ -285,15 +285,210 @@ myConcat.apply(null, ["-", ";", "."]);
 
 - 内置函数
 
-##### 11.[严格模式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)
+#### 11.[严格模式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)
 
-##### 12.使用this关键字
+#### 12.使用this关键字
 
-#### react
+### react
 
-#### 计算机网络
+#### 1.cli tools
 
-### tips/小知识
+vite/create react app
+
+#### 2.components
+
+##### class components
+
+```js
+import React, { Component } from "react";
+
+interface LifecycleExampleState {
+  counter: number;
+}
+
+class LifecycleExample extends Component<{}, LifecycleExampleState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      counter: 0,
+    };
+    console.log("Constructor");
+  }
+
+  static getDerivedStateFromProps(
+    nextProps: {},
+    nextState: LifecycleExampleState
+  ) {
+    console.log("getDerivedStateFromProps", nextProps, nextState);
+    return null;
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+
+  shouldComponentUpdate(nextProps: {}, nextState: LifecycleExampleState) {
+    console.log("shouldComponentUpdate", nextProps, nextState);
+    return true;
+  }
+
+  getSnapshotBeforeUpdate(prevProps: {}, prevState: LifecycleExampleState) {
+    console.log("getSnapshotBeforeUpdate", prevProps, prevState);
+    return null;
+  }
+
+  componentDidUpdate(
+    prevProps: {},
+    prevState: LifecycleExampleState,
+    snapshot: null
+  ) {
+    console.log("componentDidUpdate", prevProps, prevState, snapshot);
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    console.log("getDerivedStateFromError", error);
+    return null;
+  }
+
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.log("componentDidCatch", error, info);
+  }
+
+  handleIncrement = () => {
+    this.setState(prevState => ({
+      counter: prevState.counter + 1,
+    }));
+  };
+
+  render() {
+    console.log("Render");
+    return (
+      <div>
+        <h1>Counter: {this.state.counter}</h1>
+        <button onClick={this.handleIncrement}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default LifecycleExample;
+
+```
+
+##### 函数式组件
+
+```jsx
+import React, { useState, useEffect, useReducer } from "react";
+
+interface LifecycleExampleProps {
+  initialCounter: number;
+}
+
+interface LifecycleExampleState {
+  counter: number;
+}
+
+type Action = { type: "increment" } | { type: "decrement" };
+
+const counterReducer = (
+  state: LifecycleExampleState,
+  action: Action
+): LifecycleExampleState => {
+  switch (action.type) {
+    case "increment":
+      return { ...state, counter: state.counter + 1 };
+    case "decrement":
+      return { ...state, counter: state.counter - 1 };
+    default:
+      return state;
+  }
+};
+
+const LifecycleExample: React.FC<LifecycleExampleProps> = ({
+  initialCounter,
+}) => {
+  const [state, dispatch] = useReducer(counterReducer, {
+    counter: initialCounter,
+  });
+
+  useEffect(() => {
+    console.log("Component Did Mount");
+
+    return () => {
+      console.log("Component Will Unmount");
+    };
+  }, []); // Empty dependency array means it runs once on mount and once on unmount
+
+  useEffect(() => {
+    console.log("Counter Value Changed:", state.counter);
+  }, [state.counter]); // Runs whenever counter value changes
+
+  const handleIncrement = () => {
+    dispatch({ type: "increment" });
+  };
+
+  const handleDecrement = () => {
+    dispatch({ type: "decrement" });
+  };
+
+  console.log("Render");
+
+  return (
+    <div>
+      <h1>Counter: {state.counter}</h1>
+      <button onClick={handleIncrement}>Increment</button>
+      <button onClick={handleDecrement}>Decrement</button>
+    </div>
+  );
+};
+
+export default LifecycleExample;
+
+```
+
+##### 组件基础:
+
+jsx(javascript xml)
+
+```jsx
+const jsx = <h1>This is JSX</h1>;
+```
+
+`React.createElement(type, [props], [...children])`
+=>
+
+```json
+{
+  "type": "h1",
+  "props": {
+    "children": "This is JSX"
+  }
+}
+```
+
+```jsx
+class JSXDemo extends React.Component {
+  render() {
+    const jsx = <h1>This is JSX</h1>;
+    console.log(jsx);
+    return jsx;
+  }
+}
+
+ReactDOM.render(<JSXDemo />, document.getElementById("root"));
+```
+
+props vs state
+
+一个是传递给组件的，一个是在组件内部进行管理的
+
+### 计算机网络
+
+## tips/小知识
 
 - in
 
@@ -325,4 +520,4 @@ null ?? "some"; //some
   ??只在第一个操作数为null 或 undefined 时（而不是其他假值）返回第二个操作数
 </blockquote>
 
-### 链接
+## 链接
