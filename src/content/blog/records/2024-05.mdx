@@ -247,7 +247,7 @@ Comprehensions 特性被许多编程语言所采用，该特性能够使你快�
 #### 10.函数
 
 - 声明以及调用
-- 函数传参 (默认参数)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters]/[剩余参数](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+- 函数传参 [默认参数](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters)/[剩余参数](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
 - arrow function
 - IIFE 立即调用函数表达式
 - Arguments对象
@@ -452,7 +452,7 @@ export default LifecycleExample;
 
 ##### 组件基础:
 
-jsx(javascript xml)
+- jsx(javascript xml)
 
 ```jsx
 const jsx = <h1>This is JSX</h1>;
@@ -482,9 +482,259 @@ class JSXDemo extends React.Component {
 ReactDOM.render(<JSXDemo />, document.getElementById("root"));
 ```
 
-props vs state
+- props vs state
 
 一个是传递给组件的，一个是在组件内部进行管理的
+使用props传递父组件控制的数据和回调函数，确保子组件的行为由父组件控制。
+使用state管理组件内部的状态和数据，确保组件能够根据用户交互或其他内部逻辑动态更新。
+
+- 条件渲染
+- Composition vs Inheritance
+
+  <blockquote>
+    在React中，组件之间的代码复用主要通过组合（Composition）来实现，而不是继承（Inheritance）。React团队建议使用组合而不是继承来实现组件的复用，因为组合更符合React的设计哲学，即"组合优于继承"。
+  </blockquote>
+  继承会导致组件之间的耦合度更高，不利于代码的复用和维护。
+
+##### 组件渲染
+
+- 组件生命周期
+  使用 useEffect 模拟生命周期方法
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+function MyFunctionComponent() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // componentDidMount 和 componentDidUpdate 的组合
+    console.log(`Count has been updated to: ${count}`);
+
+    return () => {
+      // componentWillUnmount
+      console.log("Cleanup");
+    };
+  }, [count]); // 只有 count 改变时才会触发
+
+  const incrementCount = () => {
+    setCount(prevCount => prevCount + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={incrementCount}>Increment</button>
+    </div>
+  );
+}
+
+export default MyFunctionComponent;
+```
+
+- Lists and Keys
+- render props
+
+  [React Render Props](https://www.robinwieruch.de/react-render-props/)
+  通过一个值为函数的 prop 动态决定组件渲染内容的技术
+  指一个用于告知组件该渲染什么内容的函数 prop。通过这种模式，可以在不使用高阶组件（HOC）或 context 的情况下共享组件逻辑
+
+例如
+
+```tsx
+import React, { Component, type ReactNode } from "react";
+
+// 定义 Mouse 组件的 props 类型
+interface MouseProps {
+  render: (state: MouseState) => ReactNode;
+}
+
+// 定义 Mouse 组件的 state 类型
+interface MouseState {
+  x: number;
+  y: number;
+}
+
+class Mouse extends Component<MouseProps, MouseState> {
+  constructor(props: MouseProps) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+  }
+
+  handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    this.setState({
+      x: event.clientX,
+      y: event.clientY,
+    });
+  }
+
+  render() {
+    return (
+      <div style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
+        {this.props.render(this.state)}
+      </div>
+    );
+  }
+}
+
+export default Mouse;
+```
+
+使用
+
+```tsx
+import Mouse from "./mouse";
+
+function App() {
+  return (
+    <div>
+      <p>Move the mouse around!</p>
+      <Mouse
+        render={({ x, y }) => (
+          <p>
+            The current mouse position is ({x}, {y})
+          </p>
+        )}
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+结果
+
+import RenderProps from "@components/react/features/renderProps";
+
+<RenderProps client:load />
+
+- Refs
+
+```tsx
+import React, { useRef, useEffect } from "react";
+
+function MyComponent() {
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    myRef.current.focus(); // 获取焦点
+  }, []);
+
+  return <input ref={myRef} />;
+}
+```
+
+类组件中
+
+```tsx
+import React, { Component } from "react";
+
+class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.myRef.current.focus(); // 获取焦点
+  }
+
+  render() {
+    return <input ref={this.myRef} />;
+  }
+}
+```
+
+- Events
+
+SyntheticEvent =>事件处理函数
+
+React使用合成事件而不是原生DOM事件，因此某些特性可能与原生DOM事件有所不同（例如，事件委托）
+
+在使用函数组件时，事件处理函数可以直接作为 JSX 中的箭头函数定义，而不需要将它们作为类方法来定义。
+
+合成事件对象在每次事件触发时都会被重用，因此如果你想在异步代码中访问合成事件属性，需要在事件处理函数中调用 event.persist() 方法，以确保事件对象在异步代码中仍然可用。
+
+demo:
+
+```jsx
+import React, { Component } from "react";
+
+class MyComponent extends Component {
+  handleClick = event => {
+    console.log("Button clicked!");
+  };
+
+  render() {
+    return <button onClick={this.handleClick}>Click me</button>;
+  }
+}
+
+export default MyComponent;
+```
+
+- High Order Components
+
+  高阶组件（Higher Order Components，HOC）是一种用于增强组件功能的模式。它是一个函数，接受一个组件作为参数，并返回一个新的组件。通过高阶组件，你可以在不修改原始组件代码的情况下，添加新的功能或修改现有功能。
+
+  demo
+
+```jsx
+import React from "react";
+
+function withLogger(WrappedComponent) {
+  return class extends React.Component {
+    componentDidMount() {
+      console.log("Component is mounted");
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+}
+
+// 使用高阶组件增强组件功能
+const EnhancedComponent = withLogger(MyComponent);
+```
+
+以下是一个更具体的示例，演示了如何使用高阶组件来添加身份验证功能：
+
+```jsx
+import React from "react";
+
+// 定义一个高阶组件，用于身份验证
+function withAuthorization(WrappedComponent) {
+  return class extends React.Component {
+    componentDidMount() {
+      // 模拟检查用户是否已登录
+      const isAuthenticated = true;
+      if (!isAuthenticated) {
+        // 如果用户未登录，则重定向到登录页面
+        this.props.history.push("/login");
+      }
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+}
+
+// 创建一个需要身份验证的组件
+class MyProtectedComponent extends React.Component {
+  render() {
+    return <div>Protected content</div>;
+  }
+}
+
+// 使用高阶组件增强组件功能
+const EnhancedComponent = withAuthorization(MyProtectedComponent);
+```
+
+##### 勾子
 
 ### 计算机网络
 
