@@ -775,7 +775,7 @@ function createElement(type, props, ...children) {
 </details>
 
 <details>
-<summary>render</summary>
+<summary>Step II: render</summary>
 
 ```js
 function createElement(type, props, ...children) {
@@ -836,6 +836,35 @@ const element = (
 )
 const container = document.getElementById("root")
 Didact.render(element, container)
+```
+
+</details>
+
+<details open>
+<summary>Step III: Concurrent Mode </summary>
+
+一旦开始渲染，我们就不会停止，直到渲染出完整的元素树。如果元素树很大，可能会阻塞主线程太长时间。如果浏览器需要执行高优先级的操作，例如处理用户输入或保持动画流畅，则必须等到渲染完成。
+
+```js
+let nextUnitOfWork = null
+​
+function workLoop(deadline) {
+  let shouldYield = false
+  while (nextUnitOfWork && !shouldYield) {
+    nextUnitOfWork = performUnitOfWork(
+      nextUnitOfWork
+    )
+    shouldYield = deadline.timeRemaining() < 1
+  }
+  requestIdleCallback(workLoop)
+}
+​
+requestIdleCallback(workLoop)
+​
+function performUnitOfWork(nextUnitOfWork) {
+  // TODO
+}
+​
 ```
 
 </details>
