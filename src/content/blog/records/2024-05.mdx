@@ -736,6 +736,36 @@ const EnhancedComponent = withAuthorization(MyProtectedComponent);
 
 ##### 勾子 hooks
 
+#### 源码学习
+
+- React 不再使用 requestIdleCallback，而改用 scheduler 包来管理任务调度，这是因为 scheduler 包提供了更强大和精确的任务调度功能，支持任务优先级管理，能够更好地优化任务执行顺序和性能
+-
+
+##### 问题解决，详细见[react相关](/posts/react)
+
+1.react17之前jsx文件为什么要声明import React from 'react'，之后为什么不需要了<br/>
+在 React 17 之前，显式引入 React 是为了确保 JSX 被正确编译为 React.createElement 调用。而在 React 17 之后，通过引入新的 JSX 转换功能，编译器会自动处理所需的引入<br/>
+2.jsx和Fiber有什么关系<br/>
+JSX 是用于编写组件的语法糖，而 Fiber 是用于优化 React 应用性能的底层机制<br/>
+3.Fiber是什么，它为什么能提高性能<br/>
+Fiber 是一种重新实现的协调算法，旨在增强 React 处理 UI 更新的能力。<br/>
+它将更新工作分成更小的任务单元，可以在需要时中断和恢复这些任务，从而提高响应能力。<br/>
+4.componentDidMount和useEffect的区别是什么<br/><br/>
+**使用场景**：<br/><br/>
+
+componentDidMount 只能在类组件中使用。<br/>
+useEffect 只能在函数组件中使用。<br/><br/>
+**依赖管理**：<br/><br/>
+
+componentDidMount 只会在组件挂载后执行一次。<br/>
+useEffect 默认在每次渲染后都会执行，但可以通过依赖数组来控制其执行时机。如果依赖数组为空（[]），它的行为类似于 componentDidMount，只在组件挂载后执行一次。<br/><br/>
+**清理副作用**：<br/><br/>
+
+componentDidMount 本身没有清理副作用的机制，需要在 componentWillUnmount 方法中处理清理逻辑。<br/>
+useEffect 可以直接返回一个清理函数，在组件卸载或者依赖项变化时自动执行该清理函数。<br/>
+
+https://tcloud.marketingforce.com/tyun.html
+
 ### 计算机网络
 
 ## tips/小知识
