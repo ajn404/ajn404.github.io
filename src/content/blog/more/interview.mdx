@@ -435,3 +435,9 @@ new Vue({
 ```
 
 </blockquote>
+
+#### 在实际开发中shouldComponentUpdate有什么作用
+
+- 避免在shouldComponentUpdate中进行过多或复杂的计算，以免影响性能。
+- 如果shouldComponentUpdate返回false，那么render、componentDidUpdate等生命周期方法将不会被执行。
+- 使用PureComponent或React.memo可以在某种程度上自动实现shouldComponentUpdate的功能，它们会对组件的属性进行浅比较，来决定是否重新渲染组件。
