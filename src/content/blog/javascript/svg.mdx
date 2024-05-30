@@ -176,6 +176,158 @@ import CustomerSvg from "@components/react/d3/svg.tsx";
 </svg>
 ```
 
+## path
+
+在SVG中，路径（`<path>`元素）是最强大且灵活的绘制形状的方式之一。SVG路径通过一系列命令和参数来定义复杂的形状。下面是SVG路径的基本绘制方法和常用命令：
+
+### 基本结构
+
+一个SVG路径的基本结构如下：
+
+```html
+<svg width="200" height="200">
+  <path d="M10 10 H 90 V 90 H 10 L 10 10" />
+</svg>
+```
+
+其中，`d`属性包含了路径数据，即路径命令和参数的组合。
+
+### 常用路径命令
+
+1. **`M` 和 `m` - moveto**
+
+   - `M x y`: 将画笔移动到指定的绝对坐标 `(x, y)`。
+   - `m dx dy`: 将画笔移动到相对于当前点的偏移坐标 `(dx, dy)`。
+
+   ```html
+   <path d="M 50 50" />
+   <!-- Move to (50, 50) -->
+   <path d="m 50 50" />
+   <!-- Move to (50, 50) relative to current position -->
+   ```
+
+2. **`L` 和 `l` - lineto**
+
+   - `L x y`: 画一条直线到指定的绝对坐标 `(x, y)`。
+   - `l dx dy`: 画一条直线到相对于当前点的偏移坐标 `(dx, dy)`。
+
+   ```html
+   <path d="M 10 10 L 100 10" />
+   <!-- Draw line to (100, 10) -->
+   <path d="m 10 10 l 90 0" />
+   <!-- Draw line to (100, 10) relative to current position -->
+   ```
+
+3. **`H` 和 `h` - horizontal lineto**
+
+   - `H x`: 画一条水平线到指定的绝对x坐标。
+   - `h dx`: 画一条水平线到相对于当前x坐标的偏移位置。
+
+   ```html
+   <path d="M 10 10 H 100" />
+   <!-- Draw horizontal line to x=100 -->
+   <path d="m 10 10 h 90" />
+   <!-- Draw horizontal line to x=100 relative to current position -->
+   ```
+
+4. **`V` 和 `v` - vertical lineto**
+
+   - `V y`: 画一条垂直线到指定的绝对y坐标。
+   - `v dy`: 画一条垂直线到相对于当前y坐标的偏移位置。
+
+   ```html
+   <path d="M 10 10 V 100" />
+   <!-- Draw vertical line to y=100 -->
+   <path d="m 10 10 v 90" />
+   <!-- Draw vertical line to y=100 relative to current position -->
+   ```
+
+5. **`Z` 和 `z` - closepath**
+
+   - `Z` 或 `z`: 关闭路径，画一条直线回到路径的起点。
+
+   ```html
+   <path d="M 10 10 L 100 10 L 100 100 L 10 100 Z" />
+   <!-- Close the square path -->
+   ```
+
+6. **`C` 和 `c` - cubic Bézier curve**
+
+   - `C x1 y1, x2 y2, x y`: 画一条三次贝塞尔曲线到 `(x, y)`，控制点为 `(x1, y1)` 和 `(x2, y2)`。
+   - `c dx1 dy1, dx2 dy2, dx dy`: 画一条相对于当前点的三次贝塞尔曲线，控制点为 `(dx1, dy1)` 和 `(dx2, dy2)`。
+
+   ```html
+   <path d="M 10 80 C 40 10, 65 10, 95 80" />
+   <!-- Draw a cubic Bézier curve -->
+   <path d="m 10 80 c 30 -70, 55 -70, 85 0" />
+   <!-- Relative cubic Bézier curve -->
+   ```
+
+7. **`S` 和 `s` - shorthand/smooth cubic Bézier curve**
+
+   - `S x2 y2, x y`: 画一条三次贝塞尔曲线到 `(x, y)`，只有一个控制点 `(x2, y2)`，另一个控制点假定为前一个曲线的反射点。
+   - `s dx2 dy2, dx dy`: 画一条相对于当前点的三次贝塞尔曲线。
+
+   ```html
+   <path d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" />
+   ```
+
+8. **`Q` 和 `q` - quadratic Bézier curve**
+
+   - `Q x1 y1, x y`: 画一条二次贝塞尔曲线到 `(x, y)`，控制点为 `(x1, y1)`。
+   - `q dx1 dy1, dx dy`: 画一条相对于当前点的二次贝塞尔曲线。
+
+   ```html
+   <path d="M 10 80 Q 95 10, 180 80" />
+   <!-- Draw a quadratic Bézier curve -->
+   ```
+
+9. **`T` 和 `t` - shorthand/smooth quadratic Bézier curve**
+
+   - `T x y`: 画一条二次贝塞尔曲线到 `(x, y)`，控制点假定为前一个曲线的反射点。
+   - `t dx dy`: 画一条相对于当前点的二次贝塞尔曲线。
+
+   ```html
+   <path d="M 10 80 Q 95 10, 180 80 T 270 80" />
+   ```
+
+10. **`A` 和 `a` - elliptical arc curve**
+    - `A rx ry x-axis-rotation large-arc-flag sweep-flag x y`: 画一条椭圆弧线到 `(x, y)`，参数包括：
+      - `rx`, `ry`: 椭圆的x和y半径
+      - `x-axis-rotation`: 椭圆的x轴相对于当前坐标系x轴的旋转角度
+      - `large-arc-flag`: 1表示大弧，0表示小弧
+      - `sweep-flag`: 1表示顺时针弧，0表示逆时针弧
+    - `a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy`: 相对于当前点的椭圆弧。
+    ```html
+    <path d="M 10 80 A 45 45, 0, 0, 1, 95 125" />
+    <path d="m 10 80 a 45 45, 0, 0, 1, 85 45" />
+    ```
+
+### 示例
+
+下面是一个结合多种路径命令的综合示例：
+
+```html
+<svg width="400" height="200">
+  <!-- Move to (50, 50), draw a line to (150, 50), draw a cubic Bézier curve to (250, 150) -->
+  <path
+    d="M 50 50 L 150 50 C 200 100, 200 100, 250 150"
+    stroke="black"
+    fill="transparent"
+  />
+  <!-- Move to (50, 100), draw a quadratic Bézier curve to (250, 100) -->
+  <path d="M 50 100 Q 150 50, 250 100" stroke="red" fill="transparent" />
+  <!-- Move to (50, 150), draw an arc to (250, 150) -->
+  <path
+    d="M 50 150 A 50 50, 0, 1, 1, 250 150"
+    stroke="blue"
+    fill="transparent"
+  />
+</svg>
+```
+
+通过掌握这些路径命令，可以创建复杂而多样的图形。路径命令的组合使用可以满足大多数矢量图形的绘制需求，是SVG中非常强大的工具。
+
 ## 链接
 
 - [mdn svg](https://developer.mozilla.org/zh-CN/docs/Web/SVG)
