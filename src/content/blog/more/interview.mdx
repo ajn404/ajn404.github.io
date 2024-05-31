@@ -441,3 +441,453 @@ new Vue({
 - 避免在shouldComponentUpdate中进行过多或复杂的计算，以免影响性能。
 - 如果shouldComponentUpdate返回false，那么render、componentDidUpdate等生命周期方法将不会被执行。
 - 使用PureComponent或React.memo可以在某种程度上自动实现shouldComponentUpdate的功能，它们会对组件的属性进行浅比较，来决定是否重新渲染组件。
+
+### 豆瓣-面试（未回答上/回答不好）
+
+#### ts Omit
+
+用于创建一个新的类型，该类型从另一个类型中排除指定的键
+
+```ts
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+```
+
+示例:假设我们有一个用户类型 User，包含 id, name, 和 email 三个属性。我们希望创建一个新的类型，排除 email 属性。
+
+```ts
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+type UserWithoutEmail = Omit<User, "email">;
+
+const user: UserWithoutEmail = {
+  id: 1,
+  name: "John Doe",
+  // email 属性不需要包含在 UserWithoutEmail 类型中
+};
+```
+
+在 React 项目中，Omit 常用于处理组件的 Props，特别是当我们需要复用一些通用 Props 并排除某些特定属性时。
+
+```tsx
+type BaseButtonProps = {
+  onClick: () => void;
+  label: string;
+  disabled?: boolean;
+};
+
+type IconButtonProps = Omit<BaseButtonProps, "label"> & {
+  icon: string;
+};
+
+const IconButton: React.FC<IconButtonProps> = ({ onClick, icon, disabled }) => (
+  <button onClick={onClick} disabled={disabled}>
+    <i className={`icon-${icon}`} />
+  </button>
+);
+```
+
+结合其他高级类型如 Partial 使用，Omit 能够大大增强 TypeScript 类型系统的表达能力，帮助开发者编写更健壮和可维护的代码
+
+```ts
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+};
+
+type PartialUserWithoutAge = Partial<Omit<User, "age">>;
+
+const partialUser: PartialUserWithoutAge = {
+  name: "ajn404",
+  email: "ajn404@example.com",
+  // id 属性是可选的，并且 age 属性被排除在 PartialUserWithoutAge 类型之外
+};
+```
+
+#### react redux具体流程
+
+创建 Store：使用 createStore 函数创建 Redux store。<br/>
+定义 Action：创建表示用户行为或事件的 action 对象。<br/>
+编写 Reducer：根据 action 来修改 store 中的 state。<br/>
+连接 React 组件：使用 Provider 和 connect，将 Redux store 与 React 组件连接起来。<br/>
+
+#### 通用的弹窗（Modal）组件
+
+<details>
+<summary>设计一个通用的弹窗（Modal）组件</summary>
+
+设计一个通用的弹窗（Modal）组件 API 可以让你的 React 应用更加模块化和可维护。以下是一个如何在 React 中实现通用弹窗组件的步骤和示例。
+
+##### 1. 创建 Modal 组件
+
+首先，我们需要创建一个基础的 Modal 组件，它可以接受不同的内容和配置。
+
+```javascript
+// Modal.js
+import React from "react";
+import "./Modal.css"; // 你可以创建一个 CSS 文件来定义 Modal 的样式
+
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="modal-close-button" onClick={onClose}>
+          X
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
+```
+
+##### 2. 创建 ModalProvider 和 useModal Hook
+
+为了让弹窗在整个应用中可用，我们可以创建一个上下文（Context）来管理弹窗的状态和提供相关的 API。
+
+```javascript
+// ModalContext.js
+import React, { createContext, useContext, useState, useCallback } from "react";
+import Modal from "./Modal";
+
+const ModalContext = createContext();
+
+export const ModalProvider = ({ children }) => {
+  const [modalContent, setModalContent] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = useCallback(content => {
+    setModalContent(content);
+    setIsOpen(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setModalContent(null);
+    setIsOpen(false);
+  }, []);
+
+  return (
+    <ModalContext.Provider value={{ openModal, closeModal }}>
+      {children}
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        {modalContent}
+      </Modal>
+    </ModalContext.Provider>
+  );
+};
+
+export const useModal = () => {
+  return useContext(ModalContext);
+};
+```
+
+##### 3. 使用 ModalProvider 包裹应用
+
+在应用的根组件中，使用 `ModalProvider` 包裹整个应用。
+
+```javascript
+// App.js
+import React from "react";
+import { ModalProvider } from "./ModalContext";
+import HomePage from "./HomePage";
+
+const App = () => {
+  return (
+    <ModalProvider>
+      <HomePage />
+    </ModalProvider>
+  );
+};
+
+export default App;
+```
+
+##### 4. 使用 useModal Hook 打开和关闭弹窗
+
+在你希望打开弹窗的任何组件中，可以使用 `useModal` Hook 来访问 `openModal` 和 `closeModal` 方法。
+
+```javascript
+// HomePage.js
+import React from "react";
+import { useModal } from "./ModalContext";
+
+const HomePage = () => {
+  const { openModal } = useModal();
+
+  const handleOpenModal = () => {
+    openModal(<div>This is the content of the modal!</div>);
+  };
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <button onClick={handleOpenModal}>Open Modal</button>
+    </div>
+  );
+};
+
+export default HomePage;
+```
+
+##### 5. 样式
+
+为了使弹窗看起来更好，可以添加一些基本的 CSS 样式。
+
+```css
+/* Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+```
+
+通过这种方式，我们创建了一个通用的弹窗 API，可以在应用的任何地方轻松打开和关闭弹窗，并且弹窗的内容可以动态变化。我们利用了 React 的 Context API 和 Hooks 来管理弹窗的状态，并确保弹窗组件是可复用的和灵活的。
+
+这使得我们的代码更加模块化，弹窗逻辑集中管理，同时还确保了使用的方便性。如果有更多需求，例如支持多种类型的弹窗（确认弹窗、表单弹窗等），可以在 `ModalContext` 中扩展相应的逻辑和 API。
+
+</details>
+
+<details>
+<summary>如何设计弹窗的动画，比如打开时淡入，关闭时淡出</summary>
+
+```jsx
+// Modal.js
+import React from "react";
+import "./Modal.css";
+
+const Modal = ({ isOpen, onClose, children }) => {
+  return (
+    <div className={`modal-overlay ${isOpen ? "fade-in" : "fade-out"}`}>
+      <div className={`modal-content ${isOpen ? "slide-in" : "slide-out"}`}>
+        <button className="modal-close-button" onClick={onClose}>
+          X
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
+```
+
+当然这里也可以添加一个prop来控制动画的持续时间/控制是否显示动画
+
+```css
+/* Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.modal-overlay.fade-in {
+  opacity: 1;
+}
+
+.modal-overlay.fade-out {
+  opacity: 0;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transform: translateY(-50px);
+  transition: transform 0.5s;
+}
+
+.modal-content.slide-in {
+  transform: translateY(0);
+}
+
+.modal-content.slide-out {
+  transform: translateY(-50px);
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+```
+
+为了确保动画完成后才移除弹窗，在 ModalProvider 中稍微修改关闭逻辑
+
+```js
+// ModalContext.js
+import React, { createContext, useContext, useState, useCallback } from "react";
+import Modal from "./Modal";
+
+const ModalContext = createContext();
+
+export const ModalProvider = ({ children }) => {
+  const [modalContent, setModalContent] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = useCallback(content => {
+    setModalContent(content);
+    setIsOpen(true);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+    // 延迟清理内容，等待动画完成
+    setTimeout(() => setModalContent(null), 500);
+  }, []);
+
+  return (
+    <ModalContext.Provider value={{ openModal, closeModal }}>
+      {children}
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        {modalContent}
+      </Modal>
+    </ModalContext.Provider>
+  );
+};
+
+export const useModal = () => {
+  return useContext(ModalContext);
+};
+```
+
+</details>
+
+#### 两数之和
+
+哈希表
+
+```js
+function twoSum(nums, target) {
+  const numIndices = {}; // 用对象代替哈希表
+
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+
+    if (numIndices.hasOwnProperty(complement)) {
+      return [numIndices[complement], i];
+    }
+
+    numIndices[nums[i]] = i;
+  }
+
+  return null;
+}
+
+// 示例
+const nums = [2, 7, 11, 15];
+const target = 9;
+const result = twoSum(nums, target);
+console.log(result); // 输出: [0, 1]
+```
+
+#### 数组拆分多个和近似的数组
+
+贪心
+
+```js
+function splitArrayIntoApproxEqualSums(nums, k) {
+  // 步骤1：对数组进行降序排序
+  nums.sort((a, b) => b - a);
+
+  // 步骤2：初始化子数组
+  const result = Array.from({ length: k }, () => []);
+
+  // 步骤3：逐个元素分配到和最小的子数组中
+  const sums = Array(k).fill(0);
+
+  for (let num of nums) {
+    // 找到和最小的子数组
+    let minIndex = 0;
+    for (let i = 1; i < k; i++) {
+      if (sums[i] < sums[minIndex]) {
+        minIndex = i;
+      }
+    }
+    // 分配当前元素到该子数组
+    result[minIndex].push(num);
+    sums[minIndex] += num;
+  }
+
+  return result;
+}
+
+// 示例
+const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const k = 3;
+const result = splitArrayIntoApproxEqualSums(nums, k);
+console.log(result);
+```
+
+#### ts中范型的作用
+
+范型类允许类的属性和方法使用范型，从而可以适用于多种类型。<br/>
+范型接口使得接口中的属性和方法可以使用范型，从而可以适用于多种类型。<br/>
+有时你需要对范型进行约束，使其只能是某些类型的子类型。可以使用 extends 关键字来实现范型约束。<br/>
+**通过范型，函数、类和接口可以适用于多种类型，而不丧失类型检查的优势。**
+
+#### 博客项目如何实现模糊
+
+css `blur(2px)`
+
+#### 文字渐变
+
+```scss
+@keyframes anim-text-flow-keys {
+  @for $i from 0 through $animationSteps {
+    #{percentage($i * calc(1 / $animationSteps))} {
+      color: hsla(random(365), 60%, 60%, 1);
+    }
+  }
+}
+```
