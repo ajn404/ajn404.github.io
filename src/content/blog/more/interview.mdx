@@ -146,6 +146,10 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
 ## 面经
 
+<blockquote>
+  此一处陌生的地方，不过是心魂之旅中的一处景观、一次际遇，未来的路途一样还是无限之问。
+</blockquote>
+
 ### 牛客1-偏算法
 
 #### 您了解的排序算法有哪些？/这些排序算法是如何实现的？
@@ -443,6 +447,36 @@ new Vue({
 - 使用PureComponent或React.memo可以在某种程度上自动实现shouldComponentUpdate的功能，它们会对组件的属性进行浅比较，来决定是否重新渲染组件。
 
 ### 豆瓣-面试（未回答上/回答不好）
+
+#### Ts `typeof` `keyof`
+
+- `typeof` 操作符有两个主要用途：
+
+  1.在运行时获取变量的类型
+
+  2.在编译时获取变量或对象的类型
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+
+const person: Person = { name: "John", age: 25 };
+
+// 使用ts 的 typeof 获取 person 的类型
+type PersonType = typeof person;
+
+const anotherPerson: PersonType = { name: "Jane", age: 30 };
+```
+
+- `keyof`
+
+`keyof` 操作符用于获取某种类型的所有键，并将其联合成一个联合类型。
+
+```ts
+keyof 操作符用于获取某种类型的所有键，并将其联合成一个联合类型。
+```
 
 #### ts Omit
 
@@ -882,6 +916,8 @@ css `blur(2px)`
 
 #### 文字渐变
 
+color结合animation-delay
+
 ```scss
 @keyframes anim-text-flow-keys {
   @for $i from 0 through $animationSteps {
@@ -889,5 +925,268 @@ css `blur(2px)`
       color: hsla(random(365), 60%, 60%, 1);
     }
   }
+}
+
+...
+
+$totalDelayTime: $animationElementsCount * $delayBetweenLetters;
+
+    @for $i from 1 through $animationElementsCount {
+      #{$animationElement}:nth-of-type(#{$i}) {
+        animation-delay: #{($i * $delayBetweenLetters) - $totalDelayTime}s;
+      }
+    }
+```
+
+#### react ts 设计Table组件，设计option组件,table组件中的数据可以选择，通过option组件
+
+参考`@tanstack/react-table`的table组件设计
+
+import Table from "@components/react/practice/table";
+
+<Table client:load />
+
+<details>
+<summary>小小table,拿下拿下</summary>
+
+```tsx
+import { useState } from "react";
+
+// 定义类型
+
+export interface Column {
+  header: string;
+  accessor: string;
+}
+
+export interface Row {
+  [key: string]: any;
+}
+
+export interface TableOptions {
+  className?: string;
+}
+
+export interface OptionConfig {
+  label: string;
+  name: string;
+  type: "text" | "number" | "select";
+  value: string | number;
+  options?: Array<{ label: string; value: string | number }>; // Only for select type
+}
+
+export interface TableState {
+  selectedRows: Set<number>;
+  allSelected: boolean;
+}
+
+interface UseTableOptions {
+  columns: Column[];
+  data: Row[];
+}
+
+//使用 useTable hook 来管理表格的状态和渲染逻辑。
+//在 useTable Hook 中增加管理选中状态的逻辑
+//通过 state 管理选中的行和全选状态。
+
+export const useTable = ({ columns, data }: UseTableOptions) => {
+  const [rows, setRows] = useState<Row[]>(data);
+  const [state, setState] = useState<TableState>({
+    selectedRows: new Set<number>(),
+    allSelected: false,
+  });
+
+  const toggleRowSelection = (index: number) => {
+    setState(prevState => {
+      const selectedRows = new Set(prevState.selectedRows);
+      if (selectedRows.has(index)) {
+        selectedRows.delete(index);
+      } else {
+        selectedRows.add(index);
+      }
+      return {
+        ...prevState,
+        selectedRows,
+        allSelected: selectedRows.size === rows.length,
+      };
+    });
+  };
+
+  const toggleAllSelection = () => {
+    setState(prevState => {
+      const allSelected = !prevState.allSelected;
+      const selectedRows = allSelected
+        ? new Set(rows.map((_, index) => index))
+        : new Set<number>();
+      return { ...prevState, selectedRows, allSelected };
+    });
+  };
+
+  const getTableProps = () => ({
+    // Add additional table props here
+  });
+
+  const getHeaderProps = () => ({
+    // Add additional header props here
+  });
+
+  const getRowProps = (row: Row, index: number) => ({
+    // Add additional row props here
+    key: index,
+  });
+
+  const getCellProps = (cell: any) => ({
+    // Add additional cell props here
+  });
+
+  return {
+    rows,
+    columns,
+    state,
+    toggleRowSelection,
+    toggleAllSelection,
+    getTableProps,
+    getHeaderProps,
+    getRowProps,
+    getCellProps,
+  };
+};
+
+// 在表头和每一行中添加复选框。
+// 使用 toggleAllSelection 方法处理全选逻辑。
+// 使用 toggleRowSelection 方法处理行选中逻辑。
+
+interface TableProps {
+  columns: Column[];
+  data: Row[];
+  options: TableOptions;
+}
+
+const Table: React.FC<TableProps> = ({ columns, data, options }) => {
+  const {
+    rows,
+    state,
+    toggleRowSelection,
+    toggleAllSelection,
+    getTableProps,
+    getHeaderProps,
+    getRowProps,
+    getCellProps,
+  } = useTable({ columns, data });
+
+  return (
+    <table className={options?.className || ""} {...getTableProps()}>
+      <thead>
+        <tr {...getHeaderProps()}>
+          <th>
+            <input
+              type="checkbox"
+              checked={state.allSelected}
+              onChange={toggleAllSelection}
+            />
+          </th>
+          {columns.map((col, index) => (
+            <th key={index}>{col.header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, rowIndex) => (
+          <tr key={rowIndex} {...getRowProps(row, rowIndex)}>
+            <td>
+              <input
+                type="checkbox"
+                checked={state.selectedRows.has(rowIndex)}
+                onChange={() => toggleRowSelection(rowIndex)}
+              />
+            </td>
+            {columns.map((col, colIndex) => (
+              <td key={colIndex} {...getCellProps(row[col.accessor])}>
+                {row[col.accessor]}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+// 管理表格数据和选项的状态。
+// 将初始数据和列配置传递给 Table 组件。
+// 通过 Option 组件来实现数据的选择和过滤，并将结果传递给 Table 组件进行渲染。
+
+const App: React.FC = () => {
+  const initialData: Row[] = [
+    { name: "John Doe", age: 28, country: "USA" },
+    { name: "Jane Smith", age: 34, country: "UK" },
+    { name: "Sam Green", age: 23, country: "Canada" },
+  ];
+
+  const columns: Column[] = [
+    { header: "Name", accessor: "name" },
+    { header: "Age", accessor: "age" },
+    { header: "Country", accessor: "country" },
+  ];
+
+  const [data, setData] = useState<Row[]>(initialData);
+  const [tableOptions, setTableOptions] = useState({ className: "my-table" });
+  const [filterOptions, setFilterOptions] = useState<OptionConfig[]>([
+    {
+      label: "Filter by Country",
+      name: "country",
+      type: "select",
+      value: "",
+      options: [
+        { label: "All", value: "" },
+        { label: "USA", value: "USA" },
+        { label: "UK", value: "UK" },
+        { label: "Canada", value: "Canada" },
+      ],
+    },
+  ]);
+
+  const handleOptionChange = (name: string, value: string | number) => {
+    setFilterOptions(prevOptions =>
+      prevOptions.map(option =>
+        option.name === name ? { ...option, value } : option
+      )
+    );
+
+    if (name === "country") {
+      setData(
+        value ? initialData.filter(row => row.country === value) : initialData
+      );
+    }
+  };
+
+  return (
+    <div>
+      <Table columns={columns} data={data} options={tableOptions} />
+    </div>
+  );
+};
+
+export default App;
+```
+
+</details>
+
+#### Webpack项目实现按需引入
+
+关键在于 Babel 的 import 插件配置，它使得 Webpack 只打包实际使用的组件及其依赖，而不是整个库：
+
+```json
+{
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "libraryDirectory": "es",
+        "style": "css"
+      }
+    ]
+  ]
 }
 ```
