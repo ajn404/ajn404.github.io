@@ -71,7 +71,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   <button
     type="button"
     data-te-ripple-color="light"
-    class="!fixed bottom-20 hidden rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+    class="!fixed bottom-20 right-20 rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
     id="btn-back-to-top"
   >
     <svg
@@ -93,7 +93,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   <button
     type="button"
     data-te-ripple-color="dark"
-    class="!fixed bottom-5 rotate-180 hidden rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+    class="!fixed bottom-5 right-20 rotate-180 rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
     id="btn-back-to-bottom"
   >
     <svg
@@ -128,7 +128,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
 </style>
 
 <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5654752430032858" -->
-     <!-- crossorigin="anonymous"></script> -->
+<!-- crossorigin="anonymous"></script> -->
 <!-- <ins class="adsbygoogle"
      style="display:block; text-align:center;"
      data-ad-layout="in-article"
@@ -138,3 +138,40 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
 <script is:inline>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script> -->
+
+<script>
+  // Get the button
+  const topButton = document.getElementById("btn-back-to-top");
+  const bottomButton = document.getElementById("btn-back-to-bottom");
+
+  if (topButton) {
+    const scrollFunction = () => {
+      if (
+        document.body.scrollTop > 20 ||
+        document.documentElement.scrollTop > 20
+      ) {
+        topButton.classList.remove("hidden");
+      } else {
+        topButton.classList.add("hidden");
+      }
+    };
+    const obs = new IntersectionObserver(bottomItem => {
+      if (bottomItem[0]?.intersectionRatio > 0) {
+        bottomButton.classList.add("hidden");
+      } else bottomButton.classList.remove("hidden");
+    });
+    obs.observe(document.querySelector("footer"));
+    const backToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const backToBottom = () => {
+      window.scrollTo({ top: document.body.clientHeight, behavior: "smooth" });
+    };
+    // When the user clicks on the button, scroll to the top of the document
+    topButton.addEventListener("click", backToTop);
+
+    bottomButton.addEventListener("click", backToBottom);
+    window.addEventListener("scroll", scrollFunction);
+  }
+</script>
