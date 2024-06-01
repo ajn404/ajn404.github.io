@@ -18,6 +18,8 @@ export const blogSchema = z
     minutesRead: z.string().optional(),
     wordsRead: z.number().optional(),
     isDev: z.boolean().optional(), //是否只在开发环境显示
+    detailButton: z.boolean().optional().default(false), //是否显示详情按钮
+    navToc: z.boolean().optional().default(false), //是否将目录搞到左侧
   })
   .strict();
 

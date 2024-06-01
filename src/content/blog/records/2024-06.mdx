@@ -7,7 +7,7 @@ draft: false
 postSlug: 2024-06
 tags:
   - "2024"
-  - 2024-05
+  - 2024-06
   - 面试准备
 description: 2024年6🈷️记录
 ---
@@ -27,4 +27,238 @@ import Text from "@components/react/UI/Text.tsx";
   </details>
 </blockquote>
 
-#
+# 记录
+
+## js
+
+## react
+
+### Routers
+
+react router/reach router
+
+<details open>
+<summary>react router</summary>
+
+</details>
+
+## 场景题
+
+## 英语
+
+## 算法
+
+## Creative Coding
+
+### [js hack and creative coding](https://aem1k.com/)
+
+- death star
+
+```html
+<body
+  onload="Я=[];Л=
+               {};Ж=!Я;З=
+              !Ж;Ч=!+Я;Д=
+Ч+Ч;П=З+Я;Б=Д+Ч;Ю=Ж+Я;Ф=[Ж]+Я[Я];И=П[+Ч]
+   Ы=Я[Ю[+Я]+Ф[+Ч+[+Я]]+Ю[Д]+П[+Я]+П[
+      Б]+И];C=Я[Я]+Я;P=Я+Л;Ь=Д+Б;Ш
+         =+Ч;X=+Я;Й='★';К='Й'
+           H=П[X];T=Д+[X];Ы[P
+          [Ь]+P[Ш]+C[Ш]+Ю[Б]+H
+         +И+C[X]+P[Ь]+H+P[Ш]+И
+         ](Ю[Ш]+Ю[    Д]+П[Б]+И
+        +H+(Ж+Ы          )[T]+К+
+       (З+Ы)                [T])(
+      )"
+></body>
+```
+
+- translate js into japanese
+
+```js
+(ウ = ""),
+  (ア = !ウ + ウ),
+  (ネ = !ア + ウ),
+  (ホ = ウ + {}),
+  (ヌ = ア[ウ++]),
+  (セ = ア[(ミ = ウ)]),
+  (ハ = ++ミ + ウ),
+  (ヘ = ホ[ミ + ハ]),
+  ア[
+    (ヘ +=
+      ホ[ウ] +
+      (ホ.ホ + ホ)[ウ] +
+      ネ[ハ] +
+      ヌ +
+      セ +
+      ア[ミ] +
+      ヘ +
+      ヌ +
+      ホ[ウ] +
+      セ)
+  ][ヘ](ネ[ウ] + ネ[ミ] + ア[ハ] + セ + ヌ + "(ウ)")();
+```
+
+format
+
+```js
+ウ = "";
+ア = !ウ + ウ;
+ネ = !ア + ウ;
+ホ = ウ + {};
+ヌ = ア[ウ++];
+セ = ア[(ミ = ウ)];
+ハ = ++ミ + ウ;
+ヘ = ホ[ミ + ハ];
+ア[
+  (ヘ +=
+    ホ[ウ] +
+    (ホ.ホ + ホ)[ウ] +
+    ネ[ハ] +
+    ヌ +
+    セ +
+    ア[ミ] +
+    ヘ +
+    ヌ +
+    ホ[ウ] +
+    セ)
+][ヘ](ネ[ウ] + ネ[ミ] + ア[ハ] + セ + ヌ + "(ウ)")();
+```
+
+es6
+
+```js
+let u = "";
+let a = Boolean(!u) + u;
+let ne = Boolean(!a) + u;
+let ho = u + {};
+let nu = a[u++];
+let se = a[(mi = u)];
+let ha = ++mi + u;
+let he = ho[mi + ha];
+
+let functionName = (he +=
+  ho[u] + (ho.ho + ho)[u] + ne[ha] + nu + se + a[mi] + he + nu + ho[u] + se);
+let result = functionName(ne[u] + ne[mi] + a[ha] + se + nu + "(u)");
+
+result();
+```
+
+当然也可以用中文
+
+```js
+空 = "";
+真 = !空 + 空;
+不 = !真 + 空;
+物 = 空 + {};
+乳 = 真[空++];
+セ = 真[(未 = 空)];
+半 = ++未 + 空;
+合 = 物[未 + 半];
+真[
+  (合 +=
+    物[空] +
+    (物.物 + 物)[空] +
+    不[半] +
+    乳 +
+    セ +
+    真[未] +
+    合 +
+    乳 +
+    物[空] +
+    セ)
+][合](不[空] + 不[未] + 真[半] + セ + 乳 + "(空)")();
+```
+
+🎉🎉🎉🎉🎉🎉🎉 支持所有浏览器的中文语言，它来了 🎉🎉🎉🎉🎉🎉🎉
+
+- bird lang
+
+```js
+(𓅂 = ""),
+  (𓂀 = !𓅂 + 𓅂),
+  (𓁄 = !𓂀 + 𓅂),
+  (𓊎 = 𓅂 + {}),
+  (𓆣 = 𓂀[𓅂++]),
+  (𓊝 = 𓂀[(𓇎 = 𓅂)]),
+  (𓏢 = ++𓇎 + 𓅂),
+  (𓆗 = 𓊎[𓇎 + 𓏢]),
+  𓂀[(𓆗 += 𓊎[𓅂] + (𓂀.𓁄 + 𓊎)[𓅂] + 𓁄[𓏢] + 𓆣 + 𓊝 + 𓂀[𓇎] + 𓆗 + 𓆣 + 𓊎[𓅂] + 𓊝)][𓆗](
+    𓁄[𓅂] + 𓁄[𓇎] + 𓂀[𓏢] + 𓊝 + 𓆣 + "`𓅂 𓏢 𓂀 𓁄 𓆣 𓊝 𓇎`"
+  )``;
+```
+
+这段代码的逻辑是在创建一系列变量后，调用了一个函数并传递了一串字符串作为参数。函数的定义部分在代码的末尾，因此函数被立即调用并传递了字符串参数。
+
+- 头像注释
+
+`````````````````js
+/*
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNdyssoooyNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMNy/..`  ``` ``..--/+/+yydNMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMNy-             `      `....+mMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMNs.`                    `` `...`/hNMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMN+`                               `-dMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMN:                           `     ``-dMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMN-                              `  ``.:/dMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMdo`                                   `.-/-hMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMNo`                                    .:/:/.:hMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMN/                                   `.../sms.:oNMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMo`                              ``..-//:yNMMm::shMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMy.                  ``..---.``.::///++oyNMMMMM+:soMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMN-                 ``..---::::/+ooosydmNMMMMMMN+//+NMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMy-               `....---:://+oyhdmNNNNMMMMMMmy/-+NMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMmo             `....----::/++ohmmNNNNMMMMMMMMN/./mMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMN/          `.....``````..-::/osyhddhhddddmNd..+NMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMy`         `.--...````````  ``-:/+++/:.``./hs`oNMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMNo+:.`      .---..```    `.`````.:+o:.`  `:+mNNMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMm:`  ```----...``````:-``.``-+mN+..``:NNMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMmh-..`..`-::--........---....-oNMNdyyhmMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMho:.   `-..``-:----..--::::::-...-+NMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMNo.         ` `.-------:://///:-....-/hMMMMMMMMMh`oMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMN-              .-:------:::::--.`..--/sMMMh+yNMMh  sMMMMMMMMMMMMMMM
+MMMMMMMMMMMMo               `.-----..........`````.-+dNm+-/dN-  +MMMMMMMMMMMMMMM
+MMMMMMMMMMMM.               `.--...````````````````.oNMMo:.o/   +MMMMMMMMMMMMMMM
+MMMMMMMMMMMM/                `....`````    ````.-:/+hmmy-:/y    oMMMMMMMMMMMMMMM
+MMMMMMMMMMMMs                ``..`````````     ```.-+shyydh.    dMMMMMMMMMMMMMMM
+MMMMMMMMMMMMy                 ``````````..``````--:/yMMNmh.     /mMMMMMMMMMMMMMM
+MMMMMMMMMMMMs                    `````` ``````````.-oNNh+.       .+oyhhmMMMMMMMM
+MMMMMMMMMMMM.                  `    ````````....-:ohmNd/`                 `-:+sh
+MMMMMMMMMMMs                                `...--/ydy:
+MMMMMMMMmdy-                                      `.-.
+MMMNy+-.
+ms:                                          ```
+*/
+`````````````````
+
+- clock
+
+```js
+(r = () =>
+  setInterval(t => {
+    for (
+      j = o = "\n", y = 5;
+      y--;
+      document.body["inn" + "erHTML"] =
+        "<pre>&lt" + (S = "script>\n") + o + "\n\n&lt/" + S
+    )
+      for (
+        x = -01;
+        63 - !y > x++;
+        o += `(r=${r})()`[j++].fontcolor(c ? "#FF0" : "#444")
+      )
+        c =
+          (x / 2) % 4 < 3 &&
+          parseInt(
+            "odRFacb67o2vi5gmOZmwFNteohbOh3sw".slice(
+              (i = "9" < (D = Date()[16 + ((x / 8) | 0)]) ? 30 : D * 3),
+              i + 3
+            ),
+            36
+          ) &
+            (1 << ((((x / 2) | 0) % 4) + 3 * y));
+  }, 100))();
+```
+
+# links

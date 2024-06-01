@@ -12,8 +12,17 @@ export interface Props {
   post: CollectionEntry<"blog">;
 }
 const { post } = Astro.props;
-const { title, author, description, ogImage, canonicalURL, pubDatetime, tags } =
-  post.data;
+const {
+  title,
+  author,
+  description,
+  ogImage,
+  canonicalURL,
+  pubDatetime,
+  tags,
+  detailButton,
+  navToc,
+} = post.data;
 const data = await post.render();
 
 const { Content, remarkPluginFrontmatter } = data;
@@ -65,13 +74,14 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <ul class="tags-container">
       {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
     </ul>
-    <!-- <NavToc/> -->
+    <!-- 这里好像是因为组件没有实体只有脚本，引用后便加载了，schema无法控制它的中断 -->
+    <!-- {navToc && <NavToc />} -->
   </main>
-  <OpenDetails />
+  {detailButton && <OpenDetails />}
   <button
     type="button"
     data-te-ripple-color="light"
-    class="!fixed bottom-20 right-20 rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+    class="!fixed bottom-20 right-2 rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg md:right-20"
     id="btn-back-to-top"
   >
     <svg
@@ -93,7 +103,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   <button
     type="button"
     data-te-ripple-color="dark"
-    class="!fixed bottom-5 right-20 rotate-180 rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg"
+    class="!fixed bottom-5 right-2 rotate-180 rounded-full p-3 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg md:right-20"
     id="btn-back-to-bottom"
   >
     <svg

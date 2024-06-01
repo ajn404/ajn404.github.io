@@ -30,3 +30,9 @@ description: js周报中有意思的链接/自己探索值得实践的内容
 - 一个256比特的城市
 
 <canvas id="c" height="60" style="width:500px;background:#fff" width="99"><svg onload="IsInViewport=(element)=>{let bounding = element.getBoundingClientRect();return bounding.top >= 0 &amp;&amp; bounding.top <= (innerHeight-99);};setInterval(&quot;if(IsInViewport(c)){for(c.width=w=99,++t,i=6e3;i--;c.getContext`2d`.fillRect(i%w,i/w|0,1-d*Z/w+s,1))for(a=i%w/50-1,s=b=1-i/4e3,X=t,Y=Z=d=1;++Z<w&amp;(Y<6-(32<Z&amp;27<X%w&amp;&amp;X/9^Z/8)*8%46||d|(s=(X&amp;Y&amp;Z)%3/Z,a=b=1,d=Z/w));Y-=b)X+=a}&quot;,t=16)"></svg></canvas>
+
+## 2024-06-01=>2024-06-07
+
+- [js hack and creative coding](https://aem1k.com/)
+  [实践内容](/posts/2024-06#js-hack-and-creative-coding)
+- [threejs自己的shader language](https://github.com/mrdoob/three.js/wiki/Three.js-Shading-Language)
