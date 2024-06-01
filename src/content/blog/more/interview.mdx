@@ -1191,3 +1191,131 @@ export default App;
   ]
 }
 ```
+
+#### React高阶组件及应用场景
+
+<details >
+<summary>简介</summary>
+
+React高阶组件（Higher Order Components，HOC）是一种设计模式，用于在React应用中复用组件逻辑。它们本质上是函数，接受一个组件作为参数，并返回一个新的组件。
+
+##### 应用场景：
+
+1. **逻辑复用**：当多个组件需要共享相同的逻辑时，可以将该逻辑封装在高阶组件中，并在需要时应用于其他组件。
+
+2. **渲染劫持**：高阶组件可以拦截并修改组件的props，state或渲染结果，以达到特定的目的。比如，认证组件可以拦截未登录用户的请求并重定向到登录页面。
+
+3. **渲染助手**：高阶组件可以提供一些辅助函数或渲染逻辑，使得组件更容易使用或更加灵活。
+
+##### 示例：
+
+```javascript
+// 高阶组件示例：为组件添加日志记录功能
+function withLogger(WrappedComponent) {
+  return class extends React.Component {
+    componentDidMount() {
+      console.log(`Component ${WrappedComponent.name} mounted`);
+    }
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+}
+
+// 使用高阶组件包装组件
+const LoggedComponent = withLogger(MyComponent);
+
+// 使用LoggedComponent渲染
+ReactDOM.render(<LoggedComponent />, document.getElementById("root"));
+```
+
+在这个例子中，`withLogger`是一个高阶组件，它接受一个组件作为参数，并返回一个新的组件，该新组件在挂载时会输出日志信息。通过将`MyComponent`传递给`withLogger`，我们创建了一个具有日志功能的新组件`LoggedComponent`。
+
+##### 注意事项：
+
+- **命名约定**：高阶组件的命名约定是以"With"开头，以便清晰地表明它是一个高阶组件。
+
+- **不要窃取props**：在高阶组件内部，应该避免直接修改传入的props，而是应该使用props传递给包装组件。
+
+- **组件树修改**：高阶组件可能会更改组件树的结构，因此要谨慎使用，并确保不会破坏组件的预期行为。
+
+高阶组件是React中非常强大和灵活的工具，但也需要谨慎使用，以避免复杂化组件树和降低可维护性。
+
+</details>
+
+<details open>
+<summary>具体应用场景</summary>
+
+当涉及到特定的应用场景时，高阶组件可以提供一些具体的解决方案：
+
+1. **认证和授权**：在需要认证用户才能访问的页面中，可以使用高阶组件来包装需要授权的组件。这个高阶组件可以检查用户的登录状态，并根据需要进行重定向或显示相应的UI。
+
+```javascript
+function withAuth(WrappedComponent) {
+  return class extends React.Component {
+    render() {
+      if (isUserAuthenticated()) {
+        return <WrappedComponent {...this.props} />;
+      } else {
+        return <Redirect to="/login" />;
+      }
+    }
+  };
+}
+```
+
+2. **数据获取和状态管理**：在需要获取和管理数据的组件中，可以使用高阶组件来处理数据的获取和状态管理逻辑。这可以使组件更加专注于UI渲染，而将数据逻辑与UI分离。
+
+```javascript
+function withDataFetching(WrappedComponent, dataURL) {
+  return class extends React.Component {
+    state = {
+      data: null,
+      isLoading: true,
+      error: null,
+    };
+
+    componentDidMount() {
+      fetchData(dataURL)
+        .then(data => this.setState({ data, isLoading: false }))
+        .catch(error => this.setState({ error, isLoading: false }));
+    }
+
+    render() {
+      const { data, isLoading, error } = this.state;
+      return (
+        <WrappedComponent
+          data={data}
+          isLoading={isLoading}
+          error={error}
+          {...this.props}
+        />
+      );
+    }
+  };
+}
+```
+
+3. **性能优化**：在需要进行性能优化的组件中，可以使用高阶组件来封装一些性能相关的逻辑，比如数据的缓存或者懒加载等。
+
+```javascript
+function withCache(WrappedComponent) {
+  const cache = new Map();
+  return class extends React.Component {
+    render() {
+      const cacheKey = JSON.stringify(this.props);
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+      } else {
+        const result = <WrappedComponent {...this.props} />;
+        cache.set(cacheKey, result);
+        return result;
+      }
+    }
+  };
+}
+```
+
+这些是一些常见的高阶组件应用场景，但实际上，高阶组件的应用范围非常广泛，可以根据具体的需求进行灵活使用和定制。
+
+</details>
