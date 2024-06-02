@@ -16,14 +16,6 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
 
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(entries => {
-      if (!entries || entries.length === 0) return;
-      setIsVisible(entries[0].isIntersecting);
-    });
-    obs.observe(ref.current!);
-  }, []);
   let image;
 
   //564*846
@@ -39,6 +31,19 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
     }), transparent),
             radial-gradient(ellipse at bottom, #4d9f0c, transparent)`,
   });
+
+  const headerProps = {
+    style: { viewTransitionName: slugifyStr(title) },
+    className: "text-lg card__heading pt-4 font-medium ",
+  };
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      if (!entries || entries.length === 0) return;
+      setIsVisible(entries[0].isIntersecting);
+    });
+    obs.observe(ref.current!);
+  }, []);
 
   useEffect(() => {
     image = new Image();
@@ -63,10 +68,6 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
     });
   });
 
-  const headerProps = {
-    style: { viewTransitionName: slugifyStr(title) },
-    className: "text-lg card__heading pt-4 font-medium ",
-  };
   return (
     <a
       className="card"

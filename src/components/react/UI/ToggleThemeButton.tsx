@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { watchEffect } from "vue";
 //todo:bug
 export default () => {
   const [theme, setTheme] = useState(false);

@@ -23,15 +23,19 @@ const next = pageNum < totalPages ? "" : "disabled";
 <Layout activeNav="posts" title={`博客 | ${SITE.title}`}>
   <Main pageTitle="博客" pageDesc="所有的博客文章都在这里">
     <section class="hero-section">
-        <div class="card-grid">
-      {
-        posts.map(({ data }) => (
-          <Card client:load client:only="react" href={`/posts/${slugify(data)}`} frontmatter={data} />
-        ))
-      }
-    </div>
+      <div class="card-grid">
+        {
+          posts.map(({ data }) => (
+            <Card
+              client:load
+              client:only="react"
+              href={`/posts/${slugify(data)}`}
+              frontmatter={data}
+            />
+          ))
+        }
+      </div>
     </section>
-    
   </Main>
 
   {
@@ -64,8 +68,6 @@ const next = pageNum < totalPages ? "" : "disabled";
   }
   <Footer noMarginTop={totalPages > 1} />
 </Layout>
-
-
 
 <style>
   .pagination-wrapper {

@@ -8,6 +8,7 @@ import { slugifyStr } from "@utils/slugify";
 import NavToc from "./NavToc.astro";
 import Code from "./Code.astro";
 import OpenDetails from "@components/astro/dom/openDetails.astro";
+import Lenis from "@components/astro/more/lenis.astro";
 export interface Props {
   post: CollectionEntry<"blog">;
 }
@@ -78,6 +79,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <!-- {navToc && <NavToc />} -->
   </main>
   {detailButton && <OpenDetails />}
+  <Lenis/>
   <button
     type="button"
     data-te-ripple-color="light"
