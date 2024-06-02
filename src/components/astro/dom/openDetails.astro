@@ -15,55 +15,58 @@ import { Button } from "@shadcn/ui/button";
 </Button>
 
 <script>
-  let open = false;
-  let button = document.getElementById("open-details") as HTMLButtonElement;
+  document.addEventListener("DOMContentLoaded", () => {
+    let open = false;
 
-  button.style.top = "50%";
-  button.onclick = () => {
-    let target = document
-      .querySelectorAll("details");
-    target.forEach((el: HTMLDetailsElement) => (el.open = !open));
-    open = !open;
+    let button = document.getElementById("open-details") as HTMLButtonElement;
+    if(!button) return;
 
-    if (open || isDragging) {
-      button.classList.add("rotate-90");
-      button.classList.remove("rotate-0");
-      button.title = "Collapse all "+target.length+" details";
-    } else {
-      button.classList.add("rotate-0");
-      button.classList.remove("rotate-90");
-      button.title = "Expand all "+target.length+" details";
+    button.style.top = "50%";
+    button.onclick = () => {
+      let target = document.querySelectorAll("details");
+      target.forEach((el: HTMLDetailsElement) => (el.open = !open));
+      open = !open;
+
+      if (open || isDragging) {
+        button.classList.add("rotate-90");
+        button.classList.remove("rotate-0");
+        button.title = "Collapse all " + target.length + " details";
+      } else {
+        button.classList.add("rotate-0");
+        button.classList.remove("rotate-90");
+        button.title = "Expand all " + target.length + " details";
+      }
+    };
+
+    // add drag action
+
+    let isDragging = false;
+    let startY, currentY;
+
+    button.addEventListener("mousedown", startDragging);
+    window.addEventListener("mouseup", stopDragging);
+    window.addEventListener("mousemove", drag);
+
+    function startDragging(event) {
+      isDragging = true;
+      startY = event.clientY - button.offsetTop;
     }
-  };
 
-  // add drag action
-
-  let isDragging = false;
-  let startY, currentY;
-
-  button.addEventListener("mousedown", startDragging);
-  window.addEventListener("mouseup", stopDragging);
-  window.addEventListener("mousemove", drag);
-
-  function startDragging(event) {
-    isDragging = true;
-    startY = event.clientY - button.offsetTop;
-  }
-
-  function stopDragging() {
-    isDragging = false;
-    button.classList.remove("translate-x-3");
-  }
-
-  function drag(event) {
-    if (isDragging) {
-      event.preventDefault();
-      currentY = event.clientY;
-      let newY = currentY - startY;
-      const maxTop = window.innerHeight - button.offsetHeight;
-      newY = Math.min(maxTop, Math.max(0, newY)); // Ensure the button doesn't go out of bounds
-      button.style.top = newY + "px";
-      button.classList.add("translate-x-3");
+    function stopDragging() {
+      isDragging = false;
+      button.classList.remove("translate-x-3");
     }
-  }
+
+    function drag(event) {
+      if (isDragging) {
+        event.preventDefault();
+        currentY = event.clientY;
+        let newY = currentY - startY;
+        const maxTop = window.innerHeight - button.offsetHeight;
+        newY = Math.min(maxTop, Math.max(0, newY)); // Ensure the button doesn't go out of bounds
+        button.style.top = newY + "px";
+        button.classList.add("translate-x-3");
+      }
+    }
+  });
 </script>
