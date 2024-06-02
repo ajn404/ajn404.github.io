@@ -5,15 +5,18 @@ import LinkButton from "./LinkButton.astro";
 
 export interface Props {
   activeNav?: "posts" | "tags" | "about" | "search" |"fantastic";
+  home?:Boolean;
 }
-const { activeNav } = Astro.props;
+const { activeNav,home } = Astro.props;
+import Sponsor from "./Sponsor.astro";
 ---
 
 <header id="page-header">
   <a id="skip-to-content" href="#main-content">Skip to content</a>
   <div class="nav-container">
     <div class="top-nav-wrap">
-      <a href=`/` class="logo">{SITE.title}</a>
+      {!home&& <a href=`/` class="logo">{SITE.title}</a>}
+      {home &&  <Sponsor/>}
       <nav id="nav-menu">
         <ul id="menu-items" class="display-none flex">
           <li>
@@ -70,7 +73,7 @@ const { activeNav } = Astro.props;
       </nav>
     </div>
   </div>
-  <Hr />
+  {!home && <Hr />}
 </header>
 
 <style>
