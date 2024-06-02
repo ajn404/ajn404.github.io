@@ -24,12 +24,89 @@ import Text from "@components/react/UI/Text.tsx";
   </Text>
   <details>
     <Text>容易累</Text>
+
+    **但已经年中了，一年总得做些什么出来，要不考研去吧**
+
   </details>
 </blockquote>
 
 # 记录
 
 ## js
+
+### 使用this关键字
+
+- method
+
+```js
+const obj = {
+  name: "Alice",
+  greet: function () {
+    console.log(this.name); // 'Alice'
+  },
+};
+
+obj.greet(); // 'Alice'
+```
+
+- function
+
+```js
+function sayName() {
+  console.log(this); // 非严格模式下是 `window`，严格模式下是 `undefined`
+}
+
+sayName();
+```
+
+- 使用call/apply显式更改this的值
+
+```js
+function greet() {
+  console.log(this.name);
+}
+
+const person = { name: "Bob" };
+greet.call(person); // 'Bob'
+greet.apply(person); // 'Bob'
+```
+
+- 事件处理中的this
+
+```js
+document.getElementById("myButton").addEventListener("click", function () {
+  console.log(this); // `<button id="myButton">...</button>`
+});
+```
+
+- 箭头函数中
+
+```js
+const obj = {
+  name: "Alice",
+  greet: function () {
+    const innerFunction = () => {
+      console.log(this.name); // 'Alice'
+    };
+    innerFunction();
+  },
+};
+
+obj.greet();
+```
+
+箭头函数不会创建自己的 this，它会捕获其所在上下文的 this 值。
+
+- 独立使用`this`
+
+在全局作用域中，独立使用 this：
+
+在非严格模式下，this 指向全局对象（浏览器中是 window）。
+在严格模式下，this 是 undefined。
+
+```js
+console.log(this); // 浏览器中，非严格模式下是 `window`，严格模式下是 `undefined`
+```
 
 ## react
 
@@ -38,7 +115,303 @@ import Text from "@components/react/UI/Text.tsx";
 react router/reach router
 
 <details open>
+<summary>reach router</summary>
+Reach Router 的作者建议新的项目直接使用 React Router 6，因为它结合了 Reach Router 和 React Router 的优点，并改进了许多方面。如果你已经在使用 Reach Router，可以考虑迁移到 React Router 6，迁移过程相对简单
+
+特点
+
+1.简单的 API：Reach Router 采用声明式的路由配置，使用 JSX 来定义路由，使得代码更加直观和易于理解。2.可访问性：它非常重视可访问性（accessibility），例如，自动管理页面标题和聚焦管理等，以确保应用对所有用户友好。3.基于 URL 路径：路由匹配基于 URL 路径，并且支持动态路由参数。4.轻量级：相比于 React Router，Reach Router 更加轻量，适合需要简单路由解决方案的项目。
+
+```jsx
+import React from "react";
+import { render } from "react-dom";
+import { Router, Link } from "@reach/router";
+
+const Home = () => <div>Home</div>;
+const About = () => <div>About</div>;
+const Dashboard = () => <div>Dashboard</div>;
+
+const App = () => (
+  <div>
+    <nav>
+      <Link to="/">Home</Link> | <Link to="about">About</Link> |{" "}
+      <Link to="dashboard">Dashboard</Link>
+    </nav>
+    <Router>
+      <Home path="/" />
+      <About path="about" />
+      <Dashboard path="dashboard" />
+    </Router>
+  </div>
+);
+
+render(<App />, document.getElementById("root"));
+```
+
+</details>
+
+<details open>
 <summary>react router</summary>
+
+React Router 版本 6 提供了更简洁和更强大的 API，非常适合与 TypeScript 一起使用。下面是一个完整的示例，展示如何在 TypeScript 项目中使用 React Router 6。
+
+#### 安装
+
+首先，你需要安装 React Router 和类型定义文件：
+
+```bash
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
+```
+
+#### 配置 TypeScript
+
+确保你的 `tsconfig.json` 文件配置正确，至少包含以下配置：
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "es2015", "es2017"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
+```
+
+#### 基本使用
+
+下面是一个基本的例子，展示如何在 TypeScript 项目中使用 React Router 6。
+
+##### 创建页面组件
+
+首先，创建几个简单的页面组件：
+
+```tsx
+// src/pages/Home.tsx
+import React from "react";
+
+const Home: React.FC = () => {
+  return <h2>Home Page</h2>;
+};
+
+export default Home;
+
+// src/pages/About.tsx
+import React from "react";
+
+const About: React.FC = () => {
+  return <h2>About Page</h2>;
+};
+
+export default About;
+
+// src/pages/Dashboard.tsx
+import React from "react";
+
+const Dashboard: React.FC = () => {
+  return <h2>Dashboard Page</h2>;
+};
+
+export default Dashboard;
+```
+
+##### 配置路由
+
+接下来，在你的主应用组件中配置路由：
+
+```tsx
+// src/App.tsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Dashboard from "./pages/Dashboard";
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
+        <Link to="/dashboard">Dashboard</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+##### 渲染应用
+
+最后，在入口文件中渲染你的应用：
+
+```tsx
+// src/index.tsx
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+```
+
+#### 动态路由和参数
+
+为了处理动态路由和参数，React Router 提供了 `useParams` 钩子。以下是一个示例：
+
+##### 创建动态页面组件
+
+```tsx
+// src/pages/User.tsx
+import React from "react";
+import { useParams } from "react-router-dom";
+
+interface UserParams {
+  userId: string;
+}
+
+const User: React.FC = () => {
+  const { userId } = useParams<UserParams>();
+
+  return <h2>User ID: {userId}</h2>;
+};
+
+export default User;
+```
+
+##### 配置动态路由
+
+```tsx
+// src/App.tsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Dashboard from "./pages/Dashboard";
+import User from "./pages/User";
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
+        <Link to="/dashboard">Dashboard</Link> |{" "}
+        <Link to="/user/1">User 1</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/user/:userId" element={<User />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+#### 路由守卫（即受保护的路由）
+
+有时，你可能需要保护某些路由，使得只有经过身份验证的用户才能访问。以下是如何在 TypeScript 项目中实现路由守卫：
+
+##### 创建一个保护组件
+
+```tsx
+// src/components/ProtectedRoute.tsx
+import React from "react";
+import { Navigate } from "react-router-dom";
+
+interface ProtectedRouteProps {
+  isAuthenticated: boolean;
+  children: React.ReactElement;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  isAuthenticated,
+  children,
+}) => {
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+  return children;
+};
+
+export default ProtectedRoute;
+```
+
+##### 使用保护组件
+
+```tsx
+// src/App.tsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Dashboard from "./pages/Dashboard";
+import User from "./pages/User";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+const App: React.FC = () => {
+  const isAuthenticated = true; // 替换为实际的身份验证逻辑
+
+  return (
+    <Router>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
+        <Link to="/dashboard">Dashboard</Link> |{" "}
+        <Link to="/user/1">User 1</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/user/:userId" element={<User />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+通过上述步骤，你可以在项目中成功地使用 React Router 6 进行路由管理，包括基本路由、动态路由和受保护路由等。
+
+</details>
+
+### state manegment
+
+<details>
+<summary>链接</summary>
+
+- [react-query](https://react-query.tanstack.com/)
+
+- [react-redux](https://react-redux.js.org/)
+
+- [redux](https://redux.js.org/)
+
+- [zustand](https://zustand-demo.pmnd.rs/)
+
+- [recoil](https://recoiljs.org/)
 
 </details>
 
