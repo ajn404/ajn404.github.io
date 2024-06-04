@@ -1,0 +1,252 @@
+---
+title: uniapp非项目级探索
+pubDatetime: 2024-06-03T07:41:13Z
+postSlug: uniapp
+featured: false
+draft: false
+tags:
+  - uniapp
+  - nvue
+description: "unoapp"
+---
+
+### 目录
+
+### 面试
+
+#### vue-router路由守卫，在uniapp中怎么实现一个守卫
+
+<details>
+<summary>借助Vue的生命周期钩子函数来实现路由守卫功能/通过vue-router提供的beforeEach钩子函数来实现全局路由守卫</summary>
+
+router.js
+
+```js
+import Vue from "vue";
+import Router from "vue-router";
+
+Vue.use(Router);
+
+const router = new Router({
+  routes: [
+    {
+      path: "/",
+      name: "Home",
+      component: () => import("@/pages/Home.vue"),
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import("@/pages/Login.vue"),
+    },
+    {
+      path: "/protected",
+      name: "Protected",
+      component: () => import("@/pages/Protected.vue"),
+    },
+  ],
+});
+
+export default router;
+```
+
+main.js
+
+```js
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+
+Vue.config.productionTip = false;
+
+// 模拟用户登录状态
+const isAuthenticated = false; // 可以通过实际的认证逻辑来设置此变量
+
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+  if (to.name !== "Login" && !isAuthenticated) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
+});
+
+new Vue({
+  router,
+  render: h => h(App),
+}).$mount("#app");
+```
+
+</details>
+
+#### uniapp获取当前状态栏高度，多说几个方式
+
+```js
+uni.getSystemInfo({
+  success: function (res) {
+    console.log(res.statusBarHeight);
+  },
+});
+```
+
+uni-app 提供内置 CSS 变量 --status-bar-height 系统状态栏高度
+
+#### vuex与pinia区别
+
+<blockquote>
+  与 Vuex 相比，Pinia 不仅提供了一个更简单的 API，也提供了符合组合式 API 风格的
+  API，最重要的是，搭配 TypeScript 一起使用时有非常可靠的类型推断支持。
+  <footer>
+    pinia官网
+    <cite>
+      https://pinia.vuejs.org/zh/introduction.html#comparison-with-vuex
+    </cite>
+  </footer>
+</blockquote>
+
+Vuex和Pinia都是Vue.js的状态管理库，但它们有一些显著区别：
+
+- API 简洁度：Pinia的API更简单、易用。
+- TypeScript 支持：Pinia原生支持TypeScript，而Vuex需要额外配置。
+- 结构：Pinia采用扁平结构，无需模块嵌套。
+- 状态变化：Pinia没有mutations，直接使用actions或getters修改状态。
+- 动态存储：Pinia默认支持动态创建存储。
+
+#### vue2 vs vue3
+
+<details>
+Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关键区别：
+
+##### 1. **性能改进**
+
+- **更快的渲染**：Vue 3 的虚拟 DOM 的性能得到了显著优化。
+- **更小的打包体积**：Vue 3 使用 tree-shaking 特性，可以按需加载模块，减少了最终打包体积。
+
+##### 2. **Composition API**
+
+- **Composition API**：Vue 3 引入了 Composition API，可以更好地组织和复用代码逻辑。它是对现有 Options API 的补充，而不是替代。
+
+  ```javascript
+  import { ref, reactive, onMounted } from "vue";
+
+  export default {
+    setup() {
+      const count = ref(0);
+      const state = reactive({ count: 0 });
+
+      onMounted(() => {
+        console.log("Component mounted");
+      });
+
+      const increment = () => {
+        count.value++;
+        state.count++;
+      };
+
+      return { count, state, increment };
+    },
+  };
+  ```
+
+##### 3. **新的全局 API**
+
+- **全局 API 的变化**：Vue 3 中，创建应用和注册全局组件/指令等操作都变成了新的 API。
+
+  ```javascript
+  // Vue 2
+  import Vue from "vue";
+  import App from "./App.vue";
+
+  new Vue({
+    render: h => h(App),
+  }).$mount("#app");
+
+  // Vue 3
+  import { createApp } from "vue";
+  import App from "./App.vue";
+
+  const app = createApp(App);
+  app.mount("#app");
+  ```
+
+##### 4. **Fragment 支持**
+
+- **支持 Fragment**：Vue 3 支持 Fragment，可以在模板中返回多个根节点。
+
+  ```vue
+  <template>
+    <div>Element 1</div>
+    <div>Element 2</div>
+  </template>
+  ```
+
+##### 5. **Teleport**
+
+- **Teleport**：Vue 3 引入了 Teleport 组件，可以将组件渲染到指定的 DOM 节点外。
+
+  ```vue
+  <template>
+    <teleport to="#teleport-target">
+      <div>This will be teleported</div>
+    </teleport>
+  </template>
+  ```
+
+##### 6. **Suspense**
+
+- **Suspense**：Vue 3 支持 Suspense，可以处理异步组件，提供更好的用户体验。
+
+  ```vue
+  <template>
+    <suspense>
+      <template #default>
+        <AsyncComponent />
+      </template>
+      <template #fallback>
+        <div>Loading...</div>
+      </template>
+    </suspense>
+  </template>
+  ```
+
+##### 7. **新的生命周期钩子**
+
+- **生命周期钩子名称变化**：一些生命周期钩子的名称在 Vue 3 中进行了更改。
+
+  | Vue 2         | Vue 3           |
+  | ------------- | --------------- |
+  | beforeCreate  | setup           |
+  | created       | setup           |
+  | beforeMount   | onBeforeMount   |
+  | mounted       | onMounted       |
+  | beforeUpdate  | onBeforeUpdate  |
+  | updated       | onUpdated       |
+  | beforeDestroy | onBeforeUnmount |
+  | destroyed     | onUnmounted     |
+  | errorCaptured | onErrorCaptured |
+
+##### 8. **TypeScript 支持**
+
+- **更好的 TypeScript 支持**：Vue 3 在设计上对 TypeScript 有了更好的支持，使得使用 TypeScript 进行开发变得更加顺畅。
+
+##### 9. **自定义渲染器 API**
+
+- **自定义渲染器**：Vue 3 提供了一个新的 API，可以创建自定义渲染器，使得 Vue 可以用于更多的应用场景（如：原生移动应用、桌面应用等）。
+
+##### 10. **改进的响应式系统**
+
+- **Proxy-based 响应式系统**：Vue 3 使用 Proxy 替代 Vue 2 中的 `Object.defineProperty`，带来了更好的性能和更多的功能支持（如：对数组和对象属性的直接检测）。
+
+  ```javascript
+  import { reactive } from "vue";
+
+  const state = reactive({
+    count: 0,
+  });
+
+  state.count++; // 响应式追踪
+  ```
+
+这些改进和变化使 Vue 3 更加现代化、灵活和高效，适合更大规模和更复杂的应用开发。
+
+</details>
