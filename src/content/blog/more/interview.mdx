@@ -1319,3 +1319,148 @@ function withCache(WrappedComponent) {
 这些是一些常见的高阶组件应用场景，但实际上，高阶组件的应用范围非常广泛，可以根据具体的需求进行灵活使用和定制。
 
 </details>
+
+### uniapp相关公司的面试题
+
+#### elementUI中el-row和el-col实现原理
+
+<<details>
+
+<summary>Click to expand</summary>
+
+Element UI 中的 `el-row` 和 `el-col` 是实现布局系统的核心组件，它们基于 Flexbox 布局模型，通过设置不同的属性实现响应式布局和网格系统。以下是 `el-row` 和 `el-col` 实现原理的详细解释。
+
+##### 1. `el-row` 实现原理
+
+`el-row` 组件用于创建行，它是容器组件，内部包含一个或多个 `el-col` 组件。`el-row` 的主要功能是设置行的间距和排列方式。
+
+###### 关键属性
+
+- **gutter**：控制列之间的间距。
+- **type**：指定布局方式，一般为 `flex`。
+
+###### 实现示例
+
+```vue
+<template>
+  <el-row :gutter="20">
+    <el-col :span="12">Column 1</el-col>
+    <el-col :span="12">Column 2</el-col>
+  </el-row>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      gutter: 20,
+    };
+  },
+};
+</script>
+
+<style>
+.el-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px; /* -gutter/2 */
+  margin-right: -10px; /* -gutter/2 */
+}
+
+.el-col {
+  padding-left: 10px; /* gutter/2 */
+  padding-right: 10px; /* gutter/2 */
+}
+</style>
+```
+
+在这个示例中，`el-row` 使用 `flex` 布局，通过设置负的 `margin` 来补偿列之间的 `gutter`，从而保证列之间有均匀的间距。
+
+##### 2. `el-col` 实现原理
+
+`el-col` 组件用于创建列，它是 `el-row` 的子组件，通过设置不同的属性控制列的宽度、偏移等。
+
+###### 关键属性
+
+- **span**：控制列所占的宽度，基于 24 栅格系统。
+- **offset**：控制列的偏移量。
+- **push** 和 **pull**：控制列的移动。
+- **xs, sm, md, lg, xl**：响应式布局的断点属性。
+
+###### 实现示例
+
+```vue
+<template>
+  <el-row :gutter="20">
+    <el-col :span="8">Column 1</el-col>
+    <el-col :span="8">Column 2</el-col>
+    <el-col :span="8">Column 3</el-col>
+  </el-row>
+</template>
+
+<style>
+.el-col {
+  flex: 0 0 auto;
+  width: calc((100% / 24) * var(--el-col-span));
+}
+</style>
+```
+
+在这个示例中，`el-col` 的宽度由 `span` 属性决定，通过设置 `flex` 属性和 `width` 属性来控制列的宽度。`var(--el-col-span)` 是根据 `span` 属性计算得出的动态宽度。
+
+##### 3. 响应式布局
+
+Element UI 的 `el-row` 和 `el-col` 支持响应式布局，通过在 `el-col` 中设置 `xs`、`sm`、`md`、`lg`、`xl` 属性，可以在不同的屏幕尺寸下调整列的显示方式。
+
+###### 响应式示例
+
+```vue
+<template>
+  <el-row :gutter="20">
+    <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">Responsive Column</el-col>
+  </el-row>
+</template>
+
+<style>
+@media (max-width: 768px) {
+  .el-col[xs="24"] {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .el-col[sm="12"] {
+    width: 50%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .el-col[md="8"] {
+    width: 33.33%;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .el-col[lg="6"] {
+    width: 25%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .el-col[xl="4"] {
+    width: 16.67%;
+  }
+}
+</style>
+```
+
+在这个示例中，通过媒体查询设置不同的列宽度，实现了响应式布局。在实际开发中，这些媒体查询会被 `el-col` 自动生成，无需手动编写。
+
+##### 总结
+
+- **`el-row`**：作为行容器，主要通过 `gutter` 属性设置列之间的间距，使用 `flex` 布局进行排列。
+- **`el-col`**：作为列组件，通过 `span` 等属性设置列宽度、偏移等，同时支持响应式布局，通过不同的断点属性设置不同屏幕尺寸下的显示方式。
+
+通过 `el-row` 和 `el-col` 组件的配合，可以轻松实现复杂的响应式布局。
+
+</details>
