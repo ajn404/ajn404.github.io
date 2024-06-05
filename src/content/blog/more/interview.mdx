@@ -69,7 +69,7 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
 1. **封装私有变量和方法**：
 
-   ```javascript
+   ```js
    function createCounter() {
      let count = 0;
      return {
@@ -92,7 +92,7 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
 3. **事件监听器**：
 
-   ```javascript
+   ```js
    function attachEvent() {
      let count = 0;
      document.getElementById("btn").addEventListener("click", function () {
@@ -105,7 +105,7 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
 4. **循环与闭包**：在循环中使用闭包时，需要特别注意闭包与循环变量的交互。
 
-   ```javascript
+   ```js
    for (var i = 0; i < 5; i++) {
      setTimeout(function () {
        console.log(i); // 输出 5, 5, 5, 5, 5
@@ -115,7 +115,7 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
    上述代码会输出五次5，因为循环结束后i的值为5。为了解决这个问题，可以使用IIFE（立即调用函数表达式）。
 
-   ```javascript
+   ```js
    for (var i = 0; i < 5; i++) {
      (function (j) {
        setTimeout(function () {
@@ -128,7 +128,7 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 5. **实现函数柯里化**：通过闭包，可以实现函数柯里化，即将多参数的函数转化为一系列使用一个参数的函数。
 
 6. **缓存**：通过闭包缓存计算结果，提高性能。
-   ```javascript
+   ```js
    function memoize(fn) {
      const cache = {};
      return function (...args) {
@@ -562,7 +562,7 @@ const partialUser: PartialUserWithoutAge = {
 
 首先，我们需要创建一个基础的 Modal 组件，它可以接受不同的内容和配置。
 
-```javascript
+```js
 // Modal.js
 import React from "react";
 import "./Modal.css"; // 你可以创建一个 CSS 文件来定义 Modal 的样式
@@ -589,7 +589,7 @@ export default Modal;
 
 为了让弹窗在整个应用中可用，我们可以创建一个上下文（Context）来管理弹窗的状态和提供相关的 API。
 
-```javascript
+```js
 // ModalContext.js
 import React, { createContext, useContext, useState, useCallback } from "react";
 import Modal from "./Modal";
@@ -629,7 +629,7 @@ export const useModal = () => {
 
 在应用的根组件中，使用 `ModalProvider` 包裹整个应用。
 
-```javascript
+```js
 // App.js
 import React from "react";
 import { ModalProvider } from "./ModalContext";
@@ -650,7 +650,7 @@ export default App;
 
 在你希望打开弹窗的任何组件中，可以使用 `useModal` Hook 来访问 `openModal` 和 `closeModal` 方法。
 
-```javascript
+```js
 // HomePage.js
 import React from "react";
 import { useModal } from "./ModalContext";
@@ -1209,7 +1209,7 @@ React高阶组件（Higher Order Components，HOC）是一种设计模式，用�
 
 ##### 示例：
 
-```javascript
+```js
 // 高阶组件示例：为组件添加日志记录功能
 function withLogger(WrappedComponent) {
   return class extends React.Component {
@@ -1250,7 +1250,7 @@ ReactDOM.render(<LoggedComponent />, document.getElementById("root"));
 
 1. **认证和授权**：在需要认证用户才能访问的页面中，可以使用高阶组件来包装需要授权的组件。这个高阶组件可以检查用户的登录状态，并根据需要进行重定向或显示相应的UI。
 
-```javascript
+```js
 function withAuth(WrappedComponent) {
   return class extends React.Component {
     render() {
@@ -1266,7 +1266,7 @@ function withAuth(WrappedComponent) {
 
 2. **数据获取和状态管理**：在需要获取和管理数据的组件中，可以使用高阶组件来处理数据的获取和状态管理逻辑。这可以使组件更加专注于UI渲染，而将数据逻辑与UI分离。
 
-```javascript
+```js
 function withDataFetching(WrappedComponent, dataURL) {
   return class extends React.Component {
     state = {
@@ -1298,7 +1298,7 @@ function withDataFetching(WrappedComponent, dataURL) {
 
 3. **性能优化**：在需要进行性能优化的组件中，可以使用高阶组件来封装一些性能相关的逻辑，比如数据的缓存或者懒加载等。
 
-```javascript
+```js
 function withCache(WrappedComponent) {
   const cache = new Map();
   return class extends React.Component {
@@ -1320,147 +1320,1078 @@ function withCache(WrappedComponent) {
 
 </details>
 
-### uniapp相关公司的面试题
+### 36\*面试准备
 
-#### elementUI中el-row和el-col实现原理
+#### js合并两个数组
 
-<<details>
+```js
+const array1 = [1, 2, 3];
+const array2 = [4, 5, 6];
 
+const mergedArray = array1.concat(array2);
+console.log(mergedArray); // 输出: [1, 2, 3, 4, 5, 6]
+```
+
+```js
+const array1 = [1, 2, 3];
+const array2 = [4, 5, 6];
+
+const mergedArray = [...array1, ...array2];
+console.log(mergedArray); // 输出: [1, 2, 3, 4, 5, 6]
+```
+
+#### 内存泄漏
+
+<details>
 <summary>Click to expand</summary>
 
-Element UI 中的 `el-row` 和 `el-col` 是实现布局系统的核心组件，它们基于 Flexbox 布局模型，通过设置不同的属性实现响应式布局和网格系统。以下是 `el-row` 和 `el-col` 实现原理的详细解释。
+前端内存泄漏是指在应用程序运行过程中，一些不再需要使用的内存没有被正确释放，从而导致内存占用不断增加，最终可能导致应用程序性能下降甚至崩溃。以下是一些常见的前端内存泄漏问题及其解决方法：
 
-##### 1. `el-row` 实现原理
+#### 常见的前端内存泄漏问题
 
-`el-row` 组件用于创建行，它是容器组件，内部包含一个或多个 `el-col` 组件。`el-row` 的主要功能是设置行的间距和排列方式。
+1. **未清理的事件监听器**
 
-###### 关键属性
+   - 当给DOM元素添加事件监听器，但没有在元素被移除时移除这些监听器，可能导致内存泄漏。
 
-- **gutter**：控制列之间的间距。
-- **type**：指定布局方式，一般为 `flex`。
+2. **未清理的定时器**
 
-###### 实现示例
+   - 使用`setInterval`或`setTimeout`创建定时器，但没有在不需要时清除它们，也会导致内存泄漏。
 
-```vue
-<template>
-  <el-row :gutter="20">
-    <el-col :span="12">Column 1</el-col>
-    <el-col :span="12">Column 2</el-col>
-  </el-row>
-</template>
+3. **闭包**
 
-<script>
-export default {
-  data() {
-    return {
-      gutter: 20,
+   - 闭包可以导致某些变量被引用而无法被垃圾回收器回收，从而导致内存泄漏。
+
+4. **DOM引用**
+
+   - 保留对已经从DOM中移除的元素的引用，导致这些元素不能被垃圾回收。
+
+5. **全局变量**
+   - 全局变量或挂在全局对象（如`window`）上的属性不会自动释放，可能会导致内存泄漏。
+
+##### 解决方法
+
+1. **清理事件监听器**
+   - 在元素被移除前移除相关的事件监听器，或者使用像`addEventListener`和`removeEventListener`来动态管理监听器。
+
+```js
+function handleClick() {
+  // 事件处理逻辑
+}
+element.addEventListener("click", handleClick);
+// 当不再需要时移除监听器
+element.removeEventListener("click", handleClick);
+```
+
+2. **清理定时器**
+   - 在组件卸载或不再需要时，使用`clearInterval`或`clearTimeout`清除定时器。
+
+```js
+const timerId = setInterval(() => {
+  // 定时器逻辑
+}, 1000);
+// 当不再需要时清除定时器
+clearInterval(timerId);
+```
+
+3. **正确使用闭包**
+   - 尽量避免不必要的闭包，或在闭包内部确保没有多余的引用保留。
+
+```js
+function createClosure() {
+  let largeData = new Array(1000000).fill("*");
+  return function () {
+    console.log(largeData.length);
+  };
+}
+let closure = createClosure();
+// 当不再需要时可以显式地清理大对象
+closure = null;
+```
+
+4. **移除不必要的DOM引用**
+   - 当从DOM中移除元素时，确保也删除相关的JavaScript引用。
+
+```js
+let element = document.getElementById("myElement");
+document.body.removeChild(element);
+// 删除JavaScript引用
+element = null;
+```
+
+5. **避免使用全局变量**
+   - 尽量避免使用全局变量，可以使用模块化的方法来组织代码，或者使用闭包来限制变量的作用域。
+
+```js
+(function () {
+  let localVar = "I am a local variable";
+  // 代码逻辑
+})();
+```
+
+##### 检测工具
+
+1. **浏览器开发者工具**
+
+   - Chrome和Firefox的开发者工具中都包含用于内存分析的工具，如Heap snapshots、Allocation profiler等。
+
+2. **第三方库**
+   - 使用像`leakage`、`memlab`等库来检测内存泄漏。
+
+##### 示例
+
+以下是一个简单的示例，展示如何可能产生内存泄漏以及如何解决它。
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Memory Leak Example</title>
+  </head>
+  <body>
+    <button id="leakButton">Click me</button>
+    <script>
+      function createLeak() {
+        const element = document.getElementById("leakButton");
+        element.addEventListener("click", function onClick() {
+          console.log("Button clicked");
+        });
+        // 内存泄漏：即使元素被移除，事件监听器仍然存在
+      }
+
+      createLeak();
+
+      // 解决方法：在元素被移除前移除事件监听器
+      function removeLeak() {
+        const element = document.getElementById("leakButton");
+        element.removeEventListener("click", onClick);
+      }
+
+      // 模拟移除元素
+      document.getElementById("leakButton").remove();
+      removeLeak();
+    </script>
+  </body>
+</html>
+```
+
+通过上述步骤和方法，可以有效地避免和解决前端内存泄漏问题，从而提高应用程序的性能和稳定性。
+
+</details>
+
+#### 二分查找的时间复杂度分析
+
+<blockquote>
+  初始查找范围为n。
+  <br />
+  每次查找后，范围减半，即变为n/2, n/4, n/8, ...。
+  <br />
+  经过k次查找后，查找范围缩小到1，即n / 2^k = 1。
+  <br />
+  通过方程求解得出k = log_2(n)，因此时间复杂度为O(log n)
+  <br />
+</blockquote>
+
+#### http建立连接过程，为什么不是四次或两次握手
+
+<details open>
+<summary>Click to expand</summary>
+
+HTTP协议本身是基于TCP协议的。TCP协议使用三次握手（Three-Way Handshake）来建立连接，这一过程确保了客户端和服务器之间的连接是可靠的，并且双方都准备好进行数据传输。以下是TCP三次握手建立连接的详细过程，以及为什么不是四次或两次握手。
+
+##### TCP三次握手过程
+
+1. **第一次握手：客户端发送SYN**
+
+   - 客户端向服务器发送一个SYN（Synchronize）报文段，其中包含一个初始序列号（Sequence Number），表示客户端请求建立连接。
+   - 客户端进入SYN_SENT状态。
+
+2. **第二次握手：服务器发送SYN-ACK**
+
+   - 服务器收到SYN报文段后，向客户端发送一个SYN-ACK（Synchronize-Acknowledge）报文段，其中包含服务器的初始序列号，以及对客户端SYN报文段的确认（ACK = 客户端的序列号 + 1）。
+   - 服务器进入SYN_RCVD状态。
+
+3. **第三次握手：客户端发送ACK**
+   - 客户端收到SYN-ACK报文段后，向服务器发送一个ACK（Acknowledgement）报文段，确认接收到服务器的SYN报文段（ACK = 服务器的序列号 + 1）。
+   - 客户端和服务器都进入ESTABLISHED状态，连接建立完成。
+
+##### 为什么不是四次握手？
+
+四次握手会显得多余，因为在三次握手中已经可以确认双方的通信能力：
+
+- 第一次握手：客户端发起连接请求，服务器知道了客户端想要建立连接。
+- 第二次握手：服务器同意连接请求并确认了客户端的序列号，同时提供了自己的序列号。
+- 第三次握手：客户端确认了服务器的序列号，并且通知服务器，客户端的连接请求被确认。
+
+在这三次交互中，客户端和服务器已经成功同步了初始序列号，并确认了彼此的通信能力，多一次握手并不能提供额外的可靠性保证。
+
+##### 为什么不是两次握手？
+
+两次握手不能确保连接的可靠性，无法防止历史连接请求的干扰。假设使用两次握手：
+
+1. **第一次握手：客户端发送SYN**
+
+   - 客户端向服务器发送SYN报文段。
+
+2. **第二次握手：服务器发送SYN-ACK**
+   - 服务器收到SYN报文段后，发送SYN-ACK报文段。
+
+在这种情况下，客户端无法确认服务器是否收到了SYN报文段并且愿意建立连接。假设由于网络问题，服务器的SYN-ACK报文段丢失，那么客户端会一直等待，导致资源浪费。同时，如果有旧的SYN报文段被服务器误认为是新的连接请求，也可能导致意外的连接建立。
+
+##### 三次握手的优势
+
+三次握手通过以下方式确保了连接的可靠性和有效性：
+
+1. **确认双方通信能力**：确保双方都能发送和接收数据。
+2. **防止旧的重复连接请求**：通过序列号，能够区分不同的连接请求，防止由于网络延迟导致的历史报文干扰。
+3. **同步初始序列号**：确保双方都能够正确地接收和处理数据包。
+
+因此，TCP选择三次握手作为建立连接的过程，以确保连接的可靠性和有效性。
+
+</details>
+
+#### 对rust的了解程度
+
+<blockquote>
+  我对Rust有一定的了解和使用经验。Rust是一种系统编程语言，注重安全性和性能。它的主要特点包括内存安全性、所有权模型和无数据竞争的并发编程。我曾在项目中使用Rust开发过高性能的服务器应用，利用其所有权系统来管理内存，避免常见的内存泄漏和并发问题。此外，我还熟悉Rust的包管理工具Cargo和其生态系统中的一些常用库，如Serde用于序列化和反序列化，以及Tokio用于异步编程
+</blockquote>
+
+<details>
+<summary>rust基础</summary>
+
+当然，介绍Rust的基础知识可以帮助你在面试中展示对这门语言的了解。以下是一些关键的基础概念和示例代码，能够帮助你更好地理解Rust，并准备面试中的相关问题。
+
+##### Rust基础概念
+
+###### 1. 所有权与借用
+
+- **所有权（Ownership）**: Rust的核心特性之一，每个值在任意时刻都有一个所有者。
+- **借用（Borrowing）**: 可以通过引用借用值，但不能改变所有权。
+
+示例代码：
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+    let s2 = &s1; // 借用 s1
+    println!("{}", s2);
+    // s1 仍然可以使用
+    println!("{}", s1);
+}
+```
+
+###### 2. 生命周期（Lifetimes）
+
+- 生命周期确保引用的有效性，防止悬空引用。
+
+示例代码：
+
+```rust
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+fn main() {
+    let string1 = String::from("long string is long");
+    let result;
+    {
+        let string2 = String::from("xyz");
+        result = longest(string1.as_str(), string2.as_str());
+    }
+    println!("The longest string is {}", result);
+}
+```
+
+###### 3. 模式匹配（Pattern Matching）
+
+- 使用`match`表达式处理不同的模式。
+
+示例代码：
+
+```rust
+fn main() {
+    let number = 7;
+    match number {
+        1 => println!("One!"),
+        2 => println!("Two!"),
+        3 => println!("Three!"),
+        _ => println!("Not one, two, or three!"),
+    }
+}
+```
+
+###### 4. 结果类型与错误处理（Result and Error Handling）
+
+- 使用`Result`类型处理可能的错误。
+
+示例代码：
+
+```rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let f = File::open("hello.txt");
+    let f = match f {
+        Ok(file) => file,
+        Err(ref error) if error.kind() == ErrorKind::NotFound => {
+            match File::create("hello.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Tried to create file but there was a problem: {:?}", e),
+            }
+        },
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
     };
-  },
-};
-</script>
-
-<style>
-.el-row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -10px; /* -gutter/2 */
-  margin-right: -10px; /* -gutter/2 */
 }
-
-.el-col {
-  padding-left: 10px; /* gutter/2 */
-  padding-right: 10px; /* gutter/2 */
-}
-</style>
 ```
 
-在这个示例中，`el-row` 使用 `flex` 布局，通过设置负的 `margin` 来补偿列之间的 `gutter`，从而保证列之间有均匀的间距。
+###### 5. 结构体（Structs）与枚举（Enums）
 
-##### 2. `el-col` 实现原理
+- 使用结构体定义自定义类型，使用枚举定义可能的值集合。
 
-`el-col` 组件用于创建列，它是 `el-row` 的子组件，通过设置不同的属性控制列的宽度、偏移等。
+结构体示例：
 
-###### 关键属性
-
-- **span**：控制列所占的宽度，基于 24 栅格系统。
-- **offset**：控制列的偏移量。
-- **push** 和 **pull**：控制列的移动。
-- **xs, sm, md, lg, xl**：响应式布局的断点属性。
-
-###### 实现示例
-
-```vue
-<template>
-  <el-row :gutter="20">
-    <el-col :span="8">Column 1</el-col>
-    <el-col :span="8">Column 2</el-col>
-    <el-col :span="8">Column 3</el-col>
-  </el-row>
-</template>
-
-<style>
-.el-col {
-  flex: 0 0 auto;
-  width: calc((100% / 24) * var(--el-col-span));
+```rust
+struct User {
+    username: String,
+    email: String,
+    sign_in_count: u64,
+    active: bool,
 }
-</style>
+
+fn main() {
+    let user1 = User {
+        email: String::from("someone@example.com"),
+        username: String::from("someusername123"),
+        active: true,
+        sign_in_count: 1,
+    };
+
+    println!("User: {}", user1.username);
+}
 ```
 
-在这个示例中，`el-col` 的宽度由 `span` 属性决定，通过设置 `flex` 属性和 `width` 属性来控制列的宽度。`var(--el-col-span)` 是根据 `span` 属性计算得出的动态宽度。
+枚举示例：
 
-##### 3. 响应式布局
-
-Element UI 的 `el-row` 和 `el-col` 支持响应式布局，通过在 `el-col` 中设置 `xs`、`sm`、`md`、`lg`、`xl` 属性，可以在不同的屏幕尺寸下调整列的显示方式。
-
-###### 响应式示例
-
-```vue
-<template>
-  <el-row :gutter="20">
-    <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">Responsive Column</el-col>
-  </el-row>
-</template>
-
-<style>
-@media (max-width: 768px) {
-  .el-col[xs="24"] {
-    width: 100%;
-  }
+```rust
+enum IpAddrKind {
+    V4,
+    V6,
 }
 
-@media (min-width: 768px) and (max-width: 992px) {
-  .el-col[sm="12"] {
-    width: 50%;
-  }
-}
+fn main() {
+    let four = IpAddrKind::V4;
+    let six = IpAddrKind::V6;
 
-@media (min-width: 992px) and (max-width: 1200px) {
-  .el-col[md="8"] {
-    width: 33.33%;
-  }
+    println!("{:?}, {:?}", four, six);
 }
-
-@media (min-width: 1200px) and (max-width: 1600px) {
-  .el-col[lg="6"] {
-    width: 25%;
-  }
-}
-
-@media (min-width: 1600px) {
-  .el-col[xl="4"] {
-    width: 16.67%;
-  }
-}
-</style>
 ```
 
-在这个示例中，通过媒体查询设置不同的列宽度，实现了响应式布局。在实际开发中，这些媒体查询会被 `el-col` 自动生成，无需手动编写。
+###### 6. 泛型（Generics）
+
+- 使用泛型来编写能够处理不同数据类型的代码。
+
+示例代码：
+
+```rust
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+    let result = largest(&char_list);
+    println!("The largest char is {}", result);
+}
+```
+
+###### 总结
+
+Rust语言通过其独特的所有权系统、严格的类型检查和模式匹配等特性，提供了高效、安全和可靠的编程体验。即使你刚开始学习Rust，这些基础概念和示例代码可以帮助你在面试中展示对Rust的理解和兴趣。如果你有更多时间，可以进一步了解Rust的异步编程、错误处理和并发模型等高级特性。
+
+</details>
+
+#### node bff
+
+<details>
+<summary>Click to expand</summary>
+
+BFF（Backend for Frontend）是一种后端架构模式，旨在为每个前端应用程序（如移动端、Web端等）提供专门的后端服务。Node.js在实现BFF模式方面有许多优点，以下是其中的一些主要优点：
+
+##### 1. 单线程非阻塞I/O
+
+Node.js基于单线程非阻塞I/O模型，能够高效处理大量并发请求。BFF通常需要处理来自多个前端的高并发请求，Node.js的这一特性使其非常适合用于构建BFF。
+
+##### 2. JavaScript全栈开发
+
+Node.js使用JavaScript，这意味着开发者可以使用同一种语言进行前端和后端的开发。这种一致性带来了以下好处：
+
+- **代码重用**：可以在前端和后端共享一些代码库和工具。
+- **开发效率**：开发团队只需掌握一种编程语言即可，减少了学习和维护成本。
+
+##### 3. 丰富的生态系统
+
+Node.js拥有庞大的包管理器npm，提供了丰富的库和工具，可以快速实现各种功能，例如：
+
+- **请求处理**：如Express.js、Koa等轻量级框架，使开发BFF变得简单。
+- **数据处理**：如Lodash、Moment.js等库，简化数据处理操作。
+- **API集成**：如Axios、Request等库，方便进行第三方API集成。
+
+##### 4. 高效的JSON处理
+
+Node.js天然支持JavaScript对象和JSON格式的数据处理，这与大多数前端应用的数据交换格式（JSON）高度契合，使得数据的序列化和反序列化操作非常高效。
+
+##### 5. 实时功能
+
+Node.js对WebSocket等实时通信协议有良好的支持，可以轻松实现实时数据推送和双向通信，这对于需要实时交互的前端应用非常重要。
+
+##### 6. 微服务架构
+
+Node.js适合构建微服务架构，可以将BFF作为多个独立的微服务之一。这种架构可以带来更好的可扩展性和灵活性，并且每个微服务可以独立部署和扩展。
+
+##### 7. 开发和部署速度
+
+Node.js的轻量级和高效特性使得开发和部署BFF服务非常快速：
+
+- **快速启动**：Node.js应用通常启动速度很快，适合频繁的开发和部署迭代。
+- **轻量级**：Node.js应用占用资源较少，可以快速部署在各种环境中，包括云服务和容器中。
+
+##### 8. 社区支持和文档
+
+Node.js拥有强大的社区支持和丰富的文档，开发者可以轻松找到各种问题的解决方案和最佳实践，从而提高开发效率。
 
 ##### 总结
 
-- **`el-row`**：作为行容器，主要通过 `gutter` 属性设置列之间的间距，使用 `flex` 布局进行排列。
-- **`el-col`**：作为列组件，通过 `span` 等属性设置列宽度、偏移等，同时支持响应式布局，通过不同的断点属性设置不同屏幕尺寸下的显示方式。
-
-通过 `el-row` 和 `el-col` 组件的配合，可以轻松实现复杂的响应式布局。
+使用Node.js作为BFF的实现技术具有许多优点，包括单线程非阻塞I/O模型、高效的JSON处理、JavaScript全栈开发、丰富的生态系统、强大的实时功能支持、适合微服务架构、高效的开发和部署速度，以及良好的社区支持。这些优点使得Node.js成为构建BFF的理想选择。
 
 </details>
+
+#### http3/http2
+
+<details >
+<summary>Click to expand</summary>
+
+HTTP的下一代是HTTP/2和HTTP/3，它们在HTTP/1.1的基础上进行了改进，以解决一些性能和效率方面的问题。以下是HTTP/2和HTTP/3分别解决的主要问题：
+
+##### HTTP/2
+
+HTTP/2于2015年正式发布，是对HTTP/1.1的重大升级，主要解决了以下问题：
+
+1. **多路复用（Multiplexing）**
+
+   - **问题**：HTTP/1.1中，每个请求都需要建立一个单独的TCP连接，容易导致连接的数量和资源的浪费。浏览器通常限制同一域名下并发TCP连接的数量。
+   - **解决方案**：HTTP/2通过多路复用允许在一个TCP连接中同时发送多个请求和响应，从而提高了传输效率。
+
+2. **头部压缩（Header Compression）**
+
+   - **问题**：HTTP/1.1中，头部信息在每个请求中都是冗余的，尤其是在使用Cookies等情况时，这会导致额外的开销。
+   - **解决方案**：HTTP/2引入了HPACK头部压缩算法，可以有效地压缩头部信息，减少传输的数据量。
+
+3. **服务器推送（Server Push）**
+
+   - **问题**：在HTTP/1.1中，服务器只能响应客户端的请求，无法主动推送数据到客户端。
+   - **解决方案**：HTTP/2允许服务器在客户端请求前主动推送资源（如CSS、JavaScript文件），减少了请求的往返次数，提高了页面加载速度。
+
+4. **二进制分帧（Binary Framing）**
+   - **问题**：HTTP/1.1使用文本格式传输数据，解析起来相对复杂且效率较低。
+   - **解决方案**：HTTP/2使用二进制格式传输数据，解析和处理起来更加高效和可靠。
+
+##### HTTP/3
+
+HTTP/3是基于QUIC协议的，它在HTTP/2的基础上进一步优化，主要解决以下问题：
+
+1. **基于UDP的QUIC协议**
+
+   - **问题**：TCP连接建立时间较长（三次握手），以及丢包重传机制容易导致延迟增加。
+   - **解决方案**：HTTP/3基于UDP传输协议的QUIC，通过减少连接建立时间（零次握手或一次握手）和改进丢包处理机制（丢包只影响单个流而非整个连接），大大减少了延迟，提高了传输效率。
+
+2. **连接迁移**
+
+   - **问题**：在TCP连接中，客户端IP地址或网络变化会导致连接中断，需要重新建立连接。
+   - **解决方案**：QUIC支持连接迁移，即使客户端的IP地址或网络发生变化，也能保持连接的持续性，避免重新建立连接的开销。
+
+3. **内置加密**
+   - **问题**：在HTTP/1.1和HTTP/2中，安全性主要通过TLS层提供，但这引入了额外的复杂性和握手延迟。
+   - **解决方案**：QUIC协议内置加密机制，简化了加密的实现，并且由于是设计之初就考虑到安全性，因此性能和安全性都得到了优化。
+
+##### 总结
+
+HTTP/2和HTTP/3分别通过多路复用、头部压缩、服务器推送、二进制分帧等技术，以及基于QUIC协议的低延迟连接、连接迁移和内置加密等特性，解决了HTTP/1.1中的性能、效率和安全性问题。这些改进旨在提升网络传输的速度、可靠性和用户体验，特别是在现代Web应用程序中，HTTP/2和HTTP/3的应用越来越广泛。
+
+</details>
+
+#### restful接口架构的优缺点
+
+<blockquote>
+  RESTful接口架构具有简单性、可扩展性、统一接口、状态无关性和可缓存性等优点，但也存在一些缺点，如过度网络传输、安全性、灵活性、性能和不适用于所有场景等问题。在选择API设计风格时，需要根据具体的业务需求和系统要求进行综合考虑，并灵活选择合适的API设计风格
+</blockquote>
+
+#### 前端个人规划
+
+不断提升自己的技能水平和竞争力，才能在不断变化的行业中保持领先并实现个人价值
+
+#### mvvm
+
+<details>
+<summary>Click to expand</summary>
+
+MVVM（Model-View-ViewModel）是一种前端架构模式，旨在将应用程序的用户界面（View）、业务逻辑（ViewModel）和数据模型（Model）进行分离，以提高代码的可维护性和可测试性。下面是MVVM结构的主要组成部分和工作原理：
+
+##### 1. Model（模型）
+
+- **定义**：Model代表应用程序的数据模型，负责处理数据的存储、获取和处理。
+- **责任**：负责与服务器端通信、数据库交互、数据校验、业务逻辑等操作，提供数据给ViewModel。
+- **特点**：通常是纯数据对象，不包含任何业务逻辑。
+
+##### 2. View（视图）
+
+- **定义**：View是应用程序的用户界面，负责展示数据给用户，并接收用户的输入和操作。
+- **责任**：负责展示ViewModel提供的数据，以及将用户的操作反馈给ViewModel。
+- **特点**：通常是由HTML、CSS和JavaScript构成的页面或组件，负责展示数据和处理用户交互。
+
+##### 3. ViewModel（视图模型）
+
+- **定义**：ViewModel是View和Model之间的连接器，负责处理View和Model之间的通信和交互。
+- **责任**：负责从Model中获取数据，并将数据转换成View可以展示的格式，同时监听View的用户交互事件，将用户操作转发给Model。
+- **特点**：通常包含业务逻辑、数据格式化、数据转换和状态管理等功能，但不涉及具体的DOM操作。
+
+### MVVM工作原理：
+
+1. **初始化**：View加载时，ViewModel会初始化，并开始与Model进行交互，获取初始数据。
+2. **数据绑定**：ViewModel将数据绑定到View上，使得View能够动态展示ViewModel提供的数据。
+3. **用户交互**：ViewModel监听View上的用户交互事件（如点击、输入等），并根据用户的操作更新内部状态或者向Model发送请求。
+4. **数据更新**：当Model的数据发生变化时，ViewModel会及时地将新的数据更新到View上，保持View的显示与数据的同步。
+5. **数据传递**：ViewModel负责将用户的操作转换成Model能够理解的数据格式，并将数据传递给Model进行处理。
+6. **状态管理**：ViewModel负责管理View的状态（如显示/隐藏、可用/禁用等），并响应用户的操作来更新状态。
+
+### 优点：
+
+- **分离关注点**：将UI逻辑和业务逻辑分离，使得代码更易于理解和维护。
+- **可测试性**：ViewModel通常是纯JavaScript对象，便于编写单元测试。
+- **重用性**：ViewModel可以在不同的View中重用，增加了代码的复用性。
+
+### 缺点：
+
+- **学习成本**：相比传统的MVC结构，MVVM需要学习额外的概念和技术，可能会增加学习曲线。
+- **复杂性**：对于简单的应用程序，引入MVVM可能会增加不必要的复杂性。
+- **性能开销**：MVVM框架通常会增加一些性能开销，如数据绑定、依赖追踪等。
+
+### 总结：
+
+MVVM是一种将数据、UI和业务逻辑进行分离的前端架构模式，通过ViewModel实现数据的双向绑定和交互，提高了代码的可维护性和可测试性，但也需要在学习成本和性能开销上进行权衡。
+
+</details>
+
+#### vue v-model
+
+<blockquote>
+  v-model
+  的原理是通过在表单元素上绑定数据属性，并监听元素的输入事件，实现了视图与数据之间的双向绑定，使得数据的变化能够实时反映到视图上，同时用户的操作也能够同步更新到数据层。
+</blockquote>
+
+#### 监控
+
+<details>
+<summary>Click to expand</summary>
+
+前端项目监控是指对前端项目的性能、错误、用户行为等进行监控和分析，以便及时发现和解决问题，提高用户体验和系统稳定性。以下是一些常见的前端项目监控内容：
+
+##### 1. 性能监控
+
+- **页面加载时间**：监控页面的加载时间，包括DNS解析、TCP连接、DOM渲染等各个环节的耗时。
+- **资源加载时间**：监控各种资源（如图片、脚本、样式表）的加载时间，以及资源的缓存命中率。
+- **页面性能指标**：监控关键性能指标，如首次内容渲染时间（FCP）、首次有效渲染时间（FMP）、可交互时间（TTI）等。
+
+##### 2. 错误监控
+
+- **JavaScript错误**：监控页面中的JavaScript错误，包括语法错误、运行时错误、跨域错误等。
+- **资源加载错误**：监控页面中资源加载失败的情况，如404错误、跨域加载限制等。
+- **API请求错误**：监控与后端接口的请求错误，包括网络错误、超时错误、服务端错误等。
+
+##### 3. 用户行为监控
+
+- **页面PV/UV**：统计页面的访问量（PV）和独立访客数（UV），了解页面的流量情况。
+- **用户行为分析**：监控用户在页面上的操作行为，如点击、滚动、输入等，以及用户的停留时长和转化路径。
+- **设备信息**：收集用户的设备信息，包括浏览器类型、操作系统、分辨率等，以优化页面的兼容性和性能。
+
+##### 4. 实时监控和报警
+
+- **实时监控**：及时收集和展示监控数据，以便开发者实时了解项目的运行情况。
+- **异常报警**：设置异常阈值和报警规则，当监控数据超出设定范围时，及时发送报警通知，以便开发者及时处理问题。
+
+##### 5. 数据分析和可视化
+
+- **数据统计**：对监控数据进行统计和分析，生成报表和趋势图，以便开发者了解项目的运行趋势和性能瓶颈。
+- **可视化展示**：将监控数据以可视化的方式展示，如图表、地图、仪表盘等，使得数据更加直观和易于理解。
+
+##### 6. 安全监控
+
+- **XSS攻击**：监控页面中的跨站脚本攻击（XSS），防止恶意脚本对页面进行篡改和窃取用户信息。
+- **CSRF攻击**：监控页面中的跨站请求伪造攻击（CSRF），防止恶意请求对用户数据进行操作和篡改。
+
+综合以上内容，前端项目监控旨在全面了解项目的性能、错误和用户行为情况，及时发现和解决问题，提升用户体验和项目稳定性。可以借助各种监控工具和服务来实现监控需求，如Google Analytics、Sentry、New Relic、Datadog等。
+
+</details>
+
+#### 微服务
+
+<blockquote>
+  微服务是一种软件架构风格，它将应用程序构建为一组小型、独立的服务，每个服务都围绕着特定的业务功能进行构建，并通过轻量级通信机制（通常是HTTP
+  API）进行通信
+</blockquote>
+
+#### 自动化
+
+<details>
+<summary>Click to expand</summary>
+
+前端自动化开发和测试是一种提高开发效率和软件质量的重要手段，通常包括自动化构建、自动化测试、持续集成和持续交付等流程。将这些自动化过程产品化，可以进一步提高开发团队的工作效率和软件质量。下面是一些常见的前端自动化开发/测试过程产品化的步骤和方法：
+
+### 1. 自动化构建
+
+- **产品化步骤**：
+  1. 设计和实现统一的构建工具链，如Webpack、Parcel等，以实现前端资源的打包、压缩和优化。
+  2. 定制化构建流程，根据项目需求和团队规范配置构建任务，包括编译、打包、代码检查、资源合并等。
+  3. 集成自动化构建到版本控制系统中，并配置持续集成工具，如Jenkins、Travis CI等，实现代码提交后自动触发构建。
+
+### 2. 自动化测试
+
+- **产品化步骤**：
+  1. 设计和实现自动化测试框架，如Jest、Mocha、Cypress等，用于编写和运行单元测试、集成测试和端到端测试。
+  2. 编写和维护自动化测试用例，覆盖项目的各个功能模块和边界情况，保证代码的稳定性和可靠性。
+  3. 集成自动化测试到持续集成流程中，确保每次代码提交都会触发自动化测试，及时发现和修复问题。
+
+### 3. 持续集成和持续交付
+
+- **产品化步骤**：
+  1. 设计和实现持续集成和持续交付流水线，通过配置CI/CD工具实现自动化构建、测试、部署和发布。
+  2. 配置自动化测试和静态代码检查任务，确保每次代码提交都会自动进行测试和代码质量检查。
+  3. 实现自动化部署和发布，将构建好的代码自动部署到测试环境、预生产环境和生产环境，实现快速迭代和持续交付。
+
+### 4. 监控和反馈
+
+- **产品化步骤**：
+  1. 配置监控和告警系统，监控项目的构建、测试、部署和运行状态，及时发现和处理异常情况。
+  2. 实现持续反馈机制，定期汇总和分析自动化测试和构建的结果，生成报告和可视化数据，为团队提供决策支持和持续改进。
+
+### 5. 文档和培训
+
+- **产品化步骤**：
+  1. 编写和维护自动化开发/测试流程的文档和手册，包括工具的使用方法、流程的配置步骤、常见问题解答等内容。
+  2. 定期组织培训和分享会议，向团队成员介绍和演示自动化开发/测试工具和流程，提高团队的技术水平和工作效率。
+
+通过以上产品化的步骤和方法，可以将前端自动化开发/测试过程标准化和规范化，提高团队的工作效率和软件质量，从而实现快速迭代和持续交付。
+
+</details>
+
+#### 聊聊缓存
+
+<details>
+<summary>Click to expand</summary>
+
+缓存是指将数据临时存储在计算机内存或磁盘中，以便在后续访问时能够更快地获取数据。在Web开发中，缓存是提高网站性能和用户体验的重要手段之一。下面是与缓存相关的一些重要概念：
+
+### 1. ETag（实体标签）
+
+- **作用**：ETag是由服务器为每个资源分配的唯一标识符，用于标识资源的版本号或内容是否发生变化。
+- **工作原理**：当客户端请求一个资源时，服务器会生成该资源的ETag，并在响应头中返回给客户端。客户端在后续请求时，可以将该ETag通过请求头的If-None-Match字段发送给服务器，用于验证资源是否发生变化。
+- **优点**：可以更精确地判断资源是否发生变化，减少不必要的数据传输。
+- **示例**：`ETag: "33a64df551425fcc55e4d42a148795d9f25f89d4"`
+
+### 2. Expires（过期时间）
+
+- **作用**：Expires是指定资源的过期时间，告诉客户端该资源在何时过期，需要重新获取新的资源。
+- **工作原理**：服务器在响应头中返回Expires字段，告诉客户端该资源的过期时间。客户端在收到资源后，将会在过期时间后重新请求该资源。
+- **示例**：`Expires: Wed, 21 Oct 2026 07:28:00 GMT`
+
+### 3. Cache-Control（缓存控制）
+
+- **作用**：Cache-Control是用来指定客户端和代理服务器对缓存进行控制的指令，包括缓存的存储方式、过期时间、验证方式等。
+- **常用指令**：
+  - `max-age=<seconds>`：指定缓存存储的最长时间。
+  - `no-cache`：强制客户端对资源进行重新验证，不直接使用缓存。
+  - `no-store`：不缓存资源的任何内容。
+  - `public`：表示响应可以被任何缓存所缓存。
+  - `private`：表示响应只能被单个用户缓存。
+- **示例**：`Cache-Control: max-age=3600, public`
+
+这些缓存相关的概念在Web开发中经常被使用，可以通过设置合适的缓存策略来提高网站性能、减少服务器负载，并改善用户体验。
+
+</details>
+
+#### 栈与堆
+
+<details open>
+<summary>Click to expand</summary>
+
+栈和堆是计算机内存中用于存储数据的两种不同的区域，它们在内存管理和存储方式上有一些重要的区别。
+
+### 栈（Stack）
+
+- **特点**：
+
+  - 栈是一种线性的数据结构，遵循后进先出（LIFO）的原则。
+  - 栈的操作通常包括入栈（push）和出栈（pop）。
+  - 栈的大小通常是固定的，由操作系统提前分配好内存空间。
+
+- **应用场景**：
+
+  - 存储局部变量和函数调用的上下文信息。
+  - 存储函数的调用参数、返回地址和临时变量。
+
+- **特点**：
+  - 栈的分配和释放都是自动的，由编译器负责管理，无需手动释放内存。
+  - 栈的分配速度比较快，因为只需要移动栈指针即可。
+  - 栈的空间相对较小，通常只能存储局部变量和函数调用信息，不能存储大型对象。
+
+### 堆（Heap）
+
+- **特点**：
+
+  - 堆是一种动态分配的内存区域，大小不固定。
+  - 堆的数据存储没有特定的顺序，分配和释放的顺序由程序员控制。
+  - 堆的内存空间通常比栈大，可以存储大型对象和数据结构。
+
+- **应用场景**：
+
+  - 存储动态分配的对象、数组和数据结构。
+  - 存储全局变量和静态变量。
+
+- **特点**：
+  - 堆的分配和释放需要手动管理，程序员负责申请内存和释放内存，否则会出现内存泄漏。
+  - 堆的分配速度相对较慢，因为需要考虑内存碎片和地址分配的问题。
+  - 堆的空间相对较大，可以存储大型对象和数据结构，但也容易出现内存碎片问题。
+
+总的来说，栈和堆是计算机内存中两种不同的数据存储区域，它们在内存管理、分配方式和存储内容上有着明显的区别。在编程中，栈通常用于存储局部变量和函数调用信息，而堆用于存储动态分配的对象和数据结构。
+
+</details>
+
+#### 水平垂直居中
+
+<details open>
+<summary>Click to expand</summary>
+在CSS中实现内容水平垂直居中有多种方案，下面列举了一些常用的方法：
+
+### 1. 使用 Flexbox 布局
+
+利用 Flexbox 可以轻松实现内容的水平和垂直居中。
+
+```css
+.container {
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+```
+
+### 2. 使用 Grid 布局
+
+同样，Grid 布局也提供了简单的方式来实现内容的水平和垂直居中。
+
+```css
+.container {
+  display: grid;
+  place-items: center; /* 同时水平和垂直居中 */
+}
+```
+
+### 3. 使用绝对定位和负边距
+
+将内容设置为绝对定位，并利用负边距的方式实现水平和垂直居中。
+
+```css
+.container {
+  position: relative;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+
+### 4. 使用表格布局
+
+利用表格布局的特性，可以将内容轻松地水平和垂直居中。
+
+```css
+.container {
+  display: table;
+}
+
+.content {
+  display: table-cell;
+  text-align: center; /* 水平居中 */
+  vertical-align: middle; /* 垂直居中 */
+}
+```
+
+### 5. 使用 line-height
+
+如果内容只有一行文本，可以利用 line-height 实现垂直居中。
+
+```css
+.container {
+  line-height:  /* 和容器高度相同的值 *;
+  text-align: center; /* 水平居中 */
+}
+```
+
+以上这些方法都可以实现内容的水平和垂直居中，具体使用哪种方法取决于项目的需求和个人偏好。
+
+</details>
+
+#### js写一个快排
+
+```js
+function quickSort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  const pivotIndex = Math.floor(arr.length / 2);
+  const pivot = arr.splice(pivotIndex, 1)[0];
+  const left = [];
+  const right = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+
+  return quickSort(left).concat([pivot], quickSort(right));
+}
+
+// 示例
+const array = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5];
+console.log(quickSort(array)); // 输出 [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
+```
+
+#### ts内置工具类
+
+<details open>
+<summary>Click to expand</summary>
+
+```
+Partial<T>
+将类型 T 中的所有属性设置为可选属性。
+Required<T>
+将类型 T 中的所有属性设置为必选属性。
+Readonly<T>
+将类型 T 中的所有属性设置为只读属性。
+Record<K, T>
+创建一个由类型 K 中的键和类型 T 中的值组成的对象类型。
+Pick<T, K>
+从类型 T 中选取部分属性，组成一个新的类型。
+Omit<T, K>
+从类型 T 中排除指定的属性，组成一个新的类型。
+```
+
+</details>
+
+#### iframe页面通信
+
+<details open>
+<summary>Click to expand</summary>
+
+在 Web 开发中，如果在一个页面（父页面）中嵌入了另一个页面（子页面）的 iframe，通常会涉及到两个页面之间的通信问题。下面是一些常见的 iframe 页面通信方法：
+
+### 1. Window.postMessage()
+
+`postMessage()` 方法允许安全地实现跨域通信。通过在父页面中使用 `postMessage()` 方法向子页面发送消息，或者在子页面中使用 `postMessage()` 方法向父页面发送消息，可以实现双向通信。
+
+**父页面中发送消息：**
+
+```javascript
+const iframeWindow = document.getElementById("myIframe").contentWindow;
+iframeWindow.postMessage("Hello from parent!", "https://example.com");
+```
+
+**子页面中接收消息：**
+
+```javascript
+window.addEventListener("message", event => {
+  if (event.origin === "https://example.com") {
+    console.log("Message from parent:", event.data);
+  }
+});
+```
+
+### 2. Window.parent
+
+子页面可以通过 `window.parent` 属性直接访问父页面的 `window` 对象，从而进行通信。
+
+**子页面向父页面发送消息：**
+
+```javascript
+window.parent.postMessage("Hello from iframe!", "https://example.com");
+```
+
+**父页面接收消息：**
+
+```javascript
+window.addEventListener("message", event => {
+  if (event.origin === "https://example.com") {
+    console.log("Message from iframe:", event.data);
+  }
+});
+```
+
+### 3. Window.frames
+
+父页面可以通过 `window.frames` 属性访问到子页面的 `window` 对象，从而进行通信。
+
+**父页面向子页面发送消息：**
+
+```javascript
+const iframeWindow = window.frames["myIframe"];
+iframeWindow.postMessage("Hello from parent!", "https://example.com");
+```
+
+**子页面接收消息：**
+
+```javascript
+window.addEventListener("message", event => {
+  if (event.origin === "https://example.com") {
+    console.log("Message from parent:", event.data);
+  }
+});
+```
+
+通过以上方法，父页面和子页面可以实现跨域的安全通信，实现双向通信，从而实现更丰富的交互体验。在实际使用中，需要注意安全性和数据的有效性，以防止恶意攻击和信息泄露。
+
+</details>
+
+#### async && defer
+
+<details>
+<summary>Click to expand</summary>
+
+`defer` 和 `async` 是用于优化脚本加载和执行顺序的 HTML `<script>` 标签的属性。
+
+### 1. defer 属性
+
+`defer` 属性告诉浏览器，脚本在执行的过程中不会影响文档的解析，即脚本会被延迟执行，直到文档解析完成后再执行。多个带有 defer 属性的脚本会按照它们在文档中出现的顺序依次执行。
+
+```html
+<script src="script.js" defer></script>
+```
+
+**特点**：
+
+- 脚本会在文档解析完成后执行，但在 DOMContentLoaded 事件之前执行。
+- 多个带有 defer 属性的脚本会按照它们在文档中出现的顺序依次执行。
+- 适合用于不需要立即执行的脚本，可以减少页面加载时间。
+
+### 2. async 属性
+
+`async` 属性告诉浏览器立即下载脚本文件，但不阻塞文档解析，一旦脚本下载完成，立即开始执行。多个带有 async 属性的脚本在下载完成后会并行执行，不会按照它们在文档中出现的顺序依次执行。
+
+```html
+<script src="script.js" async></script>
+```
+
+**特点**：
+
+- 脚本会在下载完成后立即执行，不会阻塞文档解析。
+- 多个带有 async 属性的脚本会并行下载，并且在下载完成后立即执行，执行顺序不确定。
+- 适合用于不依赖于文档内容的脚本，可以提高页面加载的并行度。
+
+### 选择使用场景
+
+- 如果脚本依赖于文档中的 DOM 结构，应该使用 defer 属性，以确保脚本在 DOMContentLoaded 事件之前执行。
+- 如果脚本不依赖于文档内容，且可以在任何时候执行，可以使用 async 属性，以提高脚本的并行下载和执行效率。
+
+在选择使用 defer 还是 async 属性时，需要根据脚本的具体需求和依赖关系来决定，以确保脚本能够正确加载和执行，并且不会影响页面性能和用户体验。
+
+</details>
+
+#### url到页面呈现的过程
+
+<details open>
+<summary>Click to expand</summary>
+
+将 URL 输入到浏览器地址栏并按下回车键后，浏览器开始加载并呈现页面的过程通常包括以下几个步骤：
+
+### 1. URL 解析
+
+浏览器首先会对输入的 URL 进行解析，提取出协议、主机名、端口号、路径和查询参数等信息。
+
+### 2. DNS 解析
+
+浏览器需要将主机名解析成对应的 IP 地址，这个过程称为 DNS 解析。浏览器会首先检查本地 DNS 缓存，如果找不到对应的 IP 地址，则向 DNS 服务器发送查询请求，获取对应的 IP 地址。
+
+### 3. 建立 TCP 连接
+
+浏览器通过获取到的 IP 地址和端口号与服务器建立 TCP 连接。这个过程包括三次握手，即客户端向服务器发送 SYN 报文，服务器回复 SYN+ACK 报文，最后客户端发送 ACK 报文，建立起 TCP 连接。
+
+### 4. 发送 HTTP 请求
+
+建立好 TCP 连接后，浏览器向服务器发送 HTTP 请求。请求中包含请求方法、URL、请求头和请求体等信息。服务器接收到请求后开始处理，并返回响应。
+
+### 5. 接收响应并解析
+
+浏览器接收到服务器返回的响应后，开始解析响应头和响应体。根据响应头中的 Content-Type 等信息确定响应的类型，如 HTML、CSS、JavaScript 或者其他资源类型。
+
+### 6. 渲染页面
+
+如果响应的内容为 HTML 文档，则浏览器开始解析 HTML，构建 DOM 树；接着解析 CSS 样式文件，构建 CSSOM 树；然后将 DOM 树和 CSSOM 树结合，生成渲染树（Render Tree）；最后根据渲染树进行布局和绘制，将页面内容显示在浏览器窗口中。
+
+### 7. 下载并执行 JavaScript
+
+如果响应中包含 JavaScript 文件，浏览器会下载并执行 JavaScript 代码。JavaScript 的执行可能会改变 DOM 结构和样式，影响页面的渲染。
+
+### 8. 加载其他资源
+
+页面中可能包含其他的资源，如图片、字体、视频等。浏览器会根据 HTML 和 CSS 中的引用下载这些资源，并在需要时进行渲染。
+
+### 9. 页面加载完成
+
+当所有的资源都加载完成，页面渲染完成后，浏览器触发 `DOMContentLoaded` 事件，表示 HTML 文档已经完全加载和解析；如果页面中包含图片等外部资源，当这些资源都加载完成后，浏览器触发 `load` 事件，表示页面已经全部加载完成。
+
+</details>
+
+### 36\*一面总结
+
+#### vuex中mutation和action的区别
+
+#### js冒泡排序
+
+#### js手写防抖
+
+#### 将get参数转对象
+
+#### 代码混淆的原理
+
+#### vue单向数据流
+
+#### react hoc
+
+#### webp的优缺点
+
+#### spa应用的优缺点及改进方案
+
+#### 自我介绍
+
+#### 详细讲讲vue3重构vue2的过程及技术难点
