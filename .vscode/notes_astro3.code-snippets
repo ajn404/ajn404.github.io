@@ -43,6 +43,17 @@
     ],
     "description": "details tag in mdx"
   },
+  "details Template not open": {
+    "scope": "markdown",
+    "prefix": "details_not_open",
+    "body": [
+        "<details>",
+        "<summary>${1:Click to expand}</summary>",
+        "$2",
+        "</details>"
+    ],
+    "description": "details not open tag in mdx"
+},
   "blockquote Template": {
     "scope": "markdown",    
     "prefix": "blockquote",

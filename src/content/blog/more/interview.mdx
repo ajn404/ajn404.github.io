@@ -9,6 +9,7 @@ tags:
   - interview
   - 面经
   - 面试准备
+  - chatgpt
 description: "在前端面试过程中，对于记录面试经历是很有帮助的，这样可以更好地总结经验、查漏补缺，并在以后的面试中有所提升"
 ---
 
@@ -20,9 +21,6 @@ description: "在前端面试过程中，对于记录面试经历是很有帮助
 
 <details>
 <summary>Hydration</summary>
-
-</details>
-
 Hydration（即“水合”）在前端框架和库中是一个重要的概念。它主要与服务器渲染（Server-Side Rendering，SSR）和客户端渲染（Client-Side Rendering，CSR）相结合。下面我将详细解释它的意义和应用：
 
 服务器渲染 (SSR)：
@@ -45,6 +43,8 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 用户体验：通过尽快显示内容并立即添加交互性，可以提供更好的用户体验。
 
 总之，水合是前端开发中一个关键的概念，它结合了服务器渲染和客户端渲染的优点，为用户提供了更好的性能和体验。
+
+</details>
 
 ### Closure
 
@@ -155,6 +155,8 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
 #### 您了解的排序算法有哪些？/这些排序算法是如何实现的？
 
+<details>
+<summary>Click to expand</summary>
 我了解的排序算法包括但不限于以下几种：
 
 1. **冒泡排序（Bubble Sort）：** 通过不断交换相邻元素，将最大（或最小）的元素逐步“冒泡”到最后（或最前）的位置。
@@ -172,7 +174,12 @@ SEO 友好：服务器渲染生成的静态 HTML 对搜索引擎更友好，这�
 
 每种排序算法都有其优缺点，适用于不同的场景。例如，对于小规模的数据集，插入排序可能更快；对于大规模的数据集，快速排序或归并排序可能更合适。选择合适的排序算法取决于数据的特点、排序的稳定性要求、内存空间等因素。
 
+</details>
+
 #### 分析一下冒泡排序的时间复杂度?
+
+<details>
+<summary>Click to expand</summary>
 
 冒泡排序的时间复杂度取决于比较和交换的次数。在冒泡排序中，每次都会比较相邻的两个元素，并根据需要交换它们的位置，直到整个数组排序完成。
 
@@ -198,6 +205,8 @@ $$O(n^2)$$
 ##### 总结：
 
 冒泡排序的时间复杂度在最坏和平均情况下都是 $$( O(n^2) )$$，因此它是一种效率较低的排序算法，不适用于大规模数据的排序。然而，由于其简单易懂的实现方式，冒泡排序在学习排序算法和简单数据集的排序中仍然具有一定的价值。
+
+</details>
 
 #### js实现冒泡排序
 
@@ -236,6 +245,9 @@ console.log("排序后数组:", bubbleSort(arr));
 
 #### 分析一下快速排序的时间复杂度
 
+<details>
+<summary>Click to expand</summary>
+
 快速排序是一种常用且高效的排序算法，其平均时间复杂度为 $(O(n \log n))$，最坏情况下的时间复杂度为 $(O(n^2))$，其中 $(n)$ 是待排序数组的长度。以下是快速排序时间复杂度的分析：
 
 ##### 平均情况下的时间复杂度：
@@ -252,7 +264,12 @@ console.log("排序后数组:", bubbleSort(arr));
 
 综上所述，快速排序的平均时间复杂度为 $(O(n \log n))$，最坏情况下的时间复杂度为 $(O(n^2))$，最好情况下的时间复杂度为 $(O(n \log n))$。由于其平均时间复杂度较低，因此快速排序是一种高效的排序算法，常被应用于实际开发中。
 
+</details>
+
 #### 了解heap内部是如何实现的？构造函数和push函数的时间复杂度是多少？分别详细讲解这两个函数实现了什么，如何得到该时间复杂度？
+
+<details>
+<summary>Click to expand</summary>
 
 在 JavaScript 中，通常使用数组来实现堆（Heap）。堆是一种特殊的二叉树结构，其中每个节点的值都大于等于（或小于等于）其子节点的值，根据这个特性，堆可以分为最大堆和最小堆。
 
@@ -284,6 +301,8 @@ push 函数的时间复杂度取决于上浮操作的复杂度，通常为 $(O(\
 - push 函数的时间复杂度为 $(O(\log n))$，其中 $(n)$ 是堆的大小。
 
 这些时间复杂度是根据堆的特性以及 push 和构造函数的实现步骤得出的。因为堆是一种树状结构，其操作的时间复杂度通常与树的高度相关，而堆的高度通常为 $(\log n)$，因此 push 函数的时间复杂度为 $(O(\log n))$。
+
+</details>
 
 ### 牛客2-偏框架
 
@@ -546,10 +565,17 @@ const partialUser: PartialUserWithoutAge = {
 
 #### react redux具体流程
 
-创建 Store：使用 createStore 函数创建 Redux store。<br/>
-定义 Action：创建表示用户行为或事件的 action 对象。<br/>
-编写 Reducer：根据 action 来修改 store 中的 state。<br/>
-连接 React 组件：使用 Provider 和 connect，将 Redux store 与 React 组件连接起来。<br/>
+<details>
+  <summary>Click to expand</summary>
+  创建 Store：使用 createStore 函数创建 Redux store。
+  <br />
+  定义 Action：创建表示用户行为或事件的 action 对象。
+  <br />
+  编写 Reducer：根据 action 来修改 store 中的 state。
+  <br />
+  连接 React 组件：使用 Provider 和 connect，将 Redux store 与 React 组件连接起来。
+  <br />
+</details>
 
 #### 通用的弹窗（Modal）组件
 
@@ -840,6 +866,8 @@ export const useModal = () => {
 
 #### 两数之和
 
+<details>
+<summary>Click to expand</summary>
 哈希表
 
 ```js
@@ -866,7 +894,12 @@ const result = twoSum(nums, target);
 console.log(result); // 输出: [0, 1]
 ```
 
+</details>
+
 #### 数组拆分多个和近似的数组
+
+<details>
+<summary>Click to expand</summary>
 
 贪心
 
@@ -903,6 +936,8 @@ const k = 3;
 const result = splitArrayIntoApproxEqualSums(nums, k);
 console.log(result);
 ```
+
+</details>
 
 #### ts中范型的作用
 
@@ -1243,7 +1278,7 @@ ReactDOM.render(<LoggedComponent />, document.getElementById("root"));
 
 </details>
 
-<details open>
+<details >
 <summary>具体应用场景</summary>
 
 当涉及到特定的应用场景时，高阶组件可以提供一些具体的解决方案：
@@ -1494,7 +1529,7 @@ element = null;
 
 #### http建立连接过程，为什么不是四次或两次握手
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 
 HTTP协议本身是基于TCP协议的。TCP协议使用三次握手（Three-Way Handshake）来建立连接，这一过程确保了客户端和服务器之间的连接是可靠的，并且双方都准备好进行数据传输。以下是TCP三次握手建立连接的详细过程，以及为什么不是四次或两次握手。
@@ -2037,7 +2072,7 @@ MVVM是一种将数据、UI和业务逻辑进行分离的前端架构模式，�
 
 #### 栈与堆
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 
 栈和堆是计算机内存中用于存储数据的两种不同的区域，它们在内存管理和存储方式上有一些重要的区别。
@@ -2084,7 +2119,7 @@ MVVM是一种将数据、UI和业务逻辑进行分离的前端架构模式，�
 
 #### 水平垂直居中
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 在CSS中实现内容水平垂直居中有多种方案，下面列举了一些常用的方法：
 
@@ -2190,7 +2225,7 @@ console.log(quickSort(array)); // 输出 [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
 
 #### ts内置工具类
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 
 ```
@@ -2212,7 +2247,7 @@ Omit<T, K>
 
 #### iframe页面通信
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 
 在 Web 开发中，如果在一个页面（父页面）中嵌入了另一个页面（子页面）的 iframe，通常会涉及到两个页面之间的通信问题。下面是一些常见的 iframe 页面通信方法：
@@ -2329,7 +2364,7 @@ window.addEventListener("message", event => {
 
 #### url到页面呈现的过程
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 
 将 URL 输入到浏览器地址栏并按下回车键后，浏览器开始加载并呈现页面的过程通常包括以下几个步骤：
@@ -2376,22 +2411,1168 @@ window.addEventListener("message", event => {
 
 #### vuex中mutation和action的区别
 
+<details>
+<summary>Click to expand</summary>
+
+在Vuex中，mutation和action是用于管理和修改状态（state）的两个核心概念，但它们有一些关键的区别：
+
+### Mutation
+
+- **同步操作**：mutation只能执行同步操作。当你提交一个mutation时，状态的改变是立即生效的。
+- **直接修改state**：mutation是唯一允许直接修改Vuex状态的方法。每个mutation都有一个类型（type）和一个回调函数（handler），回调函数接收state作为第一个参数。
+- **简单而明确**：因为它们是同步的，mutation非常容易追踪和调试，开发工具（如Vue Devtools）能够明确地展示每个mutation的历史和它们的影响。
+
+```javascript
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+  },
+  mutations: {
+    increment(state, payload) {
+      state.count += payload.amount;
+    },
+  },
+});
+
+// 提交一个mutation
+store.commit("increment", { amount: 10 });
+```
+
+### Action
+
+- **异步操作**：action可以包含异步操作（如API调用）。它们用于调度mutation，而不是直接改变状态。
+- **封装业务逻辑**：action可以包含复杂的业务逻辑，可以在其中执行异步操作，然后在合适的时机提交mutation。
+- **返回Promise**：action本身返回一个Promise，可以在外部链式调用。
+
+```javascript
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+  },
+  mutations: {
+    increment(state, payload) {
+      state.count += payload.amount;
+    },
+  },
+  actions: {
+    incrementAsync({ commit }, payload) {
+      setTimeout(() => {
+        commit("increment", payload);
+      }, 1000);
+    },
+  },
+});
+
+// 分发一个action
+store.dispatch("incrementAsync", { amount: 10 });
+```
+
+### 总结
+
+- **Mutation**：用于同步地、直接地修改状态。
+- **Action**：用于处理异步操作，并最终提交mutation来修改状态。
+
+通过这种方式，Vuex保证了状态管理的一致性和可预测性，使得应用程序的状态流动更加清晰和可控。
+
+</details>
+
 #### js冒泡排序
+
+<details>
+<summary>Click to expand</summary>
+冒泡排序是一种简单的排序算法，其基本思想是重复地遍历待排序的数组，每次比较相邻的两个元素，如果它们的顺序错误就交换它们，直到整个数组有序。下面是JavaScript中实现冒泡排序的代码：
+
+```javascript
+function bubbleSort(arr) {
+  let n = arr.length;
+  // 外层循环控制遍历的次数
+  for (let i = 0; i < n - 1; i++) {
+    // 内层循环控制每次遍历时的比较和交换
+    for (let j = 0; j < n - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        // 交换相邻元素
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  return arr;
+}
+
+// 测试冒泡排序
+let array = [64, 34, 25, 12, 22, 11, 90];
+console.log("Unsorted array:", array);
+let sortedArray = bubbleSort(array);
+console.log("Sorted array:", sortedArray);
+```
+
+### 代码说明
+
+1. **外层循环** (`for (let i = 0; i < n - 1; i++)`)：控制需要遍历的次数。每次遍历将把当前未排序部分中最大的元素移到正确的位置。
+2. **内层循环** (`for (let j = 0; j < n - 1 - i; j++)`)：在每次遍历中，比较相邻的元素并进行交换。由于每一轮结束后，最大的元素已经到达正确位置，所以在下一轮中可以少比较一次。
+3. **交换相邻元素** (`let temp = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = temp;`)：如果当前元素大于下一个元素，则交换它们的位置。
+
+### 优化
+
+可以进行一些优化，例如如果在某次遍历中没有进行任何交换，说明数组已经是有序的，可以提前终止算法：
+
+```javascript
+function bubbleSortOptimized(arr) {
+  let n = arr.length;
+  let swapped;
+  for (let i = 0; i < n - 1; i++) {
+    swapped = false;
+    for (let j = 0; j < n - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        let temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+        swapped = true;
+      }
+    }
+    // 如果没有发生交换，数组已经有序
+    if (!swapped) break;
+  }
+  return arr;
+}
+
+// 测试优化后的冒泡排序
+let arrayOptimized = [64, 34, 25, 12, 22, 11, 90];
+console.log("Unsorted array:", arrayOptimized);
+let sortedArrayOptimized = bubbleSortOptimized(arrayOptimized);
+console.log("Sorted array:", sortedArrayOptimized);
+```
+
+这个优化版的冒泡排序通过`swapped`标志位来检测在一轮遍历中是否发生了交换，如果没有，则说明数组已经排序完成，可以提前退出循环。这样可以减少不必要的比较，提高效率。
+
+</details>
 
 #### js手写防抖
 
+<details>
+<summary>Click to expand</summary>
+防抖（debounce）是一种编程技术，用于在特定事件频繁触发时，延迟执行事件处理函数，直到事件停止触发一段时间后再执行。这在处理诸如窗口大小调整、搜索框输入等高频率事件时非常有用，可以有效减少事件处理函数的调用次数，从而提高性能。
+
+下面是一个简单的JavaScript防抖函数的实现：
+
+```javascript
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(context, args);
+    }, wait);
+  };
+}
+
+// 示例：防抖处理窗口大小调整事件
+window.addEventListener(
+  "resize",
+  debounce(function () {
+    console.log("Window resized");
+  }, 300)
+);
+
+// 示例：防抖处理输入框事件
+const input = document.getElementById("searchInput");
+input.addEventListener(
+  "input",
+  debounce(function () {
+    console.log("Input value:", this.value);
+  }, 500)
+);
+```
+
+### 代码说明
+
+1. **`debounce`函数**：接受两个参数，`func`是要执行的函数，`wait`是等待的时间（以毫秒为单位）。
+2. **`timeout`变量**：用于保存定时器的ID，以便后续清除。
+3. **返回一个新的函数**：这个函数将在事件触发时执行。它会清除之前的定时器，并设置一个新的定时器。
+4. **`clearTimeout(timeout)`**：清除之前的定时器，防止之前的函数执行。
+5. **`setTimeout`**：设置一个新的定时器，在指定的等待时间后执行传入的函数。
+6. **`func.apply(context, args)`**：在定时器触发时执行传入的函数，保持上下文和参数一致。
+
+### 使用示例
+
+1. **窗口大小调整事件**：当窗口大小调整时，通过防抖函数将处理函数的调用频率限制为每300毫秒一次。
+2. **输入框事件**：在输入框中输入时，通过防抖函数将处理函数的调用频率限制为每500毫秒一次。
+
+通过这种方式，防抖函数可以有效减少事件处理函数的调用次数，提高应用的性能和响应速度。
+
+</details>
+
 #### 将get参数转对象
+
+<details>
+<summary>将url中get参数转对象</summary>
+
+将URL中的GET参数转换为JavaScript对象，可以使用以下方法：
+
+1. **使用正则表达式手动解析URL**。
+2. **使用URLSearchParams API（现代浏览器支持）**。
+
+下面是两种方法的详细实现：
+
+### 方法一：使用正则表达式手动解析URL
+
+这种方法适用于任何浏览器，无论是否支持现代API。
+
+```javascript
+function getQueryParams(url) {
+  let queryParams = {};
+  let queryString = url.split("?")[1];
+  if (queryString) {
+    let pairs = queryString.split("&");
+    for (let pair of pairs) {
+      let [key, value] = pair.split("=");
+      queryParams[decodeURIComponent(key)] = decodeURIComponent(value || "");
+    }
+  }
+  return queryParams;
+}
+
+// 示例
+let url = "http://example.com/page?name=John&age=30&city=New%20York";
+let params = getQueryParams(url);
+console.log(params); // { name: "John", age: "30", city: "New York" }
+```
+
+### 方法二：使用URLSearchParams API
+
+这种方法更简洁，推荐在现代浏览器中使用。
+
+```javascript
+function getQueryParams(url) {
+  let queryParams = {};
+  let queryString = url.split("?")[1];
+  if (queryString) {
+    let urlSearchParams = new URLSearchParams(queryString);
+    for (let [key, value] of urlSearchParams.entries()) {
+      queryParams[key] = value;
+    }
+  }
+  return queryParams;
+}
+
+// 示例
+let url = "http://example.com/page?name=John&age=30&city=New%20York";
+let params = getQueryParams(url);
+console.log(params); // { name: "John", age: "30", city: "New York" }
+```
+
+### 使用说明
+
+1. **`getQueryParams`函数**：接收一个URL字符串，返回一个包含GET参数的对象。
+2. **`url.split('?')[1]`**：提取URL中的查询字符串部分。
+3. **正则表达式方法**：将查询字符串分割成键值对，然后逐个解析并存储到对象中。
+4. **URLSearchParams API方法**：利用URLSearchParams内置的解析能力，直接将键值对存储到对象中。
+
+### 示例输出
+
+对于URL `http://example.com/page?name=John&age=30&city=New%20York`，解析后的对象是：
+
+```javascript
+{
+  name: "John",
+  age: "30",
+  city: "New York"
+}
+```
+
+这两种方法都能有效地将URL中的GET参数转换为JavaScript对象，可以根据需要选择适合的实现方式。
+
+</details>
 
 #### 代码混淆的原理
 
+<details>
+<summary>Click to expand</summary>
+在Cordova应用中，代码混淆（obfuscation）是一种技术手段，用于使代码更难以理解和逆向工程。代码混淆的主要原理是通过改变代码的结构和名称，使得代码仍然能够正常运行，但对于人类来说变得难以理解。
+
+### 代码混淆的基本原理
+
+1. **变量和函数名重命名**：
+
+   - 将有意义的变量名和函数名替换为无意义的短名称或随机字符。例如，将`getUserData`重命名为`a`。
+
+2. **字符串加密**：
+
+   - 对代码中的字符串进行加密或编码，使其在源代码中不可读。执行时再进行解密或解码。
+
+3. **移除注释和空白**：
+
+   - 删除所有注释、空行和多余的空格，以减少代码的可读性。
+
+4. **代码结构变换**：
+
+   - 重排代码结构，例如将函数内联，或者将多段代码合并为一段复杂的代码块。
+
+5. **插入无用代码**：
+   - 插入一些无用的代码（dead code），增加混淆度，使得代码逻辑更加复杂和难以理解。
+
+### 在Cordova中实现代码混淆
+
+虽然Cordova本身不直接提供代码混淆功能，但你可以借助一些第三方工具来实现对Cordova项目的代码混淆。常见的工具包括UglifyJS、Terser和ProGuard（用于混淆Java代码）。
+
+#### 使用Terser混淆JavaScript代码
+
+Terser是一个广泛使用的JavaScript压缩工具，可以用于混淆和压缩Cordova项目的JavaScript代码。
+
+1. **安装Terser**：
+
+   ```sh
+   npm install terser -g
+   ```
+
+2. **使用Terser混淆代码**：
+
+   ```sh
+   terser yourfile.js -o yourfile.min.js --compress --mangle
+   ```
+
+3. **集成到Cordova构建流程**：
+   你可以在Cordova构建流程中添加一个步骤，在打包之前使用Terser混淆你的JavaScript代码。你可以使用Cordova hooks来实现这一点：
+
+   在`hooks/after_prepare`目录下创建一个脚本，例如`hooks/after_prepare/terser.js`：
+
+   ```javascript
+   const terser = require("terser");
+   const fs = require("fs");
+   const path = require("path");
+
+   module.exports = function (context) {
+     const wwwPath = path.join(context.opts.projectRoot, "www");
+     const jsFiles = fs
+       .readdirSync(wwwPath)
+       .filter(file => file.endsWith(".js"));
+
+     jsFiles.forEach(file => {
+       const filePath = path.join(wwwPath, file);
+       const code = fs.readFileSync(filePath, "utf8");
+       const result = terser.minify(code);
+       if (result.error) {
+         console.error(`Error minifying ${file}: `, result.error);
+       } else {
+         fs.writeFileSync(filePath, result.code, "utf8");
+         console.log(`Successfully minified ${file}`);
+       }
+     });
+   };
+   ```
+
+   确保在`config.xml`中添加这个hook：
+
+   ```xml
+   <hook src="hooks/after_prepare/terser.js" type="after_prepare" />
+   ```
+
+### 总结
+
+**代码混淆是通过重命名、字符串加密、移除注释和空白、代码结构变换和插入无用代码等手段，使代码难以理解。虽然Cordova本身不直接支持代码混淆，但你可以使用Terser等工具，在构建过程中对JavaScript代码进行混淆。通过集成这些工具到Cordova的构建流程中，可以有效地提升应用代码的安全性。**
+
+</details>
+
 #### vue单向数据流
+
+<details>
+<summary>Click to expand</summary>
+
+在Vue.js中，单向数据流是一种数据管理的设计原则，用于确保数据在应用程序中流动的方向是明确和可预测的。这有助于提高应用程序的可维护性和可调试性。
+
+### 单向数据流的基本概念
+
+1. **父子组件数据流**：在Vue.js中，数据是从父组件通过`props`传递给子组件的。子组件不能直接修改从父组件接收到的`props`，而只能通过事件通知父组件更新数据。
+
+2. **数据的唯一来源**：每个数据片段都应该有一个明确的来源。通常，这意味着数据应该在尽可能高的层级上定义，然后传递给需要的子组件。
+
+3. **单向绑定**：Vue.js的数据绑定是单向的，即从模型到视图。当模型的数据发生变化时，视图会自动更新。然而，视图的变化不会直接导致模型的变化，除非通过事件或绑定。
+
+### 单向数据流的好处
+
+1. **数据管理简单**：数据流动方向明确，减少了数据管理的复杂性。
+2. **可预测性**：数据的变化是可预测的，便于追踪和调试。
+3. **提高组件复用性**：组件的输入（props）和输出（事件）明确，提高了组件的复用性。
+
+### 单向数据流在Vue.js中的实现
+
+#### 父子组件通信
+
+1. **父组件传递数据给子组件**：
+
+   - 父组件通过`props`向子组件传递数据。
+   - 子组件使用`props`接收父组件传递的数据。
+
+2. **子组件向父组件传递数据**：
+   - 子组件通过事件向父组件传递数据。
+   - 父组件监听子组件的事件并接收数据。
+
+#### 示例
+
+```html
+<!-- 父组件 -->
+<template>
+  <div>
+    <child-component
+      :message="parentMessage"
+      @update-message="updateMessage"
+    ></child-component>
+    <p>Parent Message: {{ parentMessage }}</p>
+  </div>
+</template>
+
+<script>
+  import ChildComponent from "./ChildComponent.vue";
+
+  export default {
+    components: { ChildComponent },
+    data() {
+      return {
+        parentMessage: "Hello from parent",
+      };
+    },
+    methods: {
+      updateMessage(newMessage) {
+        this.parentMessage = newMessage;
+      },
+    },
+  };
+</script>
+
+<!-- 子组件 -->
+<template>
+  <div>
+    <p>Child Message: {{ message }}</p>
+    <input
+      v-model="newMessage"
+      @input="sendMessage"
+      placeholder="Update parent message"
+    />
+  </div>
+</template>
+
+<script>
+  export default {
+    props: ["message"],
+    data() {
+      return {
+        newMessage: "",
+      };
+    },
+    methods: {
+      sendMessage() {
+        this.$emit("update-message", this.newMessage);
+      },
+    },
+  };
+</script>
+```
+
+### 解释
+
+1. **父组件**：
+
+   - 定义一个数据属性`parentMessage`。
+   - 通过`props`将`parentMessage`传递给子组件。
+   - 监听子组件的`update-message`事件并调用`updateMessage`方法更新数据。
+
+2. **子组件**：
+   - 使用`props`接收父组件传递的数据`message`。
+   - 通过`v-model`绑定输入框的值并在输入事件中调用`sendMessage`方法。
+   - `sendMessage`方法通过`$emit`向父组件发送`update-message`事件，并传递新的消息数据。
+
+### 总结
+
+在Vue.js中，单向数据流确保了数据从父组件流向子组件，而子组件通过事件将数据变化传递回父组件。通过这种设计，可以使数据流动方向明确，减少数据管理的复杂性，提高应用程序的可维护性和可预测性。
+
+</details>
 
 #### react hoc
 
+<details>
+<summary>Click to expand</summary>
+
+高阶组件（Higher-Order Component，HOC）是React中一种用于代码复用的技术。它是一个函数，接收一个组件并返回一个新的组件。通过这种方式，高阶组件可以将共享的逻辑抽象出来，应用到多个组件中。
+
+### 高阶组件的原理
+
+高阶组件的本质是一个函数，它接受一个组件作为参数，并返回一个增强后的组件。这个增强后的组件通常会包裹原始组件，添加额外的功能或修改其行为。
+
+#### 基本实现
+
+以下是一个简单的高阶组件示例：
+
+```javascript
+import React from "react";
+
+// 这是一个简单的高阶组件
+const withLogging = WrappedComponent => {
+  return class extends React.Component {
+    componentDidMount() {
+      console.log(`Component ${WrappedComponent.name} mounted`);
+    }
+
+    componentWillUnmount() {
+      console.log(`Component ${WrappedComponent.name} will unmount`);
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+};
+
+// 这是一个普通的React组件
+class MyComponent extends React.Component {
+  render() {
+    return <div>My Component</div>;
+  }
+}
+
+// 使用高阶组件
+const MyComponentWithLogging = withLogging(MyComponent);
+
+export default MyComponentWithLogging;
+```
+
+在上面的例子中：
+
+1. `withLogging`是一个高阶组件函数，它接收一个组件`WrappedComponent`。
+2. `withLogging`返回一个新的组件，这个新组件在挂载和卸载时会记录日志。
+3. 新组件在渲染时，传递所有的props给`WrappedComponent`。
+
+### 使用场景
+
+高阶组件主要用于以下几种场景：
+
+1. **代码复用**：将多个组件中重复的逻辑抽取到一个高阶组件中，避免代码重复。
+2. **状态提升**：将状态提升到高阶组件中，实现跨组件的状态共享。
+3. **条件渲染**：根据条件决定是否渲染某个组件或修改组件的行为。
+4. **增强组件**：添加额外的功能或行为，如日志记录、权限控制等。
+
+#### 实例：权限控制
+
+假设我们有一个需要权限控制的组件，我们可以创建一个高阶组件来实现这一功能。
+
+```javascript
+import React from "react";
+
+const withAuthorization = (WrappedComponent, userRole) => {
+  return class extends React.Component {
+    render() {
+      if (userRole !== "admin") {
+        return <div>Access Denied</div>;
+      }
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+};
+
+class AdminPanel extends React.Component {
+  render() {
+    return <div>Admin Panel</div>;
+  }
+}
+
+// 使用高阶组件
+const AdminPanelWithAuthorization = withAuthorization(AdminPanel, "user"); // 假设当前用户角色是'user'
+
+export default AdminPanelWithAuthorization;
+```
+
+在这个示例中：
+
+1. `withAuthorization`高阶组件接受一个组件和一个用户角色作为参数。
+2. 如果用户角色不是`admin`，则渲染`Access Denied`提示；否则，渲染`WrappedComponent`。
+
+### 注意事项
+
+1. **避免嵌套地狱**：过度使用高阶组件会导致组件嵌套过深，代码难以维护。可以考虑使用其他模式，如Render Props或Hooks来解决类似的问题。
+2. **不要改变原组件的静态方法**：高阶组件返回的新组件不会继承原组件的静态方法。可以使用`hoist-non-react-statics`库来解决这个问题。
+3. **传递props**：确保高阶组件正确地传递props给原组件，以保持组件的可用性和灵活性。
+
+```javascript
+import hoistNonReactStatics from "hoist-non-react-statics";
+
+const withLogging = WrappedComponent => {
+  class WithLogging extends React.Component {
+    componentDidMount() {
+      console.log(`Component ${WrappedComponent.name} mounted`);
+    }
+
+    componentWillUnmount() {
+      console.log(`Component ${WrappedComponent.name} will unmount`);
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+
+  hoistNonReactStatics(WithLogging, WrappedComponent);
+  return WithLogging;
+};
+```
+
+### 总结
+
+高阶组件是React中用于复用组件逻辑的一种技术。它通过将共享逻辑抽象到一个函数中，使得不同的组件可以共享这部分逻辑。在使用高阶组件时，需要注意避免嵌套过深，正确传递props，并考虑使用其他模式（如Render Props或Hooks）来解决类似的问题。
+
+</details>
+
 #### webp的优缺点
+
+<details>
+<summary>Click to expand</summary>
+WebP是一种现代图像格式，由谷歌开发，旨在提供较小的文件大小，同时保持高质量的图像。它支持有损压缩和无损压缩，并且可以包含动画和透明度。以下是WebP格式的主要优缺点：
+
+### 优点
+
+1. **高压缩效率**：
+
+   - **有损压缩**：相比JPEG，WebP的有损压缩可以提供相似质量的图像，但文件大小通常要小25%-34%。
+   - **无损压缩**：相比PNG，WebP的无损压缩文件大小通常小26%。
+
+2. **支持透明度**：
+
+   - WebP支持透明度（alpha通道），而且透明度压缩率更高。无损模式下，支持透明度的WebP文件比PNG文件小很多；有损模式下，支持透明度的WebP文件也能大大减小文件大小。
+
+3. **支持动画**：
+
+   - WebP支持动画，可以作为GIF的替代品，提供更好的压缩效率和更高的质量。
+
+4. **减少带宽消耗**：
+
+   - 由于WebP图像文件较小，可以显著减少网页加载时间和带宽消耗，提高网页的加载速度和用户体验。
+
+5. **广泛的浏览器支持**：
+   - 现代浏览器（如Chrome、Firefox、Edge和Opera）都支持WebP格式。Safari从版本14开始也支持WebP。
+
+### 缺点
+
+1. **浏览器兼容性**：
+
+   - 尽管大多数现代浏览器支持WebP，但仍有一些较旧的浏览器和特定环境（如某些版本的Internet Explorer和较老版本的Safari）不支持WebP。因此，需要使用回退机制，为不支持WebP的浏览器提供JPEG或PNG格式的图像。
+
+2. **工具和软件支持**：
+
+   - 虽然WebP的支持在不断增加，但并不是所有图像编辑软件和工具都支持WebP格式。某些情况下，可能需要使用专门的工具或插件来处理WebP图像。
+
+3. **转换成本**：
+
+   - 如果现有的网站和应用程序大量使用JPEG或PNG图像，转换为WebP格式需要时间和资源。需要考虑批量转换工具和自动化处理方式。
+
+4. **压缩时间**：
+   - WebP的压缩算法更复杂，有时候压缩时间比JPEG或PNG长，特别是无损压缩模式下。这可能会影响实时图像处理或动态生成图像的性能。
+
+### 适用场景
+
+1. **网站和网页优化**：WebP非常适合用于网站图像优化，通过减少文件大小来提高网页加载速度和用户体验。
+2. **移动应用**：由于WebP的高压缩效率，适合在移动应用中使用，以减少数据传输量和存储空间。
+3. **动画替代GIF**：WebP的动画支持和更好的压缩效率，使其成为GIF的优秀替代品。
+4. **透明图像**：对于需要透明度的图像，WebP提供了比PNG更高的压缩效率。
+
+### 总结
+
+WebP是一种高效的图像格式，提供优良的压缩率和图像质量，支持透明度和动画，适合用于网页和移动应用的图像优化。然而，开发者在使用WebP时需要考虑浏览器和工具的兼容性，并采取适当的回退机制来保证在不支持WebP的环境中也能正常显示图像。
+
+</details>
+
+<details>
+<summary>webp的浏览器兼容性问题如何解决</summary>
+
+</details>
 
 #### spa应用的优缺点及改进方案
 
+<details>
+<summary>Click to expand</summary>
+单页应用（Single Page Application，SPA）是一种Web应用程序，它通过动态加载内容和更新页面部分而不需要刷新整个页面。这种方法提供了更快的用户体验，但也有一些缺点。以下是SPA的优缺点以及可能的改进方案：
+
+### 优点
+
+1. **快速响应和流畅的用户体验**：
+
+   - 由于不需要刷新整个页面，SPA在用户操作时能够提供更快的响应和更流畅的体验。
+
+2. **减少带宽消耗**：
+
+   - SPA只加载一次HTML、CSS和JavaScript，之后通过AJAX请求数据，减少了带宽消耗。
+
+3. **代码复用和模块化**：
+
+   - 由于前后端分离，前端可以更加模块化和复用，提高了代码的可维护性和可测试性。
+
+4. **离线能力**：
+   - 通过缓存和服务工作线程（Service Workers），SPA可以在离线状态下提供部分功能。
+
+### 缺点
+
+1. **首次加载时间较长**：
+
+   - 由于需要加载大量的JavaScript文件，SPA的首次加载时间可能较长，影响用户体验。
+
+2. **SEO问题**：
+
+   - 传统搜索引擎对JavaScript渲染的内容抓取不友好，可能导致SEO效果不佳。
+
+3. **浏览器兼容性**：
+
+   - 对于一些老旧的浏览器，SPA的某些功能可能无法正常工作，可能需要额外的polyfill和兼容性处理。
+
+4. **前进和后退导航问题**：
+
+   - 需要手动处理浏览器的前进和后退按钮，维护浏览历史和状态。
+
+5. **内存泄漏**：
+   - 由于长时间运行在浏览器中，如果不正确地管理资源和事件监听，可能会导致内存泄漏。
+
+### 改进方案
+
+1. **优化首次加载时间**：
+
+   - **代码拆分**：使用Webpack等工具进行代码拆分（Code Splitting），按需加载模块，减少初始包大小。
+   - **服务器端渲染（SSR）**：使用Next.js或Nuxt.js等框架实现服务器端渲染，减少客户端渲染的负担。
+   - **预渲染（Prerendering）**：对静态页面进行预渲染，提升首屏加载速度。
+
+2. **改善SEO**：
+
+   - **SSR**：通过服务器端渲染生成静态HTML，确保搜索引擎能够抓取页面内容。
+   - **动态渲染**：使用Rendertron等工具，在检测到搜索引擎爬虫时动态生成HTML内容。
+
+3. **提高浏览器兼容性**：
+
+   - **Polyfill**：使用Babel等工具自动添加所需的Polyfill，以支持较旧的浏览器。
+   - **渐进增强和优雅降级**：为现代浏览器提供最佳体验，同时确保旧浏览器的基本功能。
+
+4. **管理导航和状态**：
+
+   - **使用React Router或Vue Router**：通过前端路由库管理路由，确保浏览器的前进和后退按钮正常工作。
+   - **状态管理**：使用Redux、Vuex等状态管理库，集中管理应用状态，确保一致性和可维护性。
+
+5. **防止内存泄漏**：
+   - **事件解绑**：在组件销毁时正确地解绑事件监听，释放不再需要的资源。
+   - **优化资源管理**：监控和优化资源的使用，及时释放不再需要的内存。
+
+### 实际示例
+
+#### 代码拆分示例
+
+使用React和Webpack进行代码拆分：
+
+```javascript
+// Webpack配置
+module.exports = {
+  //...
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
+};
+```
+
+在组件中使用动态导入：
+
+```javascript
+import React, { Suspense, lazy } from "react";
+
+const OtherComponent = lazy(() => import("./OtherComponent"));
+
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <OtherComponent />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+#### 服务器端渲染（SSR）示例
+
+使用Next.js进行服务器端渲染：
+
+```javascript
+// pages/index.js
+import React from "react";
+
+const Home = ({ data }) => (
+  <div>
+    <h1>Home Page</h1>
+    <p>{data}</p>
+  </div>
+);
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch("https://api.example.com/data");
+  const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default Home;
+```
+
+#### 动态渲染示例
+
+使用Rendertron进行动态渲染：
+
+1. 部署Rendertron。
+2. 配置反向代理，将搜索引擎爬虫的请求转发给Rendertron。
+
+```nginx
+# Nginx配置示例
+location / {
+  if ($http_user_agent ~* "Googlebot|Bingbot|Yahoo|DuckDuckBot|Baiduspider") {
+    set $prerender 1;
+  }
+  if ($prerender = 1) {
+    proxy_pass http://localhost:3000/render/https://yourwebsite.com$request_uri;
+    break;
+  }
+  proxy_pass http://localhost:8080;
+}
+```
+
+通过这些改进方案，可以有效地提升SPA的性能和用户体验，同时解决SEO和兼容性等问题。
+
+</details>
+
 #### 自我介绍
 
+<details>
+<summary>1版</summary>
+
+<blockquote>
+我是一名具有3年专业前端开发经验的终身学习者，对技术探索充满热情。我性格温和，善于沟通，乐于接受挑战，致力于通过不断学习来提升自身能力。
+
+我精通JavaScript、CSS和HTML，并且熟练运用Vue和React等前端框架。我也在探索Rust和Tauri以及后端技术如Nest.js和TypeORM，致力于开发跨平台应用。
+
+此外，我具备Shell脚本编写和Python编程经验，熟悉Jenkins持续集成，也有着丰富的PostgreSQL数据库使用经验。
+
+欢迎访问我的GitHub: ajn404，了解更多我的项目和技术探索。
+
+</blockquote>
+
+</details>
+
 #### 详细讲讲vue3重构vue2的过程及技术难点
+
+<details>
+<summary>Click to expand</summary>
+Vue 3是Vue.js框架的下一个主要版本，带来了许多改进和新特性，但与Vue 2相比，它也带来了一些重大变化。下面我将详细讲解Vue 3重构Vue 2的过程以及其中的技术难点。
+
+### 1. Vue 3的重构过程
+
+#### 1.1 Vue 3的架构重构
+
+- **模块化架构**：Vue 3使用TypeScript重写，并采用模块化的架构，使得代码更易于维护和扩展。
+- **Composition API**：引入了Composition API，提供了更灵活和可复用的组合式API，取代了Vue 2的Options API。
+
+#### 1.2 Vue 3的核心重写
+
+- **虚拟DOM重写**：Vue 3对虚拟DOM进行了重写，引入了更高效的算法和优化，提高了渲染性能。
+- **响应式系统重写**：Vue 3的响应式系统进行了重写，引入了Proxy作为底层实现，提供了更好的性能和扩展性。
+
+#### 1.3 Vue 3的新特性
+
+- **Teleport**：引入了Teleport，允许将组件的子树渲染到DOM中的任何位置。
+- **Suspense**：引入了Suspense组件，用于处理异步组件和代码分割的加载状态。
+- **新的编译器**：Vue 3使用了新的编译器，生成更高效和精简的代码。
+
+### 2. 技术难点
+
+#### 2.1 Composition API的理解和应用
+
+- **学习曲线**：Composition API是一种全新的API，相对于Vue 2的Options API，有较高的学习曲线，需要花费一定的时间来理解和掌握。
+- **迁移现有代码**：将现有的Vue 2代码迁移到Composition API需要重写和调整，尤其是对于大型项目来说可能会面临一定的挑战。
+
+#### 2.2 基于Proxy的响应式系统
+
+- **Proxy的使用**：Vue 3的响应式系统基于Proxy进行实现，需要深入理解Proxy的工作原理和使用方式。
+- **迁移现有代码**：Vue 3的响应式系统与Vue 2有一些不同，需要对现有代码进行适当的修改和调整。
+
+#### 2.3 新的编译器和虚拟DOM算法
+
+- **编译器优化**：新的编译器带来了许多优化，但也需要深入了解其工作原理，以便编写更高效和可维护的代码。
+- **虚拟DOM算法**：新的虚拟DOM算法提高了渲染性能，但也可能需要调整现有的代码以充分利用其优势。
+
+### 3. 解决方案和建议
+
+- **逐步迁移**：对于现有的Vue 2项目，可以采取逐步迁移的方式，先将部分功能或组件迁移到Vue 3，逐步完善和调整。
+- **学习和实践**：学习和实践Composition API、Proxy和新的特性，掌握其使用方式和最佳实践，以便更好地应用到项目中。
+- **借助工具和社区资源**：借助Vue Devtools、Vue CLI和Vue Router等工具，以及Vue社区的文档和教程，加快学习和开发的进度。
+
+总的来说，Vue 3的重构过程需要理解和掌握新的API和特性，面临一些挑战和技术难点，但也带来了更好的性能和开发体验。通过学习和实践，逐步迁移现有代码，并结合工具和社区资源，可以更顺利地完成Vue 3的重构和应用。
+
+</details>
+
+### 至诚\*\*面试总结
+
+相比于前面的简单一些，但同样答得不好，还是八股不会背(不想背)
+
+#### vuex
+
+<details>
+<summary>Click to expand</summary>
+Vuex是Vue.js的官方状态管理库，用于管理应用中的状态。它基于Flux和Redux的概念，提供了一种集中式管理应用状态的机制。下面是Vuex的基本流程：
+
+### 1. 定义状态（State）
+
+在Vuex中，状态（State）是存储在应用中的数据。你需要在Vuex的store中定义状态，这些状态可以是任何类型的数据，如对象、数组、字符串等。例如：
+
+```javascript
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+  },
+});
+```
+
+### 2. 提交变更（Committing Mutations）
+
+要改变状态，你需要提交一个mutation。mutation是一个包含type和handler的对象，用于同步修改状态。每个mutation都有一个字符串类型的事件类型（type）和一个回调函数（handler），回调函数接收当前状态和可选的参数作为参数，并修改状态。例如：
+
+```javascript
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+  },
+  mutations: {
+    increment(state) {
+      state.count++;
+    },
+  },
+});
+
+store.commit("increment");
+```
+
+### 3. 分发行动（Dispatching Actions）
+
+有时，我们需要在异步操作中修改状态。在Vuex中，你可以通过分发一个action来实现异步修改状态。action是一个包含type和handler的对象，type是一个字符串类型的事件类型，handler是一个回调函数，用于执行异步操作，并在操作完成后提交mutation来修改状态。例如：
+
+```javascript
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+  },
+  mutations: {
+    increment(state) {
+      state.count++;
+    },
+  },
+  actions: {
+    incrementAsync({ commit }) {
+      setTimeout(() => {
+        commit("increment");
+      }, 1000);
+    },
+  },
+});
+
+store.dispatch("incrementAsync");
+```
+
+### 4. 访问状态（Accessing State）
+
+你可以通过store.state来访问状态。例如：
+
+```javascript
+console.log(store.state.count); // 输出当前状态中的count值
+```
+
+### 5. 订阅状态（Subscribing to State）
+
+Vuex还提供了一种订阅状态变更的机制。你可以通过store.subscribe方法来订阅状态变更，当状态发生变化时，订阅的回调函数将被调用。例如：
+
+```javascript
+store.subscribe((mutation, state) => {
+  console.log(mutation.type);
+  console.log(mutation.payload);
+});
+```
+
+以上是Vuex的基本流程，通过定义状态、提交变更、分发行动、访问状态和订阅状态，你可以实现对应用中状态的管理和控制。
+
+</details>
+
+#### 平时怎么学习技术的
+
+<details>
+<summary>Click to expand</summary>
+
+前端学习技术的方法因人而异，但通常包括以下几个步骤和方法：
+
+### 1. 设定学习目标
+
+- **明确目标**：确定你想要学习或掌握的技术或领域，如Vue.js、React、JavaScript算法等。
+- **分解目标**：将大目标分解为小目标，逐步实现，避免过度压力和失望感。
+
+### 2. 阅读文档和教程
+
+- **官方文档**：查阅官方文档是学习新技术的首要途径，它提供了最权威和全面的资料。
+- **教程和博客**：阅读教程和博客文章可以加深对某一技术点的理解，获取实战经验和最佳实践。
+
+### 3. 实践项目和练习
+
+- **实际项目**：通过实际项目应用所学知识，加深理解和掌握，同时积累项目经验。
+- **练习题和挑战**：参与练习题和编程挑战可以提高编码能力和解决问题的能力，如LeetCode、CodeWars等。
+
+### 4. 参与社区和交流
+
+- **技术社区**：加入技术社区（如GitHub、Stack Overflow、Reddit等），参与讨论和分享经验。
+- **线上课程**：参与线上课程（如Coursera、Udemy、Codecademy等）学习和交流。
+
+### 5. 持续学习和反思
+
+- **定期复习**：定期复习所学知识，加深记忆和理解，巩固基础。
+- **反思和总结**：及时总结学习经验和教训，发现不足和改进空间，持续提升自己的学习效率和技能水平。
+
+### 6. 探索新技术和趋势
+
+- **跟进行业动态**：关注前端技术的最新发展和趋势，掌握行业热点和前沿技术。
+- **尝试新技术**：勇于尝试新技术和工具，拓展自己的技术栈和视野。
+
+总的来说，前端学习技术的过程是一个持续不断的探索和学习的过程，需要不断地实践、反思、交流和尝试新技术，才能不断提升自己的技术水平和能力。
+
+</details>
+
+#### vue computed 和 watch的区别
+
+<details>
+<summary>Click to expand</summary>
+
+`computed`和`watch`都是Vue.js中用于监听数据变化并执行相应逻辑的选项，但它们之间有一些重要的区别：
+
+### 1. `computed`
+
+- **特点**：
+  - `computed`是一个计算属性，它的值会根据其依赖的数据动态计算得出，并且会有缓存机制，只有依赖的数据发生变化时才会重新计算。
+  - 通常用于根据其他数据计算衍生出来的新数据，例如对数据进行过滤、排序、格式化等操作。
+- **示例**：
+  ```javascript
+  computed: {
+    fullName() {
+      return this.firstName + ' ' + this.lastName;
+    }
+  }
+  ```
+
+### 2. `watch`
+
+- **特点**：
+  - `watch`用于观察特定数据的变化，并在数据变化时执行自定义的逻辑。它可以监听数据的变化，执行一些异步操作或者在数据变化时执行复杂逻辑。
+  - 通常用于需要在数据变化时执行异步或者开销较大的操作，或者需要监听非响应式数据的变化。
+- **示例**：
+  ```javascript
+  watch: {
+    firstName(newValue, oldValue) {
+      console.log('firstName changed from', oldValue, 'to', newValue);
+    }
+  }
+  ```
+
+### 区别总结
+
+- `computed`适用于对已有数据进行计算和衍生出新的数据，且计算逻辑不依赖于外部数据。
+- `watch`适用于监听特定数据的变化，并在数据变化时执行自定义逻辑，通常用于执行异步操作或监听非响应式数据的变化。
+- `computed`具有缓存机制，只有依赖的数据变化时才会重新计算，而`watch`每次都会执行。
+
+在实际开发中，根据具体需求选择合适的选项进行数据监听和处理，`computed`用于简单的计算逻辑和衍生数据，而`watch`用于复杂的数据变化监听和异步操作。
+
+</details>
+
+<details>
+<summary>vue3 computed</summary>
+Vue 3仍然保留了`computed`的功能，但是在Vue 3中，`computed`的实现略有不同。在Vue 3中，`computed`的使用方式与Vue 2基本相同，但是它们的内部实现有所改进，以提高性能和可维护性。
+
+### 在Vue 3中使用computed
+
+```javascript
+import { computed } from "vue";
+
+export default {
+  setup() {
+    const firstName = ref("John");
+    const lastName = ref("Doe");
+
+    const fullName = computed(() => {
+      return firstName.value + " " + lastName.value;
+    });
+
+    return {
+      firstName,
+      lastName,
+      fullName,
+    };
+  },
+};
+```
+
+在Vue 3中，`computed`函数接受一个返回计算属性的箭头函数。与Vue 2相似，`computed`的值会根据其依赖的响应式数据动态计算得出，但是Vue 3的内部实现进行了优化，以提高性能和响应速度。
+
+因此，尽管Vue 3中对一些API进行了更改和优化，但是`computed`仍然是Vue的一个重要特性，并且在Vue 3中仍然可以使用它来计算衍生数据。
+
+</details>
+
+#### vue2中数组的值修改了但是没有触发更新，该怎么应对
+
+<details>
+<summary>Click to expand</summary>
+在Vue 2中，如果修改了数组的值但没有触发更新，通常是因为Vue无法检测到数组内部变化。Vue会在使用`push()`、`pop()`、`shift()`、`unshift()`、`splice()`、`sort()`、`reverse()`这些方法时进行响应式地更新，但是直接修改数组的索引或者长度时，Vue无法检测到变化，因此不会触发更新。
+
+要解决这个问题，有几种方法：
+
+### 1. 使用Vue.set或this.$set
+
+Vue提供了`Vue.set`方法（或`this.$set`）来修改数组的指定索引值，并触发响应式更新。
+
+```javascript
+Vue.set(arr, index, newValue); // Vue 2.x
+this.$set(this.arr, index, newValue); // Vue 2.x 组件中
+```
+
+### 2. 使用splice方法
+
+使用splice方法删除和插入数组元素时，会触发响应式更新。
+
+```javascript
+this.arr.splice(index, 1, newValue);
+```
+
+### 3. 使用数组展开运算符或concat方法
+
+将数组重新赋值给一个新数组，然后使用展开运算符或concat方法来修改数组的值，这样也会触发响应式更新。
+
+```javascript
+this.arr = [
+  ...this.arr.slice(0, index),
+  newValue,
+  ...this.arr.slice(index + 1),
+];
+// 或者
+this.arr = this.arr.concat(newValue);
+```
+
+### 4. 直接修改数组内部
+
+如果要直接修改数组的某个索引，可以使用`Vue.set`或`splice`方法，而不是直接赋值。
+
+```javascript
+// 使用Vue.set
+Vue.set(this.arr, index, newValue);
+
+// 使用splice
+this.arr.splice(index, 1, newValue);
+```
+
+通过以上方法，你可以确保在Vue 2中修改数组的值时触发响应式更新。
+
+</details>
