@@ -1,7 +1,7 @@
 ---
-title: interview
+title: interview(1)
 pubDatetime: 2023-10-19 14:05:00
-postSlug: interview
+postSlug: interview1
 featured: false
 draft: false
 detailButton: true
@@ -11,8 +11,10 @@ tags:
   - 面经
   - 面试准备
   - chatgpt
-description: "在前端面试过程中，对于记录面试经历是很有帮助的，这样可以更好地总结经验、查漏补缺，并在以后的面试中有所提升"
+description: "在前端面试过程中，对于记录面试经历是很有帮助的，这样可以更好地总结经验、查漏补缺，并在以后的面试中有所提升(其一)"
 ---
+
+<header>**面试（其一）--2023-10-19=>2024-06-07**</header>
 
 ## 目录
 
@@ -3577,3 +3579,171 @@ this.arr.splice(index, 1, newValue);
 通过以上方法，你可以确保在Vue 2中修改数组的值时触发响应式更新。
 
 </details>
+
+#### 面包屑组件设计
+
+<details>
+<summary>Click to expand</summary>
+在Vue项目中，面包屑导航组件用于显示用户当前位置以及导航路径。实现一个面包屑组件通常需要以下步骤：
+
+### 1. 设计路由结构
+
+确保你的路由结构能够支持面包屑导航。通常每个路由对象会包含一些自定义元信息，用于面包屑的显示。
+
+```javascript
+// router/index.js
+import Vue from "vue";
+import Router from "vue-router";
+
+Vue.use(Router);
+
+const routes = [
+  {
+    path: "/",
+    name: "Home",
+    component: () => import("@/views/Home.vue"),
+    meta: { breadcrumb: "Home" },
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("@/views/About.vue"),
+    meta: { breadcrumb: "About" },
+  },
+  {
+    path: "/about/team",
+    name: "Team",
+    component: () => import("@/views/Team.vue"),
+    meta: { breadcrumb: "Team" },
+  },
+];
+
+const router = new Router({
+  routes,
+});
+
+export default router;
+```
+
+### 2. 创建面包屑组件
+
+创建一个面包屑组件，该组件将根据当前路由动态生成面包屑导航。
+
+```vue
+<!-- components/Breadcrumb.vue -->
+<template>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li
+        v-for="(breadcrumb, index) in breadcrumbs"
+        :key="index"
+        class="breadcrumb-item"
+        :class="{ active: index === breadcrumbs.length - 1 }"
+      >
+        <router-link
+          v-if="index < breadcrumbs.length - 1"
+          :to="breadcrumb.path"
+        >
+          {{ breadcrumb.meta.breadcrumb }}
+        </router-link>
+        <span v-else>{{ breadcrumb.meta.breadcrumb }}</span>
+      </li>
+    </ol>
+  </nav>
+</template>
+
+<script>
+export default {
+  computed: {
+    breadcrumbs() {
+      let currentRoute = this.$route;
+      let breadcrumbs = [];
+
+      while (currentRoute) {
+        if (currentRoute.meta && currentRoute.meta.breadcrumb) {
+          breadcrumbs.unshift({
+            path: currentRoute.path,
+            meta: currentRoute.meta,
+          });
+        }
+        currentRoute = this.$router.options.routes.find(
+          route => route.path === currentRoute.meta.parent
+        );
+      }
+
+      return breadcrumbs;
+    },
+  },
+};
+</script>
+
+<style>
+.breadcrumb {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  padding: 0 5px;
+  color: #6c757d;
+}
+</style>
+```
+
+### 3. 使用面包屑组件
+
+将面包屑组件引入到你的页面布局中，以便在每个页面顶部显示面包屑导航。
+
+```vue
+<!-- App.vue -->
+<template>
+  <div id="app">
+    <header>
+      <Breadcrumb />
+    </header>
+    <router-view />
+  </div>
+</template>
+
+<script>
+import Breadcrumb from "./components/Breadcrumb.vue";
+
+export default {
+  components: {
+    Breadcrumb,
+  },
+};
+</script>
+```
+
+### 4. 动态生成面包屑路径
+
+如果路由结构比较复杂，需要动态生成面包屑路径，可以在计算属性中递归遍历当前路由的父路由，生成面包屑数组。
+
+```javascript
+computed: {
+  breadcrumbs() {
+    const breadcrumbs = [];
+    let matched = this.$route.matched.concat();
+    matched.forEach(routeRecord => {
+      if (routeRecord.meta && routeRecord.meta.breadcrumb) {
+        breadcrumbs.push({
+          path: routeRecord.path,
+          meta: routeRecord.meta
+        });
+      }
+    });
+    return breadcrumbs;
+  }
+}
+```
+
+通过以上步骤，你可以在Vue项目中实现一个动态的面包屑导航组件，以便为用户提供清晰的导航路径。
+
+</details>
+
+## [还有其二](/posts/interview2)

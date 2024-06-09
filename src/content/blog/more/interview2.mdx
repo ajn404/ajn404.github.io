@@ -1,0 +1,431 @@
+---
+title: interview(2)
+pubDatetime: 2024-06-08T09:47:23Z
+postSlug: interview2
+featured: false
+draft: false
+detailButton: true
+tags:
+  - 八股
+  - interview
+  - 面经
+  - 面试准备
+  - chatgpt
+description: "前端面试(其二)"
+---
+
+<header>**面试（其二）--2023-10-19=>2024-06-07**</header>
+
+## 目录
+
+## [其一见此](/posts/interview1)
+
+## g-steps
+
+### position
+
+<details>
+<summary>Click to expand</summary>
+
+position 属性被指定为从下面的值列表中选择的单个关键字。
+
+取值
+
+- static
+
+该关键字指定元素使用正常的布局行为，即元素在文档常规流中当前的布局位置。此时 top, right, bottom, left 和 z-index 属性无效。
+
+- relative
+
+该关键字下，元素先放置在未添加定位时的位置，再在不改变页面布局的前提下调整元素位置（因此会在此元素未添加定位时所在位置留下空白）。position:relative 对 table-\*-group, table-row, table-column, table-cell, table-caption 元素无效。
+
+- absolute
+
+元素会被移出正常文档流，并不为元素预留空间，通过指定元素相对于最近的非 static 定位祖先元素的偏移，来确定元素位置。绝对定位的元素可以设置外边距（margins），且不会与其他边距合并。
+
+- fixed
+
+元素会被移出正常文档流，并不为元素预留空间，而是通过指定元素相对于屏幕视口（viewport）的位置来指定元素位置。元素的位置在屏幕滚动时不会改变。打印时，元素会出现在的每页的固定位置。fixed 属性会创建新的层叠上下文。当元素祖先的 transform、perspective、filter 或 backdrop-filter 属性非 none 时，容器由视口改为该祖先。
+
+- sticky
+
+元素根据正常文档流进行定位，然后相对它的最近滚动祖先（nearest scrolling ancestor）和 containing block（最近块级祖先 nearest block-level ancestor），包括 table-related 元素，基于 top、right、bottom 和 left 的值进行偏移。偏移值不会影响任何其他元素的位置。 该值总是创建一个新的层叠上下文（stacking context）。注意，一个 sticky 元素会“固定”在离它最近的一个拥有“滚动机制”的祖先上（当该祖先的 overflow 是 hidden、scroll、auto 或 overlay 时），即便这个祖先不是最近的真实可滚动祖先。这有效地抑制了任何“sticky”行为（详情见 Github issue on W3C CSSWG）。
+
+<footer class="relative text-right pr-10">
+  from
+  <cite class="absolute right-0">
+    <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/position">mdn</a>
+  </cite>
+</footer>
+
+</details>
+
+### 长列表/大数据渲染的优化方案
+
+<details>
+<summary>Click to expand</summary>
+在前端开发中，处理长列表或大数据渲染时，需要采取优化策略以提高性能和用户体验。以下是几种常见的优化方案：
+
+### 1. 虚拟滚动（Virtual Scrolling）
+
+虚拟滚动是一种只渲染可视区域内的列表项的方法，避免了浏览器处理过多的DOM元素。只有当前可见的元素和少量的预渲染元素存在于DOM中，其余的元素则是虚拟的，不会被渲染。
+
+- **实现**：通过计算可视区域和滚动位置，仅渲染可见的元素。可以使用一些库，如`react-window`、`react-virtualized`、`vue-virtual-scroll-list`等。
+
+### 2. 分页（Pagination）
+
+分页将数据分成多个页面，每次只加载一个页面的数据。用户可以通过分页控件来切换页面，避免一次性加载过多数据。
+
+- **实现**：通过后端接口获取分页数据，根据当前页码请求对应的数据并渲染。
+
+### 3. 懒加载（Lazy Loading）
+
+懒加载是指在用户滚动到列表的底部或即将到达底部时，才加载新的数据项。这种方法可以减少初始加载时间和内存消耗。
+
+- **实现**：监听滚动事件，当滚动到接近底部时，触发数据加载请求。
+
+### 4. 优化数据结构和算法
+
+处理大数据时，选择合适的数据结构和算法，可以显著提高性能。
+
+- **实现**：使用高效的数据结构（如树、图、哈希表）和算法（如二分查找、动态规划）。
+
+### 5. 使用Web Workers
+
+Web Workers允许你在后台线程中运行脚本，避免阻塞主线程，适用于数据处理或计算密集型任务。
+
+- **实现**：将计算密集型任务移到Web Worker中，主线程负责更新UI和处理用户交互。
+
+### 6. 使用Intersection Observer API
+
+Intersection Observer API可以用于实现懒加载，通过检测元素是否进入视口来触发加载。
+
+- **实现**：创建一个Intersection Observer，当列表项进入视口时，加载并渲染数据。
+
+### 示例代码：虚拟滚动实现
+
+以下是一个使用Vue.js实现虚拟滚动的示例：
+
+#### 1. 虚拟滚动组件
+
+```vue
+<template>
+  <div class="virtual-list" ref="list" @scroll="handleScroll">
+    <div class="spacer" :style="{ height: totalHeight + 'px' }"></div>
+    <div
+      v-for="(item, index) in visibleItems"
+      :key="item.id"
+      class="item"
+      :style="{
+        transform: `translateY(${(startIndex + index) * itemHeight}px)`,
+      }"
+    >
+      {{ item.name }}
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+    itemHeight: {
+      type: Number,
+      required: true,
+    },
+    visibleCount: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      startIndex: 0,
+    };
+  },
+  computed: {
+    totalHeight() {
+      return this.items.length * this.itemHeight;
+    },
+    visibleItems() {
+      return this.items.slice(
+        this.startIndex,
+        this.startIndex + this.visibleCount
+      );
+    },
+  },
+  methods: {
+    handleScroll() {
+      const scrollTop = this.$refs.list.scrollTop;
+      this.startIndex = Math.floor(scrollTop / this.itemHeight);
+    },
+  },
+};
+</script>
+
+<style>
+.virtual-list {
+  position: relative;
+  overflow-y: auto;
+  height: 400px; /* Example height */
+}
+.spacer {
+  width: 100%;
+}
+.item {
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+}
+</style>
+```
+
+#### 2. 使用虚拟滚动组件
+
+```vue
+<template>
+  <div>
+    <VirtualList :items="items" :itemHeight="50" :visibleCount="10" />
+  </div>
+</template>
+
+<script>
+import VirtualList from "./components/VirtualList.vue";
+
+export default {
+  components: {
+    VirtualList,
+  },
+  data() {
+    return {
+      items: Array.from({ length: 1000 }, (v, k) => ({
+        id: k,
+        name: `Item ${k}`,
+      })),
+    };
+  },
+};
+</script>
+```
+
+### 总结
+
+长列表和大数据渲染的优化方案有很多种，具体选择哪种方案要根据实际需求和场景。虚拟滚动、分页、懒加载、优化数据结构和算法、使用Web Workers和Intersection Observer API都是常见的优化方法。通过合理运用这些方法，可以显著提高前端应用的性能和用户体验。
+
+</details>
+
+### 垂直居中方案
+
+<details>
+<summary>Click to expand</summary>
+
+在前端开发中，垂直居中是一个常见的需求，根据不同的场景和要求，可以采用多种方法来实现。以下是几种常用的垂直居中方案：
+
+### 1. Flexbox
+
+使用Flexbox是实现垂直居中的最常用和最简便的方法之一。
+
+```html
+<div class="container">
+  <div class="content">Centered Content</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100vh; /* 示例高度 */
+    border: 1px solid black; /* 示例边框 */
+  }
+  .content {
+    border: 1px solid red; /* 示例内容边框 */
+  }
+</style>
+```
+
+### 2. Grid Layout
+
+使用CSS Grid布局也可以轻松实现垂直居中。
+
+```html
+<div class="container">
+  <div class="content">Centered Content</div>
+</div>
+
+<style>
+  .container {
+    display: grid;
+    place-items: center; /* 水平和垂直居中 */
+    height: 100vh; /* 示例高度 */
+    border: 1px solid black; /* 示例边框 */
+  }
+  .content {
+    border: 1px solid red; /* 示例内容边框 */
+  }
+</style>
+```
+
+### 3. 使用绝对定位和transform
+
+结合绝对定位和transform可以实现垂直居中。
+
+```html
+<div class="container">
+  <div class="content">Centered Content</div>
+</div>
+
+<style>
+  .container {
+    position: relative;
+    height: 100vh; /* 示例高度 */
+    border: 1px solid black; /* 示例边框 */
+  }
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid red; /* 示例内容边框 */
+  }
+</style>
+```
+
+### 4. Table布局
+
+使用表格布局的垂直居中方法适用于需要兼容旧版浏览器的情况。
+
+```html
+<div class="container">
+  <div class="content">Centered Content</div>
+</div>
+
+<style>
+  .container {
+    display: table;
+    height: 100vh; /* 示例高度 */
+    width: 100%; /* 示例宽度 */
+    border: 1px solid black; /* 示例边框 */
+  }
+  .content {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center; /* 水平居中 */
+    border: 1px solid red; /* 示例内容边框 */
+  }
+</style>
+```
+
+### 5. Line-Height方法（适用于单行文本）
+
+对于单行文本，可以通过设置`line-height`等于容器高度来实现垂直居中。
+
+```html
+<div class="container">
+  <div class="content">Centered Text</div>
+</div>
+
+<style>
+  .container {
+    height: 100px; /* 示例高度 */
+    line-height: 100px; /* 行高等于高度 */
+    text-align: center; /* 水平居中 */
+    border: 1px solid black; /* 示例边框 */
+  }
+  .content {
+    display: inline-block;
+    vertical-align: middle; /* 兼容内联元素 */
+    border: 1px solid red; /* 示例内容边框 */
+  }
+</style>
+```
+
+### 6. Flexbox with Column Direction
+
+当子元素高度不确定时，可以使用Flexbox的列方向布局来实现垂直居中。
+
+```html
+<div class="container">
+  <div class="content">Centered Content</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    height: 100vh; /* 示例高度 */
+    border: 1px solid black; /* 示例边框 */
+  }
+  .content {
+    border: 1px solid red; /* 示例内容边框 */
+  }
+</style>
+```
+
+### 总结
+
+以上几种方法可以根据不同的场景和需求选择使用。Flexbox和Grid是最推荐的方法，因为它们简单且强大，适用于大多数现代浏览器。对于需要兼容旧版浏览器的项目，可以选择使用表格布局或绝对定位的方法。通过合理运用这些方法，可以轻松实现元素的垂直居中。
+
+</details>
+
+#### 正则表达式
+
+<details>
+<summary>Click to expand</summary>
+
+在JavaScript中，使用正则表达式（Regular Expression）来匹配邮箱地址是一种常见需求。一个匹配邮箱的正则表达式需要能够处理各种常见的邮箱格式，并且考虑一些边缘情况。以下是一个较为常用和健壮的匹配邮箱地址的正则表达式：
+
+```javascript
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+// 测试一些邮箱地址
+const emails = [
+  "example@example.com",
+  "user.name+tag+sorting@example.com",
+  "user_name@example.co.in",
+  "user-name@sub.example.com",
+  "user@sub-domain.example.com",
+  "invalid-email@.com",
+  "@example.com",
+  "plainaddress",
+  "email.example.com",
+  "email@example@example.com",
+  "email@111.222.333.44444",
+];
+
+emails.forEach(email => {
+  console.log(`${email}: ${emailRegex.test(email)}`);
+});
+```
+
+### 解释正则表达式
+
+- `^`：匹配输入的开始位置。
+- `[a-zA-Z0-9._%+-]+`：匹配邮箱用户名部分，可以包含字母、数字、点（`.`）、下划线（`_`）、百分号（`%`）、加号（`+`）和减号（`-`）。这部分要求至少一个字符。
+- `@`：匹配邮箱地址中的`@`符号。
+- `[a-zA-Z0-9.-]+`：匹配域名部分，可以包含字母、数字、点（`.`）和减号（`-`）。这部分要求至少一个字符。
+- `\.`：匹配域名与顶级域之间的点（`.`）。
+- `[a-zA-Z]{2,}`：匹配顶级域名部分，要求至少两个字母。
+- `$`：匹配输入的结束位置。
+
+### 使用示例
+
+可以使用这个正则表达式来验证邮箱地址，如下：
+
+```javascript
+const email = "example@example.com";
+const isValid = emailRegex.test(email);
+console.log(`Is the email valid? ${isValid}`); // 输出: Is the email valid? true
+```
+
+### 注意事项
+
+- 这个正则表达式没有考虑所有可能的邮箱格式，因为邮箱地址规范非常复杂。如果需要更复杂的验证，可以使用一些库，比如`validator`库中的`isEmail`函数。
+- 不同的应用场景可能需要不同的验证规则，使用前请根据具体需求进行调整。
+
+</details>
