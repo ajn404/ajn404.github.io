@@ -36,7 +36,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
   <main id="main-content">
     <section id="hero">
-      <h1>今日方知我为我</h1>
+      <h1>
+        今日方知我为<a
+          class="inline-block skew-x-12 xing-cao text-skin-gray-light" target="_blank"
+          href="https://github.com/ajn404">我</a>
+      </h1>
       <a
         target="_blank"
         href=`rss.xml`
@@ -56,7 +60,19 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       <p>
         记录个人成长以及知识仓库<br />
         <span class="text-sm opacity-50"
-          >穿插个人的一些技术探索，奇奇🥸怪怪🧠，可可☄️爱爱☃️</span
+          >穿插个人的一些技术探索，奇奇<span
+            class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
+            >🥸</span
+          >怪怪<span
+            class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
+            >🧠</span
+          >，可可<span
+            class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
+            >☄️</span
+          >爱爱<span
+            class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
+            >☃️</span
+          ></span
         >
       </p>
 
