@@ -1352,35 +1352,35 @@ Ajax 和 Fetch 都是用于在 Web 应用程序中进行网络请求的技术，
    - **回答**：Canvas 是 HTML5 提供的一个用于绘制图形的元素。通过 JavaScript 可以在上面绘制各种图形，如线条、矩形、圆形、文本、图像等，常用于游戏开发、数据可视化、图像处理等。
 
 2. **如何在 HTML 中创建 Canvas 元素？**
-
    - **回答**：可以使用 `<canvas>` 标签创建 Canvas 元素，并设置宽度和高度。
    - **示例**：
-     ```html
-     <canvas id="myCanvas" width="500" height="400"></canvas>
-     ```
+
+```html
+<canvas id="myCanvas" width="500" height="400"></canvas>
+```
 
 3. **如何获取 Canvas 的绘图上下文？有什么类型的绘图上下文？**
    - **回答**：可以使用 `getContext` 方法获取绘图上下文，常用的上下文类型是 "2d" 和 "webgl"。
    - **示例**：
-     ```javascript
-     const canvas = document.getElementById("myCanvas");
-     const ctx = canvas.getContext("2d");
-     ```
+
+```javascript
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+```
 
 ### API 使用
 
 4. **如何绘制一个矩形？**
-
    - **回答**：可以使用 `fillRect` 方法绘制填充的矩形，或使用 `strokeRect` 方法绘制矩形边框。
    - **示例**：
 
-     ```javascript
-     ctx.fillStyle = "blue";
-     ctx.fillRect(50, 50, 150, 100);
+```javascript
+ctx.fillStyle = "blue";
+ctx.fillRect(50, 50, 150, 100);
 
-     ctx.strokeStyle = "red";
-     ctx.strokeRect(50, 50, 150, 100);
-     ```
+ctx.strokeStyle = "red";
+ctx.strokeRect(50, 50, 150, 100);
+```
 
 import RectDemo from "@components/astro/canvas/rect.astro";
 
@@ -1389,13 +1389,15 @@ import RectDemo from "@components/astro/canvas/rect.astro";
 5. **如何绘制一条直线？**
    - **回答**：可以使用 `moveTo` 方法设置起点，使用 `lineTo` 方法设置终点，然后用 `stroke` 方法绘制。
    - **示例**：
-     `javascript
-     ctx.beginPath();
-     ctx.moveTo(50, 50);
-     ctx.lineTo(200, 200);
-     ctx.stroke();
-     `
-     import LineDemo from "@components/astro/canvas/line.astro"
+
+```javascript
+ctx.beginPath();
+ctx.moveTo(50, 50);
+ctx.lineTo(200, 200);
+ctx.stroke();
+```
+
+import LineDemo from "@components/astro/canvas/line.astro";
 
 <LineDemo />
 6. **如何绘制圆形或弧形？** - **回答**：可以使用 `arc` 方法绘制圆形或弧形。 - **示例**：
@@ -1407,53 +1409,54 @@ import RectDemo from "@components/astro/canvas/rect.astro";
 `void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);`
 
 7. **如何绘制文本？**
-
    - **回答**：可以使用 `fillText` 或 `strokeText` 方法绘制填充或边框文本。
    - **示例**：
 
-     ```javascript
-     ctx.font = "30px Arial";
-     ctx.fillStyle = "green";
-     ctx.fillText("Hello Canvas", 50, 150);
+```javascript
+ctx.font = "30px Arial";
+ctx.fillStyle = "green";
+ctx.fillText("Hello Canvas", 50, 150);
 
-     ctx.strokeStyle = "blue";
-     ctx.strokeText("Hello Canvas", 50, 200);
-     ```
+ctx.strokeStyle = "blue";
+ctx.strokeText("Hello Canvas", 50, 200);
+```
 
 8. **如何绘制图像？**
    - **回答**：可以使用 `drawImage` 方法绘制图像。
    - **示例**：
-     ```javascript
-     const img = new Image();
-     img.src = "path/to/image.jpg";
-     img.onload = () => {
-       ctx.drawImage(img, 50, 50, 200, 150);
-     };
-     ```
+
+```javascript
+const img = new Image();
+img.src = "path/to/image.jpg";
+img.onload = () => {
+  ctx.drawImage(img, 50, 50, 200, 150);
+};
+```
 
 ### 实际应用
 
 9. **如何清空 Canvas？**
-
    - **回答**：可以使用 `clearRect` 方法清空 Canvas。
    - **示例**：
-     ```javascript
-     ctx.clearRect(0, 0, canvas.width, canvas.height);
-     ```
+
+```javascript
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+```
 
 10. **如何在 Canvas 中处理动画？**
     - **回答**：可以使用 `requestAnimationFrame` 方法创建动画循环。
     - **示例**：
-      ```javascript
-      let x = 0;
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillRect(x, 50, 50, 50);
-        x += 1;
-        requestAnimationFrame(animate);
-      }
-      animate();
-      ```
+
+```javascript
+let x = 0;
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(x, 50, 50, 50);
+  x += 1;
+  requestAnimationFrame(animate);
+}
+animate();
+```
 
 ### 性能优化
 
@@ -1468,41 +1471,40 @@ import RectDemo from "@components/astro/canvas/rect.astro";
 ### 示例项目
 
 13. **如何在 Canvas 上实现一个简单的绘图应用？**
-
     - **回答**：需要处理鼠标事件来绘制图形。
     - **示例**：
 
-      ```javascript
-      const canvas = document.getElementById("myCanvas");
-      const ctx = canvas.getContext("2d");
-      let drawing = false;
+```javascript
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+let drawing = false;
 
-      canvas.addEventListener("mousedown", () => {
-        drawing = true;
-      });
-      canvas.addEventListener("mouseup", () => {
-        drawing = false;
-        ctx.beginPath();
-      });
-      canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mousedown", () => {
+  drawing = true;
+});
+canvas.addEventListener("mouseup", () => {
+  drawing = false;
+  ctx.beginPath();
+});
+canvas.addEventListener("mousemove", draw);
 
-      function draw(event) {
-        if (!drawing) return;
-        ctx.lineWidth = 5;
-        ctx.lineCap = "round";
-        ctx.strokeStyle = "black";
-        ctx.lineTo(
-          event.clientX - canvas.offsetLeft,
-          event.clientY - canvas.offsetTop
-        );
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(
-          event.clientX - canvas.offsetLeft,
-          event.clientY - canvas.offsetTop
-        );
-      }
-      ```
+function draw(event) {
+  if (!drawing) return;
+  ctx.lineWidth = 5;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "black";
+  ctx.lineTo(
+    event.clientX - canvas.offsetLeft,
+    event.clientY - canvas.offsetTop
+  );
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(
+    event.clientX - canvas.offsetLeft,
+    event.clientY - canvas.offsetTop
+  );
+}
+```
 
 import DrawDemo from "@components/astro/canvas/draw.astro";
 
