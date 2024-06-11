@@ -1337,3 +1337,234 @@ Ajax 和 Fetch 都是用于在 Web 应用程序中进行网络请求的技术，
 箭头函数和普通函数之间有一些重要的区别，特别是在 this 关键字的绑定、arguments 对象的使用、作为构造函数的行为等方面。根据具体的需求和上下文，选择合适的函数形式是非常重要的。箭头函数适用于简单的函数表达式，以及在不需要动态绑定 this 的情况下；而普通函数适用于更复杂的函数逻辑，以及需要作为构造函数使用的情况。
 
 </details>
+
+## 关于图形图像开发需要掌握的知识
+
+<details>
+<summary>canvas相关的api,面试题</summary>
+
+在面试中，涉及 HTML5 Canvas 的问题可能会涵盖基础知识、API 的使用、实际应用场景以及性能优化等方面。以下是一些常见的面试问题以及相应的解答和示例代码：
+
+### 基础知识
+
+1. **什么是 Canvas？Canvas 的用途是什么？**
+
+   - **回答**：Canvas 是 HTML5 提供的一个用于绘制图形的元素。通过 JavaScript 可以在上面绘制各种图形，如线条、矩形、圆形、文本、图像等，常用于游戏开发、数据可视化、图像处理等。
+
+2. **如何在 HTML 中创建 Canvas 元素？**
+
+   - **回答**：可以使用 `<canvas>` 标签创建 Canvas 元素，并设置宽度和高度。
+   - **示例**：
+     ```html
+     <canvas id="myCanvas" width="500" height="400"></canvas>
+     ```
+
+3. **如何获取 Canvas 的绘图上下文？有什么类型的绘图上下文？**
+   - **回答**：可以使用 `getContext` 方法获取绘图上下文，常用的上下文类型是 "2d" 和 "webgl"。
+   - **示例**：
+     ```javascript
+     const canvas = document.getElementById("myCanvas");
+     const ctx = canvas.getContext("2d");
+     ```
+
+### API 使用
+
+4. **如何绘制一个矩形？**
+
+   - **回答**：可以使用 `fillRect` 方法绘制填充的矩形，或使用 `strokeRect` 方法绘制矩形边框。
+   - **示例**：
+
+     ```javascript
+     ctx.fillStyle = "blue";
+     ctx.fillRect(50, 50, 150, 100);
+
+     ctx.strokeStyle = "red";
+     ctx.strokeRect(50, 50, 150, 100);
+     ```
+
+import RectDemo from "@components/astro/canvas/rect.astro";
+
+<RectDemo />
+
+5. **如何绘制一条直线？**
+   - **回答**：可以使用 `moveTo` 方法设置起点，使用 `lineTo` 方法设置终点，然后用 `stroke` 方法绘制。
+   - **示例**：
+     `javascript
+     ctx.beginPath();
+     ctx.moveTo(50, 50);
+     ctx.lineTo(200, 200);
+     ctx.stroke();
+     `
+     import LineDemo from "@components/astro/canvas/line.astro"
+
+<LineDemo />
+6. **如何绘制圆形或弧形？** - **回答**：可以使用 `arc` 方法绘制圆形或弧形。 - **示例**：
+```javascript ctx.beginPath(); ctx.arc(150, 100, 50, 0, Math.PI * 2); // 圆形 ctx.fill();
+``` import ArcDemo from "@components/astro/canvas/arc.astro"
+
+<ArcDemo />
+
+`void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);`
+
+7. **如何绘制文本？**
+
+   - **回答**：可以使用 `fillText` 或 `strokeText` 方法绘制填充或边框文本。
+   - **示例**：
+
+     ```javascript
+     ctx.font = "30px Arial";
+     ctx.fillStyle = "green";
+     ctx.fillText("Hello Canvas", 50, 150);
+
+     ctx.strokeStyle = "blue";
+     ctx.strokeText("Hello Canvas", 50, 200);
+     ```
+
+8. **如何绘制图像？**
+   - **回答**：可以使用 `drawImage` 方法绘制图像。
+   - **示例**：
+     ```javascript
+     const img = new Image();
+     img.src = "path/to/image.jpg";
+     img.onload = () => {
+       ctx.drawImage(img, 50, 50, 200, 150);
+     };
+     ```
+
+### 实际应用
+
+9. **如何清空 Canvas？**
+
+   - **回答**：可以使用 `clearRect` 方法清空 Canvas。
+   - **示例**：
+     ```javascript
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+     ```
+
+10. **如何在 Canvas 中处理动画？**
+    - **回答**：可以使用 `requestAnimationFrame` 方法创建动画循环。
+    - **示例**：
+      ```javascript
+      let x = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(x, 50, 50, 50);
+        x += 1;
+        requestAnimationFrame(animate);
+      }
+      animate();
+      ```
+
+### 性能优化
+
+11. **Canvas 性能优化的一些方法是什么？**
+    - **回答**：可以使用离屏 Canvas、减少重绘区域、优化绘图算法、使用 `requestAnimationFrame` 进行动画控制等方法进行性能优化。
+
+### 高级问题
+
+12. **Canvas 与 SVG 的区别是什么？什么时候使用 Canvas，什么时候使用 SVG？**
+    - **回答**：Canvas 是立即模式绘图，适合大量像素操作和动画，SVG 是保留模式绘图，适合静态矢量图和可交互的图形。Canvas 用于游戏、图像处理等需要高性能绘制的场景，SVG 用于需要高质量和可缩放图形的场景。
+
+### 示例项目
+
+13. **如何在 Canvas 上实现一个简单的绘图应用？**
+
+    - **回答**：需要处理鼠标事件来绘制图形。
+    - **示例**：
+
+      ```javascript
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+
+      canvas.addEventListener("mousedown", () => {
+        drawing = true;
+      });
+      canvas.addEventListener("mouseup", () => {
+        drawing = false;
+        ctx.beginPath();
+      });
+      canvas.addEventListener("mousemove", draw);
+
+      function draw(event) {
+        if (!drawing) return;
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
+        ctx.lineTo(
+          event.clientX - canvas.offsetLeft,
+          event.clientY - canvas.offsetTop
+        );
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(
+          event.clientX - canvas.offsetLeft,
+          event.clientY - canvas.offsetTop
+        );
+      }
+      ```
+
+import DrawDemo from "@components/astro/canvas/draw.astro";
+
+<DrawDemo client:load />
+
+优化一下的astro组件
+
+```astro
+---
+
+---
+
+<canvas id="drawCanvas" class="bg-white m-auto"></canvas>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("drawCanvas") as HTMLCanvasElement;
+
+    canvas.width = window.innerWidth*3/4;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mousemove", draw);
+
+    function startDrawing(event) {
+      drawing = true;
+      draw(event); // 开始绘图时立即画一个点
+    }
+
+    function stopDrawing() {
+      drawing = false;
+      ctx.beginPath(); // 开始一个新的路径，以防止连接上一个绘图
+    }
+
+    function draw(event) {
+      if (!drawing) return;
+
+      // 获取 Canvas 元素的边界框
+      const rect = canvas.getBoundingClientRect();
+
+      // 计算相对于 Canvas 的坐标
+      const x = (event.clientX - rect.left) * (canvas.width / rect.width);
+      const y = (event.clientY - rect.top) * (canvas.height / rect.height);
+
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "black";
+      ctx.lineTo(x, y); // 画到新的点
+      ctx.stroke(); // 绘制路径
+      ctx.beginPath(); // 开始一个新的路径
+      ctx.moveTo(x, y); // 将路径移动到新的点
+    }
+  });
+</script>
+
+```
+
+通过这些问题和回答，你可以系统地复习和准备与 Canvas 相关的面试内容。
+
+</details>
+
+## 链接

@@ -1,0 +1,49 @@
+---
+
+---
+
+<canvas id="drawCanvas" class="bg-white m-auto"></canvas>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("drawCanvas") as HTMLCanvasElement;
+
+    canvas.width = window.innerWidth*3/4;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mousemove", draw);
+
+    function startDrawing(event) {
+      drawing = true;
+      draw(event); // 开始绘图时立即画一个点
+    }
+
+    function stopDrawing() {
+      drawing = false;
+      ctx.beginPath(); // 开始一个新的路径，以防止连接上一个绘图
+    }
+
+    function draw(event) {
+      if (!drawing) return;
+
+      // 获取 Canvas 元素的边界框
+      const rect = canvas.getBoundingClientRect();
+
+      // 计算相对于 Canvas 的坐标
+      const x = (event.clientX - rect.left) * (canvas.width / rect.width);
+      const y = (event.clientY - rect.top) * (canvas.height / rect.height);
+
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "black";
+      ctx.lineTo(x, y); // 画到新的点
+      ctx.stroke(); // 绘制路径
+      ctx.beginPath(); // 开始一个新的路径
+      ctx.moveTo(x, y); // 将路径移动到新的点
+    }
+  });
+</script>

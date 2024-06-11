@@ -1,0 +1,16 @@
+---
+
+---
+
+<canvas id="arcCanvas"></canvas>
+
+<script>
+  addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("arcCanvas") as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d");
+
+    ctx.beginPath();
+    ctx.arc(150, 100, 50, 0, Math.PI * 2); // 圆形
+    ctx.fill();
+  });
+</script>

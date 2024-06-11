@@ -1,0 +1,17 @@
+---
+
+---
+
+<canvas id="lineCanvas"></canvas>
+
+<script>
+  addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("lineCanvas") as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d");
+
+    ctx.beginPath();
+    ctx.moveTo(50, 50);
+    ctx.lineTo(200, 200);
+    ctx.stroke();
+  });
+</script>

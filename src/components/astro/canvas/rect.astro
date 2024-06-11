@@ -1,0 +1,18 @@
+---
+
+---
+
+<canvas id="rectCanvas"></canvas>
+
+<script>
+  addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("rectCanvas") as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "skyBlue";
+    ctx.fillRect(50, 50, 150, 100);
+
+    ctx.strokeStyle = "rgba(99,22,33)";
+    ctx.strokeRect(50, 50, 150, 100);
+  });
+</script>
