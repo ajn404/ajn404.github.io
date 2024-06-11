@@ -1390,13 +1390,12 @@ import RectDemo from "@components/astro/canvas/rect.astro";
    - **回答**：可以使用 `moveTo` 方法设置起点，使用 `lineTo` 方法设置终点，然后用 `stroke` 方法绘制。
    - **示例**：
      `javascript
-ctx.beginPath();
-ctx.moveTo(50, 50);
-ctx.lineTo(200, 200);
-ctx.stroke();
-`
-
-import LineDemo from "@components/astro/canvas/line.astro";
+     ctx.beginPath();
+     ctx.moveTo(50, 50);
+     ctx.lineTo(200, 200);
+     ctx.stroke();
+     `
+     import LineDemo from "@components/astro/canvas/line.astro"
 
 <LineDemo />
 6. **如何绘制圆形或弧形？** - **回答**：可以使用 `arc` 方法绘制圆形或弧形。 - **示例**：
@@ -1507,7 +1506,7 @@ import LineDemo from "@components/astro/canvas/line.astro";
 
 import DrawDemo from "@components/astro/canvas/draw.astro";
 
-<DrawDemo />
+<DrawDemo client:load />
 
 优化一下的astro组件
 
