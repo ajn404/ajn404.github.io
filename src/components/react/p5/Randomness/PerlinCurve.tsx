@@ -4,7 +4,7 @@ import Basic from "@components/react/p5/index.tsx";
 export default () => {
   const sketchPerlin = (p: p5) => {
     const setup = () => {
-      p.createCanvas(p.windowWidth / 4, 240);
+      p.createCanvas(p.windowWidth / 3, 240);
     };
     let time = 0;
     const draw = () => {
@@ -34,7 +34,7 @@ export default () => {
     let list;
     let len = 0;
     const setup = () => {
-      p.createCanvas(p.windowWidth / 4, 240);
+      p.createCanvas(p.windowWidth / 3, 240);
     };
     const draw = () => {
       len = len || Math.floor(p.width);
@@ -53,7 +53,7 @@ export default () => {
 
   return (
     <>
-      <div className="flex justify-around gap-4">
+      <div className="flex flex-wrap justify-around gap-4">
         <Basic sketch={sketchPerlin} showControls></Basic>
         <Basic sketch={sketchRandom} showControls></Basic>
       </div>
