@@ -1400,15 +1400,21 @@ ctx.stroke();
 import LineDemo from "@components/astro/canvas/line.astro";
 
 <LineDemo />
+
 6. **如何绘制圆形或弧形？** - **回答**：可以使用 `arc` 方法绘制圆形或弧形。 - **示例**：
-```javascript ctx.beginPath(); ctx.arc(150, 100, 50, 0, Math.PI * 2); // 圆形 ctx.fill();
-``` import ArcDemo from "@components/astro/canvas/arc.astro"
+
+```javascript
+ctx.beginPath();
+ctx.arc(150, 100, 50, 0, Math.PI * 2); // 圆形 ctx.fill();
+```
+
+import ArcDemo from "@components/astro/canvas/arc.astro";
 
 <ArcDemo />
 
 `void ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);`
 
-7. **如何绘制文本？**
+1. **如何绘制文本？**
    - **回答**：可以使用 `fillText` 或 `strokeText` 方法绘制填充或边框文本。
    - **示例**：
 
