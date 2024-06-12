@@ -14,7 +14,7 @@ tags:
 description: "前端面试(其二)"
 ---
 
-<header>**面试（其二）--2023-10-19=>2024-06-07**</header>
+<header>**面试（其二）--2023-06-08=>...**</header>
 
 ## 目录
 
@@ -1574,5 +1574,644 @@ import DrawDemo from "@components/astro/canvas/draw.astro";
 通过这些问题和回答，你可以系统地复习和准备与 Canvas 相关的面试内容。
 
 </details>
+
+## ultipa
+
+<details>
+<summary>简述</summary>
+
+笔试，图的遍历，wasm,promise等原理,重写array.prototype.foreach,最高效方案解决数组交集，对象扁平化，gpu工作原理<br/>
+面试，原型链/事件循环/深浅拷贝/获取数据类型
+
+</details>
+
+<details>
+<summary>gpu原理</summary>
+
+图形处理器（GPU，Graphics Processing Unit）是一种专门用于处理图形计算任务的处理器。与中央处理器（CPU）相比，GPU具有更多的并行处理能力，能够更高效地处理大量数据和复杂计算。GPU的工作原理涉及以下几个关键概念：
+
+### 1. 并行计算架构
+
+GPU设计的核心理念是并行计算。传统的CPU有少量的高性能核心，专注于串行计算任务，而GPU拥有数百甚至数千个较小的处理核心，能够同时处理大量的并行任务。这使得GPU非常适合用于图形渲染、科学计算和机器学习等需要大量并行计算的领域。
+
+### 2. 流处理器（Streaming Processors）
+
+GPU中的基本计算单元是流处理器（也称为着色器核心）。每个流处理器可以独立地执行指令集合，但通常这些处理器被组织成块，称为“线程块”或“工作组”，这些块内的处理器可以共享数据和同步。
+
+### 3. 硬件线程
+
+GPU的另一个重要特性是其硬件线程支持。每个处理核心能够管理多个硬件线程，当一个线程在等待数据时，核心可以切换到另一个线程继续工作，从而有效地隐藏内存访问延迟。这种特性使得GPU在处理需要大量内存访问的任务时效率更高。
+
+### 4. 内存架构
+
+GPU通常有多个层次的内存，包括寄存器、共享内存、全局内存和常量内存等。共享内存和寄存器具有较低的访问延迟，适合频繁访问的数据，而全局内存则提供大容量存储，适合存放需要大量访问的数据。GPU的内存架构设计也是为了优化并行计算性能。
+
+### 5. 图形渲染管线
+
+在图形处理方面，GPU使用了图形渲染管线的概念。图形渲染管线包括多个阶段，如顶点着色、曲面细分、几何着色、光栅化、片段着色和后处理等。每个阶段负责特定的图形处理任务，这些任务可以在多个处理器上并行执行，从而提高渲染效率。
+
+### 6. 编程模型
+
+为了充分利用GPU的并行计算能力，需要使用专门的编程模型和API，如CUDA（Compute Unified Device Architecture）和OpenCL（Open Computing Language）。这些工具允许开发者编写能够在GPU上高效运行的并行代码。
+
+### 总结
+
+GPU通过其高度并行的架构、硬件线程支持、多层次的内存架构以及专门的编程模型，能够高效地处理大量并行计算任务。这使得GPU在图形渲染、科学计算和机器学习等领域具有显著的优势。
+
+</details>
+
+<details>
+<summary>js实现图的遍历，从任意某个节点出发</summary>
+
+在JavaScript中，实现图的遍历有两种常见的方法：深度优先搜索（DFS）和广度优先搜索（BFS）。下面分别展示这两种方法的实现。
+
+### 深度优先搜索（DFS）
+
+深度优先搜索从起始节点开始，沿着路径一直走到底部（没有未访问的邻居），然后回溯，寻找下一条路径。
+
+以下是DFS的实现代码：
+
+```javascript
+class Graph {
+  constructor() {
+    this.adjacencyList = new Map();
+  }
+
+  addVertex(vertex) {
+    if (!this.adjacencyList.has(vertex)) {
+      this.adjacencyList.set(vertex, []);
+    }
+  }
+
+  addEdge(vertex1, vertex2) {
+    if (this.adjacencyList.has(vertex1) && this.adjacencyList.has(vertex2)) {
+      this.adjacencyList.get(vertex1).push(vertex2);
+      this.adjacencyList.get(vertex2).push(vertex1); // For undirected graph
+    }
+  }
+
+  dfs(start) {
+    const visited = new Set();
+    this.dfsRecursive(start, visited);
+  }
+
+  dfsRecursive(vertex, visited) {
+    if (!vertex) return;
+    visited.add(vertex);
+    console.log(vertex);
+    const neighbors = this.adjacencyList.get(vertex);
+    for (let neighbor of neighbors) {
+      if (!visited.has(neighbor)) {
+        this.dfsRecursive(neighbor, visited);
+      }
+    }
+  }
+}
+
+// 示例
+const graph = new Graph();
+graph.addVertex("A");
+graph.addVertex("B");
+graph.addVertex("C");
+graph.addVertex("D");
+graph.addVertex("E");
+graph.addEdge("A", "B");
+graph.addEdge("A", "C");
+graph.addEdge("B", "D");
+graph.addEdge("C", "E");
+graph.addEdge("D", "E");
+
+console.log("DFS Traversal:");
+graph.dfs("A");
+```
+
+### 广度优先搜索（BFS）
+
+广度优先搜索从起始节点开始，首先访问所有直接邻居，然后依次访问每个邻居的邻居。
+
+以下是BFS的实现代码：
+
+```javascript
+class Graph {
+  constructor() {
+    this.adjacencyList = new Map();
+  }
+
+  addVertex(vertex) {
+    if (!this.adjacencyList.has(vertex)) {
+      this.adjacencyList.set(vertex, []);
+    }
+  }
+
+  addEdge(vertex1, vertex2) {
+    if (this.adjacencyList.has(vertex1) && this.adjacencyList.has(vertex2)) {
+      this.adjacencyList.get(vertex1).push(vertex2);
+      this.adjacencyList.get(vertex2).push(vertex1); // For undirected graph
+    }
+  }
+
+  bfs(start) {
+    const visited = new Set();
+    const queue = [start];
+    visited.add(start);
+
+    while (queue.length > 0) {
+      const vertex = queue.shift();
+      console.log(vertex);
+      const neighbors = this.adjacencyList.get(vertex);
+      for (let neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      }
+    }
+  }
+}
+
+// 示例
+const graph = new Graph();
+graph.addVertex("A");
+graph.addVertex("B");
+graph.addVertex("C");
+graph.addVertex("D");
+graph.addVertex("E");
+graph.addEdge("A", "B");
+graph.addEdge("A", "C");
+graph.addEdge("B", "D");
+graph.addEdge("C", "E");
+graph.addEdge("D", "E");
+
+console.log("BFS Traversal:");
+graph.bfs("A");
+```
+
+### 总结
+
+以上代码展示了如何在JavaScript中实现图的遍历，包括深度优先搜索（DFS）和广度优先搜索（BFS）。DFS通过递归访问每个节点的邻居，直到没有未访问的邻居为止；BFS通过队列依次访问每个节点及其所有邻居。你可以根据需要选择合适的方法来遍历图结构。
+
+</details>
+
+<details>
+<summary>wasm原理</summary>
+
+WebAssembly（Wasm）是一种二进制指令格式，旨在作为可移植、性能高效的目标代码，用于浏览器和其他环境。它的设计初衷是为了在网页上运行性能接近原生的应用程序，同时具有跨平台和安全性的特性。以下是WebAssembly的基本原理和关键特性：
+
+### 1. 编译目标
+
+WebAssembly并不是一种编程语言，而是一种可以被多种高级语言编译成的目标格式。例如，C、C++、Rust等语言可以通过编译器（如Emscripten、Rust编译器等）编译成Wasm代码。这些编译器将高级语言代码转换成WebAssembly的二进制格式。
+
+### 2. 二进制格式
+
+WebAssembly使用紧凑的二进制格式，这种格式不仅可以提高加载速度和解析速度，还可以减少网络传输时间。与传统的JavaScript代码相比，二进制格式的WebAssembly文件通常更小、更高效。
+
+### 3. 线性内存
+
+WebAssembly使用线性内存模型，这是一块连续的内存块，可以通过指针进行访问。WebAssembly模块可以在初始化时请求一定量的内存，并可以在运行时动态增长。这种内存模型使得WebAssembly非常适合用于需要高性能和高效内存管理的应用程序。
+
+### 4. 栈机器架构
+
+WebAssembly采用了栈机器架构，这意味着指令大多在栈上操作。操作数被压入栈中，指令执行时从栈中弹出操作数并将结果压回栈中。栈机器架构的优势在于其实现简单，易于生成代码，并且能有效利用现代CPU的性能特性。
+
+### 5. 模块化设计
+
+WebAssembly模块是WebAssembly代码的基本单位。一个模块可以包含多个函数、全局变量、内存和表。模块之间可以相互调用，并通过导入和导出进行交互。这种模块化设计使得WebAssembly可以方便地进行代码重用和分离。
+
+### 6. 安全性
+
+WebAssembly通过沙箱执行环境提供高安全性。每个WebAssembly模块在一个独立的执行环境中运行，无法直接访问宿主环境的资源。这种设计防止了恶意代码对宿主系统的破坏，确保了运行时的安全性。
+
+### 7. 与JavaScript的互操作性
+
+WebAssembly与JavaScript紧密集成，可以相互调用。JavaScript代码可以通过WebAssembly的JavaScript API加载和执行WebAssembly模块，而WebAssembly模块也可以调用JavaScript函数。这种互操作性使得WebAssembly可以与现有的JavaScript应用无缝集成。
+
+### 工作原理示例
+
+1. **编译代码**：将C/C++/Rust等代码编译为WebAssembly模块（`.wasm`文件）。
+2. **加载和实例化**：在浏览器中使用JavaScript API加载并实例化WebAssembly模块。
+3. **调用函数**：通过JavaScript调用WebAssembly模块中的函数，或者让WebAssembly模块调用JavaScript函数。
+
+```javascript
+// JavaScript代码加载和使用WebAssembly模块
+fetch("example.wasm")
+  .then(response => response.arrayBuffer())
+  .then(bytes => WebAssembly.instantiate(bytes))
+  .then(results => {
+    const instance = results.instance;
+    // 调用WebAssembly模块中的函数
+    instance.exports.myFunction();
+  });
+```
+
+### 总结
+
+WebAssembly是一种高效的二进制格式，旨在提供接近原生性能的网页应用程序。它通过编译目标、多语言支持、紧凑的二进制格式、线性内存模型、栈机器架构、模块化设计、安全性以及与JavaScript的互操作性，为开发者提供了一种强大的工具，用于在浏览器和其他环境中运行高性能的应用程序。
+
+</details>
+
+<details>
+<summary>重写Array.prototype.forEach</summary>
+
+重写 `Array.prototype.forEach` 方法的核心思路是保存原来的 `forEach` 方法，然后定义一个新的方法来实现我们想要的功能。新的方法应该遵循原始 `forEach` 方法的规范，同时添加我们自己的逻辑。
+
+下面是用原生 JavaScript 重写 `Array.prototype.forEach` 的具体步骤：
+
+1. 保存原始的 `Array.prototype.forEach` 方法。
+2. 定义新的 `forEach` 方法，添加自定义逻辑，同时调用原始方法来确保原有功能不丢失。
+
+以下是实现代码：
+
+```javascript
+// 保存原始的 Array.prototype.forEach 方法
+const originalForEach = Array.prototype.forEach;
+
+// 重写 Array.prototype.forEach 方法
+Array.prototype.forEach = function (callback, thisArg) {
+  // 检查 callback 是否为函数
+  if (typeof callback !== "function") {
+    throw new TypeError(callback + " is not a function");
+  }
+
+  // 获取数组长度
+  const length = this.length;
+
+  // 自定义逻辑：打印数组长度
+  console.log("Array length:", length);
+
+  // 使用 for 循环实现遍历
+  for (let i = 0; i < length; i++) {
+    // 检查数组是否包含当前索引
+    if (i in this) {
+      const element = this[i];
+
+      // 自定义逻辑：打印索引和元素
+      console.log("Index:", i, "Element:", element);
+
+      // 调用用户提供的回调函数
+      callback.call(thisArg, element, i, this);
+    }
+  }
+
+  // 自定义逻辑：打印遍历结束
+  console.log("Traversal complete.");
+};
+
+// 测试新定义的 forEach 方法
+const arr = [1, 2, 3, 4, 5];
+arr.forEach(function (element, index, array) {
+  console.log("Callback:", element);
+});
+```
+
+### 代码解释
+
+1. **保存原始方法**：
+
+   ```javascript
+   const originalForEach = Array.prototype.forEach;
+   ```
+
+   这一步保存了原始的 `forEach` 方法，以防止丢失其原有功能。
+
+2. **重写 `forEach` 方法**：
+
+   ```javascript
+   Array.prototype.forEach = function (callback, thisArg) {
+     // 检查 callback 是否为函数
+     if (typeof callback !== "function") {
+       throw new TypeError(callback + " is not a function");
+     }
+
+     // 获取数组长度
+     const length = this.length;
+
+     // 自定义逻辑：打印数组长度
+     console.log("Array length:", length);
+
+     // 使用 for 循环实现遍历
+     for (let i = 0; i < length; i++) {
+       // 检查数组是否包含当前索引
+       if (i in this) {
+         const element = this[i];
+
+         // 自定义逻辑：打印索引和元素
+         console.log("Index:", i, "Element:", element);
+
+         // 调用用户提供的回调函数
+         callback.call(thisArg, element, i, this);
+       }
+     }
+
+     // 自定义逻辑：打印遍历结束
+     console.log("Traversal complete.");
+   };
+   ```
+
+3. **测试新的 `forEach` 方法**：
+   ```javascript
+   const arr = [1, 2, 3, 4, 5];
+   arr.forEach(function (element, index, array) {
+     console.log("Callback:", element);
+   });
+   ```
+   这段代码演示了如何使用新的 `forEach` 方法遍历数组，并打印出自定义信息和回调函数中的元素。
+
+### 注意事项
+
+- **类型检查**：新的 `forEach` 方法中添加了对 `callback` 是否为函数的检查，以确保调用时不会出现类型错误。
+- **索引检查**：在遍历过程中检查索引是否在数组中（`if (i in this)`），以处理稀疏数组的情况。
+- **性能影响**：重写 `Array.prototype.forEach` 会影响所有数组的遍历行为，因此要谨慎使用，特别是在性能敏感的代码中。
+- **兼容性问题**：如果多个库或代码片段都尝试重写 `forEach`，可能会导致冲突和不可预期的行为。
+
+通过上述步骤，你可以在确保不破坏原始功能的前提下，重写 `Array.prototype.forEach` 方法，并添加自定义逻辑。
+
+</details>
+
+<details>
+<summary>Click to expand</summary>
+
+要高效地解决两个数组的交集问题，最常见的方法是利用集合（Set）的特性。集合可以高效地进行查找操作，从而使交集运算变得更快。以下是详细步骤：
+
+1. 将一个数组转换为集合（Set），以利用集合的高效查找特性。
+2. 遍历另一个数组，检查元素是否在集合中。
+
+这种方法的时间复杂度接近 O(n + m)，其中 n 和 m 分别是两个数组的长度。
+
+### 示例代码
+
+以下是用 JavaScript 实现的高效求两个数组交集的方法：
+
+```javascript
+function intersection(arr1, arr2) {
+  // 将较小的数组转换为集合
+  const set1 = new Set(arr1);
+  const result = [];
+
+  // 遍历较大的数组，检查元素是否在集合中
+  for (let item of arr2) {
+    if (set1.has(item)) {
+      result.push(item);
+      // 移除已找到的元素，避免重复结果
+      set1.delete(item);
+    }
+  }
+
+  return result;
+}
+
+// 示例
+const array1 = [1, 2, 2, 3, 4, 5];
+const array2 = [2, 2, 3, 5, 6];
+const result = intersection(array1, array2);
+console.log(result); // 输出: [2, 3, 5]
+```
+
+### 代码解释
+
+1. **转换为集合**：
+
+   ```javascript
+   const set1 = new Set(arr1);
+   ```
+
+   这一步将第一个数组转换为集合，以利用集合的高效查找特性。
+
+2. **遍历和查找**：
+   ```javascript
+   for (let item of arr2) {
+     if (set1.has(item)) {
+       result.push(item);
+       set1.delete(item); // 移除已找到的元素，避免重复结果
+     }
+   }
+   ```
+   这一步遍历第二个数组，并检查元素是否在第一个数组转换的集合中。如果在集合中，则将该元素添加到结果数组中，并从集合中删除该元素以避免重复结果。
+
+### 优化
+
+为了进一步优化，可以在转换数组为集合之前，先比较两个数组的长度，将较小的数组转换为集合。这可以减少集合的构建和查找操作的时间。
+
+```javascript
+function intersection(arr1, arr2) {
+  // 将较小的数组转换为集合
+  if (arr1.length > arr2.length) {
+    [arr1, arr2] = [arr2, arr1];
+  }
+
+  const set1 = new Set(arr1);
+  const result = [];
+
+  // 遍历较大的数组，检查元素是否在集合中
+  for (let item of arr2) {
+    if (set1.has(item)) {
+      result.push(item);
+      set1.delete(item); // 移除已找到的元素，避免重复结果
+    }
+  }
+
+  return result;
+}
+
+// 示例
+const array1 = [1, 2, 2, 3, 4, 5];
+const array2 = [2, 2, 3, 5, 6];
+const result = intersection(array1, array2);
+console.log(result); // 输出: [2, 3, 5]
+```
+
+这种优化确保了在处理数组交集时，始终将较小的数组转换为集合，从而减少了不必要的查找操作，提高了整体效率。
+
+### 结论
+
+利用集合来高效求解两个数组的交集是一个常见且高效的方案。它利用了集合的高效查找特性，使得交集运算的时间复杂度接近 O(n + m)，是处理这种问题的最佳实践之一。
+
+</details>
+
+<details>
+<summary>对象扁平化，且合并相同项</summary>
+
+要实现对象的扁平化并合并相同项，可以采用递归的方式来处理。首先，需要遍历对象的每个属性，将嵌套的属性展开为一级属性，并将具有相同键的属性值合并为一个数组。以下是一个实现对象扁平化并合并相同项的 JavaScript 函数：
+
+```javascript
+function flattenAndMerge(obj) {
+  const result = {};
+
+  function flatten(obj, prefix = "") {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const newKey = prefix ? `${prefix}.${key}` : key;
+        if (typeof obj[key] === "object" && obj[key] !== null) {
+          flatten(obj[key], newKey);
+        } else {
+          if (result[newKey]) {
+            result[newKey].push(obj[key]);
+          } else {
+            result[newKey] = [obj[key]];
+          }
+        }
+      }
+    }
+  }
+
+  flatten(obj);
+
+  // 将合并的数组拼接为单个值
+  for (let key in result) {
+    if (result[key].length === 1) {
+      result[key] = result[key][0];
+    }
+  }
+
+  return result;
+}
+
+// 示例
+const obj = {
+  a: {
+    b: 1,
+    c: {
+      d: 2,
+      e: 3,
+    },
+  },
+  f: {
+    g: 4,
+    h: {
+      i: 5,
+    },
+  },
+  j: 6,
+};
+
+const flattened = flattenAndMerge(obj);
+console.log(flattened);
+```
+
+### 函数解释
+
+1. `flattenAndMerge` 函数接受一个嵌套对象作为参数，并返回扁平化并合并相同项后的结果。
+2. `flatten` 函数是一个递归函数，用于遍历对象并将其扁平化。它接受两个参数：要扁平化的对象和当前属性的前缀。
+3. 在 `flatten` 函数中，使用 `for...in` 循环遍历对象的每个属性。
+4. 如果属性值是一个对象，则递归调用 `flatten` 函数。
+5. 如果属性值是一个基本类型，则将其添加到结果对象中，如果已经存在相同键的属性，则将其值合并为数组。
+6. 最后，将合并的数组拼接为单个值。
+
+### 示例结果
+
+对于给定的示例对象：
+
+```javascript
+const obj = {
+  a: {
+    b: 1,
+    c: {
+      d: 2,
+      e: 3,
+    },
+  },
+  f: {
+    g: 4,
+    h: {
+      i: 5,
+    },
+  },
+  j: 6,
+};
+```
+
+函数的输出结果为：
+
+```javascript
+{
+    "a.b": 1,
+    "a.c.d": 2,
+    "a.c.e": 3,
+    "f.g": 4,
+    "f.h.i": 5,
+    "j": 6
+}
+```
+
+其中，属性已经被扁平化，并且具有相同键的属性值被合并为数组。
+
+</details>
+
+<details>
+<summary>js事件循环机制</summary>
+
+JavaScript 的事件循环（Event Loop）是一种实现并发的机制，用于处理异步操作。它是 JavaScript 运行时环境（如浏览器或 Node.js）提供的一种机制，用于协调执行代码和处理事件的顺序。事件循环机制主要包括以下几个部分：
+
+### 1. 调用栈（Call Stack）
+
+调用栈是一个存储函数调用的栈结构，用于跟踪程序的执行状态。当调用函数时，会将该函数推入调用栈中，当函数执行完成后，会将其从调用栈中弹出。调用栈是 JavaScript 单线程执行代码的基础。
+
+### 2. 任务队列（Task Queue）
+
+任务队列是一个先进先出（FIFO）的队列，用于存储待执行的任务。在浏览器环境中，任务队列通常分为宏任务队列（macrotask queue）和微任务队列（microtask queue）两种类型。
+
+- **宏任务队列（macrotask queue）**：包含一些宏观任务，例如 setTimeout、setInterval、I/O 操作等。
+- **微任务队列（microtask queue）**：包含一些微观任务，例如 Promise 的回调、MutationObserver 等。
+
+### 3. 事件循环（Event Loop）
+
+事件循环是一个持续运行的循环，负责从任务队列中取出任务并执行。它的工作原理如下：
+
+1. 从宏任务队列中取出一个任务，将其推入调用栈中执行，直到调用栈为空。
+2. 当调用栈为空时，事件循环会检查微任务队列是否为空，如果不为空，则依次取出微任务执行，直到微任务队列为空。
+3. 如果宏任务队列和微任务队列都为空，则事件循环会等待新的任务被添加到任务队列中，然后继续执行。
+
+### 示例
+
+下面是一个简单的示例，演示了 JavaScript 中的事件循环机制：
+
+```javascript
+console.log("Script Start");
+
+setTimeout(function () {
+  console.log("setTimeout");
+}, 0);
+
+Promise.resolve().then(function () {
+  console.log("Promise");
+});
+
+console.log("Script End");
+```
+
+上述示例中，首先会打印出 `"Script Start"`，然后执行 `setTimeout` 和 `Promise`，最后打印出 `"Script End"`。具体执行顺序如下：
+
+1. 执行同步代码，打印 `"Script Start"` 和 `"Script End"`。
+2. 将 `setTimeout` 的回调函数推入宏任务队列。
+3. 将 Promise 的回调函数推入微任务队列。
+4. 执行微任务队列中的所有任务，打印 `"Promise"`。
+5. 事件循环检查宏任务队列中是否有任务，发现有任务，取出 `setTimeout` 的回调函数执行，打印 `"setTimeout"`。
+
+### 总结
+
+JavaScript 的事件循环机制是一种实现并发的机制，用于协调执行代码和处理事件的顺序。它由调用栈、任务队列和事件循环组成，通过不断地从任务队列中取出任务并执行，来实现 JavaScript 的异步编程。理解事件循环机制对于编写高效的异步代码非常重要。
+
+</details>
+
+## 美图
+
+感觉像来刷业绩的...
+
+### 自我介绍
+
+### react组件通信方式
+
+### react useEffect 以及第二个参数的问题
+
+### 函数组件和类式组件
+
+### vue2与vue3
+
+### ts有什么好处
+
+### es6
+
+### js数组不改变原数组的方法
+
+### 项目开发选型
 
 ## 链接
