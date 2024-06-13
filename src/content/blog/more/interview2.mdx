@@ -2214,4 +2214,626 @@ JavaScript 的事件循环机制是一种实现并发的机制，用于协调执
 
 ### 项目开发选型
 
+## 混沌学\*
+
+### 函数判断字符串是否包含回文子串
+
+<details>
+<summary>Click to expand</summary>
+
+要判断一个字符串是否包含回文子串，可以使用几种不同的方法。下面介绍两种常见的方法：暴力搜索和中心扩展。
+
+### 方法一：暴力搜索
+
+这种方法遍历字符串的所有子串，并检查这些子串是否是回文。尽管这种方法在性能上不是最优的，但它实现起来非常简单。
+
+```javascript
+function hasPalindromeSubstring(s) {
+  // Helper function to check if a given string is a palindrome
+  function isPalindrome(str) {
+    const len = str.length;
+    for (let i = 0; i < len / 2; i++) {
+      if (str[i] !== str[len - 1 - i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const n = s.length;
+  // Iterate through all possible substrings
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j <= n; j++) {
+      const substring = s.slice(i, j);
+      if (isPalindrome(substring) && substring.length > 1) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+// Example usage:
+console.log(hasPalindromeSubstring("racecar")); // true
+console.log(hasPalindromeSubstring("abcdefg")); // false
+console.log(hasPalindromeSubstring("abba")); // true
+console.log(hasPalindromeSubstring("a")); // false
+console.log(hasPalindromeSubstring("abcba")); // true
+```
+
+### 方法二：中心扩展算法
+
+这种方法利用中心扩展来查找所有可能的回文子串。对于每个字符，尝试将其作为中心向外扩展，以找到回文子串。
+
+```javascript
+function hasPalindromeSubstring(s) {
+  if (!s || s.length < 2) return false;
+
+  // Helper function to expand around the center and check for palindrome
+  function isPalindromeAroundCenter(left, right) {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      if (right - left + 1 > 1) {
+        return true;
+      }
+      left--;
+      right++;
+    }
+    return false;
+  }
+
+  for (let i = 0; i < s.length; i++) {
+    // Check for odd length palindromes (single character center)
+    if (isPalindromeAroundCenter(i, i)) {
+      return true;
+    }
+    // Check for even length palindromes (two character center)
+    if (isPalindromeAroundCenter(i, i + 1)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// Example usage:
+console.log(hasPalindromeSubstring("racecar")); // true
+console.log(hasPalindromeSubstring("abcdefg")); // false
+console.log(hasPalindromeSubstring("abba")); // true
+console.log(hasPalindromeSubstring("a")); // false
+console.log(hasPalindromeSubstring("abcba")); // true
+```
+
+### 解释
+
+1. **暴力搜索方法**:
+
+   - `isPalindrome` 辅助函数检查一个字符串是否为回文。
+   - 双重循环遍历所有子串，使用 `isPalindrome` 检查是否为回文。
+   - 如果找到一个长度大于 1 的回文子串，返回 `true`。
+
+2. **中心扩展方法**:
+   - `isPalindromeAroundCenter` 辅助函数通过扩展中心点检查是否有回文子串。
+   - 主循环遍历字符串中的每个字符，检查以当前字符为中心（奇数长度回文）或当前字符与下一个字符为中心（偶数长度回文）的回文子串。
+   - 如果找到一个回文子串，返回 `true`。
+
+这两种方法都能有效地检查字符串中是否包含回文子串。选择哪种方法取决于具体需求和性能考虑。
+
+</details>
+
+### js设计函数返回传入参数的类型
+
+<details>
+<summary>Click to expand</summary>
+
+```js
+function getType(value) {
+  // Handle null and array cases separately
+  if (value === null) return "null";
+  if (Array.isArray(value)) return "array";
+
+  // Use typeof for most types
+  let type = typeof value;
+
+  // Further distinguish objects, functions, etc.
+  if (type === "object" || type === "function") {
+    let typeString = Object.prototype.toString.call(value);
+    // Remove [object ] and return the specific type
+    return typeString.slice(8, -1).toLowerCase();
+  }
+
+  return type;
+}
+
+// Example usage:
+console.log(getType("Hello, World!")); // "string"
+console.log(getType(42)); // "number"
+console.log(getType(true)); // "boolean"
+console.log(getType(undefined)); // "undefined"
+console.log(getType(null)); // "null"
+console.log(getType([1, 2, 3])); // "array"
+console.log(getType({ key: "value" })); // "object"
+console.log(getType(function () {})); // "function"
+console.log(getType(new Date())); // "date"
+console.log(getType(/abc/)); // "regexp"
+console.log(getType(new Map())); // "map"
+console.log(getType(new Set())); // "set"
+console.log(getType(Symbol("symbol"))); // "symbol"
+```
+
+</details>
+
+最重要的是这个`Object.prototype.toString.call`,没答上,[Object.prototype.toString()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/toString)
+
+### 一道考察 JavaScript 事件循环的题目
+
+<details>
+<summary>Click to expand</summary>
+
+```javascript
+console.log(1);
+
+setTimeout(function () {
+  console.log(2);
+  process.nextTick(function () {
+    console.log(3);
+  });
+  new Promise(function (resolve) {
+    console.log(4);
+    resolve();
+  }).then(function () {
+    console.log(5);
+  });
+});
+
+process.nextTick(function () {
+  console.log(6);
+});
+
+new Promise(function (resolve) {
+  console.log(7);
+  resolve();
+}).then(function () {
+  console.log(8);
+});
+```
+
+### 执行顺序和解释
+
+1. **同步代码执行**：所有同步代码首先执行。
+
+   - `console.log(1);` 输出 `1`
+   - `console.log(7);` 输出 `7`
+   - `new Promise(...).then(...);` 将 `then` 回调 `console.log(8);` 添加到微任务队列。
+
+2. **`process.nextTick` 回调**：在当前事件循环结束前执行所有的 `process.nextTick` 回调。
+
+   - `process.nextTick(function() { console.log(6); });` 输出 `6`
+
+3. **`Promise` 微任务**：在当前事件循环结束前，执行所有的 `Promise` 微任务。
+
+   - `Promise.resolve().then(function() { console.log(8); });` 输出 `8`
+
+4. **`setTimeout` 宏任务**：所有的 `setTimeout` 回调在下一次事件循环中执行。
+
+   - `setTimeout(function() { ... });` 宏任务在下一次事件循环执行。
+     - `console.log(2);` 输出 `2`
+     - `process.nextTick(function() { console.log(3); });` 将 `console.log(3);` 添加到微任务队列。
+     - `console.log(4);` 输出 `4`
+     - `new Promise(...).then(...);` 将 `then` 回调 `console.log(5);` 添加到微任务队列。
+
+5. **第二次事件循环的微任务**：在当前事件循环结束前，执行所有的 `process.nextTick` 和 `Promise` 微任务。
+   - `process.nextTick(function() { console.log(3); });` 输出 `3`
+   - `Promise.resolve().then(function() { console.log(5); });` 输出 `5`
+
+### 最终输出顺序：
+
+```plaintext
+1
+7
+6
+8
+2
+4
+3
+5
+```
+
+### 解释
+
+1. **同步代码首先执行**：
+
+   - `console.log(1);` 和 `console.log(7);` 是同步代码，因此最先执行。
+
+2. **`process.nextTick` 回调**：
+
+   - `process.nextTick` 回调在当前事件循环的尾部执行，优先于 `Promise` 微任务。
+   - `process.nextTick(function() { console.log(6); });` 输出 `6`
+
+3. **`Promise` 微任务**：
+
+   - `Promise` 的 `then` 回调作为微任务，在 `process.nextTick` 回调之后执行。
+   - `Promise.resolve().then(function() { console.log(8); });` 输出 `8`
+
+4. **`setTimeout` 宏任务**：
+
+   - `setTimeout` 回调在下一次事件循环中执行。
+   - `console.log(2);` 输出 `2`
+   - `console.log(4);` 输出 `4`
+   - `process.nextTick(function() { console.log(3); });` 和 `Promise.resolve().then(function() { console.log(5); });` 添加到微任务队列。
+
+5. **第二次事件循环的微任务**：
+   - 在当前事件循环结束前，执行所有的 `process.nextTick` 和 `Promise` 微任务。
+   - `process.nextTick(function() { console.log(3); });` 输出 `3`
+   - `Promise.resolve().then(function() { console.log(5); });` 输出 `5`
+
+通过上述执行顺序的分析，可以理解 JavaScript 事件循环中微任务和宏任务的执行优先级。
+
+</details>
+
+### vue2 vs vue3
+
+<details>
+<summary>Click to expand</summary>
+
+Vue.js 是一个用于构建用户界面的渐进式框架。Vue 2 和 Vue 3 是 Vue.js 的两个主要版本，它们在使用和底层原理上有一些显著的区别。
+
+### 使用上的区别
+
+#### Composition API vs. Options API
+
+- **Vue 2**: 主要使用 Options API，通过 `data`, `methods`, `computed`, `watch` 等选项来定义组件。
+- **Vue 3**: 引入了 Composition API，这是一种新的方式，通过 `setup` 函数来组织逻辑，使代码更具可读性和复用性。
+
+```javascript
+// Vue 2 Options API
+export default {
+  data() {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    increment() {
+      this.count++;
+    }
+  }
+}
+
+// Vue 3 Composition API
+import { ref } from 'vue';
+export default {
+  setup() {
+    const count = ref(0);
+    const increment = () => {
+      count.value++;
+    };
+    return { count, increment };
+  }
+}
+```
+
+#### Teleport
+
+- **Vue 2**: 没有内置的 Teleport 功能。
+- **Vue 3**: 引入了 `Teleport`，可以将子组件渲染到 DOM 树的其他位置。
+
+```html
+<!-- Vue 3 Teleport -->
+<template>
+  <teleport to="body">
+    <div>This will be teleported to the body element.</div>
+  </teleport>
+</template>
+```
+
+#### Fragments
+
+- **Vue 2**: 一个组件的模板只能有一个根元素。
+- **Vue 3**: 支持多个根元素，即支持 fragments。
+
+```html
+<!-- Vue 3 Fragment -->
+<template>
+  <div>Fragment part 1</div>
+  <div>Fragment part 2</div>
+</template>
+```
+
+#### Composition API Hooks
+
+- **Vue 3**: 提供了新的生命周期钩子，比如 `onMounted`, `onUpdated`, `onUnmounted` 等，在 Composition API 中使用。
+
+```javascript
+import { onMounted, ref } from "vue";
+export default {
+  setup() {
+    const count = ref(0);
+    onMounted(() => {
+      console.log("Component is mounted");
+    });
+    return { count };
+  },
+};
+```
+
+### 底层原理上的区别
+
+#### Proxy 代替 DefineProperty
+
+- **Vue 2**: 使用 `Object.defineProperty` 实现响应式系统，对对象的每个属性进行劫持。这种方法有一些限制，比如不能检测属性的添加或删除。
+- **Vue 3**: 使用 `Proxy` 进行响应式处理，`Proxy` 可以直接监听对象的读写操作，因此能够更好地处理对象属性的添加和删除，并且对数组和对象的性能更高。
+
+#### Virtual DOM 和优化
+
+- **Vue 2**: Virtual DOM 的性能优化有限，复杂组件树的更新效率较低。
+- **Vue 3**: 对 Virtual DOM 进行了重写，提供了更多的编译时优化，减少了运行时的开销，提高了复杂组件树的更新效率。
+
+#### Tree Shaking
+
+- **Vue 2**: Vue 2 的核心代码是一个整体包，Tree Shaking 的效果有限。
+- **Vue 3**: Vue 3 的设计更加模块化，所有的功能都是按需导入的，因此 Tree Shaking 更加有效，这使得最终打包的代码体积更小。
+
+#### Composition API 的内存优化
+
+- **Vue 2**: Options API 中，所有定义的属性和方法都会挂载到 Vue 实例上，即使不需要时也会占用内存。
+- **Vue 3**: Composition API 允许更加灵活地定义和使用状态和方法，不需要时不会占用额外的内存，有利于减少内存消耗。
+
+### 总结
+
+Vue 3 相比 Vue 2 在使用上更具灵活性，底层实现也更加高效。Vue 3 的新特性如 Composition API、Teleport、Fragments 等提供了更强大的功能，使得开发者可以编写更清晰、更具复用性的代码。同时，底层采用 Proxy 实现响应式系统，并进行了许多性能优化和改进，使得 Vue 3 相较于 Vue 2 更加现代和高效。
+
+</details>
+
+### call,apply,bind
+
+<details>
+<summary>Click to expand</summary>
+`call`、`apply` 和 `bind` 是 JavaScript 中的三个方法，常用于改变函数的 `this` 上下文。这三个方法主要用于函数调用时设置 `this` 的值，并在不同场景下有各自的使用方法。下面详细介绍它们的使用和区别。
+
+### `call`
+
+`call` 方法可以调用一个函数，并且在调用时为其指定 `this` 值和参数列表。
+
+**语法**：
+
+```javascript
+function.call(thisArg, arg1, arg2, ...)
+```
+
+**示例**：
+
+```javascript
+function greet(greeting, punctuation) {
+  console.log(greeting + ", " + this.name + punctuation);
+}
+
+const person = { name: "Alice" };
+
+greet.call(person, "Hello", "!");
+```
+
+**输出**：
+
+```
+Hello, Alice!
+```
+
+### `apply`
+
+`apply` 方法与 `call` 类似，但它接收一个参数数组而不是一组参数。
+
+**语法**：
+
+```javascript
+function.apply(thisArg, [argsArray])
+```
+
+**示例**：
+
+```javascript
+function greet(greeting, punctuation) {
+  console.log(greeting + ", " + this.name + punctuation);
+}
+
+const person = { name: "Alice" };
+
+greet.apply(person, ["Hello", "!"]);
+```
+
+**输出**：
+
+```
+Hello, Alice!
+```
+
+### `bind`
+
+`bind` 方法创建一个新函数，当这个新函数被调用时，其 `this` 值是绑定到 `bind` 的第一个参数，并且其余参数是新函数的参数。
+
+**语法**：
+
+```javascript
+const boundFunction = function.bind(thisArg, arg1, arg2, ...)
+```
+
+**示例**：
+
+```javascript
+function greet(greeting, punctuation) {
+  console.log(greeting + ", " + this.name + punctuation);
+}
+
+const person = { name: "Alice" };
+
+const greetPerson = greet.bind(person, "Hello");
+greetPerson("!");
+```
+
+**输出**：
+
+```
+Hello, Alice!
+```
+
+### 区别总结
+
+1. **参数传递**：
+
+   - `call`: 参数逐个传递。
+   - `apply`: 参数以数组形式传递。
+   - `bind`: 参数逐个传递，可以预先绑定部分参数。
+
+2. **调用时机**：
+
+   - `call` 和 `apply`: 立即调用函数。
+   - `bind`: 返回一个新函数，不会立即调用，需要手动调用返回的新函数。
+
+3. **使用场景**：
+   - **`call`**: 当你知道参数列表并且希望立即调用函数时使用。
+   - **`apply`**: 当你有一个参数数组时使用，特别是参数数量不固定的情况。
+   - **`bind`**: 当你希望创建一个函数稍后调用，并且可能部分参数已预先知道时使用。
+
+### 实际应用
+
+#### 示例 1：使用 `call` 改变 `this` 上下文
+
+```javascript
+const person1 = { name: "Alice" };
+const person2 = { name: "Bob" };
+
+function sayName() {
+  console.log(this.name);
+}
+
+sayName.call(person1); // Alice
+sayName.call(person2); // Bob
+```
+
+#### 示例 2：使用 `apply` 传递参数数组
+
+```javascript
+const numbers = [5, 6, 2, 3, 7];
+
+const max = Math.max.apply(null, numbers);
+const min = Math.min.apply(null, numbers);
+
+console.log(max); // 7
+console.log(min); // 2
+```
+
+#### 示例 3：使用 `bind` 创建一个新函数
+
+```javascript
+const module = {
+  x: 42,
+  getX: function () {
+    return this.x;
+  },
+};
+
+const unboundGetX = module.getX;
+console.log(unboundGetX()); // undefined, 因为 `this` 是全局对象或 undefined
+
+const boundGetX = unboundGetX.bind(module);
+console.log(boundGetX()); // 42, 因为 `this` 被绑定到 module
+```
+
+通过了解 `call`、`apply` 和 `bind` 的用法和区别，可以在不同的场景下灵活地改变函数的 `this` 上下文，编写更加灵活和高效的代码。
+
+</details>
+
+### TypeScript 参数默认值语法
+
+<details>
+<summary>Click to expand</summary>
+
+在 TypeScript 中，函数的参数默认值语法允许我们在定义函数时为参数提供默认值。这样做的好处是，在调用函数时可以不必传递该参数，而是使用预设的默认值。下面详细讲解 TypeScript 中参数默认值的语法和使用方法。
+
+### 基本语法
+
+在 TypeScript 中，函数参数默认值的语法与 JavaScript 相似，使用等号 `=` 来为参数设定默认值。例如：
+
+```typescript
+function greet(name: string = "Guest") {
+  console.log(`Hello, ${name}!`);
+}
+```
+
+在上面的例子中，函数 `greet` 接收一个参数 `name`，并为其设置了默认值 `'Guest'`。如果调用 `greet` 函数时没有传递 `name` 参数，它将会使用默认值 `'Guest'`。
+
+### 示例用法
+
+下面展示了一些不同情况下的函数调用及其输出：
+
+```typescript
+// 使用默认值
+greet(); // Output: Hello, Guest!
+
+// 提供参数值
+greet("Alice"); // Output: Hello, Alice!
+
+// 可以传递 undefined 或 null 来触发默认值
+greet(undefined); // Output: Hello, Guest!
+greet(null); // Output: Hello, null! （null 作为参数，不会触发默认值）
+
+// 使用其他假值来触发默认值
+greet(""); // Output: Hello, ! （空字符串不会触发默认值）
+```
+
+### 注意事项
+
+1. **默认值类型与参数类型一致**：
+
+   - 默认值的类型必须与参数类型兼容。例如，如果函数参数 `name` 的类型为 `string`，那么默认值也必须是 `string` 类型或者允许隐式转换为 `string` 类型的值。
+
+2. **默认值计算**：
+
+   - 默认值可以是常量、表达式或函数调用的结果。例如：
+
+     ```typescript
+     function calculateTotal(price: number, taxRate: number = 0.2) {
+       const total = price + price * taxRate;
+       console.log(`Total: ${total}`);
+     }
+
+     calculateTotal(100); // Output: Total: 120
+     ```
+
+     在这个例子中，默认的 `taxRate` 是 `0.2`，这是一个常量值。
+
+3. **默认值在可选参数中的应用**：
+
+   - 如果参数声明为可选（即参数名后跟一个 `?`），则它可以在未提供时是 `undefined`，而不会触发默认值。
+
+     ```typescript
+     function greet(name?: string) {
+       console.log(`Hello, ${name || "Guest"}!`);
+     }
+
+     greet(); // Output: Hello, Guest!
+     ```
+
+     在这个例子中，参数 `name` 是可选的，如果没有传递，则默认为 `undefined`，这时会触发 `'Guest'` 作为默认值。
+
+4. **注意 `null` 和 `undefined` 的区别**：
+
+   - 默认值不会在参数显式传递 `null` 时触发，但会在参数未提供时触发。例如：
+
+     ```typescript
+     function greet(name: string = "Guest") {
+       console.log(`Hello, ${name}!`);
+     }
+
+     greet(null); // Output: Hello, null! （null 作为参数，不会触发默认值）
+     ```
+
+### 使用建议
+
+- 在编写函数时，考虑哪些参数可以有合理的默认值，以简化函数的使用。
+- 注意参数默认值的类型和逻辑，确保其行为符合预期。
+
+参数默认值是 TypeScript 中提高函数可用性和灵活性的重要特性之一，合理使用可以提升代码的可读性和可维护性。
+
+</details>
+
 ## 链接
