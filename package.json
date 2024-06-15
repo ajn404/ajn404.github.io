@@ -138,6 +138,7 @@
     "waveform-data": "^4.4.0",
     "wouter": "^2.12.1",
     "yjs": "^13.6.10",
+    "zdog": "^1.1.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
