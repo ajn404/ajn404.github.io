@@ -227,6 +227,207 @@ export const useParticle = (
 
 </details>
 
+## cesium
+
+<details>
+<summary>Click to expand</summary>
+
+### Cesium 基本概念
+
+#### 1. **CesiumJS**
+
+CesiumJS 是一个开源 JavaScript 库，用于创建和显示 3D 地球仪和 2D 地图。它提供了一种高性能、跨平台的方式来可视化地理空间数据。
+
+#### 2. **Viewer**
+
+`Viewer` 是 CesiumJS 中的一个核心类，用于创建和管理 3D 地球仪或 2D 地图的实例。它提供了许多便捷的方法和属性来操作和交互地球仪。
+
+#### 3. **Scene**
+
+`Scene` 是 CesiumJS 中的另一个核心类，负责管理所有的 3D 场景和渲染。`Viewer` 包含一个 `Scene` 实例。
+
+#### 4. **Entity**
+
+`Entity` 是 CesiumJS 中的一个类，用于表示地球仪上的一个对象（例如点、线、面、模型等）。`Entity` 可以包含多种数据，如位置、形状、模型等。
+
+#### 5. **DataSource**
+
+`DataSource` 是一个数据容器，用于管理和展示地理空间数据。常见的 DataSource 类型包括 `CzmlDataSource`、`GeoJsonDataSource` 和 `KmlDataSource`。
+
+### Cesium 进阶概念
+
+#### 1. **Tileset**
+
+`Tileset` 是一种分块的地理空间数据格式，用于高效地加载和显示大规模的 3D 数据。常见的 Tileset 格式包括 3D Tiles 和 TMS。
+
+#### 2. **ImageryLayer**
+
+`ImageryLayer` 是 CesiumJS 中的一个类，用于管理和显示地球表面上的影像图层。你可以将多种影像图层叠加在一起，并控制它们的显示顺序和透明度。
+
+#### 3. **TerrainProvider**
+
+`TerrainProvider` 是一个接口，用于提供地形数据。CesiumJS 支持多种地形提供器，包括 `EllipsoidTerrainProvider`、`CesiumTerrainProvider` 和 `VRTheWorldTerrainProvider`。
+
+#### 4. **Primitive**
+
+`Primitive` 是 CesiumJS 中的低级渲染对象，用于表示地球仪上的几何体。与 `Entity` 相比，`Primitive` 更接近于 WebGL 层，因此可以提供更高的性能和灵活性。
+
+### Cesium 示例：基本使用
+
+下面是一个基本的 React 示例，展示如何使用 Cesium 创建一个 3D 地球仪，并添加一些基本的实体。
+
+#### 创建 React 项目
+
+首先，创建一个新的 React 项目并安装 `cesium` 和 `resium`：
+
+```sh
+npx create-react-app cesium-demo --template typescript
+cd cesium-demo
+npm install cesium resium
+```
+
+#### 配置 Cesium
+
+在 `vite.config.ts` 文件中添加以下配置：
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { resolve } from "path";
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
+      cesium: resolve(__dirname, "node_modules/cesium/Source"),
+    },
+  },
+  define: {
+    CESIUM_BASE_URL: JSON.stringify("/cesium"),
+  },
+  build: {
+    rollupOptions: {
+      external: ["cesium"],
+      output: {
+        globals: {
+          cesium: "Cesium",
+        },
+      },
+    },
+  },
+  server: {
+    proxy: {
+      "/cesium": {
+        target:
+          "https://cesium.com/downloads/cesiumjs/releases/1.88/Build/Cesium",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/cesium/, ""),
+      },
+    },
+  },
+});
+```
+
+#### 创建 Cesium 组件
+
+在 `src` 目录中创建 `CesiumComponent.tsx` 文件，并添加以下代码：
+
+```tsx
+import React, { useEffect } from "react";
+import { Viewer, Entity, EntityDescription } from "resium";
+import { Cartesian3 } from "cesium";
+
+const CesiumComponent: React.FC = () => {
+  useEffect(() => {
+    // Load Cesium resources from the defined CESIUM_BASE_URL
+    import("cesium/Widgets/widgets.css");
+  }, []);
+
+  return (
+    <Viewer full>
+      <Entity
+        name="Tokyo"
+        position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+        point={{ pixelSize: 10 }}
+      >
+        <EntityDescription>
+          <h1>Tokyo</h1>
+          <p>Tokyo is the capital of Japan.</p>
+        </EntityDescription>
+      </Entity>
+    </Viewer>
+  );
+};
+
+export default CesiumComponent;
+```
+
+#### 使用组件
+
+在 `src/main.tsx` 文件中使用 `CesiumComponent`：
+
+```tsx
+import React from "react";
+import ReactDOM from "react-dom";
+import CesiumComponent from "./CesiumComponent";
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <CesiumComponent />
+  </React.StrictMode>
+);
+```
+
+### 配置 index.html
+
+确保在 `public/index.html` 文件中正确包含 `Cesium` 的样式和配置：
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cesium Vite Demo</title>
+    <link
+      rel="stylesheet"
+      href="https://cesium.com/downloads/cesiumjs/releases/1.88/Build/Cesium/Widgets/widgets.css"
+    />
+    <style>
+      #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+### 运行项目
+
+现在，你可以启动 Vite 开发服务器：
+
+```sh
+npm run dev
+```
+
+这个示例展示了如何在 Vite 项目中使用 Cesium 创建一个 3D 地球仪，并添加一个简单的实体。你可以根据需要进一步扩展和自定义此组件，添加更多的功能和交互。
+
+</details>
+
 ## 链接
 
 - [regl quick start](https://github.com/regl-project/regl/blob/gh-pages/API.md#quick-start)
