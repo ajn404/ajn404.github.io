@@ -1,19 +1,6 @@
 import type p5 from "p5";
 import { ForceMoverC } from "./ForceMoverC";
 
-const applyEdgeForce = (p, mover, position, radius, force) => {
-  const distance = p.createVector(...position).dist(mover.position);
-  if (
-    distance < radius ||
-    position[0] < 0 ||
-    position[1] < 0 ||
-    position[0] > p.width ||
-    position[1] > p.height
-  ) {
-    mover.applyForce(force);
-  }
-};
-
 export class ForceMoverRebound extends ForceMoverC {
   constructor(
     p: p5,

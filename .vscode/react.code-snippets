@@ -10,9 +10,9 @@
       "    const setup = () => {p.createCanvas(p.windowWidth /2, 240);}",
       "    const draw = () => {}",
       "    const resize = () => p.setup()",
-      "    p.setup = setup;"
-      "    p.draw  = draw;"
-      "    p.windowResized = resize;"
+      "    p.setup = setup;",
+      "    p.draw  = draw;",
+      "    p.windowResized = resize;",
       "    };",
       "    return <Basic sketch={sketch} showControls></Basic>;",
       "};",
