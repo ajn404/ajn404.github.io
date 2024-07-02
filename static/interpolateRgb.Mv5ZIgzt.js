@@ -1,0 +1,5 @@
+import{j as w}from"./jsx-runtime.eyAvPMM5.js";import{s as x}from"./transform.0j_tXpBQ.js";import{r as p}from"./index.-CUiy3Z4.js";import{i as M}from"./rainbow.cgSSCMu4.js";import{i as $}from"./zoom.9sbQNbsv.js";import"./_commonjsHelpers.4gQjN7DL.js";const A=()=>{const f=p.useRef(null),r=500,e=500,s=6,d=s*2,g=Math.PI*(3-Math.sqrt(5)),c=Array.from({length:2e3},(i,l)=>{const o=d*Math.sqrt(l+=.5),a=g*l;return[e/2+o*Math.cos(a),r/2+o*Math.sin(a)]});return p.useEffect(()=>{const i=x(f.current);return(()=>{let o=[e/2,r/2,r];const a=i.attr("viewBox",[0,0,e,r]),u=a.append("g");u.selectAll("circle").data(c).join("circle").attr("cx",([t])=>t).attr("cy",([,t])=>t).attr("r",s).attr("fill",(t,n)=>M(n/360));function h(){const t=c[Math.floor(Math.random()*c.length)],n=$(o,[...t,s*2+1]);u.transition().delay(250).duration(n.duration).attrTween("transform",()=>m=>v(o=n(m))).on("end",h)}function v([t,n,m]){return`
+      translate(${e/2}, ${r/2})
+      scale(${r/m})
+      translate(${-t}, ${-n})
+    `}return a.call(h).node()})(),()=>{i.remove()}}),w.jsx("svg",{ref:f,className:"min-h-[50vw] w-[50vw]"})};export{A as default};

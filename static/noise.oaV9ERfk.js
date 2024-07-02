@@ -1,0 +1,7 @@
+import{_ as c}from"./preload-helper.hlDPvxQM.js";import{j as o}from"./jsx-runtime.eyAvPMM5.js";import{r as a}from"./index.-CUiy3Z4.js";import"./_commonjsHelpers.4gQjN7DL.js";const i=t=>{let e=0;t.setup=()=>{t.createCanvas(100,100),t.frameRate(60)},t.draw=()=>{let r=t.noise(e)*(t.width-50);t.background(255),t.noStroke(),t.fill(34,39,54),e+=.01,t.ellipse(r,t.height/2,25,25)}},p=()=>{const t=a.useRef(null),[e]=a.useState([]);let r;const n=()=>{c(()=>import("./p5.min.H91IoIVM.js").then(s=>s.p),__vite__mapDeps([0,1,2])).then(s=>{t.current&&(r=new s.default(i,t.current),e.push(r))})},l=()=>{e.length>0&&e.pop()?.remove()};return o.jsxs("div",{className:"relative flex flex-col  items-center justify-center",children:[o.jsx("button",{className:"h-[100px] w-[100px]",style:{color:"rgba(var(--color-text-base), var(--tw-text-opacity)) !important"},onClick:l,children:"-1"}),o.jsx("button",{className:"h-[100px] w-[100px]",style:{color:"rgba(var(--color-text-base), var(--tw-text-opacity)) !important"},onClick:n,children:"+1"}),o.jsx("div",{ref:t,id:"container",className:" min-h-10 flex  w-full cursor-none flex-wrap content-center"})]})};export{p as default};
+function __vite__mapDeps(indexes) {
+  if (!__vite__mapDeps.viteFileDeps) {
+    __vite__mapDeps.viteFileDeps = ["static/p5.min.H91IoIVM.js","static/_commonjsHelpers.4gQjN7DL.js","static/_commonjs-dynamic-modules.h-SxKiO4.js"]
+  }
+  return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
+}

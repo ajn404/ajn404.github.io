@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelectorAll(".clip");if(e&&e.length>0)for(let t=0;t<e.length;t++)e[t].addEventListener("mouseenter",function(n){e[t].play()}),e[t].addEventListener("mouseout",function(n){e[t].pause()})});

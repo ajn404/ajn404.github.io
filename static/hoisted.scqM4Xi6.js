@@ -1,0 +1,1 @@
+import{S as e}from"./index.1iQJf7Q7.js";import"./index.KjuS0gPF.js";import"./_commonjsHelpers.4gQjN7DL.js";import"./floating-ui.dom.Dg0RJfBy.js";import"./preload-helper.hlDPvxQM.js";import"./_commonjs-dynamic-modules.h-SxKiO4.js";document.addEventListener("DOMContentLoaded",()=>{const t=document.querySelector(".editor"),o=new e;t?.appendChild(o)});

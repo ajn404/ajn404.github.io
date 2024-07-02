@@ -1,0 +1,1 @@
+addEventListener("DOMContentLoaded",()=>{const t=document.getElementById("rectCanvas").getContext("2d");t.fillStyle="skyBlue",t.fillRect(50,50,150,100),t.strokeStyle="rgba(99,22,33)",t.strokeRect(50,50,150,100)});
