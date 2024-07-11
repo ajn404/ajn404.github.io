@@ -119,3 +119,9 @@ autoreconf 是一个用于自动配置 GNU 软件包的工具，通常在安装�
 清空dns缓存
 
 `sudo killall -HUP mDNSResponder`
+
+## webrtc/rtcp/uniapp
+
+所以说，直接在浏览器中请求和解析 RTSP 流是比较困难的，通常需要通过中间服务器进行协议转换
+uniapp的<video/>组件使用的bilibili/ijkplayer,集成FFmpeg 的 RTSP 解码器 (`libavformat`) 对 RTSP 流进行解析,将 RTSP 流转换为浏览器支持的格式，并在前端播放。
+之前的webrtc说法，我想是需要一个媒体服务器（类似wvp)，webrtc本身只是提供实时数据传输的api

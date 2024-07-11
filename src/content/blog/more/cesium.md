@@ -1,5 +1,5 @@
 ---
-title: cesium
+title: cesium and other tech in bangandi
 pubDatetime: 2024-06-30T07:30:05Z
 postSlug: cesium
 featured: false
@@ -59,3 +59,184 @@ Mapbox GL JS是一个开源的JavaScript库，用于在Web浏览器中呈现交�
    - [Mapbox GL JS 3D Tiles Integration](https://github.com/Geodan/mapbox-3dtiles)
 
 这些文档和插件可以帮助你在不同的Web环境中加载和渲染3D Tiles文件。根据你的具体需求和技术栈选择最合适的方案。
+
+## rtsp与rtmp
+
+## ijkplayer源码中对于rtsp的处理是怎样的
+
+好的，我们来详细分析一下 ijkplayer 源码中对于 RTSP 的处理方式。
+
+ijkplayer 中 RTSP 的处理主要涉及以下几个关键部分：
+
+**1. 协议解析：**
+
+- ijkplayer 利用 FFmpeg 的 RTSP 解码器 (`libavformat`) 对 RTSP 流进行解析。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- 解码器会根据 RTSP 协议的规范，解析流中的各种信息，例如：
+  - 视频和音频编码信息
+  - 分辨率、帧率等参数
+  - 媒体数据包的传输方式 (UDP 或 TCP)
+  - 播放控制指令等
+
+**2. 数据传输：**
+
+- ijkplayer 可以根据 RTSP 流的设置，选择合适的传输方式。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+  - 通常 RTSP 流使用 UDP 进行数据传输，因为它效率更高，但容易出现数据丢失。[2](https://stackoverflow.com/questions/30098442/what-is-the-difference-between-udp-and-tcp-protocols)
+  - 如果网络环境较差，可以通过配置 RTSP 协议参数，强制使用 TCP 传输，以确保数据的完整性。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+
+**3. 数据解码：**
+
+- 解码器会根据解析出的信息，对接收到的媒体数据包进行解码。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 支持多种视频和音频解码器，例如 H.264、H.265、AAC、MP3 等。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 会优先使用硬件解码器 (例如 MediaCodec 或 VideoToolbox) 来提高解码效率。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+
+**4. 视频渲染：**
+
+- 解码后的视频数据会被渲染到屏幕上。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 支持多种渲染方式，例如 SurfaceView 和 TextureView。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+
+**5. 音频输出：**
+
+- 解码后的音频数据会被输出到设备的扬声器或耳机。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 支持多种音频输出方式，例如 OpenSL ES 和 AudioTrack。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+
+**6. 播放控制：**
+
+- ijkplayer 可以通过 RTSP 协议的控制指令来控制视频的播放，例如暂停、播放、快进、快退等。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+
+**总的来说，ijkplayer 使用 FFmpeg 的 RTSP 解码器来解析 RTSP 流，并利用其解码和渲染功能来播放视频和音频。** [1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java) 开发者可以通过配置 RTSP 协议参数和使用 ijkplayer 提供的 API 来定制播放器的行为。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+
+如果您想更深入地了解 ijkplayer 源码中 RTSP 的实现细节，您可以参考 ijkplayer 的官方文档和代码库。[1](https://github.com/Bilibili/ijkplayer)
+
+## js如何请求rtsp协议的地址进行解析
+
+JavaScript 本身并不直接支持 RTSP 协议，因为浏览器环境通常不提供对 RTSP 的支持。RTSP（Real-Time Streaming Protocol）通常用于网络摄像头、安防监控等实时视频流的传输。在浏览器中处理 RTSP 流，需要通过其他方式间接实现，例如通过中间服务器进行协议转换，或使用专门的库。
+
+以下是一些常见的方法来在浏览器中处理 RTSP 流：
+
+### 方法一：通过流媒体服务器进行协议转换
+
+使用流媒体服务器（如 Wowza、VLC、FFmpeg、GStreamer）将 RTSP 流转换为浏览器支持的协议（如 HTTP、HLS、DASH），然后在前端使用视频播放器播放。
+
+#### 使用 FFmpeg 进行协议转换
+
+1. **安装 FFmpeg**：确保你已经在服务器上安装了 FFmpeg。
+
+2. **启动 FFmpeg 进行转码和转发**：
+
+```bash
+ffmpeg -i rtsp://your-rtsp-url -f flv rtmp://your-rtmp-server/live/stream
+```
+
+3. **在前端使用 HTML5 video 标签或第三方播放器播放**：
+4.
+
+```html
+<video id="video" controls autoplay>
+  <source
+    src="http://your-http-server/live/stream.m3u8"
+    type="application/x-mpegURL"
+  />
+  Your browser does not support the video tag.
+</video>
+```
+
+### 方法二：使用 WebRTC
+
+使用 WebRTC 库将 RTSP 流转换并传输到浏览器。WebRTC 是一个实时通信协议，浏览器原生支持。
+
+1. **设置 WebRTC 媒体服务器（如 Janus、Kurento）**：
+
+   - 配置服务器接收 RTSP 流，并通过 WebRTC 将其传输到浏览器。
+
+2. **前端代码**：
+   使用 WebRTC API 接收和播放视频流。
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <title>WebRTC RTSP Stream</title>
+  </head>
+  <body>
+    <video id="video" autoplay></video>
+    <script src="https://janus.conf.meetecho.com/janus.js"></script>
+    <script>
+      const janusServer = "wss://your-janus-server:8989";
+      const streamId = 1;
+
+      const janus = new Janus({
+        server: janusServer,
+        success: function () {
+          janus.attach({
+            plugin: "janus.plugin.streaming",
+            success: function (pluginHandle) {
+              const streaming = pluginHandle;
+              streaming.send({ message: { request: "watch", id: streamId } });
+            },
+            onmessage: function (msg, jsep) {
+              if (jsep !== undefined && jsep !== null) {
+                streaming.createAnswer({
+                  jsep: jsep,
+                  media: { audioSend: false, videoSend: false },
+                  success: function (jsep) {
+                    streaming.send({
+                      message: { request: "start" },
+                      jsep: jsep,
+                    });
+                  },
+                });
+              }
+            },
+            onremotestream: function (stream) {
+              document.getElementById("video").srcObject = stream;
+            },
+            oncleanup: function () {
+              console.log("Stream ended");
+            },
+          });
+        },
+        error: function (error) {
+          console.error("Janus error:", error);
+        },
+        destroyed: function () {
+          console.log("Janus session ended");
+        },
+      });
+    </script>
+  </body>
+</html>
+```
+
+### 方法三：使用库如 JSMpeg
+
+JSMpeg 是一个基于 JavaScript 的库，可以播放通过 WebSockets 传输的 MPEG-TS 流。
+
+1. **设置 WebSocket 服务器**：使用 FFmpeg 将 RTSP 流转换为 MPEG-TS 并通过 WebSocket 传输。
+
+```bash
+ffmpeg -i rtsp://your-rtsp-url -f mpegts -codec:v mpeg1video -s 800x600 -b:v 1000k -bf 0 http://your-websocket-server:8081
+```
+
+2. **前端代码**：
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <title>RTSP Stream with JSMpeg</title>
+    <script src="https://cdn.jsdelivr.net/npm/jsmpeg@0.2.1/jsmpeg.min.js"></script>
+  </head>
+  <body>
+    <canvas id="videoCanvas"></canvas>
+    <script>
+      const url = "ws://your-websocket-server:8081";
+      const canvas = document.getElementById("videoCanvas");
+      const player = new JSMpeg.Player(url, { canvas: canvas });
+    </script>
+  </body>
+</html>
+```
+
+### 总结
+
+直接在浏览器中请求和解析 RTSP 流是比较困难的，通常需要通过中间服务器进行协议转换，或使用 WebRTC 进行传输。使用上述方法，可以将 RTSP 流转换为浏览器支持的格式，并在前端播放。根据具体需求选择适合的方法，确保实现实时流媒体播放。
