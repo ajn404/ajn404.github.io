@@ -93,7 +93,12 @@ export default defineConfig({
     },
 
     ssr: {
-      noExternal: ["@notes/editor", "@shoelace-style/shoelace"],
+      noExternal: [
+        "@notes/editor",
+        "@shoelace-style/shoelace",
+        "cesium",
+        "resium",
+      ],
     },
     build: {
       rollupOptions: {
@@ -105,7 +110,7 @@ export default defineConfig({
         external: [
           "wavesurfer.js",
           "wavesurfer.js/dist/plugins/spectrogram.esm.js",
-          "cesium"
+          "cesium",
         ],
       },
     },
