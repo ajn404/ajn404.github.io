@@ -66,6 +66,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@shoelace-style/shoelace": "2.12.0",
+    "@stackblitz/sdk": "^1.11.0",
     "@studio-freight/lenis": "^1.0.33",
     "@tanstack/react-table": "^8.11.7",
     "@toeverything/theme": "^0.7.27",

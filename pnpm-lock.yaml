@@ -59,6 +59,7 @@ specifiers:
   '@rollup/plugin-commonjs': ^25.0.7
   '@rollup/plugin-node-resolve': ^15.2.3
   '@shoelace-style/shoelace': 2.12.0
+  '@stackblitz/sdk': ^1.11.0
   '@studio-freight/lenis': ^1.0.33
   '@tailwindcss/typography': ^0.5.10
   '@tanstack/react-table': ^8.11.7
@@ -218,6 +219,7 @@ dependencies:
   '@rollup/plugin-commonjs': 25.0.7
   '@rollup/plugin-node-resolve': 15.2.3
   '@shoelace-style/shoelace': 2.12.0_@types+react@18.2.47
+  '@stackblitz/sdk': 1.11.0
   '@studio-freight/lenis': 1.0.33
   '@tanstack/react-table': 8.11.7_react-dom@18.2.0+react@18.2.0
   '@toeverything/theme': 0.7.27
@@ -4082,6 +4084,10 @@ packages:
     dependencies:
       fflate: 0.7.4
       string.prototype.codepointat: 0.2.1
+    dev: false
+
+  /@stackblitz/sdk/1.11.0:
+    resolution: {integrity: sha512-DFQGANNkEZRzFk1/rDP6TcFdM82ycHE+zfl9C/M/jXlH68jiqHWHFMQURLELoD8koxvu/eW5uhg94NSAZlYrUQ==}
     dev: false
 
   /@studio-freight/lenis/1.0.33:
