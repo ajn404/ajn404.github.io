@@ -83,9 +83,7 @@ export default defineConfig({
     extendDefaultPlugins: true,
   },
   vite: {
-    plugins: [
-      cesium(),
-    ],
+    plugins: [cesium()],
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
@@ -105,6 +103,11 @@ export default defineConfig({
             output: "bundle.css",
           }),
         ],
+        output: {
+          globals: {
+            cesium: "Cesium",
+          },
+        },
         external: [
           "wavesurfer.js",
           "wavesurfer.js/dist/plugins/spectrogram.esm.js",
