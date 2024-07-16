@@ -87,14 +87,9 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
-
     ssr: {
       noExternal: ["@notes/editor", "@shoelace-style/shoelace"],
       },
-    
-    define: {
-      CESIUM_BASE_URL: JSON.stringify("/cesium"),
-    },
     build: {
       rollupOptions: {
         plugins: [
@@ -105,7 +100,6 @@ export default defineConfig({
         external: [
           "wavesurfer.js",
           "wavesurfer.js/dist/plugins/spectrogram.esm.js",
-          "cesium",
         ],
       },
     },

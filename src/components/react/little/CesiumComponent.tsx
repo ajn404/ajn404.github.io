@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 // import { Cartesian3 } from "cesium";
 // import { Viewer, Entity, PointGraphics } from "resium";
 
-import * as Cesium from "cesium";
+import { Viewer } from "cesium";
 
 const CesiumComponent: React.FC = () => {
   useEffect(() => {
     import("cesium/Source/Widgets/widgets.css");
-    const viewer = new Cesium.Viewer("cesiumContainer");
+    new Viewer("cesiumContainer", {
+      infoBox: true,
+    });
   }, []);
   //东经109°4′48″～109°58′42″、北纬29°50′33″～30°39′30″
   //   const position = Cartesian3.fromDegrees(109.077, 29.833, 100);
