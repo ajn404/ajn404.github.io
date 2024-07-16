@@ -13,7 +13,7 @@ import remarkToc from "remark-toc";
 import css from "rollup-plugin-css-only";
 import { fileURLToPath } from "url";
 import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
-// import cesium from "vite-plugin-cesium";
+import cesium from "vite-plugin-cesium";
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
 // https://astro.build/config
@@ -84,9 +84,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [
-    //   cesium({
-    //     rebuildCesium: true,
-    //   }),
+      cesium(),
     ],
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
