@@ -13,7 +13,7 @@ import remarkToc from "remark-toc";
 import css from "rollup-plugin-css-only";
 import { fileURLToPath } from "url";
 import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
-
+import cesium from "vite-plugin-cesium";
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
 // https://astro.build/config
@@ -28,10 +28,10 @@ export default defineConfig({
   },
   site: "https://ajn404.github.io", // replace this with your deployed domain
   prefetch: true,
-//   output: "server",
-//   adapter: node({
-//     mode: "standalone",
-//   }),
+  //   output: "server",
+  //   adapter: node({
+  //     mode: "standalone",
+  //   }),
   integrations: [
     mdx({
       syntaxHighlight: "shiki",
@@ -83,6 +83,11 @@ export default defineConfig({
     extendDefaultPlugins: true,
   },
   vite: {
+    plugins: [
+      cesium({
+        rebuildCesium: true,
+      }),
+    ],
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
