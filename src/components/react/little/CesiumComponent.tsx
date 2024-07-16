@@ -8,6 +8,7 @@ import {
   Terrain,
   Viewer,
   createOsmBuildingsAsync,
+  Ion,
 } from "cesium";
 
 import "cesium/Build/Cesium/Widgets/widgets.css";
@@ -15,6 +16,8 @@ import "cesium/Build/Cesium/Widgets/widgets.css";
 const CesiumComponent: React.FC = () => {
   useEffect(() => {
     // import("cesium/Source/Widgets/widgets.css");
+    Ion.defaultAccessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg";
     const viewer = new Viewer("cesiumContainer", {
       infoBox: false,
       terrain: Terrain.fromWorldTerrain(),
