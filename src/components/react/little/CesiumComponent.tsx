@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Viewer, Entity, EntityDescription, PointGraphics } from "resium";
 import { Cartesian3 } from "cesium";
+import { Viewer, Entity, PointGraphics } from "resium";
 
 const CesiumComponent: React.FC = () => {
   useEffect(() => {
