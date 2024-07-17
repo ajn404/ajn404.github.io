@@ -36,7 +36,8 @@ export default function SearchBar({ searchList }: Props) {
         keys: ["title", "description", "body"],
         includeMatches: true,
         minMatchCharLength: 2,
-        threshold: 0.5,
+        threshold: 0.0,
+        ignoreLocation: true,
       }),
     [searchList]
   );
@@ -60,6 +61,7 @@ export default function SearchBar({ searchList }: Props) {
     // input value is more than one character
     let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
     setSearchResults(inputResult);
+    console.log("222", searchResults, searchList);
 
     // Update search string in URL
     if (inputVal.length > 0) {
@@ -86,7 +88,7 @@ export default function SearchBar({ searchList }: Props) {
         border-opacity-40 bg-skin-fill py-3 pl-10
         pr-3 placeholder:italic placeholder:text-opacity-75 
         focus:border-skin-accent focus:outline-none"
-          placeholder="Search for anything..."
+          placeholder="最少输入两个字"
           type="text"
           name="search"
           value={inputVal}
@@ -99,11 +101,7 @@ export default function SearchBar({ searchList }: Props) {
 
       {inputVal.length > 1 && (
         <div className="mt-8">
-          Found {searchResults?.length}
-          {searchResults?.length && searchResults?.length === 1
-            ? " result"
-            : " results"}{" "}
-          for '{inputVal}'
+          找到 {searchResults?.length} 个关于'{inputVal}' 的结果
         </div>
       )}
 

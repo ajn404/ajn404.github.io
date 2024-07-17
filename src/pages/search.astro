@@ -10,11 +10,14 @@ import SearchBar from "@components/react/UI/Search";
 const posts = await getCollection("blog", ({ data }) => !data.draft);
 
 // List of items to search in
-const searchList = posts.map(({ data}) => ({
-  title: data.title,
-  description: data.description,
-  data
-}));
+const searchList = posts.map(({ data, body }) => {
+  return {
+    title: data.title,
+    description: data.description,
+    data,
+    body: body.replace(/<[^>]+>/g, "")
+  };
+});
 ---
 
 <Layout activeNav="search" title={`Search | ${SITE.title}`}>
