@@ -38,8 +38,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <section id="hero">
       <h1>
         今日方知我为<a
-          class="inline-block skew-x-12 xing-cao text-skin-gray-light" target="_blank"
-          href="https://github.com/ajn404">我</a>
+          class="inline-block skew-x-12 xing-cao text-skin-gray-light"
+          target="_blank"
+          href="https://github.com/ajn404">我</a
+        >
       </h1>
       <a
         target="_blank"
@@ -48,7 +50,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         aria-label="rss feed"
         title="RSS Feed"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon"
+        <svg xmlns="http://www.w3.org/2000/svg" class="rss-icon small-svg"
           ><path
             d="M19 20.001C19 11.729 12.271 5 4 5v2c7.168 0 13 5.832 13 13.001h2z"
           ></path><path
@@ -136,7 +138,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       <div class="all-posts-btn-wrapper">
         <LinkButton href="posts">
           所有文章
-          <svg xmlns="http://www.w3.org/2000/svg"
+          <svg class="small-svg" xmlns="http://www.w3.org/2000/svg"
             ><path
               d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
             ></path>
@@ -150,11 +152,70 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <!-- <div id="editor-container"></div> -->
   <Footer />
 </Layout>
+<!-- 
+<script>
+  import * as THREE from "three";
+
+  // 初始化 Three.js 场景
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.domElement.style.position = "fixed";
+  renderer.domElement.style.top = "0";
+  renderer.domElement.style.left = "0";
+  renderer.domElement.style.zIndex = "-1";
+  renderer.domElement.style.pointerEvents = "none";
+  //   renderer.setClearColor(0x000000, 0);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
+
+  // 添加背景图
+  const textureLoader = new THREE.TextureLoader();
+  const texture = textureLoader.load("/assets/tao.jpeg");
+  const backgroundPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 5), // 调整尺寸
+    new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true, // 设置透明度
+      opacity: 0.8, // 设置透明度
+    })
+  );
+  backgroundPlane.position.set(0, 0, -5); // 调整位置
+  scene.add(backgroundPlane);
+
+  // 添加光源
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+
+  // 渲染场景
+  const animate = () => {
+    requestAnimationFrame(animate);
+    backgroundPlane.rotation.y += 0.01; // 旋转背景
+    renderer.render(scene, camera);
+  };
+  animate();
+</script> -->
 
 <style>
   /* ===== Hero Section ===== */
   #hero {
     @apply pb-6 pt-8;
+    /* position: relative;
+    background-image: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    background-size: cover;
+    background-position: center; */
+    transform-style: preserve-3d;
+    transform: translateZ(-500px) rotateY(10deg); /* 将背景图向后移动并旋转 */
   }
   #hero h1 {
     @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
