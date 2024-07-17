@@ -11,7 +11,6 @@ const signaturePadDemo = () => {
       signaturePad = new SignaturePad(canvasRef.current!, {
         backgroundColor: "rgb(255, 255, 255)",
       });
-      console.log("signaturePad:", signaturePad);
       function resizeCanvas() {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;

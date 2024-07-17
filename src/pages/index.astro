@@ -11,6 +11,8 @@ import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
 
 import Header from "@components/astro/UI/Header.astro";
+//@ts-ignore
+// import Bg from "@components/react/UI/bg.tsx";
 
 const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
@@ -89,6 +91,8 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       }
     </section>
 
+    <!-- <Bg client:load /> -->
+
     <Hr />
 
     {
@@ -152,6 +156,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <!-- <div id="editor-container"></div> -->
   <Footer />
 </Layout>
+
 <!-- 
 <script>
   import * as THREE from "three";
