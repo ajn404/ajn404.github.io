@@ -1,0 +1,50 @@
+---
+
+---
+
+<html>
+  <head>
+    <title>cesium demo</title>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+  </body>
+
+  <script>
+    import * as Cesium from "cesium";
+    import "cesium/Build/Cesium/Widgets/widgets.css";
+    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg`;
+    Cesium.Ion.defaultAccessToken = token;
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      shouldAnimate: true,
+    });
+    const url = "/assets/models/gltf/ToyCar.glb";
+    const entity = (viewer.trackedEntity = viewer.entities.add({
+      name: url,
+      position: Cesium.Cartesian3.fromDegrees(-123.0744619, 44.0503706),
+      model: {
+        uri: url,
+        scale:20
+      },
+    }));
+    viewer.trackedEntity = entity;
+
+    const doMove = () => {
+      const moveSpeed = 0.00001;
+      viewer.clock.onTick.addEventListener(clock => {
+        const time = clock.currentTime.secondsOfDay;
+        let position = (entity.position as Cesium.PositionProperty).getValue(
+          time
+        );
+        if (position) {
+          const newPosition = Cesium.Cartesian3.fromDegrees(
+            -123.0744619 + moveSpeed * time,
+            44.0503706
+          );
+          entity.position = new Cesium.ConstantPositionProperty(newPosition);
+        }
+      });
+    };
+    doMove();
+  </script>
+</html>

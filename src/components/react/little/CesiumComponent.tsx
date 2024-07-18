@@ -7,7 +7,6 @@ import {
   createOsmBuildingsAsync,
   Ion,
   Math,
-  SceneMode,
 } from "cesium";
 
 import * as Cesium from "cesium";
