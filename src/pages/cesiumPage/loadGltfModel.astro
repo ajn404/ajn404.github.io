@@ -12,6 +12,7 @@
 
   <script>
     import * as Cesium from "cesium";
+    import p5 from "p5";
     import "cesium/Build/Cesium/Widgets/widgets.css";
     const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg`;
     Cesium.Ion.defaultAccessToken = token;
@@ -24,25 +25,60 @@
       position: Cesium.Cartesian3.fromDegrees(-123.0744619, 44.0503706),
       model: {
         uri: url,
-        scale:20
+        scale: 20,
       },
     }));
     viewer.trackedEntity = entity;
 
     const doMove = () => {
-      const moveSpeed = 0.00001;
+      const moveSpeed = 0.0001;
+      const initialLongitude = -123.0744619;
+      const initialLatitude = 44.0503706;
+      const initialHeight = 1000.0; // 设置初始高度
+      let startTime = Cesium.JulianDate.now(); // 记录初始时间
+      let orient = 1;
       viewer.clock.onTick.addEventListener(clock => {
-        const time = clock.currentTime.secondsOfDay;
-        let position = (entity.position as Cesium.PositionProperty).getValue(
-          time
+        // const time = clock.currentTime.secondsOfDay;
+        // let position = (entity.position as Cesium.PositionProperty).getValue(
+        //   time
+        // );
+        // if (position) {
+        //   const newPosition = Cesium.Cartesian3.fromDegrees(
+        //     -123.0744619 + moveSpeed * time,
+        //     44.0503706 + moveSpeed * time
+        //   );
+        //   entity.position = new Cesium.ConstantPositionProperty(newPosition);
+        // }
+
+        const currentTime = clock.currentTime;
+        const elapsedSeconds = Cesium.JulianDate.secondsDifference(
+          currentTime,
+          startTime
         );
-        if (position) {
-          const newPosition = Cesium.Cartesian3.fromDegrees(
-            -123.0744619 + moveSpeed * time,
-            44.0503706
-          );
-          entity.position = new Cesium.ConstantPositionProperty(newPosition);
+
+        // orient = Math.random() > 0.5 ? 1 : -1;
+        let p = new p5(p => {});
+        let r = p.noise(elapsedSeconds);
+        let rLong = p.noise(elapsedSeconds + 1000);
+        orient = (r - 0.6) * 2;
+        rLong = (rLong - 0.6) * 2;
+        let newLongitude =
+          initialLongitude + moveSpeed * elapsedSeconds * rLong;
+        let newLatitude = initialLatitude + moveSpeed * elapsedSeconds * orient;
+
+        newLongitude === 180 && (newLongitude = -180);
+        if (newLatitude === 90 || newLatitude === -90) {
+          orient = -orient;
         }
+
+        const newPosition = Cesium.Cartesian3.fromDegrees(
+          newLongitude,
+          newLatitude,
+          initialHeight
+        );
+
+        // 更新实体的位置
+        entity.position = new Cesium.ConstantPositionProperty(newPosition);
       });
     };
     doMove();

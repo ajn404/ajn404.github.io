@@ -1,0 +1,81 @@
+---
+
+---
+
+<html>
+  <head>
+    <title>cesium demo</title>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+  </body>
+
+  <script>
+    import * as Cesium from "cesium";
+    import p5 from "p5";
+    import "cesium/Build/Cesium/Widgets/widgets.css";
+    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg`;
+    Cesium.Ion.defaultAccessToken = token;
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      shouldAnimate: true,
+    });
+    let entity;
+
+    const partsToLoad = [
+      {
+        url: "/assets/models/gltf/MultipartVehicle_part1.czml",
+        range: [0, 1500],
+        requested: false,
+        loaded: false,
+      },
+      {
+        url: "/assets/models/gltf/MultipartVehicle_part2.czml",
+        range: [1500, 3000],
+        requested: false,
+        loaded: false,
+      },
+      {
+        url: "/assets/models/gltf/MultipartVehicle_part3.czml",
+        range: [3000, 4500],
+        requested: false,
+        loaded: false,
+      },
+    ];
+
+    const dataSource = new Cesium.CzmlDataSource();
+    viewer.dataSources.add(dataSource);
+    // const part = partsToLoad[0];
+
+    const procesPart = (part) => {
+      dataSource.process(part.url).then(function () {
+        part.loaded = true;
+        if (!viewer.trackedEntity) {
+          viewer.trackedEntity = entity =
+            dataSource.entities.getById("Vehicle");
+        }
+      });
+    };
+    const preloadTimeInSeconds = 100;
+    viewer.clock.onTick.addEventListener(function (clock) {
+      // This example uses time offsets from the start to identify which parts need loading.
+      const timeOffset = Cesium.JulianDate.secondsDifference(
+        clock.currentTime,
+        clock.startTime
+      );
+
+      // Filter the list of parts to just the ones that need loading right now.
+      // Then, process each part that needs loading.
+      partsToLoad
+        .filter(function (part) {
+          return (
+            !part.requested &&
+            timeOffset >= part.range[0] - preloadTimeInSeconds &&
+            timeOffset <= part.range[1]
+          );
+        })
+        .forEach(function (part) {
+          procesPart(part);
+        });
+    });
+  </script>
+</html>
