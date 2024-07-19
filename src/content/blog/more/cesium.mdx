@@ -310,40 +310,12 @@ engine-strict=true
 
 ## cesium
 
-<details open>
-<summary>demo[跳转](/cesiumPage/demo)</summary>
+- [demo](/cesiumPage/demo)
+- [load Model](/cesiumPage/loadGltfModel)
+- [开车](/cesiumPage/carMove)
+- [优化加载](/cesiumPage/loadModelOptmize)
 
-<iframe
-  src="/cesiumPage/demo"
-  class="w-screen h-screen"
-  style="border: none;"
-></iframe>
-
-</details>
-
-<details open>
-<summary>load Model[跳转](/cesiumPage/loadGltfModel)</summary>
-
-<iframe
-  src="/cesiumPage/loadGltfModel"
-  class="w-screen h-screen m-0 p-0"
-  style="border: none;"
-></iframe>
-
-</details>
-
-<details open>
-<summary>开车[跳转](/cesiumPage/carMove)</summary>
-
-<iframe
-  src="/cesiumPage/carMove"
-  class="w-screen h-screen m-0 p-0"
-  style="border: none;"
-></iframe>
-
-</details>
-
-# 优化3dtiles加载
+## 优化3dtiles加载
 
 ```js
 const viewer = new Cesium.Viewer("cesiumContainer", {
@@ -380,6 +352,6 @@ viewer.scene.primitives.add(tileset);
 viewer.zoomTo(tileset).then(() => {});
 ```
 
-# demo
+## map demo
 
 - [super map](https://www.supermapol.com/earth/vue-iEarth/examples/index.html)

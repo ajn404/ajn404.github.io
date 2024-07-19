@@ -5,6 +5,17 @@
 <html>
   <head>
     <title>cesium demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #cesiumContainer{
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
     <div id="cesiumContainer"></div>
@@ -20,17 +31,24 @@
       scene3DOnly: true,
       maximumRenderTimeChange: Infinity,
       sceneModePicker: false,
-      // 禁用默认的图层选择器
       baseLayerPicker: false,
-      // 禁用默认的缩放控件
       animation: false,
-      // 禁用默认的图层选择器
       timeline: false,
       requestRenderMode: true,
-      // 在 Viewer 初始化时直接设置 globe 属性
-    //   globe: false,
+      homeButton: false,
+      fullscreenButton: false,
+      geocoder: false,
+      infoBox: false,
+      selectionIndicator: false,
+      navigationHelpButton: false,
+      vrButton: false,
+      sceneMode: Cesium.SceneMode.SCENE3D,
+      //   globe: false,
     });
+    //@ts-ignore
+    viewer._cesiumWidget._creditContainer.parentNode.removeChild(viewer._cesiumWidget._creditContainer);
 
+    
     // 禁用天空盒和大气层
     viewer.scene.skyBox.show = false;
     viewer.scene.skyAtmosphere.show = false;
@@ -38,8 +56,7 @@
     // 抗锯齿
     viewer.scene.postProcessStages.fxaa.enabled = true;
 
-    const url =
-      "/assets/models/3dtiles/2/tileset.json";
+    const url = "/assets/models/3dtiles/2/tileset.json";
     const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
       preloadWhenHidden: true,
       dynamicScreenSpaceError: true,

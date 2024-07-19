@@ -1,0 +1,149 @@
+---
+
+---
+
+<div class="container"></div>
+
+<style is:inline lang="scss">
+  a {
+    color: unset;
+    text-decoration: none;
+  }
+
+  .header {
+    text-align: center;
+    background: #333;
+    color: #fff;
+    padding: 20px 0px;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
+  .description {
+    padding: 6px 30px;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .description li {
+    padding: 3px 0px;
+  }
+
+  .wrapper {
+    margin-top: 50px;
+  }
+
+  .container {
+    width: 100%;
+    height: 600px;
+  }
+
+  .item {
+    display: inline-block;
+    width: 250px;
+    opacity: 1;
+  }
+
+  .masonrygrid.horizontal .item {
+    width: auto;
+    height: 250px;
+  }
+
+  .item .info {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #777;
+    height: 30px;
+  }
+  .item .thumbnail {
+    overflow: hidden;
+    border-radius: 8px;
+    font-size: 0;
+    height: calc(100% - 30px);
+  }
+
+  .item .thumbnail img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: #eee;
+    object-fit: contain;
+  }
+
+  .item .thumbnail img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: #eee;
+    object-fit: contain;
+  }
+
+  .masonrygrid.horizontal .item .thumbnail img {
+    width: auto;
+    height: 210px;
+  }
+
+  .item.animate {
+    transition: opacity ease 1s;
+    transition-delay: 0.2s;
+    opacity: 1;
+  }
+
+  .placeholder {
+    width: 250px;
+    border-radius: 5px;
+    background: #eee;
+    height: 250px;
+  }
+
+  .loading {
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .button-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    z-index: 1;
+  }
+</style>
+
+<script>
+  import { MasonryInfiniteGrid } from "@egjs/infinitegrid";
+
+  function getItems(nextGroupKey, count) {
+    const nextItems: string[] = [];
+
+    for (let i = 0; i < count; ++i) {
+      const num = nextGroupKey * count + i;
+      nextItems.push(`<div class="item">
+  <div class="thumbnail">
+      <img src="/assets/bg/${(num % 11) + 1}${Math.random()>0.5?".jpg":".png"}" alt="egjs" />
+  </div>
+  <div class="info">bg ${num}</div>
+</div>`);
+    }
+    return nextItems;
+  }
+
+  const ig = new MasonryInfiniteGrid(".container", {
+    gap: 5,
+  });
+
+  ig.on("requestAppend", e => {
+    const nextGroupKey = +(e.groupKey || 0) + 1;
+
+    ig.append(getItems(nextGroupKey, 10), nextGroupKey);
+  });
+
+  ig.renderItems();
+</script>

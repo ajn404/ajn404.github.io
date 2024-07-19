@@ -5,6 +5,17 @@
 <html>
   <head>
     <title>cesium demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #cesiumContainer {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
     <div id="cesiumContainer"></div>
@@ -12,13 +23,32 @@
 
   <script>
     import * as Cesium from "cesium";
-    import p5 from "p5";
+    import p5 from 'p5'
     import "cesium/Build/Cesium/Widgets/widgets.css";
     const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg`;
     Cesium.Ion.defaultAccessToken = token;
+
     const viewer = new Cesium.Viewer("cesiumContainer", {
-      shouldAnimate: true,
+      scene3DOnly: true,
+      maximumRenderTimeChange: Infinity,
+      sceneModePicker: false,
+      baseLayerPicker: false,
+      animation: false,
+      timeline: false,
+      requestRenderMode: true,
+      homeButton: false,
+      fullscreenButton: false,
+      geocoder: false,
+      infoBox: false,
+      selectionIndicator: false,
+      navigationHelpButton: false,
+      vrButton: false,
+      sceneMode: Cesium.SceneMode.SCENE3D,
+      //   globe: false,
     });
+    //@ts-ignore
+    viewer._cesiumWidget._creditContainer.parentNode.removeChild(viewer._cesiumWidget._creditContainer);
+
     const url = "/assets/models/gltf/ToyCar.glb";
     const entity = (viewer.trackedEntity = viewer.entities.add({
       name: url,
