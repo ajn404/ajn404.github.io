@@ -96,3 +96,11 @@ const socialImageURL = new URL(
 <script src="./importTwElement"></script>
 <script src="./defineEvents"></script>
 
+<script>
+    import eruda from 'eruda'
+    const width = window.innerWidth;
+    if (width < 768) {
+        eruda.init()
+    }
+</script>
+
