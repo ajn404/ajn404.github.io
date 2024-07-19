@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+import Fuse, { type FuseResultMatch } from "fuse.js";
 import { useEffect, useRef, useState, useMemo } from "react";
 import Card from "@components/react/UI/Card";
 import slugify from "@utils/slugify";
@@ -17,6 +17,7 @@ interface Props {
 interface SearchResult {
   item: SearchItem;
   refIndex: number;
+  // matches: readonly FuseResultMatch[];
 }
 
 export default function SearchBar({ searchList }: Props) {
@@ -43,8 +44,6 @@ export default function SearchBar({ searchList }: Props) {
   );
 
   useEffect(() => {
-    // if URL has search query,
-    // insert that search query in input field
     const searchUrl = new URLSearchParams(window.location.search);
     const searchStr = searchUrl.get("q");
     if (searchStr) setInputVal(searchStr);
@@ -106,14 +105,19 @@ export default function SearchBar({ searchList }: Props) {
       )}
 
       <section className="hero-section">
-        <div className="card-grid">
+        <div className="card-grid ">
           {searchResults &&
-            searchResults.map(({ item, refIndex }) => (
-              <Card
-                href={`/posts/${slugify(item.data)}`}
-                frontmatter={item.data}
-                key={`${refIndex}-${slugify(item.data)}`}
-              />
+            searchResults.map(({ item, refIndex, matches }, index) => (
+              <div className="w-full inline" key={index}>
+                <Card
+                  href={`/posts/${slugify(item.data)}`}
+                  frontmatter={item.data}
+                  key={`${refIndex}-${slugify(item.data)}`}
+                />
+                <div className="text-sm text-gray-500 mt-2 relative">
+                  {matches[0]?.value.slice(0, 20)}...
+                </div>
+              </div>
             ))}
         </div>
       </section>
