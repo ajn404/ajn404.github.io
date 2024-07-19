@@ -1,0 +1,55 @@
+---
+
+---
+
+<html>
+  <head>
+    <title>cesium demo</title>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+  </body>
+
+  <script>
+    import * as Cesium from "cesium";
+    import "cesium/Build/Cesium/Widgets/widgets.css";
+    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg`;
+    Cesium.Ion.defaultAccessToken = token;
+
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      scene3DOnly: true,
+      maximumRenderTimeChange: Infinity,
+      sceneModePicker: false,
+      // 禁用默认的图层选择器
+      baseLayerPicker: false,
+      // 禁用默认的缩放控件
+      animation: false,
+      // 禁用默认的图层选择器
+      timeline: false,
+      requestRenderMode: true,
+      // 在 Viewer 初始化时直接设置 globe 属性
+    //   globe: false,
+    });
+
+    // 禁用天空盒和大气层
+    viewer.scene.skyBox.show = false;
+    viewer.scene.skyAtmosphere.show = false;
+
+    // 抗锯齿
+    viewer.scene.postProcessStages.fxaa.enabled = true;
+
+    const url =
+      "/assets/models/3dtiles/2/tileset.json";
+    const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
+      preloadWhenHidden: true,
+      dynamicScreenSpaceError: true,
+    });
+
+    viewer.scene.primitives.add(tileset);
+
+    // 加载模型后，设置相机视角
+    requestIdleCallback(() => {
+      viewer.zoomTo(tileset);
+    });
+  </script>
+</html>

@@ -310,7 +310,7 @@ engine-strict=true
 
 ## cesium
 
-<details>
+<details open>
 <summary>demo[跳转](/cesiumPage/demo)</summary>
 
 <iframe
@@ -321,7 +321,7 @@ engine-strict=true
 
 </details>
 
-<details>
+<details open>
 <summary>load Model[跳转](/cesiumPage/loadGltfModel)</summary>
 
 <iframe
@@ -332,7 +332,7 @@ engine-strict=true
 
 </details>
 
-<details>
+<details open>
 <summary>开车[跳转](/cesiumPage/carMove)</summary>
 
 <iframe
@@ -342,3 +342,44 @@ engine-strict=true
 ></iframe>
 
 </details>
+
+# 优化3dtiles加载
+
+```js
+const viewer = new Cesium.Viewer("cesiumContainer", {
+  scene3DOnly: true,
+  maximumRenderTimeChange: Infinity,
+  sceneModePicker: false,
+  // 禁用默认的图层选择器
+  baseLayerPicker: false,
+  // 禁用默认的缩放控件
+  animation: false,
+  // 禁用默认的图层选择器
+  timeline: false,
+  requestRenderMode: true,
+  // 在 Viewer 初始化时直接设置 globe 属性
+  //   globe: false,
+});
+
+// 禁用天空盒和大气层
+viewer.scene.skyBox.show = false;
+viewer.scene.skyAtmosphere.show = false;
+
+// 抗锯齿
+viewer.scene.postProcessStages.fxaa.enabled = true;
+
+const url = "/assets/models/3dtiles/1/tileset.json";
+const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
+  preloadWhenHidden: true,
+  dynamicScreenSpaceError: true,
+});
+
+viewer.scene.primitives.add(tileset);
+
+// 加载模型后，设置相机视角
+viewer.zoomTo(tileset).then(() => {});
+```
+
+# demo
+
+- [super map](https://www.supermapol.com/earth/vue-iEarth/examples/index.html)

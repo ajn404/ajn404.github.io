@@ -38,25 +38,11 @@
       let startTime = Cesium.JulianDate.now(); // 记录初始时间
       let orient = 1;
       viewer.clock.onTick.addEventListener(clock => {
-        // const time = clock.currentTime.secondsOfDay;
-        // let position = (entity.position as Cesium.PositionProperty).getValue(
-        //   time
-        // );
-        // if (position) {
-        //   const newPosition = Cesium.Cartesian3.fromDegrees(
-        //     -123.0744619 + moveSpeed * time,
-        //     44.0503706 + moveSpeed * time
-        //   );
-        //   entity.position = new Cesium.ConstantPositionProperty(newPosition);
-        // }
-
         const currentTime = clock.currentTime;
         const elapsedSeconds = Cesium.JulianDate.secondsDifference(
           currentTime,
           startTime
         );
-
-        // orient = Math.random() > 0.5 ? 1 : -1;
         let p = new p5(p => {});
         let r = p.noise(elapsedSeconds);
         let rLong = p.noise(elapsedSeconds + 1000);
