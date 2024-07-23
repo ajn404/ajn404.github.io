@@ -9,49 +9,55 @@ const count = ref(1);
  */
 
 const stop = () => {
-  clearInterval(timer);
+    clearInterval(timer);
 };
 
 const reset = () => {
-  stop();
-  count.value = 1;
+    stop();
+    count.value = 1;
+    timer = setInterval(() => {
+        plusOne.value++;
+    }, 1000);
 };
 
 const plusOne = computed({
-  get: () => count.value + 1,
-  set: val => {
-    if (val <= 10) count.value = val - 1;
-    else stop();
-  },
+    get: () => count.value + 1,
+    set: val => {
+        if (val <= 10) count.value = val - 1;
+        else stop();
+    }
+}, {
+    onTrack: (e) => {
+        // debugger;
+        console.log("onTrack", e)
+    },
+    onTrigger: (e) => {
+        // debugger;
+        console.log("onTrigger", e)
+    }
 });
 
 let timer = setInterval(() => {
-  plusOne.value++;
+    plusOne.value++;
 }, 1000);
 
 onUnmounted(() => {
-  clearInterval(timer);
+    clearInterval(timer);
 });
 </script>
 
 <template>
-  <div class="flex justify-around">
-    <span class="text-skin-base">count:{{ count }}</span>
-    &amp;
-    <span class="text-skin-base">plusOne:{{ plusOne }}</span>
-    <button
-      @click="stop"
-      :class="[plusOne >= 10 && 'hidden', 'inline']"
-      class="bg-skin-purple text-skin-orange px-5"
-    >
-      stop
+    <div class="grid grid-cols-2 gap-5">
+        <div class="bg-skin-purple text-skin-orange px-5 border
+">plusOne</div>
+        <div class="bg-skin-purple text-skin-orange px-5 border">count
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-5">
+        <div class="bg-skin-purple text-skin-orange px-5 border">{{ plusOne }}</div>
+        <div class="bg-skin-purple text-skin-orange px-5 border">{{ count }}</div>
+    </div>
+    <button @click="reset" :class="[plusOne < 10 && 'invisible']" class="bg-skin-purple  w-full mt-10 text-skin-orange px-5 hover:bg-skin-orange hover:text-skin-purple border">
+        reset
     </button>
-    <button
-      @click="reset"
-      :class="[plusOne < 10 && 'hidden']"
-      class="bg-skin-purple text-skin-orange px-5"
-    >
-      reset
-    </button>
-  </div>
 </template>

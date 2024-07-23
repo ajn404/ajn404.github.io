@@ -8,8 +8,8 @@ const count = ref(0);
  * Make sure the watch callback only triggers once
  */
 const unWatch = watch(count, () => {
-  console.log("Only triggered once");
-  unWatch();
+    console.log("Only triggered once");
+    unWatch();
 });
 
 count.value = 1;
@@ -20,15 +20,15 @@ setTimeout(() => (count.value = 2));
  * Make sure the watch callback is triggered
  */
 const state = ref({
-  count: 0,
+    count: 0,
 });
 
 watch(
-  state,
-  () => {
-    console.log("The state.count updated");
-  },
-  { deep: true }
+    state,
+    () => {
+        console.log("The state.count updated");
+    },
+    { deep: true }
 );
 
 state.value.count = 2;
@@ -41,23 +41,24 @@ state.value.count = 2;
 const eleRef = ref();
 const age = ref(2);
 watch(
-  age,
-  () => {
-    console.log(eleRef.value);
-  },
-  { flush: "post" }
+    age,
+    () => {
+        console.log(eleRef.value);
+    },
+    //想在侦听器回调中能访问被 Vue 更新之后的所属组件的 DOM，你需要指明
+    { flush: "post" }
 );
 //设置 flush: 'post' 将会使侦听器延迟到组件渲染之后再执行。
 age.value = 18;
 </script>
 
 <template>
-  <div>
-    <p>
-      {{ count }}
-    </p>
-    <p ref="eleRef">
-      {{ age }}
-    </p>
-  </div>
+    <div>
+        <p>
+            count:{{ count }}
+        </p>
+        <p ref="eleRef">
+            age:{{ age }}
+        </p>
+    </div>
 </template>

@@ -12,7 +12,7 @@ vModelText.beforeUpdate = (el, binding) => {
 <template>
   <input
     placeholder="请输入"
-    class="border-transparent inline px-5 mx-5 bg-[#95f595]"
+    class="appearance-none inline px-5 mx-5"
     type="password"
     v-model.capitalize="value"
   />
