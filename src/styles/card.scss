@@ -14,22 +14,37 @@ html[data-theme="dark"] .hero-section .card__background {
   filter: brightness(0.5) saturate(2) contrast(0.85);
 }
 
-html[data-theme="dark"] .hero-section .card:hover,
-.card.hover-effect {
-  .card__background {
-    transform: scale(1.05) translateZ(0);
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
   }
-  .card__heading {
-    text-decoration: rgb(255, 255, 255) wavy underline;
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
   }
 }
 
-html[data-theme="dark"]
-  .hero-section
-  .card-grid:hover
-  .card:not(:hover)
+html[data-theme="dark"] .hero-section .card:hover,
+.card.hover-effect,
+.card:focus-visible,
+.card:focus,
+.card:active {
   .card__background {
-  filter: brightness(0.7) contrast(0.7) blur(2px);
+    transform: scale(1.05) translateZ(0);
+    background-size: contain;
+    animation: gradient 10s ease infinite;
+  }
+  .card__heading {
+    text-decoration: rgb(255, 255, 255) wavy underline 1px;
+  }
+}
+
+html[data-theme="dark"] .hero-section .card-grid:hover .card:not(:hover,:focus,:active,:focus-visible) {
+  .card__background {
+    filter: brightness(0.7) contrast(0.7) blur(2px);
+  }
 }
 
 .hero-section {

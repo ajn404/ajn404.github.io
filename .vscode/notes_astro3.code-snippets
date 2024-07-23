@@ -54,6 +54,23 @@
     ],
     "description": "details not open tag in mdx"
 },
+"details Template show code": {
+    "scope": "markdown",
+    "prefix": "details_show_code",
+    "body": [
+        "<details>",
+        "<summary>${1:show code}</summary>",
+        "",
+        "```$2",
+        "$3",
+        "```",
+        "",
+        "${4:import}",
+        "",
+        "</details>"
+    ],
+    "description": "details show code"
+},
   "blockquote Template": {
     "scope": "markdown",    
     "prefix": "blockquote",

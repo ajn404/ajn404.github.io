@@ -5,3 +5,100 @@
 - <a href="https://ajn404.github.io/" target="_blank">github pages</a>
 - <a href="ajn404-github-io.pages.dev" target="_blank">cloud flare</a>
 - <a href="https://ajn404.gitee.io/" target="_blank">~~gitee pages~~</a>
+
+## snippets
+
+### markdown
+
+````json
+{
+  "Frontmatter": {
+    "scope": "markdown",
+    "prefix": "frontmatter",
+    "body": [
+      "---",
+      "author: $1",
+      "pubDatetime: $CURRENT_YEAR-$CURRENT_MONTH-${CURRENT_DATE}T$CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND.000Z",
+      "modDatetime: $3",
+      "title: $4",
+      "featured: ${5|false,true|}",
+      "draft: ${6|true,false|}",
+      "tags:",
+      "  - $7",
+      "description: $8",
+      "---"
+    ],
+    "description": "Adds the frontmatter block for the AstroPaper Blog post"
+  },
+
+  "Blog Template": {
+    "scope": "markdown",
+    "prefix": "template",
+    "body": [
+      "${1:frontmatter}",
+      "",
+      "${2: Introductory Sentence}",
+      "",
+      "## 目录",
+      "",
+      "## ${3: heading 1}"
+    ],
+    "description": "Adds the template for the AstroPaper Blog post. You will need to trigger the snippet modal on the 'frontmatter' line to insert the other snipper."
+  },
+  "details Template": {
+    "scope": "markdown",
+    "prefix": "details",
+    "body": [
+      "<details open>",
+      "<summary>${1:Click to expand}</summary>",
+      "$2",
+      "</details>"
+    ],
+    "description": "details tag in mdx"
+  },
+  "details Template not open": {
+    "scope": "markdown",
+    "prefix": "details_not_open",
+    "body": [
+      "<details>",
+      "<summary>${1:Click to expand}</summary>",
+      "$2",
+      "</details>"
+    ],
+    "description": "details not open tag in mdx"
+  },
+  "details Template show code": {
+    "scope": "markdown",
+    "prefix": "details_show_code",
+    "body": [
+      "<details>",
+      "<summary>${1:show code}</summary>",
+      "",
+      "```$2",
+      "$3",
+      "```",
+      "",
+      "${4:import}",
+      "",
+      "</details>"
+    ],
+    "description": "details show code"
+  },
+  "blockquote Template": {
+    "scope": "markdown",
+    "prefix": "blockquote",
+    "body": ["<blockquote>", "${1:details}", "</blockquote>"],
+    "description": "details tag in mdx"
+  },
+  "mdx Import Component": {
+    "scope": "markdown",
+    "prefix": "import",
+    "body": [
+      "import ${1:ComponentName} from '${2:ComponentPath}';",
+      "",
+      "<${1:ComponentName} client:visible />"
+    ],
+    "description": "details tag in mdx"
+  }
+}
+````
