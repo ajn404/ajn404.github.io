@@ -15,7 +15,7 @@ export default ({ type }: Props) => {
   const [color2, setColor2] = useState("#001177");
 
   const linearGradient = (
-    <div>
+    <div className="text-white">
       <span>x1:</span>
       <input
         type="range"
@@ -28,6 +28,7 @@ export default ({ type }: Props) => {
         min="0"
         max="100"
       />
+      <br />
       <span>x2:</span>
       <input
         type="range"
@@ -40,6 +41,7 @@ export default ({ type }: Props) => {
         min="0"
         max="100"
       />
+      <br />
       <span>y1:</span>
       <input
         type="range"
@@ -52,6 +54,7 @@ export default ({ type }: Props) => {
         min="0"
         max="100"
       />
+      <br />
       <span>y2:</span>
       <input
         type="range"
@@ -65,7 +68,6 @@ export default ({ type }: Props) => {
         max="100"
       />
       <br />
-      0%的color
       <input
         type="color"
         id="head"
@@ -75,7 +77,8 @@ export default ({ type }: Props) => {
           setColor1(e.target.value);
         }}
       />
-      100%的color
+      0%的color
+      <br />
       <input
         type="color"
         id="head"
@@ -85,6 +88,8 @@ export default ({ type }: Props) => {
           setColor2(e.target.value);
         }}
       />
+      100%的color
+      <br />
       <svg height="200" width="400">
         <defs>
           <linearGradient

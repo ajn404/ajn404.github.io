@@ -10,6 +10,8 @@ import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
 
+import TextAnimation from "@components/react/d3/textAnimation.tsx";
+
 import Header from "@components/astro/UI/Header.astro";
 //@ts-ignore
 // import Bg from "@components/react/UI/bg.tsx";
@@ -155,6 +157,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   </main>
   <!-- <div id="editor-container"></div> -->
   <Footer />
+  <TextAnimation
+    text="blog made by ajn404"
+    stroke="white"
+    className="xing-cao inline absolute right-0"
+    client:visible
+  />
 </Layout>
 
 <!-- 

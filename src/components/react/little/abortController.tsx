@@ -17,7 +17,10 @@ const FetchWithAbort: React.FC = () => {
         return response.json();
       })
       .then(data => {
-        setStatus("请求成功: " + JSON.stringify(data));
+        let str = JSON.stringify(data);
+        //没个逗号后插入换行
+        str = str.replace(/,/g, ",\n");
+        setStatus(str);
       })
       .catch(err => {
         if (err.name === "AbortError") {
@@ -38,8 +41,12 @@ const FetchWithAbort: React.FC = () => {
   return (
     <div>
       <h1>中止 Fetch 请求示例</h1>
-      <button onClick={startFetch}>开始请求</button>
-      <button onClick={abortFetch}>中止请求</button>
+      <button className="bg-black text-white mx-20 my-4" onClick={startFetch}>
+        开始请求
+      </button>
+      <button className="bg-white text-black mx-20 my-4" onClick={abortFetch}>
+        中止请求
+      </button>
       <Editor>{status}</Editor>
     </div>
   );

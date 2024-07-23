@@ -13,11 +13,14 @@ export default ({ children }) => {
         extensions: [basicSetup, javascript()],
         parent: parent || document.body,
       });
-      let totalLines = editor.current;
     }
     if (children) {
       editor.current.dispatch({
-        changes: { from: 0, to: 0, insert: children },
+        changes: {
+          from: 0,
+          to: editor.current.state.doc.length,
+          insert: children,
+        },
       });
     }
   }, [children]);
