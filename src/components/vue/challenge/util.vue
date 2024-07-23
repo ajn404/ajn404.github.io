@@ -12,10 +12,11 @@ function until(initial) {
         return new Promise((resolve, reject) => {
             if (initial.value === value) {
                 resolve(true)
-            } else {
+            }
+            else {
                 setTimeout(() => {
                     toBe(value).then(resolve).catch(reject)
-                }, 100)
+                }, 100);
             }
         })
     }
@@ -32,7 +33,7 @@ async function increase() {
     timer = setInterval(() => {
         count.value++
     }, 1000)
-    await until(count).toBe(3)
+    await until(count).toBe(3);
     console.log(count.value === 3) // Make sure the output is true
 }
 

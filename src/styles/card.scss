@@ -34,7 +34,7 @@ html[data-theme="dark"] .hero-section .card:hover,
   .card__background {
     transform: scale(1.05) translateZ(0);
     background-size: contain;
-    animation: gradient 10s ease infinite;
+    animation: gradient 6s ease infinite;
   }
   .card__heading {
     text-decoration: rgb(255, 255, 255) wavy underline 1px;
@@ -43,7 +43,7 @@ html[data-theme="dark"] .hero-section .card:hover,
 
 html[data-theme="dark"] .hero-section .card-grid:hover .card:not(:hover,:focus,:active,:focus-visible) {
   .card__background {
-    filter: brightness(0.7) contrast(0.7) blur(2px);
+    filter: brightness(0.3) contrast(0.9) blur(10px);
   }
 }
 

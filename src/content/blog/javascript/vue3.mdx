@@ -736,9 +736,32 @@ import InjectChallenge from "@components/vue/challenge/provide.vue";
 
 [v-once](https://cn.vuejs.org/api/built-in-directives.html#v-once)
 
+<details>
+<summary>show code</summary>
+
+```vue
+<script setup>
+import { onUnmounted, ref } from "vue";
+const count = ref(0);
+const timer = setInterval(() => {
+  count.value++;
+}, 1000);
+
+onUnmounted(() => {
+  clearInterval(timer);
+});
+</script>
+
+<template>
+  <span v-once>>Make it never change: {{ count }}</span>
+</template>
+```
+
 import Once from "@components/vue/challenge/once.vue";
 
 <Once client:visible />
+
+</details>
 
 ### 2.Switch
 
