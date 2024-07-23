@@ -38,10 +38,13 @@ const SvgText: React.FC<SvgTextProps> = ({
         if (progress < duration) {
           requestAnimationFrame(step);
         } else {
-          // 动画完成后重置 offset 并重新开始动画
-          setOffset(300); // 重置为初始值
-          startTime = null; // 重置开始时间
-          requestAnimationFrame(step); // 重新开始动画
+          // requestAnimationFrame(step); // 重新开始动画
+          setTimeout(() => {
+            // 动画完成后重置 offset 并重新开始动画
+            setOffset(300); // 重置为初始值
+            startTime = null; // 重置开始时间
+            animate();
+          }, 5000);
         }
       };
 
