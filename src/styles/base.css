@@ -73,9 +73,9 @@
   #nav-menu svg ,.flex>svg,.small-svg{
     @apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
   }
-  /* .prose svg {
-    @apply w-auto h-auto block m-auto;
-  } */
+  .prose svg {
+    @apply w-auto max-w-full;
+  }
 
   svg.icon-tabler {
     @apply inline-block h-6 w-6 scale-125 fill-transparent 
@@ -101,6 +101,9 @@
   .prose code {
     color: #28a2b7 !important;
     background-color: transparent !important;
+  }
+  .prose h1{
+    @apply mt-1;
   }
   .prose pre{
     padding-right:1em;

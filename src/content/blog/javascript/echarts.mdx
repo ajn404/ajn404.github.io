@@ -1,0 +1,22 @@
+---
+title: echarts相关
+pubDatetime: 2024-07-24T01:44:07Z
+postSlug: echarts
+featured: false
+draft: false
+tags:
+  - echarts
+description: "demo echarts"
+---
+
+## 目录
+
+## demos
+
+### 柱状图重叠
+
+> 柱状图能够重叠的原因主要是因为在 chartOptions 中配置了两个 x 轴，并且将不同系列的数据分配到不同的 x 轴上，同时配置了相同的 barWidth 和 barGap 属性。
+
+import OverLappingBar from "@components/vue/echarts/overLappingBar.vue";
+
+<OverLappingBar client:visible />

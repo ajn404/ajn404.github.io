@@ -27,6 +27,8 @@ function addVariablesForColors({ addBase, theme }: any) {
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     important: true,
+    // 根据您实际使用的类动态生成样式
+    mod:"jit",
     content:
         [
             "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
@@ -34,7 +36,6 @@ module.exports = {
         ],
     prefix: "",
     theme: {
-
         container: {
             center: true,
             padding: "2rem",
@@ -156,12 +157,11 @@ module.exports = {
             },
         },
     },
-
     plugins: [
         require("@tailwindcss/typography"),
-        // //下面两个插件好像有点冲突
         require("tw-elements/dist/plugin.cjs"),
-        require("tailwindcss-animate"),addVariablesForColors],
-    
+        // require("tailwindcss-animate"),
+        addVariablesForColors
+    ],
     darkMode: "class"
 };
