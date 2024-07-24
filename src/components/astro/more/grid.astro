@@ -168,36 +168,10 @@
   // 打开蒙层的函数
   function openModal(src) {
     const modal: HTMLDivElement = document.createElement("div");
-    modal.className = "modal";
-    modal.style = `position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.5);
-    object-fit: contain;`;
+    modal.className =
+      "modal fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-50 bg-black bg-opacity-50 object-contain";
     modal.onclick = () => modal.remove(); // 点击蒙层关闭
     modal.innerHTML = `<img src="${src}" alt="放大图像">`;
     document.body.appendChild(modal);
   }
 </script>
-
-<style>
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.5);
-    object-fit: contain;
-  }
-</style>
