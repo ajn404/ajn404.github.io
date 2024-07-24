@@ -1,32 +1,33 @@
 ---
-import CopyIcon from './CopyIcon.astro'
-import CheckIcon from './CheckIcon.astro'
+import CopyIcon from "./CopyIcon.astro";
+import CheckIcon from "./CheckIcon.astro";
 ---
 
 <pre
-	class='relative shadow-2xl bg-black code'><button aria-label="copy-button" class="copy-button text-skin-purple absolute  z-20 top-2 right-2  rounded-md transition-all ease-in max-w-full max-h-fit hover:text-indigo-400"><CopyIcon /></button><span class="check-span text-skin-purple absolute z-10 top-2 right-2  rounded-md transition-all ease-in opacity-0 text-green-300 max-w-full max-h-fit "><CheckIcon /></span><slot /></pre>
+  class="relative shadow-2xl bg-black code"><div class="sticky  z-20 top-0 left-0 mb-8 max-h-0 flex">
+    <button aria-label="copy-button" class="copy-button text-skin-purple rounded-md transition-all ease-in hover:text-indigo-400"><CopyIcon /></button><span class="check-span rounded-md transition-all ease-in hidden text-green-300 "><CheckIcon /></span>    
+    </div><slot/></pre>
 
 <script>
-	const coppyBlock = () => {
+  const coppyBlock = () => {
+    const codeBlock = document.querySelectorAll("pre");
 
-		const codeBlock = document.querySelectorAll('pre')
+    codeBlock.forEach(code => {
+      const button = code.querySelector(".copy-button");
+      const check = code.querySelector(".check-span");
+      if (!button) return;
 
-		codeBlock.forEach((code) => {
-			const button = code.querySelector('.copy-button')
-			const check = code.querySelector('.check-span')
-            if(!button) return
-
-			button!.addEventListener('click', () => {
-				navigator.clipboard.writeText(code.textContent?.trim() || '')
-				check?.classList.remove('opacity-0')
-				button?.classList.add('opacity-0')
-				setTimeout(() => {
-					check?.classList.add('opacity-0')
-					button?.classList.remove('opacity-0')
-				}, 2000)
-			})
-		})
-	}
-	coppyBlock() // initial load
-	document.addEventListener('astro:after-swap', coppyBlock) // re-run after each page change
+      button!.addEventListener("click", () => {
+        navigator.clipboard.writeText(code.textContent?.trim() || "");
+        check?.classList.remove("hidden");
+        button?.classList.add("hidden");
+        setTimeout(() => {
+          check?.classList.add("hidden");
+          button?.classList.remove("hidden");
+        }, 2000);
+      });
+    });
+  };
+  coppyBlock(); // initial load
+  document.addEventListener("astro:after-swap", coppyBlock); // re-run after each page change
 </script>

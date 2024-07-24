@@ -76,12 +76,12 @@ description: "svg some features"
 
 - just text
 
-<svg width="600">
+<svg width="500">
   <text
-    x="300"
+    x="250"
     y="100"
     text-anchor="middle"
-    font-size="100"
+    font-size="70"
     stroke="indianred"
     class="xing-cao text-center fill-red-700"
     stroke-width="5">我的中国心</text>
@@ -348,7 +348,7 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 ### 示例
 
-下面是一个结合多种路径命令的综合示例：
+- 下面是一个结合多种路径命令的综合示例：
 
 ```html
 <svg width="400" height="200">
@@ -371,6 +371,42 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 通过掌握这些路径命令，可以创建复杂而多样的图形。路径命令的组合使用可以满足大多数矢量图形的绘制需求，是SVG中非常强大的工具。
 
+- M L Z
+
+没Z
+<svg width="400" height="200">
+  <path d="M 50 50 L 150 50 L 100 200" stroke="white" fill="transparent" />
+</svg>
+
+有Z
+<svg width="400" height="200">
+  <path d="M 50 50 L 150 50 L 100 200 Z" stroke="white" fill="transparent" />
+</svg>
+
+- use g
+
+<svg width="400" height="200">
+  <g id="myShape">
+    <rect x="50" y="50" width="100" height="100" fill="red" />
+    <circle cx="150" cy="150" r="50" fill="blue" />
+  </g>
+  <use href="#myShape" x="200" y="0" />
+</svg>
+
+```html
+<svg width="400" height="200">
+  <g id="myShape">
+    <rect x="50" y="50" width="100" height="100" fill="red" />
+    <circle cx="150" cy="150" r="50" fill="blue" />
+  </g>
+  <use href="#myShape" x="200" y="0" />
+</svg>
+```
+
+
+
+
 ## 链接
 
 - [mdn svg](https://developer.mozilla.org/zh-CN/docs/Web/SVG)
+- [observablehq svg basic](https://observablehq.com/@idris-maps/svg)
