@@ -130,31 +130,74 @@
 
       for (let i = 0; i < count; ++i) {
         const num = nextGroupKey * count + i;
-        nextItems.push(`<div class="item">
+        let html = `<div class="item">
   <div class="thumbnail">
       <img src="/assets/bg/${(num % 11) + 1}${
         Math.random() > 0.5 ? ".jpg" : ".png"
       }" alt="egjs" />
   </div>
   <div class="info">bg ${num}</div>
-</div>`);
+</div>`;
+        let htmlDom = document.createElement("div");
+        htmlDom.innerHTML = html;
+        htmlDom.firstChild.addEventListener("click", e => {
+          const { src } = e.target;
+          openModal(src);
+        });
+        nextItems.push(htmlDom.firstChild);
       }
       return nextItems;
     }
-    if(document.querySelector(".container"))
-    try {
-      const ig = new MasonryInfiniteGrid(".container", {
-        gap: 5,
-      });
+    if (document.querySelector(".container"))
+      try {
+        const ig = new MasonryInfiniteGrid(".container", {
+          gap: 5,
+        });
 
-      ig.on("requestAppend", e => {
-        const nextGroupKey = +(e.groupKey || 0) + 1;
-        ig.append(getItems(nextGroupKey, 10), nextGroupKey);
-      });
+        ig.on("requestAppend", e => {
+          const nextGroupKey = +(e.groupKey || 0) + 1;
+          ig.append(getItems(nextGroupKey, 10), nextGroupKey);
+        });
 
-      ig.renderItems();
-    } catch (e) {
+        ig.renderItems();
+      } catch (e) {
         console.error(e);
-    }
+      }
   });
+
+  // 打开蒙层的函数
+  function openModal(src) {
+    const modal: HTMLDivElement = document.createElement("div");
+    modal.className = "modal";
+    modal.style = `position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    object-fit: contain;`;
+    modal.onclick = () => modal.remove(); // 点击蒙层关闭
+    modal.innerHTML = `<img src="${src}" alt="放大图像">`;
+    document.body.appendChild(modal);
+  }
 </script>
+
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+  }
+</style>
