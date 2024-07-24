@@ -20,7 +20,7 @@ description: 2024年7月记录,埋点,abtest,用户行为快照,移动端优化,
 
 import Webpack from "@components/react/stackblitz/webpack.tsx";
 
-<Webpack client:only="react" />
+<Webpack client:only="react" client:visible />
 
 </details>
 
@@ -117,7 +117,7 @@ A/B 测试，也称为**拆分测试**，是一种将用户随机分配到两个
 
 import Grid from "@components/astro/more/grid.astro";
 
-<Grid />
+<Grid client:visible />
 
 </details>
 

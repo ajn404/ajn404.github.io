@@ -102,8 +102,8 @@
     color: #28a2b7 !important;
     background-color: transparent !important;
   }
-  .prose h1{
-    @apply mt-1;
+  .prose h1,.prose h2,.prose h3,.prose h4,.prose h5,.prose h6{
+    @apply my-4 brightness-150;
   }
   .prose pre{
     padding-right:1em;
