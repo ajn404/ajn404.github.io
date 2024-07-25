@@ -417,12 +417,27 @@ import SvgGenerateGrid from '@components/react/gsap/svgGenerateGrid.tsx';
 - 山水
   
 <details>
-<summary>Click to expand</summary>
+<summary>随机生成山水画</summary>
+
+- 点击获取背景(减少运算)
 
 import Draw from '@components/astro/UI/draw.astro';
 
 <div class="relative flex justify-center items-center">
 <Draw/></div>
+
+</details>
+
+<details>
+<summary>ts重写</summary>
+
+import DrawShanShui from '@components/react/svg/drawShanShui.tsx';
+
+
+<div class="relative flex justify-center overflow-auto items-center">
+<DrawShanShui client:only="react" /></div>
+
+
 
 </details>
 

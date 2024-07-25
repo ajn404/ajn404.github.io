@@ -82,7 +82,6 @@
 </script>
 
 <script id="PerlinNoise" is:inline>
-  //https://raw.githubusercontent.com/processing/p5.js/master/src/math/noise.js
   let Noise = new (function () {
     let PERLIN_YWRAPB = 4;
     let PERLIN_YWRAP = 1 << PERLIN_YWRAPB;
@@ -4116,10 +4115,7 @@
       0 +
       ",0)'>" +
       MEM.canv +
-      //+ "<circle cx='0' cy='0' r='50' stroke='black' fill='red' />"
       "</g></svg>";
-
-    //setTimeout(update,1000);
   }
 </script>
 
@@ -4191,61 +4187,27 @@
   function reloadWSeed(s) {
     let u = window.location.href.split("?")[0];
     window.location.href = u + "?seed=" + s;
-    //window.location.reload(true)
   }
   let btnHoverCol = "rgba(0,0,0,0.1)";
 </script>
 
 <div
   id="SETTING"
-  style="
-    position:fixed; 
-    z-index:1000; 
-    left: 40; 
-    top: 3;
-    "
 >
   <div
     id="SET_BTN"
-    style="
-      width:32;
-      height:32;
-      color:rgba(0,0,0,0.4);
-      border: 1px solid rgba(0,0,0,0.4);
-      text-align: center;
-      display: table;
-      cursor: pointer;
-      "
     onmouseover="document.getElementById('SET_BTN').style.backgroundColor=btnHoverCol"
     onmouseout="document.getElementById('SET_BTN').style.backgroundColor='rgba(0,0,0,0)'"
     onclick="toggleVisible('MENU');toggleText('SET_BTN.t','☰','✕')"
-    title="Settings"
   >
-    <div style="display:table-cell; vertical-align: middle;">
-      <font id="SET_BTN.t" size="4px"> &#x2630;</font>
-    </div>
-    <script is:inline>
-      window.addEventListener("scroll", function (e) {
-        document.getElementById("SETTING").style.left = Math.max(
-          4,
-          40 - window.scrollX
-        );
-      });
-    </script>
   </div>
-  <div style="height:4px"></div>
   <div
     id="MENU"
     style="
       display:none;
-      background-color: rgba(0,0,0,0.1);
-      border: 1px solid rgba(0,0,0,0.4);
       "
   >
     <table>
-      <tr>
-        <td><pre>SEED</pre></td>
-      </tr>
       <tr>
         <td>
           <input title="random seed" id="INP_SEED" />
@@ -4292,22 +4254,6 @@
         <td></td>
       </tr>
 
-      <tr>
-        <td><pre>SAVE</pre></td>
-      </tr>
-      <tr>
-        <td>
-          <button
-            title="WARNING: This may take a while..."
-            type="button"
-            id="dwn-btn"
-            value="Download as SVG"
-            onclick="download(''+(Math.random())+'.svg', document.getElementById('BG').innerHTML);"
-          >
-            Download as .SVG
-          </button>
-        </td>
-      </tr>
     </table>
   </div>
 </div>
@@ -4328,22 +4274,26 @@
   let canvas = document.getElementById("bgcanv");
   let ctx = canvas.getContext("2d");
   let reso = 512;
+  let computed = false;
+  document.getElementById("BG").addEventListener("click", e => {
+    if(!computed)
+    for (let i = 0; i < reso / 2 + 1; i++) {
+      for (let j = 0; j < reso / 2 + 1; j++) {
+        let c = 245 + Noise.noise(i * 0.1, j * 0.1) * 10;
+        c -= Math.random() * 20;
 
-  for (let i = 0; i < reso / 2 + 1; i++) {
-    for (let j = 0; j < reso / 2 + 1; j++) {
-      let c = 245 + Noise.noise(i * 0.1, j * 0.1) * 10;
-      c -= Math.random() * 20;
-
-      let r = c.toFixed(0);
-      let g = (c * 0.95).toFixed(0);
-      let b = (c * 0.85).toFixed(0);
-      ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-      ctx.fillRect(i, j, 1, 1);
-      ctx.fillRect(reso - i, j, 1, 1);
-      ctx.fillRect(i, reso - j, 1, 1);
-      ctx.fillRect(reso - i, reso - j, 1, 1);
+        let r = c.toFixed(0);
+        let g = (c * 0.95).toFixed(0);
+        let b = (c * 0.85).toFixed(0);
+        ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+        ctx.fillRect(i, j, 1, 1);
+        ctx.fillRect(reso - i, j, 1, 1);
+        ctx.fillRect(i, reso - j, 1, 1);
+        ctx.fillRect(reso - i, reso - j, 1, 1);
+      }
     }
-  }
-  let img = canvas.toDataURL("image/png");
-  document.getElementById("BG").style.backgroundImage = "url(" + img + ")";
+    computed = true;
+    let img = canvas.toDataURL("image/png");
+    document.getElementById("BG").style.backgroundImage = "url(" + img + ")";
+  });
 </script>

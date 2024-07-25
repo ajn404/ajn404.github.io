@@ -3,7 +3,6 @@ import { Button } from "@shadcn/ui/button";
 
 export default () => {
   function play(note = "C4") {
-    // Tone.Transport.bpm.value = 96; // 96 BPM instead of 120
     if (Tone.isNote(note)) {
       const synth = new Tone.Synth().toDestination();
       const now = Tone.now();
