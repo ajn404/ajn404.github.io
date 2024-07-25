@@ -59,7 +59,7 @@ export default () => {
   const [disease, setDisease] = useState("Measles");
 
   const initPot = async () => {
-    let url = `assets/vaccines.json`;
+    let url = `/assets/vaccines.json`;
     let data: any = await fetch(url);
     data = await data.json();
 
