@@ -33,3 +33,4 @@ pnpm-debug.log*
 .obsidian
 .vercel
 build
+pnpm-lock.yaml
