@@ -5,7 +5,7 @@ import Tag from "@components/astro/UI/Tag.astro";
 import Datetime from "@components/react/UI/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
-import NavToc from "./NavToc.astro";
+// import NavToc from "./NavToc.astro";
 import Code from "./Code.astro";
 import OpenDetails from "@components/astro/dom/openDetails.astro";
 import Lenis from "@components/astro/more/lenis.astro";
@@ -22,12 +22,11 @@ const {
   pubDatetime,
   tags,
   detailButton,
-  navToc,
+  //   navToc,
 } = post.data;
 const data = await post.render();
 
 const { Content, remarkPluginFrontmatter } = data;
-
 const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   .href;
 ---
@@ -79,7 +78,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <!-- {navToc && <NavToc />} -->
   </main>
   {detailButton && <OpenDetails />}
-  <Lenis/>
+  <Lenis />
   <button
     type="button"
     data-te-ripple-color="light"
