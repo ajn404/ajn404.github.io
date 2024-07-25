@@ -1,48 +1,59 @@
 import * as Tone from "tone";
+import { Button } from "@shadcn/ui/button";
 
 export default () => {
-  console.log(Tone);
-
   function play(note = "C4") {
-    // const sampler = new Tone.Sampler({
-    //     urls: {
-    //         'C3': 'C3.mp3',
-    //         'D#3': 'Ds3.mp3',
-    //         'F#3': 'Fs3.mp3',
-    //         'A3': 'A3.mp3',
-    //         'C4': 'C4.mp3',
-    //         'D#4': 'Ds4.mp3',
-    //         'F#4': 'Fs4.mp3',
-    //         'A4': 'A4.mp3',
-    //     },
-    //     release: 0.5,
-    //     baseUrl: '/assets/piano/',
-    // }).toDestination().sync();
-
-    // console.log(sampler);
-    Tone.Transport.bpm.value = 96; // 96 BPM instead of 120
-    // const synth = new Tone.Synth().toDestination();
-
-    // //play a middle 'C' for the duration of an 8th note
-    // synth.triggerAttackRelease("C4", "8n");
+    // Tone.Transport.bpm.value = 96; // 96 BPM instead of 120
     if (Tone.isNote(note)) {
       const synth = new Tone.Synth().toDestination();
       const now = Tone.now();
-      // trigger the attack immediately
       synth.triggerAttack(note, now);
-      // wait one second before triggering the release
       synth.triggerRelease(now + 0.1);
     }
   }
 
+  // // 定义旋律
+  const melody = [
+    { note: "A3", duration: "4n" },
+    { note: "C4", duration: "4n" },
+    { note: "E4", duration: "4n" },
+    { note: "G4", duration: "4n" },
+    { note: "A4", duration: "4n" },
+    { note: "G4", duration: "4n" },
+    { note: "E4", duration: "4n" },
+    { note: "C4", duration: "4n" },
+  ];
+
+  // 播放旋律的函数
+  function playMelody() {
+    const synth = new Tone.Synth().toDestination();
+
+    let now = Tone.now();
+    melody.forEach(({ note, duration }) => {
+      synth.triggerAttackRelease(note, duration, now);
+      now += Tone.Time(duration).toSeconds(); // 更新当前时间
+    });
+  }
+
+  const start = async () => {
+    await Tone.start(); // 开始音频上下文
+    playMelody(); // 播放旋律
+  };
+
   return (
     <>
-      <p>Tone.js</p>
-      <button onClick={() => play("A3")}>Play A3</button>
-      <button onClick={() => play("A1")}>Play A1</button>
-      <button onClick={() => play("A2")}>Play A2</button>
-      <button onClick={() => play("A4")}>Play A4</button>
-      <button onClick={() => play("C3")}>Play A3</button>
+      <div>
+        <p>Tone.js</p>
+        <div className="flex flex-col gap-2">
+          <Button onClick={() => play("A3")}>Play A3</Button>
+          <Button onClick={() => play("A1")}>Play A1</Button>
+          <Button onClick={() => play("A2")}>Play A2</Button>
+          <Button onClick={() => play("A4")}>Play A4</Button>
+          <Button onClick={() => play("C3")}>Play A3</Button>
+        </div>
+        <p>自制好听的旋律</p>
+        <Button onClick={start}>播放</Button>
+      </div>
     </>
   );
 };
