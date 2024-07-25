@@ -33,6 +33,7 @@
     "@egjs/infinitegrid": "^4.12.0",
     "@hookform/resolvers": "^3.3.4",
     "@observablehq/plot": "^0.6.13",
+    "@observablehq/runtime": "5",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",

@@ -359,3 +359,39 @@ viewer.zoomTo(tileset).then(() => {});
 - [super map](https://www.supermapol.com/earth/vue-iEarth/examples/index.html)
 - [terria demo](https://www.terria.io/applications)
 - [esri/arcgis](https://developers.arcgis.com/)
+
+## jecloud的多选样式和单选样式不一样
+
+源码中
+
+```jsx
+multiple ? (
+        <Panel.Item ref={$resultPanel} region="right" split collapsible size="232">
+          <Grid
+            size="small"
+            class="je-grid-func-select-result"
+            columns={gridColumns}
+            store={resultStore}
+            bodyBorder
+            draggable
+            v-slots={{
+              tbar() {
+                return (
+                  <div class="title">
+                    已选数据<span class="red">（{resultStore.data.length}条）</span>
+                    <i
+                      class="icon fal fa-chevron-right"
+                      onClick={() => {
+                        $resultPanel.value.setExpand(false);
+                      }}
+                    ></i>
+                  </div>
+                );
+              },
+            }}
+          />
+        </Panel.Item>
+      ) : null,
+```
+
+直接就一个multiple控制了右边已选择,难绷
