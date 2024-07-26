@@ -250,6 +250,52 @@ console.log(weakMap.has(obj)); // 输出 false
 </blockquote>
 </details>
 
+## questions
+
+### [看hello算法数组与链表有感](https://www.hello-algo.com/chapter_array_and_linkedlist/summary/)
+
+-为什么js数组可以存不同类型的数据
+
+<details>
+<summary>Click to expand</summary>
+JavaScript数组可以存储不同类型的数据，主要是因为JavaScript是一种弱类型语言。这意味着变量的类型是在运行时动态确定的，而不是在编写代码时静态定义的。因此，JavaScript数组可以包含任意类型的元素，包括数字、字符串、对象、函数、甚至其他数组等[1](https://stackoverflow.com/questions/39059473/how-come-javascript-arrays-can-hold-multiple-data-types-at-same-time)[4](https://javascript.plainenglish.io/can-javascript-arrays-contain-different-types-e34a4939befc).
+
+具体来说，JavaScript中的数组实际上是对象的一种特殊类型。数组的每个元素都可以是不同的数据类型，因为它们都是以键值对的形式存储的，其中键是索引，值是元素的内容。这种灵活性使得JavaScript数组在处理多种数据类型时非常方便[3](https://www.quora.com/Can-a-JavaScript-array-contain-different-types)[5](https://www.freecodecamp.org/news/how-to-declare-an-array-in-javascript-creating-an-array-in-js).
+
+例如，以下是一个包含不同类型元素的JavaScript数组的示例：
+
+```javascript
+let mixedArray = [
+  42,
+  "Hello",
+  { name: "Alice" },
+  [1, 2, 3],
+  null,
+  undefined,
+  function () {
+    return "I'm a function";
+  },
+];
+```
+
+在这个数组中，包含了数字、字符串、对象、数组、null、undefined和函数等多种类型的元素。这种特性使得JavaScript数组在处理复杂数据结构时非常灵活和强大[6](https://www.simplilearn.com/tutorials/javascript-tutorial/javascript-arrays).
+
+</details>
+
+- 那js中的数组是存储在栈还是堆呢
+
+<details>
+<summary>Click to expand</summary>
+在JavaScript中，数组是存储在堆内存中的。JavaScript的内存管理分为两部分：栈和堆。
+
+栈主要用于存储简单的原始数据类型（如数字、字符串和布尔值）以及函数调用的上下文。当你创建一个数组时，数组本身是一个复杂的数据结构，它的内容（即数组中的元素）会被存储在堆中。数组的变量在栈中存储的是对堆中实际数组数据的引用[1](https://stackoverflow.com/questions/65653015/are-some-variables-in-js-stored-on-the-stack-instead-of-the-heap)[2](https://medium.com/@dondeveloper/quickie-javascript-heap-and-stack-745b6d0c8e54).
+
+例如，当你定义一个数组时，数组的引用会存储在栈中，而数组的实际数据则存储在堆中。这种设计允许数组在运行时动态调整大小，因为堆内存可以灵活分配和释放，而栈内存的大小是有限的[3](https://www.linkedin.com/pulse/objects-arrays-working-javascript-yash-raj).
+
+总结来说，JavaScript数组的引用存储在栈中，而数组的实际数据则存储在堆中。
+
+</details>
+
 ## 链接
 
 - [findLast](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/findLast)
