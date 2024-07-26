@@ -1,0 +1,11 @@
+
+details{
+    background-color: transparent;
+    *{
+        color: rgba(var(--color-text-base), var(--tw-text-opacity)) !important;
+    }
+
+    language-*{
+        background-color: transparent !important;
+    }
+}

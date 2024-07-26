@@ -18,7 +18,7 @@ function Bnbshader() {
 
   return (
     <>
-      <details open={open.current}>
+      <details open={open.current} className="max-w-full overflow-auto">
         <summary>
           <a href="https://observablehq.com/@makio135/bnbshader">原文</a>
         </summary>
