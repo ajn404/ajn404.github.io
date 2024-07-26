@@ -15,6 +15,7 @@ import { fileURLToPath } from "url";
 import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
 import cesium from "vite-plugin-cesium";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import cloudflare from "@astrojs/cloudflare";
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
 
@@ -35,10 +36,16 @@ export default defineConfig({
   },
   site: "https://ajn404.github.io", // replace this with your deployed domain
   prefetch: true,
+  output: "hybrid",
+  adapter: cloudflare(),
   //   output: "server",
   //   adapter: node({
   //     mode: "standalone",
   //   }),
+  experimental: {
+    serverIslands: true,
+    clientPrerender: true,
+  },
   integrations: [
     mdx({
       syntaxHighlight: "shiki",
