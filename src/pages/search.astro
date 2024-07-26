@@ -22,7 +22,7 @@ const searchList = posts.map(({ data, body }) => {
 
 <Layout activeNav="search" title={`Search | ${SITE.title}`}>
   <Main pageTitle="Search" pageDesc="搜索文章 ...">
-    <SearchBar client:load searchList={searchList} />
+    <SearchBar client:load client:only="react" searchList={searchList} />
   </Main>
   <Footer />
 </Layout>

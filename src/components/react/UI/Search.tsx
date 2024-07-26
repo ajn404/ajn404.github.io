@@ -1,4 +1,4 @@
-import Fuse, { type FuseResultMatch } from "fuse.js";
+import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo } from "react";
 import Card from "@components/react/UI/Card";
 import slugify from "@utils/slugify";
@@ -60,7 +60,6 @@ export default function SearchBar({ searchList }: Props) {
     // input value is more than one character
     let inputResult = inputVal.length > 1 ? fuse.search(inputVal) : [];
     setSearchResults(inputResult);
-    console.log("222", searchResults, searchList);
 
     // Update search string in URL
     if (inputVal.length > 0) {
@@ -107,16 +106,14 @@ export default function SearchBar({ searchList }: Props) {
       <section className="hero-section">
         <div className="card-grid ">
           {searchResults &&
-            searchResults.map(({ item, refIndex, matches }, index) => (
+            searchResults.map(({ item, refIndex }, index) => (
               <div className="w-full inline" key={index}>
                 <Card
                   href={`/posts/${slugify(item.data)}`}
                   frontmatter={item.data}
+                  showBackground={false}
                   key={`${refIndex}-${slugify(item.data)}`}
                 />
-                <div className="text-sm text-gray-500 mt-2 relative">
-                  {matches[0]?.value.slice(0, 20)}...
-                </div>
               </div>
             ))}
         </div>

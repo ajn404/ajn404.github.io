@@ -8,9 +8,15 @@ export interface Props {
   href?: string;
   frontmatter: CollectionEntry<"blog">["data"];
   secHeading?: boolean;
+  showBackground?: boolean;
 }
 
-export default function Card({ href, frontmatter, secHeading = true }: Props) {
+export default function Card({
+  href,
+  frontmatter,
+  secHeading = true,
+  showBackground = true,
+}: Props) {
   const { title, pubDatetime, modDatetime, description, upDateTime } =
     frontmatter;
 
@@ -44,6 +50,10 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
     });
     obs.observe(ref.current!);
   }, []);
+
+  useEffect(() => {
+    if (showBackground) import("@styles/card.scss");
+  }, [showBackground]);
 
   useEffect(() => {
     image = new Image();
