@@ -7,7 +7,7 @@ interface SvgTextProps {
   stroke?: string;
   className?: string;
 }
-
+// 动画产生的原因是为动态的strokeDashoffset
 const SvgText: React.FC<SvgTextProps> = ({
   text,
   height = 100,

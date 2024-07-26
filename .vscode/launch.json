@@ -7,6 +7,7 @@
       "request": "launch",
       "type": "node-terminal"
     },
+    // fn+f5
     {
       "command": "pnpm run dev",
       "name": "run docs",
