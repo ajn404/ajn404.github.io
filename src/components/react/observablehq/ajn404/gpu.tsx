@@ -18,10 +18,13 @@ function Bnbshader() {
 
   return (
     <>
-      <details open={open.current} className="max-w-full overflow-auto obs">
+      <details
+        open={open.current}
+        className="max-w-full overflow-auto obs show"
+      >
         <summary>
           <a href="https://observablehq.com/d/215f9d2b56c1ade0" target="_blank">
-            Strange Attractors on the GPU, Part 2: Fun!
+            混沌方程等的gpu可视化
           </a>
         </summary>
         <div ref={ref} />
