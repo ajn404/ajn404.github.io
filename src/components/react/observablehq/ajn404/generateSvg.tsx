@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Runtime, Inspector } from "@observablehq/runtime";
+import "../style.scss";
 
 function Bnbshader() {
   const ref = useRef<HTMLDivElement>(null);
@@ -18,7 +19,7 @@ function Bnbshader() {
 
   return (
     <>
-      <details open={open.current} className="max-w-full overflow-auto">
+      <details open={open.current} className="max-w-full overflow-auto obs">
         <summary>
           <a href="https://observablehq.com/@makio135/bnbshader">原文</a>
         </summary>

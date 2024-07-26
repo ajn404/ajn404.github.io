@@ -8,7 +8,7 @@ function Bnbshader() {
   useEffect(() => {
     const runtime = new Runtime();
     const url = "https://api.observablehq.com/d/215f9d2b56c1ade0.js?v=4";
-    import(url).then(module => {
+    import(/* @vite-ignore */ url).then(module => {
       const notebook = module.default;
       runtime.module(notebook, Inspector.into(ref.current));
     });
@@ -18,9 +18,9 @@ function Bnbshader() {
 
   return (
     <>
-      <details open={open.current} className="max-w-full overflow-auto">
+      <details open={open.current} className="max-w-full overflow-auto obs">
         <summary>
-          <a href="https://observablehq.com/d/215f9d2b56c1ade0">
+          <a href="https://observablehq.com/d/215f9d2b56c1ade0" target="_blank">
             Strange Attractors on the GPU, Part 2: Fun!
           </a>
         </summary>

@@ -1,11 +1,50 @@
+$primary-color: #2196F3;
+$background-color: #e4eaef;
+$border-color: #f7f7f7;
+$font-size: 16px;
+$small-font-size: 12px;
 
-details{
-    background-color: transparent;
-    *{
-        color: rgba(var(--color-text-base), var(--tw-text-opacity)) !important;
-    }
+details.obs {
+  margin: 1em 0;
+  padding: 10px;
+  border: 2px solid $border-color;
+  border-radius: 5px;
+  font-size: $font-size;
+  transition: background-color 0.3s ease;
 
-    language-*{
-        background-color: transparent !important;
+  summary {
+    cursor: pointer;
+    font-size: $font-size;
+    list-style: none;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    &::marker {
+      color: white; // 改变箭头颜色
+      font-size: 1.2em; // 增大箭头大小
     }
+  }
+
+  p {
+    margin: 10px 0 0 0; // 为段落添加上边距
+  }
+  input,select{
+    color: black;
+  }
+  .language-glsl{
+    background-color: black!important;
+  }
+
+  .katex .katex-mathml{
+    position: static!important;
+    color: black;
+  }
+  .observablehq{
+    border-top: 1px dotted skyblue;
+    margin-top:1em;
+  }
+
+  
+
 }
+
