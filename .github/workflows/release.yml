@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 jobs:
   publish-tauri:
     permissions:
@@ -12,16 +12,14 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - platform: 'macos-latest'
-            args: '--target x86_64-apple-darwin' # Intel-based
-          - platform: 'macos-latest'
-            args: '--target aarch64-apple-darwin' # Apple Silicon
-          #   - platform: 'ubuntu-20.04'
-          #     args: ''
-          #   - platform: 'windows-latest'
-          #     args: '--target x86_64-pc-windows-msvc' # 64-bit
+          - platform: 'macos-latest' # for Arm based macs (M1 and above).
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest' # for Intel based macs.
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
+            args: ''
           - platform: 'windows-latest'
-            args: '--target i686-pc-windows-msvc' # 32-bit
+            args: ''
 
     runs-on: ${{ matrix.settings.platform }}
     steps:
@@ -71,8 +69,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: 'Pointless v__VERSION__'
-          releaseBody: 'release下载对应版本'
+          releaseName: "Pointless v__VERSION__"
+          releaseBody: "release下载对应版本"
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.settings.args }}
