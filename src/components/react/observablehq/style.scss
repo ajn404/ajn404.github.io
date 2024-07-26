@@ -45,7 +45,11 @@ details.obs {
   }
 }
 details.obs.show{
-    .observablehq:not(:has(canvas)){
-        display: none!important;
+    // .observablehq:not(:has(canvas)){
+    //     display: none!important;
+    // }
+    .observablehq:has(canvas){
+        width: 50%;
+        margin: 0 auto;
     }
 }
