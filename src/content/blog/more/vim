@@ -1,3 +1,18 @@
+---
+title: nvim学习
+pubDatetime: 2024-07-28T09:29:17Z
+postSlug: nvim
+featured: false
+draft: false
+detailButton: false
+tags:
+  - nvim
+  - 2024-07
+description: "nvim tutor学习记录"
+---
+
+## 目录
+
 ## neovide
 
 ### 删除
@@ -42,3 +57,49 @@ As each error is fixed press <Esc> to return to Normal mode.
 ```planetxt
 try to save this not that
 ```
+
+insert ls 
+
+- :r !ls
+
+
+Dockerfile
+LICENSE
+app-icon.png
+astro.config.mjs
+auth.config.mjs
+components.json
+docker-compose.yml
+node_modules
+package-changelog.md
+package.json
+plugin
+pnpm-lock.yaml
+public
+readme.md
+src
+src-tauri
+tailwind.config.cjs
+tsconfig.json
+
+
+insert !pnpm run dev
+
+- :r !pnpm run dev
+
+> ajn404-github-io@0.0.0 dev /Users/ninghuiyue/Desktop/ajn404.github.io
+> astro dev
+
+17:23:29 [types] Generated 1ms
+17:23:29 [vite] Port 3333 is in use, trying another one...
+17:23:29 [vite] [vite-plugin-static-copy] Collected 4 items.
+
+ astro  v4.12.2 ready in 642 ms
+
+┃ Local    http://localhost:3334/
+┃ Network  use --host to expose
+
+17:23:33 [200] / 237ms
+17:23:33 watching for file changes...
+17:23:39 [200] / 26ms
+
