@@ -51,10 +51,10 @@ details.obs.show{
     .observablehq:has(canvas){
         text-align: center;
         place-items: center;
+        margin: 0 auto;
         canvas{
             width: 50vw;
         }
         
-        margin: 0 auto;
     }
 }

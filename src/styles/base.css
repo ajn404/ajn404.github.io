@@ -322,3 +322,9 @@ details::-webkit-scrollbar {
 iframe{
     max-width:calc(100% - 2em);
 }
+
+html[data-theme="dark"] .hero-section .card:active .card__content,
+html[data-theme="dark"] .hero-section .card:focus-visible .card__content{
+    outline:1px dotted red!important;
+    backdrop-filter: brightness(0.5);
+}

@@ -36,9 +36,3 @@ As each error is fixed press <Esc> to return to Normal mode.
 - 组合技 使用/或者?搜索输入数字+n/N
 
 - :!+command可以直接执行命令
-
-
-
-```planetxt
-try to save this not that
-```

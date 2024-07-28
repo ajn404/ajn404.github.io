@@ -44,16 +44,16 @@ export default function Card({
   };
 
   useEffect(() => {
+    if (showBackground) import("@styles/card.scss");
+  }, [showBackground]);
+
+  useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       if (!entries || entries.length === 0) return;
       setIsVisible(entries[0].isIntersecting);
     });
     obs.observe(ref.current!);
   }, []);
-
-  useEffect(() => {
-    if (showBackground) import("@styles/card.scss");
-  }, [showBackground]);
 
   useEffect(() => {
     image = new Image();
