@@ -7,7 +7,7 @@ function Bnbshader() {
   const open = useRef(false);
   useEffect(() => {
     const runtime = new Runtime();
-    const url = "https://api.observablehq.com/d/215f9d2b56c1ade0.js?v=4";
+    const url = "https://api.observablehq.com/@ajn404-ws/gpudemo.js?v=4";
     import(/* @vite-ignore */ url).then(module => {
       const notebook = module.default;
       runtime.module(notebook, Inspector.into(ref.current));
