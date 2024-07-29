@@ -1,0 +1,15 @@
+
+html[data-theme="dark"] .hero-section .card:hover .card__content,
+html[data-theme="dark"] .hero-section .card:active .card__content,
+html[data-theme="dark"] .hero-section .card:focus-visible .card__content{
+    background-image: url(/assets/svg/goal.svg);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-clip: padding-box;
+    background-blend-mode: lighten;
+    text-decoration-color: #fff;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    text-decoration-style: wavy!important;
+}

@@ -1,6 +1,6 @@
 import Fuse from "fuse.js";
 import { useEffect, useRef, useState, useMemo } from "react";
-import Card from "@components/react/UI/Card";
+import Card from "@components/react/UI/SearchCard";
 import slugify from "@utils/slugify";
 import type { BlogFrontmatter } from "@content/_schemas";
 
@@ -111,7 +111,6 @@ export default function SearchBar({ searchList }: Props) {
                 <Card
                   href={`/posts/${slugify(item.data)}`}
                   frontmatter={item.data}
-                  showBackground={false}
                   key={`${refIndex}-${slugify(item.data)}`}
                 />
               </div>
