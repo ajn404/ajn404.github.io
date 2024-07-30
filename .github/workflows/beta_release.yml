@@ -1,0 +1,67 @@
+name: Build Tauri Android App
+
+on:
+  push:
+    tags:
+      - "beta*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3  # 使用最新版本的 checkout action
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3  # 使用最新版本的 setup-java action
+        with:
+          java-version: '17'  # 使用最新的 Java 版本
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3  # 使用最新版本的 setup-node action
+        with:
+          node-version: '18'  # 使用最新的 Node.js 版本
+
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup default stable
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8.9.2
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Tauri CLI
+        run: |
+          pnpm install -g tauri-cli
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build Tauri Android App
+        run: |
+          pnpm run tauri build --target android
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4  # 使用最新版本的 upload-artifact action
+        with:
+          name: tauri-android-app
+          path: src-tauri/target/release/android/app/build/outputs/apk/release/app-release.apk  # 根据你的项目路径调整
