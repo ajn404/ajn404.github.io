@@ -1,4 +1,4 @@
-name: Build Tauri Android App
+name: Build and Release
 
 on:
   push:
@@ -6,29 +6,34 @@ on:
       - "beta*"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - platform: 'macos-latest' # for Arm based macs (M1 and above).
+            args: '--target aarch64-apple-darwin'
+          - platform: 'windows-latest'
+            args: ''
+          - platform: 'android'
+            args: ''
 
+    runs-on: ${{ matrix.settings.platform }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3  # 使用最新版本的 checkout action
+      - uses: actions/checkout@v3
+
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin
 
       - name: Set up JDK
         uses: actions/setup-java@v3  # 使用最新版本的 setup-java action
         with:
           distribution: 'zulu'
           java-version: '17'  # 使用最新的 Java 版本
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3  # 使用最新版本的 setup-node action
-        with:
-          node-version: '18'  # 使用最新的 Node.js 版本
-
-      - name: Install Rust
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          source $HOME/.cargo/env
-          rustup default stable
 
       - uses: pnpm/action-setup@v2.0.1
         name: Install pnpm
@@ -50,19 +55,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install Tauri CLI
-        run: |
-          pnpm install -g tauri-cli
-
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build Tauri Android App
+      - name: install dependencies (ubuntu only)
+        if: matrix.settings.platform == 'ubuntu-20.04'
         run: |
-          pnpm run tauri build --target android
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4  # 使用最新版本的 upload-artifact action
+      - uses: tauri-apps/tauri-action@v0.5.11
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: tauri-android-app
-          path: src-tauri/target/release/android/app/build/outputs/apk/release/app-release.apk  # 根据你的项目路径调整
+          tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
+          releaseName: "beta v__VERSION__"
+          releaseBody: "使用tauri发布beta版本"
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.settings.args }}
