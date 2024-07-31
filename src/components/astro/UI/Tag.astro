@@ -34,23 +34,26 @@ const fontColor = `rgb(${colorList[0]},${colorList[1]},${colorList[2]})`;
 <style lang="scss">
   .tag {
     clip-path: polygon(
-      20% 0,
+      20px 0,
       100% 0,
       100% 100%,
-      20% 100%,
+      20px 100%,
       0 50%
     ); /* 
     定义切角形状 */
     padding: 0 10px 0 20px;
     backdrop-filter: invert(20%);
+    a {
+      filter: brightness(2);
+    }
     &:hover {
-        color: #fff!important;
+        filter: invert(100%);
     }
   }
   a {
     @apply relative focus-visible:p-1;
   }
   a svg {
-    @apply -mr-5 h-6 w-6 scale-95  opacity-80 group-hover:fill-skin-accent;
+    @apply -mr-5 h-6 w-6 scale-95 group-hover:fill-skin-accent;
   }
 </style>
