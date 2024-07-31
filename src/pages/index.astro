@@ -158,7 +158,17 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
     <Header home={true} />
   </main>
-  <!-- <div id="editor-container"></div> -->
+  <blockquote class="w-full text-center my-10 font-bold italic text-white">
+    <p>
+      "The WorldWideWeb (WWW) project aims to allow links to be made to any
+      information anywhere. "
+    </p>
+    <cite class="text-sm text-right"
+      ><a target="_blank" href="https://www.w3.org/People/Berners-Lee/1991/08/art-6484.txt"
+        >Tim Berners-Lee, 1991</a
+      ></cite
+    >
+  </blockquote>
   <Footer />
   <TextAnimation
     text="下学blog made by ajn404"
@@ -219,17 +229,8 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 </script> -->
 
 <style>
-  /* ===== Hero Section ===== */
   #hero {
     @apply pb-6 pt-8;
-    /* position: relative;
-    background-image: radial-gradient(
-      circle at 50% 50%,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(0, 0, 0, 0) 100%
-    );
-    background-size: cover;
-    background-position: center; */
     transform-style: preserve-3d;
     transform: translateZ(-500px) rotateY(10deg); /* 将背景图向后移动并旋转 */
   }

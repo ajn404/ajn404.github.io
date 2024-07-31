@@ -12,10 +12,10 @@ const posts = await getCollection("blog");
 let tags = getUniqueTags(posts);
 ---
 
-<Layout  activeNav="tags" title={`Tags | ${SITE.title}`}>
+<Layout activeNav="tags" title={`Tags | ${SITE.title}`}>
   <Main pageTitle="Tags" pageDesc="所有博客的标签都在这里">
     <ul>
-      {tags.map(tag => <Tag name={tag} size="lg" />)}
+      {tags.map(tag => <Tag name={tag} />)}
     </ul>
   </Main>
   <Footer />

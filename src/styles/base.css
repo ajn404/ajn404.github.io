@@ -288,6 +288,15 @@ details::-webkit-scrollbar {
   #目录 + ul,#dev-overlay,#btn-back-to-top,header{
     display: none;
   }
+  *{
+    color:black;
+    font-size: 12pt;
+    background-color: white;
+  }
+
+  h1, h2, h3 {
+    color:black!important;
+  }
 }
 
 

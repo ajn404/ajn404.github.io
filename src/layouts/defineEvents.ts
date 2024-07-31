@@ -17,19 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
     `${headerHeight}px`
   );
 
-  // window.onblur = function () {
-  //     console.log('blur,当前页面不可见');
+  // 打印前的处理函数
+  function handlePrint(open: boolean) {
+    let target = document.querySelectorAll("details");
+    target.forEach((el: HTMLDetailsElement) => (el.open = open));
+  }
 
-  // }
-
-  // window.onfocus = function () {
-  //     console.log('focus','当前页面可见');
-  // }
-
-  // console.log(111);
-  // setInterval(() => {
-  //     requestAnimationFrame(() => {
-  //         console.log('当前页面可见');
-  //     })
-  // },1000)
+  // 监听打印事件
+  window.addEventListener("beforeprint", handlePrint.bind(null, true));
+  window.addEventListener("afterprint", handlePrint.bind(null, false));
 });

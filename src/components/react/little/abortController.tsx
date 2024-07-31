@@ -41,10 +41,16 @@ const FetchWithAbort: React.FC = () => {
   return (
     <div>
       <h1>中止 Fetch 请求示例</h1>
-      <button className="bg-black text-white mx-20 my-4" onClick={startFetch}>
+      <button
+        className="bg-black px-10 text-white mx-20 my-4"
+        onClick={startFetch}
+      >
         开始请求
       </button>
-      <button className="bg-white text-black mx-20 my-4" onClick={abortFetch}>
+      <button
+        className="bg-white px-10 text-black mx-20 my-4"
+        onClick={abortFetch}
+      >
         中止请求
       </button>
       <Editor>{status}</Editor>

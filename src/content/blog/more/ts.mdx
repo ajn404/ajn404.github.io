@@ -437,6 +437,23 @@ function MyClickHandler() {
 
 </details>
 
+## satisfies
+
+在这个例子中，person 对象必须包含 name 和 age 属性，否则 TypeScript 会报错。这样可以有效地减少潜在的错误，提高代码的可靠性。
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+
+const person = {
+  name: "Alice",
+  age: 30,
+  // 如果这里添加了其他属性，TypeScript 也会允许
+} satisfies Person; // 确保 person 符合 Person 接口
+```
+
 ## 链接
 
 - [TypeScript 之 More on Functions](https://zhuanlan.zhihu.com/p/434016060?utm_id=0)

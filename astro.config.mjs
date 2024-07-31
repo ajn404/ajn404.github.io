@@ -17,6 +17,9 @@ import cesium from "vite-plugin-cesium";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import myIntegration from "./plugin/devtool/my-integration"
 
+import sentry from "@sentry/astro";
+import spotlightjs from "@spotlightjs/astro";
+
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
 
@@ -59,6 +62,8 @@ export default defineConfig({
       },
     }),
     myIntegration,
+    sentry(),
+    spotlightjs(),
   ],
   markdown: {
     remarkPlugins: [
