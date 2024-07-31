@@ -1,5 +1,5 @@
 [package]
-name = "ajn404-github-io"
+name = "app"
 version = "1.0.2"
 description = "A Tauri App"
 authors = ["you"]
