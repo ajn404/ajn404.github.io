@@ -1298,6 +1298,8 @@ npm config set registry=https://registry.npmjs.org
 
 ### mac 绕过公证
 
+> mac提示应用已损坏
+
 ```shell
 sudo xattr -rd com.apple.quarantine /Applications/xxxxxx.app
 ```

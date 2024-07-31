@@ -14,6 +14,8 @@ tags:
 description: "webgl"
 ---
 
+## 目录
+
 ## regl
 
 ```shell
@@ -428,6 +430,8 @@ npm run dev
 
 </details>
 
+## threejs
+
 <details>
 <summary>Click to expand</summary>
 
@@ -437,9 +441,15 @@ import Diorama from "@components/astro/three/demo.astro";
 
 </details>
 
+## observablehq
+
+### Gpu
+
 import Gpu from "@components/react/observablehq/ajn404/gpu.tsx";
 
 <Gpu client:visible />
+
+### bg
 
 <details>
 <summary>bg</summary>
@@ -449,6 +459,54 @@ import Bg from "@components/react/observablehq/ajn404/bg.tsx";
 <Bg client:visible />
 
 </details>
+
+## mdn webgl
+
+### 检测webgl
+
+```js
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
+    );
+  } catch (e) {
+    return false;
+  }
+}
+```
+
+### 清除画布
+
+<details>
+<summary>WebGL被称为状态机</summary>
+
+WebGL被称为状态机是因为它的工作原理依赖于一组状态，这些状态决定了如何渲染图形。WebGL的每个调用都可能会改变其内部状态，而这些状态会影响后续的渲染操作。例如，当前使用的着色器程序、绑定的缓冲区、启用的混合模式等，都是WebGL的状态的一部分。
+
+在WebGL中，状态是通过一系列的API调用来管理的。每次调用如`gl.enable()`, `gl.bindBuffer()`, 或 `gl.useProgram()`等，都会改变WebGL的状态。这种设计使得开发者需要时刻关注当前的状态，以确保渲染的正确性。例如，如果你切换了着色器程序，可能需要重新启用某些顶点属性，因为这些设置是与特定的程序状态相关联的[1](https://stackoverflow.com/questions/28604747/understanding-webgl-state)[5](https://alain.xyz/blog/raw-webgl)。
+
+此外，WebGL的状态机特性意味着它的性能优化可以通过减少不必要的状态更改来实现。例如，开发者可以维护一个“当前状态”的副本，以避免重复的状态设置，这样可以提高性能[1](https://stackoverflow.com/questions/28604747/understanding-webgl-state)。
+
+</details>
+
+```js
+function clearCanvas(gl) {
+  gl.clearColor(0.0, 0.0, 1.0, 1.0); // 设置清除颜色为黑色
+  gl.clear(gl.COLOR_BUFFER_BIT); // 清除颜色缓冲区
+}
+```
+
+import Clear from "@components/react/webgl/mdn/clear.tsx";
+
+<Clear client:visible />
+
+Clearing by clicking
+
+import Switch from "@components/react/webgl/mdn/switch.tsx";
+
+<Switch client:visible />
 
 ## 链接
 
