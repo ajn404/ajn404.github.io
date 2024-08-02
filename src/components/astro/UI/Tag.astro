@@ -13,7 +13,7 @@ for (let i = 0; i < 3; i++) {
   colorList.push(255 - num);
 }
 
-const randomColor = `rgba(${rgbList[0]},${rgbList[1]},${rgbList[2]},1.0)`;
+const randomColor = `rgba(${rgbList[0]},${rgbList[1]},${rgbList[2]},0.8)`;
 const fontColor = `rgb(${colorList[0]},${colorList[1]},${colorList[2]})`;
 ---
 
@@ -42,12 +42,16 @@ const fontColor = `rgb(${colorList[0]},${colorList[1]},${colorList[2]})`;
     ); /* 
     定义切角形状 */
     padding: 0 10px 0 20px;
-    backdrop-filter: invert(20%);
-    a {
-      filter: brightness(2);
+    a,
+    svg {
+      filter: brightness(120%);
     }
     &:hover {
-        filter: invert(100%);
+      filter: invert(100%);
+      a,
+      svg {
+        filter: brightness(120%);
+      }
     }
   }
   a {

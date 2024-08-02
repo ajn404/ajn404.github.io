@@ -2,8 +2,8 @@ import { slugifyStr } from "@utils/slugify";
 import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
 import Text from "@components/react/UI/Text";
-import "@styles/searchCard.scss";
-import { useRef } from "react";
+// import "@styles/searchCard.scss";
+import { useEffect, useRef } from "react";
 
 export interface Props {
   href?: string;
@@ -19,6 +19,10 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
     style: { viewTransitionName: slugifyStr(title) },
     className: "text-lg card__heading pt-4 font-medium ",
   };
+
+  useEffect(() => {
+    import("@styles/searchCard.scss");
+  }, []);
 
   return (
     <a className="card" href={href} ref={ref}>

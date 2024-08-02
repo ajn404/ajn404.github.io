@@ -2,7 +2,7 @@ import { slugifyStr } from "@utils/slugify";
 import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
 import Text from "@components/react/UI/Text";
-import "@styles/card.scss";
+
 import { useEffect, useRef, useState } from "react";
 
 export interface Props {
@@ -45,8 +45,8 @@ export default function Card({
   };
 
   useEffect(() => {
-    if (showBackground) import("@styles/card.scss");
-  }, [showBackground]);
+    import("@styles/card.scss");
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {

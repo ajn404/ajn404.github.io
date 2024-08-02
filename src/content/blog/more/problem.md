@@ -125,3 +125,18 @@ autoreconf 是一个用于自动配置 GNU 软件包的工具，通常在安装�
 所以说，直接在浏览器中请求和解析 RTSP 流是比较困难的，通常需要通过中间服务器进行协议转换
 uniapp的<video/>组件使用的bilibili/ijkplayer,集成FFmpeg 的 RTSP 解码器 (`libavformat`) 对 RTSP 流进行解析,将 RTSP 流转换为浏览器支持的格式，并在前端播放。
 之前的webrtc说法，我想是需要一个媒体服务器（类似wvp)，webrtc本身只是提供实时数据传输的api
+
+## import sentry from "@sentry/astro";
+
+> 问题描述
+
+```shell
+[Sentry] You are using Node.js in ESM mode ("import syntax"). The Sentry Node.js SDK is not compatible with ESM in Node.js versions before 18.19.0 or before 20.6.0. Please either build your application with CommonJS ("require() syntax"), or use version 7.x of the Sentry Node.js SDK.
+```
+
+你正在使用 ESM 模式（“import 语法”）运行 Node.js。Sentry Node.js SDK 在 18.19.0 或 20.6.0 之前的 Node.js 版本中与 ESM 不兼容。请使用 CommonJS（“require() 语法”）构建你的应用程序，或者使用 7.x 版本的 Sentry Node.js SDK。
+
+简单来说，你有两个选择：
+
+使用 CommonJS 构建应用: 将你的代码从使用 import 语句改为使用 require() 函数。
+使用 Sentry Node.js SDK 7.x 版本: 降低 Sentry SDK 版本到 7.x，它支持 ESM 和旧版 Node.js。
