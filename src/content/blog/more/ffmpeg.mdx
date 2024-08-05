@@ -553,3 +553,92 @@ SIP（会话发起协议）和WebRTC（网页实时通信）都是用于实时�
 然而，立体声的局限性在于它无法提供真正的三维（3D）音场体验。虽然可以通过不同的技术（如环绕声或3D音频技术）来增强空间感，但传统的立体声仍然无法完全模拟声音在三维空间中的位置和移动。因此，尽管立体声可以创造出丰富的音频体验，但其本质上仍然是基于二维的声场概念，主要通过左右声道的组合来实现声音的定位和空间感[2](https://unlockyoursound.com/stereo)[3](https://unison.audio/stereo-vs-mono/)。
 
 </details>
+
+### 1.2.1 图像的位深
+
+<details>
+<summary>如何理解图像的位深</summary>
+位深（Bit Depth）是数字图像处理中一个重要的概念，它指的是每个像素能够表示的颜色信息的位数。位深越高，图像能够表示的颜色或灰度级别就越多，从而使图像的细节和色彩表现更加丰富。
+
+在数字图像中，位深通常以每个像素的位数来表示。例如，1位的图像只能表示两种颜色（通常是黑和白），而8位的图像可以表示256种不同的颜色或灰度级别。对于彩色图像，常见的位深为24位，这意味着每个像素由三个颜色通道（红、绿、蓝）组成，每个通道8位，因此可以表示超过1670万种颜色（2^24）[1](http://preservationtutorial.library.cornell.edu/tutorial/intro/intro-04.html)[2](https://www.cambridgeincolour.com/tutorials/bit-depth.htm)。
+
+位深的选择对图像的质量和文件大小有直接影响。较高的位深可以捕捉更多的色彩细节，特别是在后期处理时，能够更好地保留图像的动态范围和色彩渐变。然而，较高的位深也会导致文件大小增加，因此在实际应用中需要根据需求进行权衡[3](https://www.nps.gov/museum/publications/conserveogram/22-01.pdf)[5](https://helpx.adobe.com/photoshop/using/bit-depth.html)。
+
+总之，理解位深的关键在于认识到它如何影响图像的色彩表现和文件大小，以及在不同应用场景下选择合适的位深以达到最佳效果。
+
+</details>
+
+### 1.2.2 FourCC￼代码
+
+<details>
+<summary>啥是FourCC</summary>
+
+FourCC（Four Character Code）是一种用于标识视频和音频编码格式的四个字符的代码。它通常用于多媒体文件中，以便于软件和硬件识别和处理不同的数据格式。FourCC代码是一个32位的无符号整数，由四个ASCII字符连接而成，例如，YUY2视频格式的FourCC代码是'YUY2'。
+
+在编程中，FourCC代码可以通过一些宏来简化声明。例如，在C/C++中，可以使用`MAKEFOURCC`宏来创建FourCC值，如下所示：
+
+```c
+DWORD fccYUY2 = MAKEFOURCC('Y', 'U', 'Y', '2');
+```
+
+在Windows操作系统中，由于其小端架构，FourCC代码的字符顺序在内存中是反向存储的。例如，'YUY2'在内存中的表示为'2YUY'，其十六进制值为0x32595559。这种表示方式在处理视频格式时非常重要，因为它确保了正确的格式识别和解码。
+
+FourCC代码广泛应用于视频编解码器、图形控制器芯片以及多媒体文件的搜索和管理中。例如，许多视频格式都有相应的FourCC代码，以便在不同的应用程序和设备之间进行兼容性处理[1](https://softron.zendesk.com/hc/en-us/articles/207695697-List-of-FourCC-codes-for-video-codecs)[3](https://learn.microsoft.com/en-us/windows/win32/directshow/fourcc-codes)[4](https://learn.microsoft.com/en-us/windows/win32/medfound/video-fourccs)。
+
+</details>
+
+<details>
+<summary>常见的FourCC代码</summary>
+
+常见的FourCC代码包括多种视频和音频编码格式。以下是一些常见的FourCC代码及其对应的编码格式：
+
+1. **YUY2** - YUY2视频格式
+2. **MJPG** - Motion JPEG
+3. **H264** - H.264视频编码
+4. **AVC1** - H.264/AVC视频编码
+5. **DV** - DV视频格式
+6. **MP4V** - MPEG-4视频编码
+7. **XVID** - Xvid视频编码
+8. **DIVX** - DivX视频编码
+9. **WMV3** - Windows Media Video 9
+10. **VP80** - VP8视频编码
+
+这些FourCC代码在多媒体文件中用于标识不同的编码格式，以便于播放器和编辑软件进行正确的解码和播放[1](https://softron.zendesk.com/hc/en-us/articles/207695697-List-of-FourCC-codes-for-video-codecs)[3](https://learn.microsoft.com/en-us/windows/win32/medfound/video-fourccs)。
+
+</details>
+
+### 1.2.6 HSL与HSV色彩表示
+
+<details>
+<summary>概述</summary>
+
+HSL（色相、饱和度、亮度）和HSV（色相、饱和度、值）是两种常见的色彩表示模型，它们在计算机图形学和图像处理领域被广泛使用。这两种模型都试图通过更直观的方式来表示颜色，相较于传统的RGB模型，它们更符合人类对颜色的感知。
+
+HSL模型中的三个参数分别是色相（Hue）、饱和度（Saturation）和亮度（Lightness）。色相表示颜色的类型，例如红色、绿色或蓝色，通常用角度（0°到360°）表示。饱和度表示颜色的纯度，值越高颜色越鲜艳，值越低则颜色趋向于灰色。亮度则表示颜色的明暗程度，从黑色（0）到白色（1）之间变化[2](https://en.wikipedia.org/wiki/HSL_and_HSV)[3](https://www.w3schools.com/colors/colors_hsl.asp)。
+
+HSV模型的参数与HSL相似，但有一些关键的区别。色相的定义与HSL相同，饱和度的定义也相似，但在HSV中，饱和度的变化更直接影响颜色的亮度。值（Value）在HSV中表示颜色的亮度，值越高颜色越亮，值越低则颜色越暗[4](https://www.nixsensor.com/blog/what-is-hsl-color/)[5](https://cloudfour.com/thinks/hsl-a-color-format-for-humans/)。这使得HSV在某些应用中更适合用于选择和调整颜色，尤其是在图像编辑软件中。
+
+总的来说，HSL和HSV都是为了提供一种更符合人类视觉感知的方式来表示颜色，但它们在饱和度和亮度的定义上有所不同，适用于不同的应用场景。
+
+</details>
+
+<details>
+<summary>demo</summary>
+
+<div class="bg-[hsl(0,0%,50%)]">background-color: hsl(0, 0%, 50%);</div>
+<div class="bg-[hsl(0,0%,100%)]">background-color: hsl(0, 0%, 100%);</div>
+<div class="bg-[hsl(0,100%,50%)]">background-color: hsl(0, 100%, 50%);</div>
+<div class="bg-[hsl(0,100%,100%)]">background-color: hsl(0, 100%, 100%);</div>
+<div class="bg-[hsl(120,100%,50%)]">background-color: hsl(120, 100%, 50%);</div>
+<div class="bg-[hsl(120,100%,100%)]">
+  background-color: hsl(120, 100%, 100%);
+</div>
+<div class="bg-[hsl(210,100%,50%)]">background-color: hsl(210, 100%, 50%);</div>
+
+hsl自定义
+
+import HslSelect from "@components/react/little/hlsSelect.tsx";
+
+<HslSelect client:visible />
+
+</details>
