@@ -353,6 +353,170 @@ B帧（Bidirectional Predicted Frame）是双向预测帧,它不仅可以参考�
 
 </details>
 
+### 1.1.3 音频
+
+<details>
+<summary>tone && p5 制作音轨</summary>
+
+频谱条
+
+import Tone from "@components/react/p5/little/tone.tsx";
+
+<Tone hideRandom client:visible />
+
+```tsx
+import type p5 from "p5";
+import * as Tone from "tone";
+import React from "react";
+import Basic from "../index.tsx";
+
+export default () => {
+  const sketch = (p: p5) => {
+    let fft, player;
+    let frame = 0;
+    const setup = async () => {
+      await Tone.start();
+      player = new Tone.Player("/assets/sorry.mp3").toDestination();
+      fft = new Tone.FFT(256).toDestination();
+      player.connect(fft);
+      p.createCanvas(p.windowWidth / 2, 240);
+      player.autostart = true;
+    };
+    const draw = () => {
+      p.background(200);
+      // 获取频谱数据
+      let spectrum = fft.getValue();
+      // 绘制频谱
+      p.noStroke();
+      p.fill(0, 255, 0); // 绿色
+      for (let i = 0; i < spectrum.length; i++) {
+        let x = p.map(i, 0, spectrum.length, 0, p.width);
+        let h = p.map(spectrum[i], -100, 0, 0, p.height);
+        p.rect(x, p.height, p.width / spectrum.length, -h);
+      }
+    };
+    const resize = () => p.setup();
+    p.setup = setup;
+    p.draw = draw;
+    p.windowResized = resize;
+  };
+  return <Basic sketch={sketch}></Basic>;
+};
+```
+
+正弦表示
+
+<Tone hideRandom client:visible curve />
+
+改进组件
+
+```tsx
+import type p5 from "p5";
+import * as Tone from "tone";
+import Basic from "../index.tsx";
+import { Button } from "@shadcn/ui/button";
+
+export default ({ curve }: { curve?: Boolean }) => {
+  let fft,
+    player: Tone.Player,
+    drawMe = false,
+    waveform;
+
+  let play = () => {
+    player && player.start();
+    drawMe = true;
+  };
+  let pause = () => {
+    player && player.stop();
+    drawMe = false;
+  };
+  const sketch = (p: p5) => {
+    const setup = async () => {
+      await Tone.start();
+      player = new Tone.Player("/assets/sorry.mp3").toDestination();
+      fft = new Tone.FFT(2048).toDestination();
+      waveform = new Tone.Waveform(2048);
+      if (curve) player.connect(waveform);
+      else player.connect(fft);
+      p.createCanvas(p.windowWidth - 100, 240);
+      p.frameRate(120); // 设置帧率
+    };
+    const draw = () => {
+      if (drawMe && fft && waveform) {
+        p.background(255, 255, 255);
+        p.strokeWeight(4);
+        p.stroke(255);
+        // 绘制频谱
+        if (!curve) {
+          let spectrum = fft.getValue();
+          p.noStroke();
+          p.fill(0, 0, 0);
+          for (let i = 0; i < spectrum.length; i++) {
+            let x = p.map(i, 0, spectrum.length, 0, p.width);
+            let h = p.map(spectrum[i], -100, 0, 0, p.height);
+            // 绘制频谱条
+            p.rect(x, p.height, p.width / spectrum.length, -h);
+          }
+        } else {
+          let wave = waveform.getValue();
+          // 绘制正弦曲线
+          let colorValue = p.map(wave[0], -1, 1, 0, 255);
+          let c = p.noise(p.frameCount);
+          p.stroke(colorValue, 255 - colorValue, c * 255);
+          p.noFill();
+          p.beginShape();
+          for (let i = 0; i < wave.length; i++) {
+            let x = p.map(i, 0, wave.length, 0, p.width);
+            let y = p.map(wave[i], -1, 1, p.height, 0); // 反转 y 轴
+            p.vertex(x, y);
+          }
+          p.endShape();
+        }
+      }
+    };
+    const resize = () => p.setup();
+    p.setup = setup;
+    p.draw = draw;
+    p.windowResized = resize;
+  };
+  return (
+    <>
+      <Basic sketch={sketch}></Basic>
+      <div className="flex gap-10">
+        <Button className="m-auto" onClick={play}>
+          播放
+        </Button>
+        <Button className="m-auto" onClick={pause}>
+          结束
+        </Button>
+      </div>
+    </>
+  );
+};
+```
+
+</details>
+
+<details>
+<summary>如何理解音频信号的压缩原理</summary>
+音频信号的压缩原理主要是通过动态范围压缩（Dynamic Range Compression）来实现的。这一过程旨在减少音频信号中最响和最静的部分之间的音量差异，从而使得整体音频更加平衡和易于听取。压缩器会根据设定的阈值（Threshold）来决定何时开始压缩信号。只有当音频信号的强度超过这个阈值时，压缩器才会对其进行处理。
+
+压缩器的工作原理可以通过几个关键参数来理解：
+
+1. **阈值（Threshold）**：这是压缩器开始工作的音量水平。当音频信号超过这个水平时，压缩器会开始降低信号的音量。
+
+2. **比率（Ratio）**：比率决定了信号超过阈值后，压缩器将其降低的程度。例如，4:1的比率意味着如果输入信号超过阈值4 dB，输出信号将仅为1 dB超过阈值。
+
+3. **攻击时间（Attack Time）**：这是压缩器响应信号超过阈值所需的时间。较快的攻击时间可以使压缩器迅速反应，而较慢的攻击时间则允许更多的瞬态信号通过。
+
+4. **释放时间（Release Time）**：这是压缩器在信号降到阈值以下后，恢复到原始状态所需的时间。适当的释放时间可以避免音频信号出现“泵动”效应。
+
+5. **输出增益（Output Gain）**：由于压缩会导致整体音量降低，输出增益用于补偿这一点，使得压缩后的信号听起来更响亮。
+
+通过合理设置这些参数，音频压缩可以帮助提升录音的专业性，使得音轨听起来更具冲击力和一致性，同时避免过度压缩导致的音质损失[2](https://www.uaudio.com/blog/audio-compression-basics/)[3](https://en.wikipedia.org/wiki/Dynamic_range_compression)。
+
+</details>
+
 ### 1.1.4 音视频封装、传输和未
 
 <details>
@@ -365,5 +529,27 @@ RTMP（Real-Time Messaging Protocol）是一种用于音频、视频和数据在
 音频和视频的交错发送是RTMP流的一个重要特性.在RTMP流中,音频和视频数据不会单独发送,而是交替发送.这意味着在同一个数据流中,音频包和视频包交替出现,这样可以确保播放器在接收数据时能够同时获取音频和视频信息,从而实现同步播放.这种交错发送的机制有助于减少延迟,提高流媒体播放的流畅性和实时性[2](https://www.wowza.com/community/t/how-to-push-wowza-rtmp-stream-to-cdn/34982)[5](https://docs.agora.io/en/3.x/interactive-live-streaming/advanced-features/media-push).
 
 总之,RTMP流在CDN推拉流中发挥着重要作用,通过交错发送音频和视频数据,确保了实时流媒体的高效传输和同步播放.
+
+</details>
+
+<details>
+<summary>如何理解SIP及WebRTC通信的实时性更好一些，使用RTP流传输，音频和视频使用不同的流（不同的端口号）发送，有时为了节省端口号也会合并到一个流上发送。</summary>
+SIP（会话发起协议）和WebRTC（网页实时通信）都是用于实时通信的技术，但它们在实现和应用上有所不同。理解这两者的实时性及其在RTP（实时传输协议）流传输中的应用，可以帮助我们更好地选择合适的技术。
+
+首先，SIP是一种信令协议，主要用于建立、修改和终止多媒体会话。它可以与RTP结合使用，RTP负责传输音频和视频流。SIP本身并不传输媒体数据，而是负责会话的控制和管理。通过SIP，用户可以在不同的设备之间建立连接，并使用RTP进行音视频数据的传输。通常情况下，音频和视频会使用不同的RTP流（即不同的端口号）进行发送，这样可以更好地管理带宽和流量，确保音视频的质量和实时性。
+
+另一方面，WebRTC是一种开源技术，允许浏览器和移动应用程序通过简单的API实现实时通信。WebRTC本身集成了音视频传输的功能，使用RTP进行流传输。WebRTC的优势在于其无需插件，能够直接在浏览器中实现点对点的音视频通信。虽然WebRTC也可以将音频和视频流合并到一个RTP流中以节省端口号，但这可能会影响到流的管理和质量。因此，WebRTC通常会选择使用多个流来确保更高的实时性和更好的音视频质量。
+
+总结来说，SIP和WebRTC在实时性方面各有优势。SIP适合需要与传统电话系统集成的场景，而WebRTC则更适合需要快速部署和用户友好的应用。选择使用不同的RTP流或合并流的策略，取决于具体的应用需求和网络环境。
+
+</details>
+
+<details>
+<summary>如何理解立体声，不管有几个声道，本质上还是2D的声场</summary>
+立体声（Stereo）是指通过两个或多个独立的音频通道来再现声音的技术，通常使用左声道和右声道来创建音频的空间感。尽管立体声可以通过多个声道来传递声音，但其本质上仍然是一个二维（2D）的声场。这是因为立体声的空间定位主要依赖于左右声道的音量差异和时间差异来模拟声音的方向感。
+
+在立体声中，声音的定位是通过人耳接收到的声音强度和到达时间的差异来实现的。例如，当一个声音从左侧发出时，左耳会比右耳更早接收到声音，同时左耳接收到的声音强度也会更大。这种差异使得我们能够感知声音的来源方向，从而在脑中形成一个二维的声场，即左右的空间感。
+
+然而，立体声的局限性在于它无法提供真正的三维（3D）音场体验。虽然可以通过不同的技术（如环绕声或3D音频技术）来增强空间感，但传统的立体声仍然无法完全模拟声音在三维空间中的位置和移动。因此，尽管立体声可以创造出丰富的音频体验，但其本质上仍然是基于二维的声场概念，主要通过左右声道的组合来实现声音的定位和空间感[2](https://unlockyoursound.com/stereo)[3](https://unison.audio/stereo-vs-mono/)。
 
 </details>
