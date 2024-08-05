@@ -122,7 +122,8 @@ export default defineConfig({
         external: [
           "wavesurfer.js",
           "wavesurfer.js/dist/plugins/spectrogram.esm.js",
-        ],
+            ],
+        sourceMap: "inline",
       },
     },
   },
