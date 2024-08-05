@@ -1,0 +1,336 @@
+---
+title: ffmpeg
+pubDatetime: 2024-08-05T01:33:57Z
+postSlug: ffmpeg
+featured: false
+draft: false
+tags:
+  - ffmpeg
+  - 音频
+  - 视频
+description: "用于格式转换、基本编辑（如剪切和合并）、视频缩放、后期制作效果以及标准合规性"
+---
+
+## 目录
+
+## mac安装
+
+```shell
+brew install ffmpeg
+```
+
+```shell
+Running `brew update --auto-update`...
+==> Fetching dependencies for ffmpeg: brotli, highway, imath, openexr, webp, jpeg-xl, libvmaf, aom, aribb24, dav1d, frei0r, gmp, libtasn1, nettle, p11-kit, libevent, libnghttp2, unbound, gnutls, libx11, lame, fribidi, libunibreak, libass, libbluray, cjson, libmicrohttpd, mbedtls, librist, libsoxr, libssh, libvidstab, libogg, libvorbis, libvpx, opencore-amr, openjpeg, opus, rav1e, libsamplerate, flac, mpg123, libsndfile, rubberband, sdl2, snappy, speex, srt, svt-av1, leptonica, libb2, libarchive, pango, tesseract, theora, x264, x265, xvid, libsodium, zeromq and zimg
+==> Fetching brotli
+...
+```
+
+```shell
+which ffmpeg
+/opt/homebrew/bin/ffmpeg
+```
+
+## 使用
+
+- 格式转换
+
+<details>
+<summary>ffmpeg将图片格式转换成webp</summary>
+FFmpeg能够将多种图片格式转换为WebP格式。WebP是一种由Google开发的图像格式，支持有损和无损压缩，适合用于网页图像。
+
+要使用FFmpeg将图片转换为WebP格式，可以使用以下命令：
+
+```bash
+ffmpeg -i input_image.png -c:v libwebp -q:v 80 output_image.webp
+```
+
+在这个命令中：
+
+- `-i input_image.png` 指定输入文件，可以是任何支持的图像格式（如PNG、JPEG等）。
+- `-c:v libwebp` 指定使用WebP编码器。
+- `-q:v 80` 设置输出图像的质量，范围是0到100，数值越高质量越好，文件越大。
+- `output_image.webp` 是输出文件的名称。
+
+如果你想将一系列图片转换为一个动画WebP文件，可以使用以下命令：
+
+```bash
+ffmpeg -r 10 -i image_%03d.png -c:v libwebp -loop 0 -q:v 80 output_animation.webp
+```
+
+在这个命令中：
+
+- `-r 10` 设置帧率为每秒10帧。
+- `-i image_%03d.png` 指定输入文件名的模式，表示输入文件名为`image_001.png`、`image_002.png`等。
+- `-loop 0` 表示动画循环播放。
+
+通过这些命令，FFmpeg可以方便地将图片格式转换为WebP格式，满足不同的需求[1](https://www.tecmint.com/convert-images-to-webp-format-in-linux/)。
+
+</details>
+
+## 阅读《深入理解ffmpeg》
+
+### 1.1.1 颜色与图像
+
+<details>
+<summary>如何理解CMYK色彩空间</summary>
+CMYK色彩空间是一种减法色彩模型，主要用于印刷行业。CMYK代表四种颜色：青色（Cyan）、品红色（Magenta）、黄色（Yellow）和黑色（Key或Black）。在CMYK模型中，颜色是通过在白色背景上叠加不同量的墨水来实现的，每种颜色的墨水会吸收特定的光波长，从而减去白色光的某些部分，形成所需的颜色。
+
+CMYK色彩空间的工作原理是基于减法混合。当将青色、品红色和黄色墨水混合时，理论上可以产生黑色，但由于实际墨水的特性，混合后的颜色通常会呈现出一种暗棕色。因此，为了获得更深的黑色和更高的细节表现，CMYK模型中引入了黑色墨水（K），这也是CMYK名称中“K”的来源[1](https://www.dusted.com/insights/rgb-vs-cmyk-colour-spaces-explained)[3](https://www.stptexas.com/blog/what-is-cmyk%C2%A0)。
+
+CMYK色彩空间的一个重要特点是其色域（即可以表示的颜色范围）相对较小，尤其是与RGB色彩空间相比。RGB是加法色彩模型，主要用于数字显示设备，通过将红色、绿色和蓝色光以不同强度混合来生成颜色。由于RGB模型可以产生更丰富、更饱和的颜色，许多设计师在创建数字内容时会使用RGB，但在准备印刷文件时则需要将其转换为CMYK，以确保打印效果的准确性[2](https://www.printingcenterusa.com/blog/what-is-cmyk-and-why-is-it-used-for-printing/)。
+
+理解CMYK色彩空间对于设计师和印刷专业人士至关重要，因为它直接影响到印刷品的颜色表现和质量。在设计过程中，使用CMYK色彩模式可以帮助确保最终印刷效果与设计意图相符，避免因色彩转换而导致的失真或不一致[4](https://intranet.mcad.edu/kb/cmyk-vs-rgb-what-color-space-should-i-work)。
+
+</details>
+
+<details>
+<summary>如何理解计算机对整数的计算比一个一个字节计算高效</summary>
+计算机在处理整数时，通常使用固定大小的字长（如32位或64位）来进行运算，而不是逐字节处理。这种设计的高效性主要源于几个方面。
+
+首先，现代计算机的硬件架构是基于字长进行优化的。CPU内部有专门的算术逻辑单元（ALU），可以在一个时钟周期内处理一个完整的字（如32位或64位）。如果逐字节处理，计算机需要进行多次操作才能完成同样的任务，这会显著增加计算时间和复杂性。例如，处理一个64位整数需要8个字节的操作，而直接处理64位整数只需一次操作。
+
+其次，使用字长进行运算可以减少内存访问次数。内存访问是计算机中最慢的操作之一。如果每次运算都需要从内存中读取和写入多个字节，性能将受到严重影响。通过使用字长，计算机可以在一次内存访问中获取所需的数据，从而提高效率。
+
+最后，整数运算的硬件实现通常比逐字节运算更为简单和高效。现代处理器设计中，整数运算（如加法、乘法和位操作）都是通过硬件电路直接实现的，而逐字节运算可能需要额外的控制逻辑和更多的指令，这进一步降低了效率。
+
+综上所述，计算机对整数的计算比逐字节计算高效，主要是因为硬件优化、减少内存访问和简化运算逻辑等因素共同作用的结果。这种设计使得计算机能够快速而高效地处理大量数据。
+
+</details>
+
+<details>
+<summary>如何理解不同计算机的体系结构是不一样的，主要表现在字节序上</summary>
+不同计算机的体系结构确实存在显著差异，其中一个主要表现就是字节序（Byte Order）。字节序指的是在存储多字节数据时，字节的排列顺序。主要有两种字节序：大端序（Big Endian）和小端序（Little Endian）。
+
+在大端序中，数据的最高有效字节（Most Significant Byte, MSB）存储在最低的内存地址处，而最低有效字节（Least Significant Byte, LSB）则存储在最高的内存地址。例如，十六进制数0x12345678在大端序中存储为：
+
+```
+地址  |  数据
+0x00  |  0x12
+0x01  |  0x34
+0x02  |  0x56
+0x03  |  0x78
+```
+
+相对而言，在小端序中，数据的最低有效字节存储在最低的内存地址，而最高有效字节存储在最高的内存地址。使用同样的例子，0x12345678在小端序中存储为：
+
+```
+地址  |  数据
+0x00  |  0x78
+0x01  |  0x56
+0x02  |  0x34
+0x03  |  0x12
+```
+
+不同的计算机体系结构可能使用不同的字节序。例如，Intel架构的处理器通常采用小端序，而某些网络协议和其他架构（如IBM的PowerPC）则使用大端序。这种差异在数据传输和存储时可能导致兼容性问题，尤其是在不同平台之间交换数据时。
+
+为了确保数据在不同字节序的系统之间能够正确解析，开发者需要在编程时考虑字节序的转换。例如，在网络编程中，通常使用网络字节序（大端序）进行数据传输，而在本地处理时可能需要将其转换为主机字节序（可能是大端或小端）。
+
+总之，字节序是计算机体系结构中的一个重要特性，它影响着数据的存储和传输方式，理解这一点对于跨平台开发和数据交换至关重要。
+
+</details>
+
+### 1.1.2 电影，电视和视频
+
+<details>
+<summary>如何理解普遍认为，电影的发明是源于人们发现了视觉暂留现象￼。后来，人们又发现用“似动现象”￼来解释电影原理似乎更为合理</summary>
+视觉暂留现象和似动现象是理解电影如何产生运动感的两个重要概念。
+
+视觉暂留现象是指当一个图像在视网膜上消失后，眼睛仍然会在短时间内保留这个图像的印象。这种现象使得当多个静态图像快速连续播放时，观众的眼睛会将这些图像合成为一个流畅的运动。例如，早期的光学玩具如幻灯片和旋转盘（如现象盘）利用这一原理来创造运动的错觉[2](https://www.britannica.com/art/history-of-the-motion-picture)[4](https://open.lib.umn.edu/mediaandculture/chapter/8-2-the-history-of-movies/)。
+
+而似动现象则是指当一系列静态图像以一定的速度快速切换时，观众会感知到这些图像之间的运动。这种现象是基于人类视觉系统对快速变化的图像的处理能力，能够将这些图像整合为连续的运动。这种原理在电影放映中尤为重要，传统的电影放映速度为每秒24帧，这个速度足以让观众感受到流畅的运动，而不是单独的静态画面[3](https://www.pbs.org/wgbh/americanexperience/features/pickford-early-history-motion-pictures/)。
+
+因此，虽然视觉暂留现象为电影的运动感提供了基础，但似动现象更全面地解释了电影如何通过快速播放静态图像来创造出连续的动态效果。这两者共同构成了电影作为一种艺术形式的基础，使得观众能够沉浸在故事和情感之中。
+
+</details>
+
+<details>
+<summary>为什么我们常说1080p，而不说1920p</summary>
+1080p是指视频分辨率的一种标准，具体来说，它表示的是1080个垂直像素的清晰度，而“p”代表逐行扫描（progressive scan），即图像是以完整的帧方式显示的。这个标准的全称是1920x1080，表示水平有1920个像素，垂直有1080个像素，因此1080p通常被称为全高清（Full HD）[2](https://en.wikipedia.org/wiki/1080p)。
+
+在日常使用中，提到1080p而不是1920p，主要是因为1080p这个术语已经成为行业标准和消费者熟知的标识。它不仅简洁易记，而且直接反映了视频的垂直分辨率，这对于观看体验来说是一个重要的指标。虽然1920x1080的分辨率包含了水平和垂直的像素信息，但在讨论视频质量时，垂直像素数（即1080）更能直接影响到画面的清晰度和细节表现[4](https://forums.tomshardware.com/threads/im-confused-is-1920x1200-2k-or-1080p.2493832)。
+
+</details>
+
+> 一块屏的分辨率达到300ppi以上，我们就叫它视网膜屏。ppi（Pixels Per Inch，每英寸的像素数，也称dpi，Dots Per Inch）是描述最高分辨能力的单位
+
+<details>
+<summary>如何计算ppi</summary>
+计算PPI（每英寸像素数）涉及两个主要步骤：首先计算显示屏的对角线像素数，然后将这个值除以显示屏的对角线尺寸（以英寸为单位）。
+
+以下是详细的计算步骤：
+
+1. **计算对角线像素数**：
+   使用勾股定理来计算对角线的像素数。假设显示屏的宽度为`width`（水平像素数），高度为`height`（垂直像素数），则对角线像素数可以通过以下公式计算：
+
+   $$
+   \text{对角线像素数} = \sqrt{\text{width}^2 + \text{height}^2}
+   $$
+
+2. **计算PPI**：
+   一旦得到了对角线像素数，接下来需要将其除以显示屏的对角线尺寸（以英寸为单位）。假设对角线尺寸为`diagonal_inches`，则PPI的计算公式为：
+
+$$
+\text{PPI} = \frac{\text{对角线像素数}}{\text{对角线尺寸（英寸）}}
+$$
+
+通过这个过程，你可以得到显示屏的PPI值，这个值越高，表示显示屏的像素密度越高，图像越清晰。
+
+例如，如果一个显示屏的宽度为1920像素，高度为1080像素，对角线尺寸为10英寸，计算步骤如下：
+
+1. 计算对角线像素数：
+
+   $$
+   \text{对角线像素数} = \sqrt{1920^2 + 1080^2} \approx 2202.91
+   $$
+
+2. 计算PPI：
+   $$
+   \text{PPI} = \frac{2202.91}{10} \approx 220.29
+   $$
+
+因此，该显示屏的PPI约为220.29[1](https://www.calculatorsoup.com/calculators/technology/ppi-calculator.php)[2](https://rows.com/calculators/pixels-per-inch-calculator)。
+
+</details>
+
+<details>
+<summary>16英寸2.5k显示器的ppi是多少</summary>
+
+![](/assets/webp/1.webp)
+
+要计算16英寸2.5K显示器的PPI（每英寸像素数），首先需要知道2.5K的分辨率和显示器的对角线尺寸。
+
+1. **确定分辨率**：
+   2.5K的标准分辨率通常是2560x1440像素。
+
+2. **计算对角线像素数**：
+   使用勾股定理计算对角线像素数：
+
+   $$
+   \text{对角线像素数} = \sqrt{2560^2 + 1440^2}
+   $$
+
+   计算：
+
+   $$
+   \text{对角线像素数} = \sqrt{6553600 + 2073600} = \sqrt{8627200} \approx 2936.45
+   $$
+
+3. **计算PPI**：
+   将对角线像素数除以对角线尺寸（16英寸）：
+   $$
+   \text{PPI} = \frac{2936.45}{16} \approx 183.53
+   $$
+
+因此，16英寸2.5K显示器的PPI约为183.53。这意味着该显示器的像素密度为183.53像素每英寸，显示效果相对清晰[2](https://www.quora.com/How-do-I-calculate-the-PPI-Pixels-per-inch-of-a-smartphone)。
+
+我的mac air的显示器分辨率显示为2560x1600，对角线尺寸为13.3英寸，那么它的ppi是多少呢？
+
+大概是226.98
+
+> 虽然没有达到传统的300 PPI标准，但由于**苹果的定义和实际观感**，它仍然可以被称为视网膜显示器。
+
+</details>
+
+<details>
+<summary>运动估计和运动补偿</summary>
+
+运动估计和运动补偿是视频压缩技术中两个关键的概念，它们通过利用视频帧之间的时间冗余来提高压缩效率。
+
+运动估计的主要目的是识别视频中物体的运动。它通过分析连续帧之间的差异，确定哪些部分的图像发生了变化，以及这些变化的方向和幅度。通常，运动估计会生成运动向量，这些向量描述了图像中每个块（例如16×16像素的宏块）在时间上的移动情况。这一过程是视频编码中的重要步骤，因为它帮助编码器预测当前帧的内容，从而减少需要存储和传输的数据量[1](https://en.wikipedia.org/wiki/Motion_estimation)[4](https://www.sciencedirect.com/topics/engineering/motion-compensation)。
+
+运动补偿则是利用运动估计的结果来生成当前帧的近似图像。具体来说，编码器会使用之前的帧（参考帧）和运动向量来重建当前帧。通过这种方式，编码器只需存储运动向量和参考帧的差异，而不是完整的当前帧。这种方法显著减少了数据量，因为在许多情况下，连续帧之间的变化相对较小，只有少量信息需要被编码和传输[1](https://en.wikipedia.org/wiki/Motion_compensation)[6](https://en.wikipedia.org/wiki/Motion_estimation)。
+
+总的来说，运动估计和运动补偿通过有效地利用视频帧之间的相似性，显著提高了视频压缩的效率，使得视频文件在保持较高质量的同时，能够占用更少的存储空间和带宽。
+
+</details>
+
+<details>
+<summary>运动估计和运动补偿在实际应用中是如何实现的？比如，它们是如何在不同的视频编码标准中应用的？</summary>
+运动估计和运动补偿在实际应用中通过多种算法和技术实现，广泛应用于不同的视频编码标准中，如H.264、H.265（HEVC）和MPEG系列等。
+
+在运动估计方面，常用的方法包括块匹配算法（Block Matching Algorithm, BMA）。该算法将当前帧划分为多个小块，并在参考帧中寻找与这些小块最相似的区域。通过计算块之间的相似度（如均方误差MSE），算法可以确定最佳匹配块的位置，从而生成运动向量。这些运动向量描述了每个块在时间上的移动情况，通常以像素为单位表示[1](https://en.wikipedia.org/wiki/Motion_estimation)[4](https://www.sciencedirect.com/topics/computer-science/motion-compensation)。
+
+在运动补偿的实现中，编码器利用运动向量和参考帧来重建当前帧。具体步骤如下：首先，编码器根据运动向量从参考帧中提取相应的块，然后将这些块进行组合，形成当前帧的预测图像。接下来，编码器计算当前帧与预测图像之间的差异（残差），并将该残差进行编码。通过这种方式，编码器只需存储运动向量和残差，而不是完整的当前帧，从而实现数据的压缩[1](https://en.wikipedia.org/wiki/Motion_compensation)[6](https://en.wikipedia.org/wiki/Motion_estimation)。
+
+在不同的视频编码标准中，运动估计和运动补偿的具体实现可能有所不同。例如，H.264标准采用了多种块大小的运动估计，允许在16×16、8×8和4×4等不同大小的块中进行运动估计，以提高编码效率。而H.265（HEVC）则进一步改进了这一点，支持更灵活的块划分（如CTU，Coding Tree Unit），并引入了更复杂的运动补偿技术，以提高压缩比和视频质量[2](https://koreascience.kr/article/JAKO201925454133958.pdf)[4](https://www.sciencedirect.com/topics/computer-science/motion-compensation)。
+
+总之，运动估计和运动补偿通过精确的算法和灵活的实现方式，在视频编码标准中发挥着至关重要的作用，使得视频压缩技术能够高效地处理和传输大量视频数据。
+
+</details>
+
+<details>
+<summary>如何理解需要编解码的视频图像一般不使用RGB色彩空间，而是使用一种称为YUV的色彩空间。</summary>
+在视频编码和解码过程中，YUV色彩空间通常被优先使用而不是RGB色彩空间，主要是因为YUV更有效地利用了人眼对亮度和色彩的感知特性。YUV色彩空间将图像信息分为亮度（Y）和色度（U和V）两个部分，这种分离使得在传输和存储时可以更有效地压缩数据。
+
+首先，YUV色彩空间中的Y分量代表亮度信息，而U和V分量则代表色彩信息。人眼对亮度变化的敏感度远高于对色彩变化的敏感度，因此在视频编码中，可以对色度信息进行下采样（即减少色度信息的分辨率），而不会显著影响视觉质量。这种技术称为色度下采样（Chroma Subsampling），例如4:2:0格式就意味着每四个亮度样本共享两个色度样本，从而有效减少了数据量[2](https://video.matrox.com/en/media/guides-articles/introduction-color-spaces-video)[3](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_concepts)。
+
+其次，YUV色彩空间在视频传输中也具有更好的兼容性，尤其是在模拟电视信号的时代，YUV被设计为能够在仅支持黑白信号的系统中传输色彩信息。这使得YUV在广播和视频传输中成为标准选择，因为它可以在不影响亮度信息的情况下，传递色彩信息[1](https://dexonsystems.com/blog/rgb-yuv-color-spaces)[4](https://en.wikipedia.org/wiki/Y%E2%80%B2UV)。
+
+总的来说，YUV色彩空间的使用使得视频图像在编码和解码过程中更加高效，能够在保持视觉质量的同时减少数据带宽的需求。
+
+</details>
+
+<details>
+<summary>RGB色彩空间的图像如何转换成YUV色彩空间的图像</summary>
+要将RGB色彩空间的图像转换为YUV色彩空间的图像，可以使用以下转换公式。YUV色彩空间的转换主要依赖于亮度（Y）和色度（U和V）的计算。以下是转换的详细步骤和伪代码。
+
+### 转换公式
+
+从RGB到YUV的转换公式如下：
+
+- Y = 0.299R + 0.587G + 0.114B
+- U = 0.492(B - Y)
+- V = 0.877(R - Y)
+
+### 伪代码
+
+1. 定义一个函数 `rgb_to_yuv`，接受RGB值作为输入。
+2. 计算Y、U和V值。
+3. 返回YUV值。
+
+### 伪代码示例
+
+```
+函数 rgb_to_yuv(R, G, B):
+    Y = 0.299 * R + 0.587 * G + 0.114 * B
+    U = 0.492 * (B - Y)
+    V = 0.877 * (R - Y)
+    返回 (Y, U, V)
+```
+
+### 实际代码示例（Python）
+
+下面是一个Python实现的示例代码，将RGB值转换为YUV值：
+
+```python
+def rgb_to_yuv(R, G, B):
+    Y = 0.299 * R + 0.587 * G + 0.114 * B
+    U = 0.492 * (B - Y)
+    V = 0.877 * (R - Y)
+    return (Y, U, V)
+
+# 示例使用
+R, G, B = 255, 0, 0  # 红色
+Y, U, V = rgb_to_yuv(R, G, B)
+print(f"Y: {Y}, U: {U}, V: {V}")
+```
+
+在这个示例中，输入的RGB值为红色（255, 0, 0），通过调用`rgb_to_yuv`函数，可以得到对应的YUV值。这个转换过程在视频处理和图像编码中非常重要，因为它能够有效地将图像信息从RGB格式转换为YUV格式，以便进行后续的处理和压缩。
+
+</details>
+
+### 1.1.4 音视频封装、传输和未
+
+<details>
+<summary>如何理解RTMP流一般用于CDN推拉流，也是音频和视频交错发送</summary>
+
+RTMP（Real-Time Messaging Protocol）是一种用于音频、视频和数据在互联网上实时传输的协议。它最初由Adobe开发，广泛应用于流媒体传输，尤其是在内容分发网络（CDN）中。RTMP流的特点之一是支持音频和视频的交错发送，这对于实时播放至关重要。
+
+在CDN推拉流的场景中，RTMP流可以通过两种方式进行传输：推流和拉流。推流是指将音视频数据从源（如直播编码器）推送到CDN服务器，而拉流则是CDN服务器从源服务器拉取音视频数据。这种灵活性使得RTMP成为实时流媒体应用的理想选择[1](https://cdnsun.com/solutions/rtmp-streaming)[4](https://cdnsun.com/knowledgebase/cdn-live/differences-between-pull-and-push-publishing)。
+
+音频和视频的交错发送是RTMP流的一个重要特性。在RTMP流中，音频和视频数据不会单独发送，而是交替发送。这意味着在同一个数据流中，音频包和视频包交替出现，这样可以确保播放器在接收数据时能够同时获取音频和视频信息，从而实现同步播放。这种交错发送的机制有助于减少延迟，提高流媒体播放的流畅性和实时性[2](https://www.wowza.com/community/t/how-to-push-wowza-rtmp-stream-to-cdn/34982)[5](https://docs.agora.io/en/3.x/interactive-live-streaming/advanced-features/media-push)。
+
+总之，RTMP流在CDN推拉流中发挥着重要作用，通过交错发送音频和视频数据，确保了实时流媒体的高效传输和同步播放。
+
+</details>

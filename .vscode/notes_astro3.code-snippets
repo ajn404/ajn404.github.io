@@ -71,6 +71,17 @@
     ],
     "description": "details show code"
 },
+"details Template show anwser": {
+    "scope": "markdown",
+    "prefix": "details_show_anwser",
+    "body": [
+        "<details>",
+        "<summary>${1:如何理解}</summary>",
+        "$2",
+        "</details>"
+    ],
+    "description": "details not open tag in mdx"
+},
   "blockquote Template": {
     "scope": "markdown",    
     "prefix": "blockquote",
