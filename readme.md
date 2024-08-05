@@ -15,6 +15,7 @@ pnpm run dev
 
 - <a href="https://ajn404.github.io/" target="_blank">github pages</a>
 - <a href="https://ajn404-github-io.pages.dev" target="_blank">cloud flare</a>
+- <a href="ajn404-github-io.vercel.app" target="_blank">vercel</a>
 - <a href="https://ajn404.gitee.io/" target="_blank">~~gitee pages~~</a>
 
 ## snippets
