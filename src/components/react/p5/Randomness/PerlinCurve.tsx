@@ -1,7 +1,7 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 
-export default () => {
+export default ({ hideRandom }: { hideRandom?: boolean }) => {
   const sketchPerlin = (p: p5) => {
     const setup = () => {
       p.createCanvas(p.windowWidth / 3, 240);
@@ -54,8 +54,8 @@ export default () => {
   return (
     <>
       <div className="flex flex-wrap justify-around gap-4">
-        <Basic sketch={sketchPerlin} showControls></Basic>
-        <Basic sketch={sketchRandom} showControls></Basic>
+        <Basic sketch={sketchPerlin} showControls={!hideRandom}></Basic>
+        {!hideRandom && <Basic sketch={sketchRandom} showControls></Basic>}
       </div>
     </>
   );
