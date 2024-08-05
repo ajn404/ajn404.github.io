@@ -24,7 +24,7 @@ const CesiumComponent: React.FC = () => {
     // 确保场景已加载完成
     viewer.scene.globe.tileLoadProgressEvent.addEventListener(function (event) {
       if (event.tilesLoaded === event.tilesToRender) {
-        // 场景已加载完成，可以切换到 2D 模式
+        // 场景已加载完成,可以切换到 2D 模式
         //   viewer.scene.mode = SceneMode.SCENE2D;
         // console.log(viewer.animation?.container);
       }

@@ -32,9 +32,9 @@ Graph/Network Visualization and Analysis Library
 
 <details>
 <summary>process.nextTick()</summary>
-`process.nextTick()` 方法用于在当前操作完成后，立即调度一个函数执行。它会在事件循环的当前轮次结束时执行，但在 I/O 事件之前执行。这使得它比 `setTimeout(fn, 0)` 更加高效。
+`process.nextTick()` 方法用于在当前操作完成后,立即调度一个函数执行.它会在事件循环的当前轮次结束时执行,但在 I/O 事件之前执行.这使得它比 `setTimeout(fn, 0)` 更加高效.
 
-要使用 `process.nextTick()`，只需传递一个函数作为参数即可。这个函数会在当前操作完成后尽快执行。例如：
+要使用 `process.nextTick()`,只需传递一个函数作为参数即可.这个函数会在当前操作完成后尽快执行.例如：
 
 ```javascript
 console.log("Start");
@@ -46,9 +46,9 @@ process.nextTick(() => {
 console.log("End");
 ```
 
-在上面的例子中，首先输出 "Start"，然后是 "End"，最后输出 "Inside process.nextTick callback"。这是因为 `process.nextTick()` 的回调函数会在当前操作完成后立即执行，即使它是在同一个事件循环内被调用的。
+在上面的例子中,首先输出 "Start",然后是 "End",最后输出 "Inside process.nextTick callback".这是因为 `process.nextTick()` 的回调函数会在当前操作完成后立即执行,即使它是在同一个事件循环内被调用的.
 
-需要注意的是，`process.nextTick()` 的回调函数会在当前代码的同步执行完成后立即执行，因此如果在回调函数中有大量计算或者阻塞操作，可能会影响其他事件的处理。因此，应该确保在 `process.nextTick()` 中执行的代码是轻量级的，避免阻塞事件循环。
+需要注意的是,`process.nextTick()` 的回调函数会在当前代码的同步执行完成后立即执行,因此如果在回调函数中有大量计算或者阻塞操作,可能会影响其他事件的处理.因此,应该确保在 `process.nextTick()` 中执行的代码是轻量级的,避免阻塞事件循环.
 
 </details>
 </li> 
@@ -56,14 +56,14 @@ console.log("End");
 
 ## javascript 高级
 
-- 标签函数: 对于有n个插值的模板字面量，传给标签函数的表达式参数的个数始终是n，而传给标签函数的第一个参数所包含的字符串个数则始终是n+1。
+- 标签函数: 对于有n个插值的模板字面量,传给标签函数的表达式参数的个数始终是n,而传给标签函数的第一个参数所包含的字符串个数则始终是n+1.
 - Symbol
 
 <details open>
 
 <summary>more details about symbol</summary>
 
-可以使用Symbol.keyFor()来查询全局注册表，这个方法接收符号，返回该全局符号对应的字符串键。如果查询的不是全局符号，则返回undefined
+可以使用Symbol.keyFor()来查询全局注册表,这个方法接收符号,返回该全局符号对应的字符串键.如果查询的不是全局符号,则返回undefined
 
 ```js
 let s1 = Symbol("s1");
@@ -134,7 +134,7 @@ console.log(initial.concat(arr)); // [1,2,3,[4,5,6]];
 <details>
 <summary>Symbol.iterator</summary>
 
-这个符号作为一个属性表示“一个方法，该方法返回对象默认的迭代器，由for-of语句使用”
+这个符号作为一个属性表示“一个方法,该方法返回对象默认的迭代器,由for-of语句使用”
 
 ```js
 class Foo {
@@ -145,8 +145,8 @@ console.log(f[Symbol.iterator]());
 //Generator {<suspended>}
 ```
 
-Symbol.iterator函数生成的对象应该通过其next()方法返回一个对象，该对象有两个属性：done和value。
-可以显式地调用next()方法返回，也可以隐式地通过生成器函数返回
+Symbol.iterator函数生成的对象应该通过其next()方法返回一个对象,该对象有两个属性：done和value.
+可以显式地调用next()方法返回,也可以隐式地通过生成器函数返回
 
 ```js
 class Emitter {
@@ -179,7 +179,7 @@ function count() {
 <details open>
 <summary>[Symbol.match](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/match)</summary>
 
-这个符号作为属性表示"一个正则表达式方法，该方法用正则表达式去匹配字符串，由String.prototype.match使用"
+这个符号作为属性表示"一个正则表达式方法,该方法用正则表达式去匹配字符串,由String.prototype.match使用"
 
 ```js
 console.log(RegExp.prototype[Symbol.match]);
@@ -191,9 +191,9 @@ console.log(str.match(regex));
 //['Hello', index: 0, input: 'Hello, World!', groups: undefined]
 ```
 
-给这个方法传入非正则表达式会导致该值被准换成RegExp对象，例如上述`console.log(str.match(regex))`,regex不是RegExp对象，所以会被隐式地转换成RegExp对象
+给这个方法传入非正则表达式会导致该值被准换成RegExp对象,例如上述`console.log(str.match(regex))`,regex不是RegExp对象,所以会被隐式地转换成RegExp对象
 
-如果要改变这种行为，让方法直接使用参数，则可以重新定义Symbol.match函数以取代默认正则表达式求值的行为，从而让match()方法使用正则表达式实例
+如果要改变这种行为,让方法直接使用参数,则可以重新定义Symbol.match函数以取代默认正则表达式求值的行为,从而让match()方法使用正则表达式实例
 
 ```js
 class FootWatcher {
@@ -227,9 +227,9 @@ console.log("footBar".match(new StringMatch("Bar")));
 <details open>
 <summary>Symbol.replace</summary>
 
-类上，Symbol.replace 这个属性指定了当一个字符串替换所匹配字符串时所调用的方法。String.prototype.replace() 方法会调用此方法。
+类上,Symbol.replace 这个属性指定了当一个字符串替换所匹配字符串时所调用的方法.String.prototype.replace() 方法会调用此方法.
 
-等等，没完了是不是
+等等,没完了是不是
 
 ```js
 Object.getOwnPropertySymbols(RegExp.prototype);
@@ -251,9 +251,9 @@ console.log("foo".replace(new Replace1("bar")));
 
 </details>
 
-这段跳过跳过，还有Symbol.search Symbol.species Symbol.split Symbol.toPrimitive Symbol.toStringTag Symbol.unscopables
+这段跳过跳过,还有Symbol.search Symbol.species Symbol.split Symbol.toPrimitive Symbol.toStringTag Symbol.unscopables
 
-Symbol.unscopables，不推荐使用with 也不推荐使用Symbol.unscopables
+Symbol.unscopables,不推荐使用with 也不推荐使用Symbol.unscopables
 
 - 至于how to use with
 
@@ -280,7 +280,7 @@ with (Math) {
 }
 ```
 
-- Reflect.ownKeys 方法返回一个由目标对象自身的属性键组成的数组。它的返回值等同于 Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target))
+- Reflect.ownKeys 方法返回一个由目标对象自身的属性键组成的数组.它的返回值等同于 Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target))
 - structuredClone()
 
 - Object
@@ -367,7 +367,7 @@ with (Math) {
 
 - 递增递减操作符
 
-四个递增递减操作符能应用于字符串，布尔值，浮点数和对象。
+四个递增递减操作符能应用于字符串,布尔值,浮点数和对象.
 
 ```js
 let a = false;
@@ -404,13 +404,13 @@ let d = false;
 <details>
 <summary>土狗币</summary>
 
-土狗币（Shiba Inu Coin）是一种加密货币，也称为狗狗币（Dogecoin）的变体。它是以日本狗狗品种柴犬命名的一种代币，其标志性的特征是在代币的标志和社区内使用了狗狗的形象。
+土狗币（Shiba Inu Coin）是一种加密货币,也称为狗狗币（Dogecoin）的变体.它是以日本狗狗品种柴犬命名的一种代币,其标志性的特征是在代币的标志和社区内使用了狗狗的形象.
 
-土狗币最初于2020年11月推出，旨在成为一种社区驱动的数字货币，并且具有与狗狗币类似的精神和特点。它的创始人是一个匿名的开发者，他们的目标是建立一个更加去中心化的加密货币，以及支持动物救助和慈善事业。
+土狗币最初于2020年11月推出,旨在成为一种社区驱动的数字货币,并且具有与狗狗币类似的精神和特点.它的创始人是一个匿名的开发者,他们的目标是建立一个更加去中心化的加密货币,以及支持动物救助和慈善事业.
 
-与狗狗币一样，土狗币也在社交媒体上受到了广泛关注，特别是在Reddit等社区。它也经常被用作投机的对象，因为加密货币市场对于类似代币的价格波动非常敏感。
+与狗狗币一样,土狗币也在社交媒体上受到了广泛关注,特别是在Reddit等社区.它也经常被用作投机的对象,因为加密货币市场对于类似代币的价格波动非常敏感.
 
-值得注意的是，加密货币市场是非常波动和风险较高的，投资者应该在投资之前进行充分的研究，并理解投资风险。
+值得注意的是,加密货币市场是非常波动和风险较高的,投资者应该在投资之前进行充分的研究,并理解投资风险.
 
 </details>
 
@@ -418,38 +418,38 @@ let d = false;
 
 <summary>seo</summary>
 
-要在Astro项目中添加谷歌推送和百度推送等SEO增强功能，你需要进行以下步骤：
+要在Astro项目中添加谷歌推送和百度推送等SEO增强功能,你需要进行以下步骤：
 
 1. **创建和验证网站所有权：**
 
-   - 对于谷歌推送，你需要使用谷歌搜索控制台（Google Search Console）来添加和验证你的网站所有权。
-   - 对于百度推送，你需要使用百度站长工具（Baidu Webmaster Tools）来添加和验证你的网站所有权。
+   - 对于谷歌推送,你需要使用谷歌搜索控制台（Google Search Console）来添加和验证你的网站所有权.
+   - 对于百度推送,你需要使用百度站长工具（Baidu Webmaster Tools）来添加和验证你的网站所有权.
 
 2. **生成和提交网站地图：**
 
-   - 确保你的网站有一个XML格式的网站地图（sitemap.xml），包含了你网站的所有页面链接。
-   - 在谷歌搜索控制台和百度站长工具中提交你的网站地图。
+   - 确保你的网站有一个XML格式的网站地图（sitemap.xml）,包含了你网站的所有页面链接.
+   - 在谷歌搜索控制台和百度站长工具中提交你的网站地图.
 
 3. **设置Robots.txt文件：**
 
-   - 确保你的网站的Robots.txt文件允许搜索引擎爬取你希望被索引的页面。
+   - 确保你的网站的Robots.txt文件允许搜索引擎爬取你希望被索引的页面.
 
 4. **添加Meta标签：**
 
-   - 在你的网站的HTML代码中，添加适当的Meta标签，包括描述、关键字等信息。
+   - 在你的网站的HTML代码中,添加适当的Meta标签,包括描述、关键字等信息.
 
 5. **优化网站内容：**
 
-   - 确保你的网站内容是高质量的、原创的，并且具有良好的排版和结构。
+   - 确保你的网站内容是高质量的、原创的,并且具有良好的排版和结构.
 
 6. **建立外部链接：**
 
-   - 通过与其他相关网站建立外部链接，增加你网站的外部引用链接，提高你网站的权重和排名。
+   - 通过与其他相关网站建立外部链接,增加你网站的外部引用链接,提高你网站的权重和排名.
 
 7. **监控和优化：**
-   - 定期监控你的网站在搜索引擎中的表现，并根据需要进行优化，例如修复404错误、增加新的内容等。
+   - 定期监控你的网站在搜索引擎中的表现,并根据需要进行优化,例如修复404错误、增加新的内容等.
 
-在Astro项目中，你可以根据项目的具体技术栈和需求，选择合适的方法来实现以上步骤。例如，你可以使用Python的Web框架如Django或Flask来生成网站地图和处理Meta标签，同时使用第三方库或API来与谷歌搜索控制台和百度站长工具进行交互。
+在Astro项目中,你可以根据项目的具体技术栈和需求,选择合适的方法来实现以上步骤.例如,你可以使用Python的Web框架如Django或Flask来生成网站地图和处理Meta标签,同时使用第三方库或API来与谷歌搜索控制台和百度站长工具进行交互.
 
 </details>
 
@@ -478,4 +478,4 @@ import BigCalendar from "@components/react/little/bigCalendar";
 - [random visualization](https://alterebro.com/random-distribution/)
 - [dep-tree](https://dep-tree-explorer.vercel.app/api?repo=https%3A%2F%2Fgithub.com%2Fajn404%2FViewers&entrypoint=platform%2Fcore%2Fsrc%2Findex.js)
 
-[<div class="p-10 m-10 text-lg indent-3.5 text-center stroke-card-foreground hover:no-underline">更多知识，请看下回博客</div>](/posts/2024-03)
+[<div class="p-10 m-10 text-lg indent-3.5 text-center stroke-card-foreground hover:no-underline">更多知识,请看下回博客</div>](/posts/2024-03)

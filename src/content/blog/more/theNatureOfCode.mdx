@@ -20,7 +20,7 @@ description: "代码的本质 use p5 to know the world"
 ## nature of code
 
 我与p5的缘分真的蛮深的,DANIEL SHIFFMAN也算是我的编程启蒙老师了,
-nature of code,这是一本他撰写的一本关于编程和计算机生成艺术的书籍，详细链接见[⬇️](#links)
+nature of code,这是一本他撰写的一本关于编程和计算机生成艺术的书籍,详细链接见[⬇️](#links)
 
 ### code template
 
@@ -136,7 +136,7 @@ import RandomnessD from "@components/react/p5/Randomness/RandomnessD.tsx";
 
 <details class="mt-4">
 
-<summary>上述例子使用鼠标交互，即使用mouseX,mouseY</summary>
+<summary>上述例子使用鼠标交互,即使用mouseX,mouseY</summary>
 
 import RandomnessE from "@components/react/p5/Randomness/RandomnessE.tsx";
 
@@ -206,22 +206,22 @@ export default () => {
 
 <details class="mt-4">
 <summary>正态分布与标准差</summary>
-正态分布（也称为高斯分布）是统计学中一种重要的概率分布，其特点是对称、钟形曲线。在正态分布中，标准差是一个关键的参数，它衡量数据集中的值与平均值的离散程度。
+正态分布（也称为高斯分布）是统计学中一种重要的概率分布,其特点是对称、钟形曲线.在正态分布中,标准差是一个关键的参数,它衡量数据集中的值与平均值的离散程度.
 
-标准差用来度量数据的离散程度，它越大表示数据的波动越大，越小表示数据的波动越小。标准差的计算公式如下：
+标准差用来度量数据的离散程度,它越大表示数据的波动越大,越小表示数据的波动越小.标准差的计算公式如下：
 
 $ \sigma = \sqrt{\frac{\sum\_{i=1}^{N}(x_i - \mu)^2}{N}} $
 
 其中：
 
-- $\sigma$ 是标准差，
-- $N$ 是数据集中的观测值数量，
-- $x_i$ 是每个观测值，
-- $\mu$ 是数据集的平均值。
+- $\sigma$ 是标准差,
+- $N$ 是数据集中的观测值数量,
+- $x_i$ 是每个观测值,
+- $\mu$ 是数据集的平均值.
 
-正态分布的特性之一是，约68%的数据在平均值附近的一个标准差范围内，约95%的数据在两个标准差范围内，约99.7%的数据在三个标准差范围内。
+正态分布的特性之一是,约68%的数据在平均值附近的一个标准差范围内,约95%的数据在两个标准差范围内,约99.7%的数据在三个标准差范围内.
 
-如果你有特定的数据集或问题，可以提供更多信息，我可以帮你更具体地理解和解释。
+如果你有特定的数据集或问题,可以提供更多信息,我可以帮你更具体地理解和解释.
 
 </details>
 
@@ -297,7 +297,7 @@ import PerlinCurve from "@components/react/p5/Randomness/PerlinCurve.tsx";
 
 <PerlinCurve client:visible />
 
-柏林噪声就像是把时间停住了，给予它相应tamp返回连续的变化的值
+柏林噪声就像是把时间停住了,给予它相应tamp返回连续的变化的值
 
 ```tsx
 let time = 0;
@@ -711,7 +711,7 @@ class MouseMover {
   trend: number = 0.2;
   constructor(p: p5) {
     this.circleRadius = p.random(1, 20);
-    //球越大，趋势越小
+    //球越大,趋势越小
     this.trend = p.map(this.circleRadius, 1, 20, 1, 0.5);
     this.position = p.createVector(
       p.random(this.circleRadius, p.width - this.circleRadius),
@@ -801,17 +801,17 @@ export default () => {
 <details>
 <summary>牛顿第二定律</summary>
 
-牛顿第二定律是经典力学中的一个基本原理，描述了力、质量和加速度之间的关系。它可以用数学公式表示为：
+牛顿第二定律是经典力学中的一个基本原理,描述了力、质量和加速度之间的关系.它可以用数学公式表示为：
 
 \[ F = ma \]
 
-其中，
+其中,
 
-- \( F \) 表示作用在物体上的力（单位是牛顿），
-- \( m \) 表示物体的质量（单位是千克），
-- \( a \) 表示物体的加速度（单位是米/秒^2）。
+- \( F \) 表示作用在物体上的力（单位是牛顿）,
+- \( m \) 表示物体的质量（单位是千克）,
+- \( a \) 表示物体的加速度（单位是米/秒^2）.
 
-这个定律说明，当一个力作用于一个物体时，它会产生该物体的加速度，且这个加速度的大小与作用力成正比，与物体的质量成反比。换句话说，较大的力会导致较大的加速度，而较大的质量会导致较小的加速度。
+这个定律说明,当一个力作用于一个物体时,它会产生该物体的加速度,且这个加速度的大小与作用力成正比,与物体的质量成反比.换句话说,较大的力会导致较大的加速度,而较大的质量会导致较小的加速度.
 
 </details>
 
@@ -830,7 +830,7 @@ import Balloon from "@components/react/p5/Forces/balloon.tsx";
 <details >
 <summary>forceA</summary>
 
-有一说一，我想要的不是这个，但不管怎么说先留着
+有一说一,我想要的不是这个,但不管怎么说先留着
 
 import TabsCode from "@components/react/UI/TabsCode";
 
@@ -841,7 +841,7 @@ import TabsCode from "@components/react/UI/TabsCode";
 <TabsCode componentName="ForceB" client:load />
 
 <details >
-<summary>这个组件🙅，内部调用的动态组件不知道为什么不能使用useState</summary>
+<summary>这个组件🙅,内部调用的动态组件不知道为什么不能使用useState</summary>
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@shadcn/ui/tabs";
@@ -914,14 +914,14 @@ export default function DynamicComponent({ componentName }: Props) {
 }
 ```
 
-动态组件的渲染使用了useMemo来避免在每次渲染时重新创建组件。然而，useMemo只是对于组件的引用进行了缓存，但并不会在组件内部创建实际的状态。因此，即使你在动态组件中调用了useState，它也不会正常工作，因为该组件的每次渲染都会重新创建，并且每次重新创建时都会重新初始化状态。(AI)
+动态组件的渲染使用了useMemo来避免在每次渲染时重新创建组件.然而,useMemo只是对于组件的引用进行了缓存,但并不会在组件内部创建实际的状态.因此,即使你在动态组件中调用了useState,它也不会正常工作,因为该组件的每次渲染都会重新创建,并且每次重新创建时都会重新初始化状态.(AI)
 
 <details >
 <summary>继续问ai,这个组件中动态组件内部为什么不能调用useState,useRef等</summary>
 
-在你的代码中，动态组件被存储在`Component`状态中，并在渲染时被调用。然而，React 的规则是在组件的顶层使用 Hook，而不是在条件语句、循环或嵌套函数中使用。动态组件内部可能不能直接调用`useState`、`useRef`等 Hook，因为它们被认为是在组件的非顶层调用。
+在你的代码中,动态组件被存储在`Component`状态中,并在渲染时被调用.然而,React 的规则是在组件的顶层使用 Hook,而不是在条件语句、循环或嵌套函数中使用.动态组件内部可能不能直接调用`useState`、`useRef`等 Hook,因为它们被认为是在组件的非顶层调用.
 
-为了解决这个问题，你可以通过传递函数作为props给动态组件，然后在动态组件内部调用该函数来更新父组件的状态。下面是一个修改后的示例：
+为了解决这个问题,你可以通过传递函数作为props给动态组件,然后在动态组件内部调用该函数来更新父组件的状态.下面是一个修改后的示例：
 
 ```tsx
 import React, { useEffect, useState, useMemo } from "react";
@@ -980,7 +980,7 @@ export default function DynamicComponent({ componentName }: Props) {
   };
 
   if (memoizedComponent) {
-    // 如果动态组件已加载，将动态组件渲染出来，并传递一个用于更新父组件状态的函数作为 props
+    // 如果动态组件已加载,将动态组件渲染出来,并传递一个用于更新父组件状态的函数作为 props
     return (
       <>
         <Tabs defaultValue="demo" className="w-full">
@@ -993,14 +993,14 @@ export default function DynamicComponent({ componentName }: Props) {
     );
   }
 
-  // 如果动态组件尚未加载，渲染加载中的状态或错误消息
+  // 如果动态组件尚未加载,渲染加载中的状态或错误消息
   return <>{/* 这里省略加载中或错误状态的渲染代码 */}</>;
 }
 ```
 
-在上述修改中，动态组件被渲染并传递了一个名为`handleStateChange`的函数作为props。在动态组件内部，你可以调用`handleStateChange`函数来更新父组件的状态。
+在上述修改中,动态组件被渲染并传递了一个名为`handleStateChange`的函数作为props.在动态组件内部,你可以调用`handleStateChange`函数来更新父组件的状态.
 
-还是报错🤣，ai果然不能替代人类
+还是报错🤣,ai果然不能替代人类
 
 `React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: <Fragment />. Did you accidentally export a JSX literal instead of a component?`
 
@@ -1019,7 +1019,7 @@ import { ForceC, ForceD } from "@components/react/p5/Forces";
 
 <ForceC client:load />
 
-为啥这里第一次弹不回去了，但后面又弹到了第一次弹回去的最大高度
+为啥这里第一次弹不回去了,但后面又弹到了第一次弹回去的最大高度
 
 </details>
 
@@ -1037,7 +1037,7 @@ import { ForceC, ForceD } from "@components/react/p5/Forces";
 #### exercise2.3
 
 <details>
-<summary>越靠近边缘，受到的反方向的力越大，直到小球掉头</summary>
+<summary>越靠近边缘,受到的反方向的力越大,直到小球掉头</summary>
 
 import { ForceE } from "@components/react/p5/Forces";
 

@@ -17,7 +17,7 @@ const maxHeapify = (array: number[], i: number, heapSize: number, p?: p5) => {
     largest = right;
   }
 
-  // 如果最大节点不是当前节点，则交换节点并递归调整堆
+  // 如果最大节点不是当前节点,则交换节点并递归调整堆
   if (largest !== i) {
     // if (p) {
     //     p.fill(255);

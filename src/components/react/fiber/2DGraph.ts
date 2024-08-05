@@ -5,15 +5,15 @@ import { shaderMaterial } from "@react-three/drei";
 const basicVertex = ` 
     void main() {
         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-        //将模型坐标乘以模型矩阵，得到顶点的世界坐标
+        //将模型坐标乘以模型矩阵,得到顶点的世界坐标
         vec4 viewPosition = viewMatrix * modelPosition;
-        //将世界坐标乘以视图矩阵，得到顶点在相机坐标系中的坐标
+        //将世界坐标乘以视图矩阵,得到顶点在相机坐标系中的坐标
         vec4 projectionPosition = projectionMatrix * viewPosition;
-        //将相机坐标乘以投影矩阵，得到顶点在裁剪坐标系中的坐标。
+        //将相机坐标乘以投影矩阵,得到顶点在裁剪坐标系中的坐标.
         gl_Position = projectionPosition;
-        //将裁剪坐标赋值给内置变量 gl_Position，它表示最终的顶点位置，用于后续的光栅化和片元处理阶段。
+        //将裁剪坐标赋值给内置变量 gl_Position,它表示最终的顶点位置,用于后续的光栅化和片元处理阶段.
 }
-//这段代码的目的是将顶点从模型坐标系经过模型、视图和投影变换，最终将其转换为裁剪坐标。
+//这段代码的目的是将顶点从模型坐标系经过模型、视图和投影变换,最终将其转换为裁剪坐标.
 `;
 
 const circleFragment = `

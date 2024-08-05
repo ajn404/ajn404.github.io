@@ -45,10 +45,10 @@ watch(
     () => {
         console.log(eleRef.value);
     },
-    //想在侦听器回调中能访问被 Vue 更新之后的所属组件的 DOM，你需要指明
+    //想在侦听器回调中能访问被 Vue 更新之后的所属组件的 DOM,你需要指明
     { flush: "post" }
 );
-//设置 flush: 'post' 将会使侦听器延迟到组件渲染之后再执行。
+//设置 flush: 'post' 将会使侦听器延迟到组件渲染之后再执行.
 age.value = 18;
 </script>
 

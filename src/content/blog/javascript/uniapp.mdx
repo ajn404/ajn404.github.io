@@ -14,7 +14,7 @@ description: "unoapp"
 
 ### 面试
 
-#### vue-router路由守卫，在uniapp中怎么实现一个守卫
+#### vue-router路由守卫,在uniapp中怎么实现一个守卫
 
 <details>
 <summary>借助Vue的生命周期钩子函数来实现路由守卫功能/通过vue-router提供的beforeEach钩子函数来实现全局路由守卫</summary>
@@ -79,7 +79,7 @@ new Vue({
 
 </details>
 
-#### uniapp获取当前状态栏高度，多说几个方式
+#### uniapp获取当前状态栏高度,多说几个方式
 
 ```js
 uni.getSystemInfo({
@@ -94,8 +94,8 @@ uni-app 提供内置 CSS 变量 --status-bar-height 系统状态栏高度
 #### vuex与pinia区别
 
 <blockquote>
-  与 Vuex 相比，Pinia 不仅提供了一个更简单的 API，也提供了符合组合式 API 风格的
-  API，最重要的是，搭配 TypeScript 一起使用时有非常可靠的类型推断支持。
+  与 Vuex 相比,Pinia 不仅提供了一个更简单的 API,也提供了符合组合式 API 风格的
+  API,最重要的是,搭配 TypeScript 一起使用时有非常可靠的类型推断支持.
   <footer>
     pinia官网
     <cite>
@@ -104,27 +104,27 @@ uni-app 提供内置 CSS 变量 --status-bar-height 系统状态栏高度
   </footer>
 </blockquote>
 
-Vuex和Pinia都是Vue.js的状态管理库，但它们有一些显著区别：
+Vuex和Pinia都是Vue.js的状态管理库,但它们有一些显著区别：
 
-- API 简洁度：Pinia的API更简单、易用。
-- TypeScript 支持：Pinia原生支持TypeScript，而Vuex需要额外配置。
-- 结构：Pinia采用扁平结构，无需模块嵌套。
-- 状态变化：Pinia没有mutations，直接使用actions或getters修改状态。
-- 动态存储：Pinia默认支持动态创建存储。
+- API 简洁度：Pinia的API更简单、易用.
+- TypeScript 支持：Pinia原生支持TypeScript,而Vuex需要额外配置.
+- 结构：Pinia采用扁平结构,无需模块嵌套.
+- 状态变化：Pinia没有mutations,直接使用actions或getters修改状态.
+- 动态存储：Pinia默认支持动态创建存储.
 
 #### vue2 vs vue3
 
 <details>
-Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关键区别：
+Vue 3 与 Vue 2 相比,有许多显著的变化和改进.以下是一些关键区别：
 
 ##### 1. **性能改进**
 
-- **更快的渲染**：Vue 3 的虚拟 DOM 的性能得到了显著优化。
-- **更小的打包体积**：Vue 3 使用 tree-shaking 特性，可以按需加载模块，减少了最终打包体积。
+- **更快的渲染**：Vue 3 的虚拟 DOM 的性能得到了显著优化.
+- **更小的打包体积**：Vue 3 使用 tree-shaking 特性,可以按需加载模块,减少了最终打包体积.
 
 ##### 2. **Composition API**
 
-- **Composition API**：Vue 3 引入了 Composition API，可以更好地组织和复用代码逻辑。它是对现有 Options API 的补充，而不是替代。
+- **Composition API**：Vue 3 引入了 Composition API,可以更好地组织和复用代码逻辑.它是对现有 Options API 的补充,而不是替代.
 
   ```javascript
   import { ref, reactive, onMounted } from "vue";
@@ -150,7 +150,7 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
 
 ##### 3. **新的全局 API**
 
-- **全局 API 的变化**：Vue 3 中，创建应用和注册全局组件/指令等操作都变成了新的 API。
+- **全局 API 的变化**：Vue 3 中,创建应用和注册全局组件/指令等操作都变成了新的 API.
 
   ```javascript
   // Vue 2
@@ -171,7 +171,7 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
 
 ##### 4. **Fragment 支持**
 
-- **支持 Fragment**：Vue 3 支持 Fragment，可以在模板中返回多个根节点。
+- **支持 Fragment**：Vue 3 支持 Fragment,可以在模板中返回多个根节点.
 
   ```vue
   <template>
@@ -182,7 +182,7 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
 
 ##### 5. **Teleport**
 
-- **Teleport**：Vue 3 引入了 Teleport 组件，可以将组件渲染到指定的 DOM 节点外。
+- **Teleport**：Vue 3 引入了 Teleport 组件,可以将组件渲染到指定的 DOM 节点外.
 
   ```vue
   <template>
@@ -194,7 +194,7 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
 
 ##### 6. **Suspense**
 
-- **Suspense**：Vue 3 支持 Suspense，可以处理异步组件，提供更好的用户体验。
+- **Suspense**：Vue 3 支持 Suspense,可以处理异步组件,提供更好的用户体验.
 
   ```vue
   <template>
@@ -211,7 +211,7 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
 
 ##### 7. **新的生命周期钩子**
 
-- **生命周期钩子名称变化**：一些生命周期钩子的名称在 Vue 3 中进行了更改。
+- **生命周期钩子名称变化**：一些生命周期钩子的名称在 Vue 3 中进行了更改.
 
   | Vue 2         | Vue 3           |
   | ------------- | --------------- |
@@ -227,15 +227,15 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
 
 ##### 8. **TypeScript 支持**
 
-- **更好的 TypeScript 支持**：Vue 3 在设计上对 TypeScript 有了更好的支持，使得使用 TypeScript 进行开发变得更加顺畅。
+- **更好的 TypeScript 支持**：Vue 3 在设计上对 TypeScript 有了更好的支持,使得使用 TypeScript 进行开发变得更加顺畅.
 
 ##### 9. **自定义渲染器 API**
 
-- **自定义渲染器**：Vue 3 提供了一个新的 API，可以创建自定义渲染器，使得 Vue 可以用于更多的应用场景（如：原生移动应用、桌面应用等）。
+- **自定义渲染器**：Vue 3 提供了一个新的 API,可以创建自定义渲染器,使得 Vue 可以用于更多的应用场景（如：原生移动应用、桌面应用等）.
 
 ##### 10. **改进的响应式系统**
 
-- **Proxy-based 响应式系统**：Vue 3 使用 Proxy 替代 Vue 2 中的 `Object.defineProperty`，带来了更好的性能和更多的功能支持（如：对数组和对象属性的直接检测）。
+- **Proxy-based 响应式系统**：Vue 3 使用 Proxy 替代 Vue 2 中的 `Object.defineProperty`,带来了更好的性能和更多的功能支持（如：对数组和对象属性的直接检测）.
 
   ```javascript
   import { reactive } from "vue";
@@ -247,6 +247,6 @@ Vue 3 与 Vue 2 相比，有许多显著的变化和改进。以下是一些关�
   state.count++; // 响应式追踪
   ```
 
-这些改进和变化使 Vue 3 更加现代化、灵活和高效，适合更大规模和更复杂的应用开发。
+这些改进和变化使 Vue 3 更加现代化、灵活和高效,适合更大规模和更复杂的应用开发.
 
 </details>

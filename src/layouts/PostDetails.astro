@@ -74,7 +74,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <ul class="tags-container">
       {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
     </ul>
-    <!-- 这里好像是因为组件没有实体只有脚本，引用后便加载了，schema无法控制它的中断 -->
+    <!-- 这里好像是因为组件没有实体只有脚本,引用后便加载了,schema无法控制它的中断 -->
     <!-- {navToc && <NavToc />} -->
   </main>
   {detailButton && <OpenDetails />}

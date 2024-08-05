@@ -238,49 +238,49 @@ export const useParticle = (
 
 #### 1. **CesiumJS**
 
-CesiumJS 是一个开源 JavaScript 库，用于创建和显示 3D 地球仪和 2D 地图。它提供了一种高性能、跨平台的方式来可视化地理空间数据。
+CesiumJS 是一个开源 JavaScript 库,用于创建和显示 3D 地球仪和 2D 地图.它提供了一种高性能、跨平台的方式来可视化地理空间数据.
 
 #### 2. **Viewer**
 
-`Viewer` 是 CesiumJS 中的一个核心类，用于创建和管理 3D 地球仪或 2D 地图的实例。它提供了许多便捷的方法和属性来操作和交互地球仪。
+`Viewer` 是 CesiumJS 中的一个核心类,用于创建和管理 3D 地球仪或 2D 地图的实例.它提供了许多便捷的方法和属性来操作和交互地球仪.
 
 #### 3. **Scene**
 
-`Scene` 是 CesiumJS 中的另一个核心类，负责管理所有的 3D 场景和渲染。`Viewer` 包含一个 `Scene` 实例。
+`Scene` 是 CesiumJS 中的另一个核心类,负责管理所有的 3D 场景和渲染.`Viewer` 包含一个 `Scene` 实例.
 
 #### 4. **Entity**
 
-`Entity` 是 CesiumJS 中的一个类，用于表示地球仪上的一个对象（例如点、线、面、模型等）。`Entity` 可以包含多种数据，如位置、形状、模型等。
+`Entity` 是 CesiumJS 中的一个类,用于表示地球仪上的一个对象（例如点、线、面、模型等）.`Entity` 可以包含多种数据,如位置、形状、模型等.
 
 #### 5. **DataSource**
 
-`DataSource` 是一个数据容器，用于管理和展示地理空间数据。常见的 DataSource 类型包括 `CzmlDataSource`、`GeoJsonDataSource` 和 `KmlDataSource`。
+`DataSource` 是一个数据容器,用于管理和展示地理空间数据.常见的 DataSource 类型包括 `CzmlDataSource`、`GeoJsonDataSource` 和 `KmlDataSource`.
 
 ### Cesium 进阶概念
 
 #### 1. **Tileset**
 
-`Tileset` 是一种分块的地理空间数据格式，用于高效地加载和显示大规模的 3D 数据。常见的 Tileset 格式包括 3D Tiles 和 TMS。
+`Tileset` 是一种分块的地理空间数据格式,用于高效地加载和显示大规模的 3D 数据.常见的 Tileset 格式包括 3D Tiles 和 TMS.
 
 #### 2. **ImageryLayer**
 
-`ImageryLayer` 是 CesiumJS 中的一个类，用于管理和显示地球表面上的影像图层。你可以将多种影像图层叠加在一起，并控制它们的显示顺序和透明度。
+`ImageryLayer` 是 CesiumJS 中的一个类,用于管理和显示地球表面上的影像图层.你可以将多种影像图层叠加在一起,并控制它们的显示顺序和透明度.
 
 #### 3. **TerrainProvider**
 
-`TerrainProvider` 是一个接口，用于提供地形数据。CesiumJS 支持多种地形提供器，包括 `EllipsoidTerrainProvider`、`CesiumTerrainProvider` 和 `VRTheWorldTerrainProvider`。
+`TerrainProvider` 是一个接口,用于提供地形数据.CesiumJS 支持多种地形提供器,包括 `EllipsoidTerrainProvider`、`CesiumTerrainProvider` 和 `VRTheWorldTerrainProvider`.
 
 #### 4. **Primitive**
 
-`Primitive` 是 CesiumJS 中的低级渲染对象，用于表示地球仪上的几何体。与 `Entity` 相比，`Primitive` 更接近于 WebGL 层，因此可以提供更高的性能和灵活性。
+`Primitive` 是 CesiumJS 中的低级渲染对象,用于表示地球仪上的几何体.与 `Entity` 相比,`Primitive` 更接近于 WebGL 层,因此可以提供更高的性能和灵活性.
 
 ### Cesium 示例：基本使用
 
-下面是一个基本的 React 示例，展示如何使用 Cesium 创建一个 3D 地球仪，并添加一些基本的实体。
+下面是一个基本的 React 示例,展示如何使用 Cesium 创建一个 3D 地球仪,并添加一些基本的实体.
 
 #### 创建 React 项目
 
-首先，创建一个新的 React 项目并安装 `cesium` 和 `resium`：
+首先,创建一个新的 React 项目并安装 `cesium` 和 `resium`：
 
 ```sh
 npx create-react-app cesium-demo --template typescript
@@ -333,7 +333,7 @@ export default defineConfig({
 
 #### 创建 Cesium 组件
 
-在 `src` 目录中创建 `CesiumComponent.tsx` 文件，并添加以下代码：
+在 `src` 目录中创建 `CesiumComponent.tsx` 文件,并添加以下代码：
 
 ```tsx
 import React, { useEffect } from "react";
@@ -420,13 +420,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 
 ### 运行项目
 
-现在，你可以启动 Vite 开发服务器：
+现在,你可以启动 Vite 开发服务器：
 
 ```sh
 npm run dev
 ```
 
-这个示例展示了如何在 Vite 项目中使用 Cesium 创建一个 3D 地球仪，并添加一个简单的实体。你可以根据需要进一步扩展和自定义此组件，添加更多的功能和交互。
+这个示例展示了如何在 Vite 项目中使用 Cesium 创建一个 3D 地球仪,并添加一个简单的实体.你可以根据需要进一步扩展和自定义此组件,添加更多的功能和交互.
 
 </details>
 
@@ -483,11 +483,11 @@ function supportsWebGL() {
 <details>
 <summary>WebGL被称为状态机</summary>
 
-WebGL被称为状态机是因为它的工作原理依赖于一组状态，这些状态决定了如何渲染图形。WebGL的每个调用都可能会改变其内部状态，而这些状态会影响后续的渲染操作。例如，当前使用的着色器程序、绑定的缓冲区、启用的混合模式等，都是WebGL的状态的一部分。
+WebGL被称为状态机是因为它的工作原理依赖于一组状态,这些状态决定了如何渲染图形.WebGL的每个调用都可能会改变其内部状态,而这些状态会影响后续的渲染操作.例如,当前使用的着色器程序、绑定的缓冲区、启用的混合模式等,都是WebGL的状态的一部分.
 
-在WebGL中，状态是通过一系列的API调用来管理的。每次调用如`gl.enable()`, `gl.bindBuffer()`, 或 `gl.useProgram()`等，都会改变WebGL的状态。这种设计使得开发者需要时刻关注当前的状态，以确保渲染的正确性。例如，如果你切换了着色器程序，可能需要重新启用某些顶点属性，因为这些设置是与特定的程序状态相关联的[1](https://stackoverflow.com/questions/28604747/understanding-webgl-state)[5](https://alain.xyz/blog/raw-webgl)。
+在WebGL中,状态是通过一系列的API调用来管理的.每次调用如`gl.enable()`, `gl.bindBuffer()`, 或 `gl.useProgram()`等,都会改变WebGL的状态.这种设计使得开发者需要时刻关注当前的状态,以确保渲染的正确性.例如,如果你切换了着色器程序,可能需要重新启用某些顶点属性,因为这些设置是与特定的程序状态相关联的[1](https://stackoverflow.com/questions/28604747/understanding-webgl-state)[5](https://alain.xyz/blog/raw-webgl).
 
-此外，WebGL的状态机特性意味着它的性能优化可以通过减少不必要的状态更改来实现。例如，开发者可以维护一个“当前状态”的副本，以避免重复的状态设置，这样可以提高性能[1](https://stackoverflow.com/questions/28604747/understanding-webgl-state)。
+此外,WebGL的状态机特性意味着它的性能优化可以通过减少不必要的状态更改来实现.例如,开发者可以维护一个“当前状态”的副本,以避免重复的状态设置,这样可以提高性能[1](https://stackoverflow.com/questions/28604747/understanding-webgl-state).
 
 </details>
 

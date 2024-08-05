@@ -41,7 +41,7 @@ export default () => {
   return (
     <>
       debouncedSd:{debouncedSd} sd:{sd}{" "}
-      这里是二维的正态分布，但是两者用的是一个方差，待优化
+      这里是二维的正态分布,但是两者用的是一个方差,待优化
       <input
         type="range"
         max={maxRange}

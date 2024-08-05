@@ -8,7 +8,7 @@ draft: false
 tags:
   - ts
 
-description: "Typescript more more more ts，TypeScript（简称 TS）是 JavaScript 的一个超集，为其添加了静态类型，提供了 JavaScript 缺乏的一些关键特性和工具，使得开发更加高效、可维护和安全"
+description: "Typescript more more more ts,TypeScript（简称 TS）是 JavaScript 的一个超集,为其添加了静态类型,提供了 JavaScript 缺乏的一些关键特性和工具,使得开发更加高效、可维护和安全"
 ---
 
 ## 目录
@@ -28,7 +28,7 @@ const typedFunctionAlias: FunctionAlias = input => input.length;
 const typedCallSignature: CallSignature = input => input.length;
 ```
 
-我们想描述一个带有属性的函数，我们可以在一个对象类型中写一个调用签名（call signature）
+我们想描述一个带有属性的函数,我们可以在一个对象类型中写一个调用签名（call signature）
 
 ### index signatures
 
@@ -67,8 +67,8 @@ const cats: Record<CatName, CatInfo> = {
 };
 ```
 
-index signature 仅接受 string,number 或 symbol 作为键类型。如果您想尝试使用字符串文字类型的联合作为索引签名中的键，则会出现错误
-_建议使用 index signature 来注解通用的对象，例如键是 string 类型。但是当您事先知道键时，应当使用 Record\<Keys, Type>注解特定对象_
+index signature 仅接受 string,number 或 symbol 作为键类型.如果您想尝试使用字符串文字类型的联合作为索引签名中的键,则会出现错误
+_建议使用 index signature 来注解通用的对象,例如键是 string 类型.但是当您事先知道键时,应当使用 Record\<Keys, Type>注解特定对象_
 
 ### interface extensions
 
@@ -157,7 +157,7 @@ const add: Callable = (a, b) => a + b;
 console.log(add(1, 2)); // 输出 3
 ```
 
-在这个示例中，我们定义了一个 Callable 接口，该接口的函数签名要求接收两个数字参数并返回一个数字。然后，我们创建了一个名为 add 的函数，并将其类型设置为 Callable，因此 add 函数必须满足该接口的函数签名。
+在这个示例中,我们定义了一个 Callable 接口,该接口的函数签名要求接收两个数字参数并返回一个数字.然后,我们创建了一个名为 add 的函数,并将其类型设置为 Callable,因此 add 函数必须满足该接口的函数签名.
 
 > 拓展:使用类定义 callable types
 
@@ -208,11 +208,11 @@ console.log(adderInstance(1, 2)); // 输出 3
 
 > 至于什么是符号链接
 
-> 符号链接（Symbolic Links）是一种特殊的文件类型，它允许用户在不删除原始文件的情况下，将一个文件链接到另一个文件。在 Linux 和 Unix 系统中，符号链接通常使用“软链接”（Soft Links）或“硬链接”（Hard Links）来表示。
+> 符号链接（Symbolic Links）是一种特殊的文件类型,它允许用户在不删除原始文件的情况下,将一个文件链接到另一个文件.在 Linux 和 Unix 系统中,符号链接通常使用“软链接”（Soft Links）或“硬链接”（Hard Links）来表示.
 
-> 符号链接的特点是，当您访问符号链接时，实际上是在访问其所指向的文件。因此，如果您修改符号链接所指向的文件，符号链接本身不会发生变化。但是，如果您修改符号链接本身，例如更改其目标文件路径，符号链接将不再指向原始文件。
+> 符号链接的特点是,当您访问符号链接时,实际上是在访问其所指向的文件.因此,如果您修改符号链接所指向的文件,符号链接本身不会发生变化.但是,如果您修改符号链接本身,例如更改其目标文件路径,符号链接将不再指向原始文件.
 
-> 符号链接主要用于在不同目录之间共享文件、目录以及避免重复文件名等场景。在某些情况下，符号链接也被用于实现文件系统的动态链接，例如动态库、共享库等。
+> 符号链接主要用于在不同目录之间共享文件、目录以及避免重复文件名等场景.在某些情况下,符号链接也被用于实现文件系统的动态链接,例如动态库、共享库等.
 
 ### npm workspace config
 
@@ -290,7 +290,7 @@ package.json 中添加打包命令
 
 ### Partial
 
-Partial 是 TypeScript 中的一个实用类型，用于创建一个新的类型，表示一个部分对象类型，即仅包括显式定义的属性。
+Partial 是 TypeScript 中的一个实用类型,用于创建一个新的类型,表示一个部分对象类型,即仅包括显式定义的属性.
 
 以下是使用 Partial 实用类型的示例：
 
@@ -308,13 +308,13 @@ const person: PartialPerson = {
   age: 30,
 };
 
-// 这将不会编译，因为我們沒有定義城市屬性
+// 这将不会编译,因为我們沒有定義城市屬性
 // person.city = "New York";
 ```
 
-在這個例子中，我們有一個接口 Person，其中包含三個屬性：name、age 和 city。我們 then 創建了一個新的類型 PartialPerson，通過使用 Partial 實用類型來從 Person 中創建。
+在這個例子中,我們有一個接口 Person,其中包含三個屬性：name、age 和 city.我們 then 創建了一個新的類型 PartialPerson,通過使用 Partial 實用類型來從 Person 中創建.
 
-我們 then 創建了一個對象 person，其類型為 PartialPerson，僅包括 name 和 age 屬性。如果我們嘗試將 city 屬性設置在該對象上，TypeScript 將不允許這件事，因為它沒有在 PartialPerson 類型中明確定義。
+我們 then 創建了一個對象 person,其類型為 PartialPerson,僅包括 name 和 age 屬性.如果我們嘗試將 city 屬性設置在該對象上,TypeScript 將不允許這件事,因為它沒有在 PartialPerson 類型中明確定義.
 
 ## tsconfig
 
@@ -330,7 +330,7 @@ exclude: ["node_modules/**/*"]
 
 ### [number\] vs number[]
 
-\[number] 表示的是一个数字类型，而 number[] 表示的是一个数字类型的数组。
+\[number] 表示的是一个数字类型,而 number[] 表示的是一个数字类型的数组.
 
 ### function return void vs function return undefined
 
@@ -347,8 +347,8 @@ function bar(): undefined {
 ```
 
 **
-function return void 表示函数没有返回值，function return undefined 表示函数返回一个 undefined 值。同时
-function return void 不关心函数是返回什么类型，function return undefined 只能返回 undefined**
+function return void 表示函数没有返回值,function return undefined 表示函数返回一个 undefined 值.同时
+function return void 不关心函数是返回什么类型,function return undefined 只能返回 undefined**
 
 ### this type
 
@@ -375,12 +375,12 @@ function MyClickHandler() {
 
 <summary>回顾一遍call,apply,bind</summary>
 
-`call`, `apply`, 和 `bind` 都是 JavaScript 中用于改变函数上下文的方法。它们的主要目的是改变函数被调用时的 `this` 值，同时也可以用于传递参数。
+`call`, `apply`, 和 `bind` 都是 JavaScript 中用于改变函数上下文的方法.它们的主要目的是改变函数被调用时的 `this` 值,同时也可以用于传递参数.
 
 1. **call**:
 
-   - `call` 方法允许你调用一个函数，并指定该函数的 `this` 值。
-   - 接受一个上下文对象作为第一个参数，后面是任意数量的参数，这些参数将作为函数的参数传递。
+   - `call` 方法允许你调用一个函数,并指定该函数的 `this` 值.
+   - 接受一个上下文对象作为第一个参数,后面是任意数量的参数,这些参数将作为函数的参数传递.
 
    **示例**:
 
@@ -396,7 +396,7 @@ function MyClickHandler() {
 
 2. **apply**:
 
-   - `apply` 方法与 `call` 类似，但是它接受一个参数数组，而不是一系列参数。
+   - `apply` 方法与 `call` 类似,但是它接受一个参数数组,而不是一系列参数.
 
    **示例**:
 
@@ -413,8 +413,8 @@ function MyClickHandler() {
 
 3. **bind**:
 
-   - `bind` 方法返回一个新函数，该函数的 `this` 值被绑定到提供的对象。
-   - `bind` 方法不会立即执行函数。返回的函数可以稍后被调用。
+   - `bind` 方法返回一个新函数,该函数的 `this` 值被绑定到提供的对象.
+   - `bind` 方法不会立即执行函数.返回的函数可以稍后被调用.
 
    **示例**:
 
@@ -431,15 +431,15 @@ function MyClickHandler() {
 
 **区别**:
 
-- `call` 和 `apply` 都是立即执行函数并返回结果，而 `bind` 则返回一个新函数，该函数稍后可以被调用。
-- `call` 和 `apply` 的区别在于参数的传递方式：`call` 是逐个传递参数，而 `apply` 是通过一个数组传递。
-- 由于 `bind` 返回一个新函数，你可以多次调用它，而每次都会在不同的上下文中调用原始函数。
+- `call` 和 `apply` 都是立即执行函数并返回结果,而 `bind` 则返回一个新函数,该函数稍后可以被调用.
+- `call` 和 `apply` 的区别在于参数的传递方式：`call` 是逐个传递参数,而 `apply` 是通过一个数组传递.
+- 由于 `bind` 返回一个新函数,你可以多次调用它,而每次都会在不同的上下文中调用原始函数.
 
 </details>
 
 ## satisfies
 
-在这个例子中，person 对象必须包含 name 和 age 属性，否则 TypeScript 会报错。这样可以有效地减少潜在的错误，提高代码的可靠性。
+在这个例子中,person 对象必须包含 name 和 age 属性,否则 TypeScript 会报错.这样可以有效地减少潜在的错误,提高代码的可靠性.
 
 ```ts
 interface Person {
@@ -450,7 +450,7 @@ interface Person {
 const person = {
   name: "Alice",
   age: 30,
-  // 如果这里添加了其他属性，TypeScript 也会允许
+  // 如果这里添加了其他属性,TypeScript 也会允许
 } satisfies Person; // 确保 person 符合 Person 接口
 ```
 

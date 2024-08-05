@@ -19,7 +19,7 @@ class Mouse extends Component<MouseProps, MouseState> {
   }
 
   handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
-    //  JavaScript 的鼠标事件处理中，clientX 和 clientY 属性用于获取鼠标指针相对于浏览器视口（viewport）的坐标
+    //  JavaScript 的鼠标事件处理中,clientX 和 clientY 属性用于获取鼠标指针相对于浏览器视口（viewport）的坐标
     this.setState({
       x: event.clientX,
       y: event.clientY,

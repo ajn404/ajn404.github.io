@@ -15,34 +15,34 @@ description: "cesium探索"
 
 ## 3dtiles加载
 
-3D Tiles是一种开放规范，旨在优化大规模3D地理数据的可视化和传输。它允许您将大量的3D模型、点云和其他地理数据分割成更小的部分，以便在Web浏览器中高效地加载和渲染。
+3D Tiles是一种开放规范,旨在优化大规模3D地理数据的可视化和传输.它允许您将大量的3D模型、点云和其他地理数据分割成更小的部分,以便在Web浏览器中高效地加载和渲染.
 
 ### 3D Tiles 文件的特性：
 
-1. **层级化数据结构（Hierarchy of Tiles）：** 支持逐步加载和细化显示。
-2. **二进制数据格式：** 提供高效的存储和传输。
-3. **元数据支持：** 可以包含丰富的元数据，比如属性和样式。
+1. **层级化数据结构（Hierarchy of Tiles）：** 支持逐步加载和细化显示.
+2. **二进制数据格式：** 提供高效的存储和传输.
+3. **元数据支持：** 可以包含丰富的元数据,比如属性和样式.
 
 ### 加载3D Tiles的解决方案
 
 #### 1. **CesiumJS**
 
-CesiumJS是一个开源JavaScript库，用于在Web浏览器中渲染3D地理数据。它原生支持3D Tiles。
+CesiumJS是一个开源JavaScript库,用于在Web浏览器中渲染3D地理数据.它原生支持3D Tiles.
 
 - **文档:** [CesiumJS 3D Tiles文档](https://cesium.com/docs/cesiumjs-ref-doc/3DTileset.html)
 
 #### 2. **Three.js**
 
-虽然Three.js并没有原生支持3D Tiles，但可以使用一些插件或自定义解析器来加载3D Tiles。
+虽然Three.js并没有原生支持3D Tiles,但可以使用一些插件或自定义解析器来加载3D Tiles.
 
-- **插件:** 可以使用[three-3d-tiles](https://github.com/NASA-AMMOS/3DTilesRendererJS)插件，它是一个用来在Three.js中加载和渲染3D Tiles的库。
+- **插件:** 可以使用[three-3d-tiles](https://github.com/NASA-AMMOS/3DTilesRendererJS)插件,它是一个用来在Three.js中加载和渲染3D Tiles的库.
 - **文档:** [three-3d-tiles 文档](https://github.com/NASA-AMMOS/3DTilesRendererJS/blob/main/README.md)
 
 #### 3. **Mapbox GL JS**
 
-Mapbox GL JS是一个开源的JavaScript库，用于在Web浏览器中呈现交互式地图。虽然它主要用于2D地理数据，但也可以通过一些方法支持3D Tiles。
+Mapbox GL JS是一个开源的JavaScript库,用于在Web浏览器中呈现交互式地图.虽然它主要用于2D地理数据,但也可以通过一些方法支持3D Tiles.
 
-- **插件:** 可以使用`mapbox-3dtiles`插件，它是一个非官方的插件，提供了在Mapbox GL JS中加载3D Tiles的功能。
+- **插件:** 可以使用`mapbox-3dtiles`插件,它是一个非官方的插件,提供了在Mapbox GL JS中加载3D Tiles的功能.
 - **文档:** [mapbox-3dtiles 文档](https://github.com/Geodan/mapbox-3dtiles)
 
 ### 具体解决方案文档
@@ -60,20 +60,20 @@ Mapbox GL JS是一个开源的JavaScript库，用于在Web浏览器中呈现交�
 3. **Mapbox GL JS:**
    - [Mapbox GL JS 3D Tiles Integration](https://github.com/Geodan/mapbox-3dtiles)
 
-这些文档和插件可以帮助你在不同的Web环境中加载和渲染3D Tiles文件。根据你的具体需求和技术栈选择最合适的方案。
+这些文档和插件可以帮助你在不同的Web环境中加载和渲染3D Tiles文件.根据你的具体需求和技术栈选择最合适的方案.
 
 ## rtsp与rtmp
 
 ## ijkplayer源码中对于rtsp的处理是怎样的
 
-好的，我们来详细分析一下 ijkplayer 源码中对于 RTSP 的处理方式。
+好的,我们来详细分析一下 ijkplayer 源码中对于 RTSP 的处理方式.
 
 ijkplayer 中 RTSP 的处理主要涉及以下几个关键部分：
 
 **1. 协议解析：**
 
-- ijkplayer 利用 FFmpeg 的 RTSP 解码器 (`libavformat`) 对 RTSP 流进行解析。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
-- 解码器会根据 RTSP 协议的规范，解析流中的各种信息，例如：
+- ijkplayer 利用 FFmpeg 的 RTSP 解码器 (`libavformat`) 对 RTSP 流进行解析.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- 解码器会根据 RTSP 协议的规范,解析流中的各种信息,例如：
   - 视频和音频编码信息
   - 分辨率、帧率等参数
   - 媒体数据包的传输方式 (UDP 或 TCP)
@@ -81,47 +81,47 @@ ijkplayer 中 RTSP 的处理主要涉及以下几个关键部分：
 
 **2. 数据传输：**
 
-- ijkplayer 可以根据 RTSP 流的设置，选择合适的传输方式。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
-  - 通常 RTSP 流使用 UDP 进行数据传输，因为它效率更高，但容易出现数据丢失。[2](https://stackoverflow.com/questions/30098442/what-is-the-difference-between-udp-and-tcp-protocols)
-  - 如果网络环境较差，可以通过配置 RTSP 协议参数，强制使用 TCP 传输，以确保数据的完整性。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 可以根据 RTSP 流的设置,选择合适的传输方式.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+  - 通常 RTSP 流使用 UDP 进行数据传输,因为它效率更高,但容易出现数据丢失.[2](https://stackoverflow.com/questions/30098442/what-is-the-difference-between-udp-and-tcp-protocols)
+  - 如果网络环境较差,可以通过配置 RTSP 协议参数,强制使用 TCP 传输,以确保数据的完整性.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
 
 **3. 数据解码：**
 
-- 解码器会根据解析出的信息，对接收到的媒体数据包进行解码。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
-- ijkplayer 支持多种视频和音频解码器，例如 H.264、H.265、AAC、MP3 等。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
-- ijkplayer 会优先使用硬件解码器 (例如 MediaCodec 或 VideoToolbox) 来提高解码效率。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- 解码器会根据解析出的信息,对接收到的媒体数据包进行解码.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 支持多种视频和音频解码器,例如 H.264、H.265、AAC、MP3 等.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 会优先使用硬件解码器 (例如 MediaCodec 或 VideoToolbox) 来提高解码效率.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
 
 **4. 视频渲染：**
 
-- 解码后的视频数据会被渲染到屏幕上。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
-- ijkplayer 支持多种渲染方式，例如 SurfaceView 和 TextureView。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- 解码后的视频数据会被渲染到屏幕上.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 支持多种渲染方式,例如 SurfaceView 和 TextureView.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
 
 **5. 音频输出：**
 
-- 解码后的音频数据会被输出到设备的扬声器或耳机。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
-- ijkplayer 支持多种音频输出方式，例如 OpenSL ES 和 AudioTrack。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- 解码后的音频数据会被输出到设备的扬声器或耳机.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 支持多种音频输出方式,例如 OpenSL ES 和 AudioTrack.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
 
 **6. 播放控制：**
 
-- ijkplayer 可以通过 RTSP 协议的控制指令来控制视频的播放，例如暂停、播放、快进、快退等。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+- ijkplayer 可以通过 RTSP 协议的控制指令来控制视频的播放,例如暂停、播放、快进、快退等.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
 
-**总的来说，ijkplayer 使用 FFmpeg 的 RTSP 解码器来解析 RTSP 流，并利用其解码和渲染功能来播放视频和音频。** [1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java) 开发者可以通过配置 RTSP 协议参数和使用 ijkplayer 提供的 API 来定制播放器的行为。[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
+**总的来说,ijkplayer 使用 FFmpeg 的 RTSP 解码器来解析 RTSP 流,并利用其解码和渲染功能来播放视频和音频.** [1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java) 开发者可以通过配置 RTSP 协议参数和使用 ijkplayer 提供的 API 来定制播放器的行为.[1](https://github.com/Bilibili/ijkplayer/blob/master/android/ijkplayer/ijkplayer-java/src/main/java/tv/danmaku/ijk/media/player/IjkMediaPlayer.java)
 
-如果您想更深入地了解 ijkplayer 源码中 RTSP 的实现细节，您可以参考 ijkplayer 的官方文档和代码库。[1](https://github.com/Bilibili/ijkplayer)
+如果您想更深入地了解 ijkplayer 源码中 RTSP 的实现细节,您可以参考 ijkplayer 的官方文档和代码库.[1](https://github.com/Bilibili/ijkplayer)
 
 ## js如何请求rtsp协议的地址进行解析
 
-JavaScript 本身并不直接支持 RTSP 协议，因为浏览器环境通常不提供对 RTSP 的支持。RTSP（Real-Time Streaming Protocol）通常用于网络摄像头、安防监控等实时视频流的传输。在浏览器中处理 RTSP 流，需要通过其他方式间接实现，例如通过中间服务器进行协议转换，或使用专门的库。
+JavaScript 本身并不直接支持 RTSP 协议,因为浏览器环境通常不提供对 RTSP 的支持.RTSP（Real-Time Streaming Protocol）通常用于网络摄像头、安防监控等实时视频流的传输.在浏览器中处理 RTSP 流,需要通过其他方式间接实现,例如通过中间服务器进行协议转换,或使用专门的库.
 
 以下是一些常见的方法来在浏览器中处理 RTSP 流：
 
 ### 方法一：通过流媒体服务器进行协议转换
 
-使用流媒体服务器（如 Wowza、VLC、FFmpeg、GStreamer）将 RTSP 流转换为浏览器支持的协议（如 HTTP、HLS、DASH），然后在前端使用视频播放器播放。
+使用流媒体服务器（如 Wowza、VLC、FFmpeg、GStreamer）将 RTSP 流转换为浏览器支持的协议（如 HTTP、HLS、DASH）,然后在前端使用视频播放器播放.
 
 #### 使用 FFmpeg 进行协议转换
 
-1. **安装 FFmpeg**：确保你已经在服务器上安装了 FFmpeg。
+1. **安装 FFmpeg**：确保你已经在服务器上安装了 FFmpeg.
 
 2. **启动 FFmpeg 进行转码和转发**：
 
@@ -144,14 +144,14 @@ ffmpeg -i rtsp://your-rtsp-url -f flv rtmp://your-rtmp-server/live/stream
 
 ### 方法二：使用 WebRTC
 
-使用 WebRTC 库将 RTSP 流转换并传输到浏览器。WebRTC 是一个实时通信协议，浏览器原生支持。
+使用 WebRTC 库将 RTSP 流转换并传输到浏览器.WebRTC 是一个实时通信协议,浏览器原生支持.
 
 1. **设置 WebRTC 媒体服务器（如 Janus、Kurento）**：
 
-   - 配置服务器接收 RTSP 流，并通过 WebRTC 将其传输到浏览器。
+   - 配置服务器接收 RTSP 流,并通过 WebRTC 将其传输到浏览器.
 
 2. **前端代码**：
-   使用 WebRTC API 接收和播放视频流。
+   使用 WebRTC API 接收和播放视频流.
 
 ```html
 <!doctype html>
@@ -211,9 +211,9 @@ ffmpeg -i rtsp://your-rtsp-url -f flv rtmp://your-rtmp-server/live/stream
 
 ### 方法三：使用库如 JSMpeg
 
-JSMpeg 是一个基于 JavaScript 的库，可以播放通过 WebSockets 传输的 MPEG-TS 流。
+JSMpeg 是一个基于 JavaScript 的库,可以播放通过 WebSockets 传输的 MPEG-TS 流.
 
-1. **设置 WebSocket 服务器**：使用 FFmpeg 将 RTSP 流转换为 MPEG-TS 并通过 WebSocket 传输。
+1. **设置 WebSocket 服务器**：使用 FFmpeg 将 RTSP 流转换为 MPEG-TS 并通过 WebSocket 传输.
 
 ```bash
 ffmpeg -i rtsp://your-rtsp-url -f mpegts -codec:v mpeg1video -s 800x600 -b:v 1000k -bf 0 http://your-websocket-server:8081
@@ -241,11 +241,11 @@ ffmpeg -i rtsp://your-rtsp-url -f mpegts -codec:v mpeg1video -s 800x600 -b:v 100
 
 ### 总结
 
-直接在浏览器中请求和解析 RTSP 流是比较困难的，通常需要通过中间服务器进行协议转换，或使用 WebRTC 进行传输。使用上述方法，可以将 RTSP 流转换为浏览器支持的格式，并在前端播放。根据具体需求选择适合的方法，确保实现实时流媒体播放。
+直接在浏览器中请求和解析 RTSP 流是比较困难的,通常需要通过中间服务器进行协议转换,或使用 WebRTC 进行传输.使用上述方法,可以将 RTSP 流转换为浏览器支持的格式,并在前端播放.根据具体需求选择适合的方法,确保实现实时流媒体播放.
 
 ## `package.json` 中的`engines`
 
-在 `package.json` 文件中，`engines` 字段用于指定你的项目依赖的运行环境的版本。这包括 Node.js 和 npm 的版本等。通过定义这些版本，你可以确保在特定的环境中运行你的项目，从而避免由于版本不兼容导致的问题。
+在 `package.json` 文件中,`engines` 字段用于指定你的项目依赖的运行环境的版本.这包括 Node.js 和 npm 的版本等.通过定义这些版本,你可以确保在特定的环境中运行你的项目,从而避免由于版本不兼容导致的问题.
 
 以下是如何在 `package.json` 文件中使用 `engines` 字段的示例：
 
@@ -273,26 +273,26 @@ ffmpeg -i rtsp://your-rtsp-url -f mpegts -codec:v mpeg1video -s 800x600 -b:v 100
 
 在这个示例中：
 
-- `node: ">=14.0.0"`：指定项目需要 Node.js 版本 14.0.0 或更高版本。
-- `npm: ">=6.0.0"`：指定项目需要 npm 版本 6.0.0 或更高版本。
+- `node: ">=14.0.0"`：指定项目需要 Node.js 版本 14.0.0 或更高版本.
+- `npm: ">=6.0.0"`：指定项目需要 npm 版本 6.0.0 或更高版本.
 
 ### 解释
 
-- **`"node": ">=14.0.0"`**：这意味着项目依赖 Node.js 版本 14.0.0 或更高版本。你可以使用其他版本约束，比如 `"14.x"` 以表示任何 14.x 的版本，或者 `"14.17.0"` 以指定特定的版本。
-- **`"npm": ">=6.0.0"`**：这意味着项目依赖 npm 版本 6.0.0 或更高版本。
+- **`"node": ">=14.0.0"`**：这意味着项目依赖 Node.js 版本 14.0.0 或更高版本.你可以使用其他版本约束,比如 `"14.x"` 以表示任何 14.x 的版本,或者 `"14.17.0"` 以指定特定的版本.
+- **`"npm": ">=6.0.0"`**：这意味着项目依赖 npm 版本 6.0.0 或更高版本.
 
 ### 版本约束
 
-`engines` 字段支持多种版本约束语法，常见的包括：
+`engines` 字段支持多种版本约束语法,常见的包括：
 
-- **`"^14.0.0"`**：兼容版本 14.0.0，但不包括 15.0.0。
-- **`"~14.0.0"`**：大约 14.0.0，即 14.0.x，但不包括 14.1.0。
-- **`">=14.0.0"`**：版本 14.0.0 或更高版本。
-- **`"14.x"`**：14 的任何小版本。
+- **`"^14.0.0"`**：兼容版本 14.0.0,但不包括 15.0.0.
+- **`"~14.0.0"`**：大约 14.0.0,即 14.0.x,但不包括 14.1.0.
+- **`">=14.0.0"`**：版本 14.0.0 或更高版本.
+- **`"14.x"`**：14 的任何小版本.
 
 ### 强制执行版本要求
 
-虽然 `engines` 字段提供了版本约束，但默认情况下不会强制执行这些要求。为了强制执行，可以使用 `engine-strict` 设置或相应的工具。
+虽然 `engines` 字段提供了版本约束,但默认情况下不会强制执行这些要求.为了强制执行,可以使用 `engine-strict` 设置或相应的工具.
 
 #### 在 `.npmrc` 文件中启用 `engine-strict` 模式：
 
@@ -304,11 +304,11 @@ engine-strict=true
 
 #### 使用 `yarn`
 
-如果你使用 `yarn` 作为包管理器，`yarn` 会自动遵循 `engines` 字段，并在不满足版本要求时给出警告。
+如果你使用 `yarn` 作为包管理器,`yarn` 会自动遵循 `engines` 字段,并在不满足版本要求时给出警告.
 
 ### 总结
 
-通过在 `package.json` 文件中使用 `engines` 字段，你可以指定项目运行所需的 Node.js 和 npm 版本。这有助于确保项目在特定的运行环境中运行，避免版本不兼容问题。可以使用多种版本约束语法来定义所需的版本范围，并通过 `engine-strict` 设置或使用 `yarn` 来强制执行这些版本要求。
+通过在 `package.json` 文件中使用 `engines` 字段,你可以指定项目运行所需的 Node.js 和 npm 版本.这有助于确保项目在特定的运行环境中运行,避免版本不兼容问题.可以使用多种版本约束语法来定义所需的版本范围,并通过 `engine-strict` 设置或使用 `yarn` 来强制执行这些版本要求.
 
 ## cesium personal practicing
 
@@ -350,7 +350,7 @@ const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
 
 viewer.scene.primitives.add(tileset);
 
-// 加载模型后，设置相机视角
+// 加载模型后,设置相机视角
 viewer.zoomTo(tileset).then(() => {});
 ```
 

@@ -57,7 +57,7 @@ const SvgText: React.FC<SvgTextProps> = ({
   useEffect(() => {
     if (textRef.current) {
       const bbox = textRef.current.getBBox(); // 获取文本的边界框
-      setWidth(bbox.width + 20); // 设置宽度，增加一些边距
+      setWidth(bbox.width + 20); // 设置宽度,增加一些边距
     }
   }, [text]);
 

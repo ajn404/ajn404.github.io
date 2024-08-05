@@ -116,9 +116,9 @@ console.assert(mypoint.equals(new Point(6, 6)));
 console.assert(String(mypoint) === "(6, 6)");
 ```
 
-- 类还可以使用 get \<name>() 或 set \<name>() 使用元属性派生新状态。这些方法作用
-  与属性类似，但您可以向它们添加自定义逻辑，定义使用现有类数据生成的新属性
-  价值。如果您定义 get \<name> 而没有 set \<name> ，则该属性将为只读。
+- 类还可以使用 get \<name>() 或 set \<name>() 使用元属性派生新状态.这些方法作用
+  与属性类似,但您可以向它们添加自定义逻辑,定义使用现有类数据生成的新属性
+  价值.如果您定义 get \<name> 而没有 set \<name> ,则该属性将为只读.
 
 ```js
 class Point {
@@ -231,15 +231,15 @@ class Point3D extends Point {
 <details>
 <summary>2024/01/09 `extends` 和 `implements`</summary>
 
-在 JavaScript 和 TypeScript 中，`extends` 和 `implements` 都与类的继承和实现相关，但它们的用途和语义有所不同。以下是它们的主要区别和联系：
+在 JavaScript 和 TypeScript 中,`extends` 和 `implements` 都与类的继承和实现相关,但它们的用途和语义有所不同.以下是它们的主要区别和联系：
 
 ### 在 JavaScript 中：
 
 1. **`extends`**：
 
-   - `extends` 关键字用于创建一个子类，该子类继承了父类的属性和方法。
-   - 子类可以使用 `super` 关键字调用父类的构造函数和方法。
-   - 这是原型继承的一种形式。
+   - `extends` 关键字用于创建一个子类,该子类继承了父类的属性和方法.
+   - 子类可以使用 `super` 关键字调用父类的构造函数和方法.
+   - 这是原型继承的一种形式.
 
    ```js
    class Animal {
@@ -267,8 +267,8 @@ class Point3D extends Point {
 
 1. **`extends`**：
 
-   - TypeScript 的 `extends` 与 JavaScript 中的相同，用于类继承。
-   - 在 TypeScript 中，除了从父类继承属性和方法外，子类还可以添加额外的属性和方法。
+   - TypeScript 的 `extends` 与 JavaScript 中的相同,用于类继承.
+   - 在 TypeScript 中,除了从父类继承属性和方法外,子类还可以添加额外的属性和方法.
 
    ```typescript
    class Animal {
@@ -292,8 +292,8 @@ class Point3D extends Point {
 
 2. **`implements`**：
 
-   - `implements` 关键字用于确保类满足特定的接口（也可以称为协议或合约）的要求。
-   - 当一个类实现了一个接口时，它必须提供该接口定义的所有属性和方法。
+   - `implements` 关键字用于确保类满足特定的接口（也可以称为协议或合约）的要求.
+   - 当一个类实现了一个接口时,它必须提供该接口定义的所有属性和方法.
 
    ```typescript
    interface Animal {
@@ -315,11 +315,11 @@ class Point3D extends Point {
 
 ### 联系：
 
-- 无论是在 JavaScript 还是 TypeScript 中，`extends` 都用于类继承，而 `implements` 则用于实现接口。
-- 在 TypeScript 中，使用 `extends` 时，你可以同时继承多个类（但只能继承一个基类），而 `implements` 可以实现多个接口。
-- 通过使用 `extends` 和 `implements`，你可以在 TypeScript 中实现更加严格和类型安全的类和接口结构。
+- 无论是在 JavaScript 还是 TypeScript 中,`extends` 都用于类继承,而 `implements` 则用于实现接口.
+- 在 TypeScript 中,使用 `extends` 时,你可以同时继承多个类（但只能继承一个基类）,而 `implements` 可以实现多个接口.
+- 通过使用 `extends` 和 `implements`,你可以在 TypeScript 中实现更加严格和类型安全的类和接口结构.
 
-总之，`extends` 和 `implements` 在 JavaScript 和 TypeScript 中都是类和对象继承和实现的关键字，但它们的主要用途和语义略有不同。
+总之,`extends` 和 `implements` 在 JavaScript 和 TypeScript 中都是类和对象继承和实现的关键字,但它们的主要用途和语义略有不同.
 
 </details>
 </blockquote>
@@ -327,30 +327,30 @@ class Point3D extends Point {
 <blockquote>
 
 <details>
-<summary>2024/01/09 关于js中的class，有什么有趣的知识点吗</summary>
-JavaScript 的 `class` 语法是 ES6 (ECMAScript 2015) 新增的，它为 JavaScript 提供了一种更加面向对象的编程方式。以下是一些关于 JavaScript 中 `class` 的有趣知识点：
+<summary>2024/01/09 关于js中的class,有什么有趣的知识点吗</summary>
+JavaScript 的 `class` 语法是 ES6 (ECMAScript 2015) 新增的,它为 JavaScript 提供了一种更加面向对象的编程方式.以下是一些关于 JavaScript 中 `class` 的有趣知识点：
 
-1. **类是函数**：在技术上，JavaScript 中的类仍然是函数。当你使用 `class` 关键字声明一个类时，它实际上是一个函数。例如，`typeof ClassName` 会返回 `"function"`。
+1. **类是函数**：在技术上,JavaScript 中的类仍然是函数.当你使用 `class` 关键字声明一个类时,它实际上是一个函数.例如,`typeof ClassName` 会返回 `"function"`.
 
-2. **类的方法默认是不可枚举的**：在传统的 JavaScript 构造函数中，添加到原型的方法是可枚举的，这意味着它们会出现在对象的 `for...in` 循环中。但是，类的方法默认是不可枚举的。
+2. **类的方法默认是不可枚举的**：在传统的 JavaScript 构造函数中,添加到原型的方法是可枚举的,这意味着它们会出现在对象的 `for...in` 循环中.但是,类的方法默认是不可枚举的.
 
-3. **类可以继承其他类**：使用 `extends` 关键字，一个类可以继承另一个类的属性和方法。
+3. **类可以继承其他类**：使用 `extends` 关键字,一个类可以继承另一个类的属性和方法.
 
-4. **构造函数**：类可以有一个特殊的方法名为 `constructor`，它是一个构造函数，用于初始化新创建的对象。
+4. **构造函数**：类可以有一个特殊的方法名为 `constructor`,它是一个构造函数,用于初始化新创建的对象.
 
-5. **静态方法**：使用 `static` 关键字可以定义一个静态方法，这意味着该方法直接与类本身关联，而不是与类的实例关联。
+5. **静态方法**：使用 `static` 关键字可以定义一个静态方法,这意味着该方法直接与类本身关联,而不是与类的实例关联.
 
-6. **Getter 和 Setter**：类中可以使用 `get` 和 `set` 关键字定义 getter 和 setter 方法，这允许你在访问或修改属性时执行特定的行为。
+6. **Getter 和 Setter**：类中可以使用 `get` 和 `set` 关键字定义 getter 和 setter 方法,这允许你在访问或修改属性时执行特定的行为.
 
-7. **继承内建对象**：在 JavaScript 中，你可以继承内建的对象（如 `Array`、`Error` 等）并扩展它们以创建自定义的子类。
+7. **继承内建对象**：在 JavaScript 中,你可以继承内建的对象（如 `Array`、`Error` 等）并扩展它们以创建自定义的子类.
 
-8. **原型链**：虽然 `class` 语法为 JavaScript 添加了类似于其他面向对象语言的语法，但在内部，它仍然使用原型链来实现继承。
+8. **原型链**：虽然 `class` 语法为 JavaScript 添加了类似于其他面向对象语言的语法,但在内部,它仍然使用原型链来实现继承.
 
-9. **`new` 关键字**：使用 `new` 关键字实例化类会自动调用构造函数，创建一个新的对象，并将其设置为 `this`。
+9. **`new` 关键字**：使用 `new` 关键字实例化类会自动调用构造函数,创建一个新的对象,并将其设置为 `this`.
 
-10. **类表达式**：除了使用 `class` 声明，JavaScript 还支持类表达式，这允许你在运行时动态地创建类。
+10. **类表达式**：除了使用 `class` 声明,JavaScript 还支持类表达式,这允许你在运行时动态地创建类.
 
-总的来说，JavaScript 中的 `class` 语法为开发者提供了一种更加结构化和面向对象的编程方式，使得代码更加清晰和可维护。
+总的来说,JavaScript 中的 `class` 语法为开发者提供了一种更加结构化和面向对象的编程方式,使得代码更加清晰和可维护.
 
 </details>
 
