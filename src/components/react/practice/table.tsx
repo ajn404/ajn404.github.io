@@ -33,9 +33,9 @@ interface UseTableOptions {
   data: Row[];
 }
 
-//使用 useTable hook 来管理表格的状态和渲染逻辑。
+//使用 useTable hook 来管理表格的状态和渲染逻辑.
 //在 useTable Hook 中增加管理选中状态的逻辑
-//通过 state 管理选中的行和全选状态。
+//通过 state 管理选中的行和全选状态.
 
 export const useTable = ({ columns, data }: UseTableOptions) => {
   const [rows, setRows] = useState<Row[]>(data);
@@ -100,9 +100,9 @@ export const useTable = ({ columns, data }: UseTableOptions) => {
   };
 };
 
-// 在表头和每一行中添加复选框。
-// 使用 toggleAllSelection 方法处理全选逻辑。
-// 使用 toggleRowSelection 方法处理行选中逻辑。
+// 在表头和每一行中添加复选框.
+// 使用 toggleAllSelection 方法处理全选逻辑.
+// 使用 toggleRowSelection 方法处理行选中逻辑.
 
 interface TableProps {
   columns: Column[];
@@ -160,9 +160,9 @@ const Table: React.FC<TableProps> = ({ columns, data, options }) => {
   );
 };
 
-// 管理表格数据和选项的状态。
-// 将初始数据和列配置传递给 Table 组件。
-// 通过 Option 组件来实现数据的选择和过滤，并将结果传递给 Table 组件进行渲染。
+// 管理表格数据和选项的状态.
+// 将初始数据和列配置传递给 Table 组件.
+// 通过 Option 组件来实现数据的选择和过滤,并将结果传递给 Table 组件进行渲染.
 
 const App: React.FC = () => {
   const initialData: Row[] = [

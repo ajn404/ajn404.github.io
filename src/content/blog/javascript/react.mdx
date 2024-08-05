@@ -23,7 +23,7 @@ react 使用以及源码阅读
  npm link react react-dom
 ```
 
-实际上是将你正在开发的 React 和 React DOM 的本地版本与你的项目进行了“链接”，允许你实时进行更改测试，而无需反复将你的包发布到 npm。
+实际上是将你正在开发的 React 和 React DOM 的本地版本与你的项目进行了“链接”,允许你实时进行更改测试,而无需反复将你的包发布到 npm.
 
 ## processing
 
@@ -35,7 +35,7 @@ react 使用以及源码阅读
 
 ## react flow
 
-> React 源码中的这些类型定义是 Flow 类型系统的一部分。Flow 是一种 JavaScript 的静态类型检查工具，它允许在代码中添加类型注解，帮助开发者检测潜在的类型错误
+> React 源码中的这些类型定义是 Flow 类型系统的一部分.Flow 是一种 JavaScript 的静态类型检查工具,它允许在代码中添加类型注解,帮助开发者检测潜在的类型错误
 
 ```js
 export type StatelessFunctionalComponent<P> =
@@ -74,7 +74,7 @@ ReactFiberWorkLoop
 ```js
 /** @noinline */
 function workLoopConcurrent() {
-  // 执行工作，直到调度器要求暂停
+  // 执行工作,直到调度器要求暂停
   while (workInProgress !== null && !shouldYield()) {
     // $FlowFixMe[incompatible-call] 在升级 Flow 时发现的问题
     performUnitOfWork(workInProgress);
@@ -145,36 +145,36 @@ function unstable_scheduleCallback(
     sortIndex: -1,
   };
 
-  // 如果开启了性能分析，进行相应的设置
+  // 如果开启了性能分析,进行相应的设置
   if (enableProfiling) {
     newTask.isQueued = false;
   }
 
-  // 根据任务的开始时间或过期时间，将任务加入到相应的队列中
+  // 根据任务的开始时间或过期时间,将任务加入到相应的队列中
   if (startTime > currentTime) {
-    // 这是一个延迟任务。
+    // 这是一个延迟任务.
     newTask.sortIndex = startTime;
     push(timerQueue, newTask);
     if (peek(taskQueue) === null && newTask === peek(timerQueue)) {
-      // 所有任务都是延迟任务，且这是最早延迟的任务。
+      // 所有任务都是延迟任务,且这是最早延迟的任务.
       if (isHostTimeoutScheduled) {
-        // 取消现有的超时。
+        // 取消现有的超时.
         cancelHostTimeout();
       } else {
         isHostTimeoutScheduled = true;
       }
-      // 安排一个超时。
+      // 安排一个超时.
       requestHostTimeout(handleTimeout, startTime - currentTime);
     }
   } else {
-    // 这是一个即时任务或者延迟任务已经过期。
+    // 这是一个即时任务或者延迟任务已经过期.
     newTask.sortIndex = expirationTime;
     push(taskQueue, newTask);
     if (enableProfiling) {
       markTaskStart(newTask, currentTime);
       newTask.isQueued = true;
     }
-    // 如果没有已经安排的宿主回调，并且当前没有执行工作，则安排一个宿主回调。
+    // 如果没有已经安排的宿主回调,并且当前没有执行工作,则安排一个宿主回调.
     if (!isHostCallbackScheduled && !isPerformingWork) {
       isHostCallbackScheduled = true;
       requestHostCallback();
@@ -187,21 +187,21 @@ function unstable_scheduleCallback(
 
 lane
 
-> 在 React 中，Lane 模型是一种用于调度和分配渲染优先级的机制。它是 React Fiber 架构的一部分，旨在提高渲染的效率和优先级管理。Lane 模型引入了一种将更新划分为不同优先级的概念，以便更好地响应用户操作并确保平滑的用户体验。
+> 在 React 中,Lane 模型是一种用于调度和分配渲染优先级的机制.它是 React Fiber 架构的一部分,旨在提高渲染的效率和优先级管理.Lane 模型引入了一种将更新划分为不同优先级的概念,以便更好地响应用户操作并确保平滑的用户体验.
 
-1.优先级（Priority）： Lane 模型引入了多个不同的渲染优先级。不同的任务可以被分配到不同的优先级，例如 Immediate、UserBlocking、Normal、Low、Idle 等。这使得 React 能够在不同场景下灵活地分配和调整任务的优先级，以更好地响应用户交互。
+1.优先级（Priority）： Lane 模型引入了多个不同的渲染优先级.不同的任务可以被分配到不同的优先级,例如 Immediate、UserBlocking、Normal、Low、Idle 等.这使得 React 能够在不同场景下灵活地分配和调整任务的优先级,以更好地响应用户交互.
 
-2.Lanes： Lane 是用于标识任务所属优先级的概念。每个 Lane 表示一个特定的渲染优先级。React 使用 Lanes 来追踪任务的优先级，并根据不同的优先级调度任务的执行。任务会被分配到相应的 Lane 上，从而确定其优先级。
+2.Lanes： Lane 是用于标识任务所属优先级的概念.每个 Lane 表示一个特定的渲染优先级.React 使用 Lanes 来追踪任务的优先级,并根据不同的优先级调度任务的执行.任务会被分配到相应的 Lane 上,从而确定其优先级.
 
-3.合并（Merging）： Lanes 支持合并操作。当多个更新具有相同的优先级时，它们可以被合并到同一个 Lane 中，以减少不必要的渲染操作。这有助于提高性能，避免重复的工作。
+3.合并（Merging）： Lanes 支持合并操作.当多个更新具有相同的优先级时,它们可以被合并到同一个 Lane 中,以减少不必要的渲染操作.这有助于提高性能,避免重复的工作.
 
-4.中断和恢复： Lanes 允许中断和恢复渲染。在某些情况下，React 可能需要中断正在进行的工作以执行更紧急的任务。Lanes 模型提供了中断和恢复工作的机制，确保任务的有序执行。
+4.中断和恢复： Lanes 允许中断和恢复渲染.在某些情况下,React 可能需要中断正在进行的工作以执行更紧急的任务.Lanes 模型提供了中断和恢复工作的机制,确保任务的有序执行.
 
-5.划分策略： 不同的任务会根据其性质和紧急程度被分配到不同的 Lane。例如，用户交互相关的任务可能会被分配到 UserBlocking 优先级的 Lane，以确保快速响应。
+5.划分策略： 不同的任务会根据其性质和紧急程度被分配到不同的 Lane.例如,用户交互相关的任务可能会被分配到 UserBlocking 优先级的 Lane,以确保快速响应.
 
-6.渲染精细度： Lane 模型支持渲染的细粒度控制。通过划分为不同的 Lane，React 可以更精确地控制何时、何地以及以何种方式执行渲染工作。
+6.渲染精细度： Lane 模型支持渲染的细粒度控制.通过划分为不同的 Lane,React 可以更精确地控制何时、何地以及以何种方式执行渲染工作.
 
-> Lane 模型的引入使得 React 能够更好地适应各种场景下的渲染需求，确保高优先级任务能够尽快得到处理，同时有效地管理低优先级任务的执行。这有助于提高 React 应用的性能和用户体验。
+> Lane 模型的引入使得 React 能够更好地适应各种场景下的渲染需求,确保高优先级任务能够尽快得到处理,同时有效地管理低优先级任务的执行.这有助于提高 React 应用的性能和用户体验.
 
 ## react components use class or function
 
@@ -843,7 +843,7 @@ Didact.render(element, container)
 <details open>
 <summary>Step III: Concurrent Mode </summary>
 
-一旦开始渲染，我们就不会停止，直到渲染出完整的元素树。如果元素树很大，可能会阻塞主线程太长时间。如果浏览器需要执行高优先级的操作，例如处理用户输入或保持动画流畅，则必须等到渲染完成。
+一旦开始渲染,我们就不会停止,直到渲染出完整的元素树.如果元素树很大,可能会阻塞主线程太长时间.如果浏览器需要执行高优先级的操作,例如处理用户输入或保持动画流畅,则必须等到渲染完成.
 
 ```js
 let nextUnitOfWork = null

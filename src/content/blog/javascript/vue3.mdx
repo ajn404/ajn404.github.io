@@ -52,7 +52,7 @@ const b = new Proxy(a, {
 
 ### reflect.get(target, propertyKey[, receiver])
 
-第三个参数----如果 target 对象中指定了 getter，receiver 则为 getter 调用时的 this 值。
+第三个参数----如果 target 对象中指定了 getter,receiver 则为 getter 调用时的 this 值.
 
 ```js
 const obj = { x: 1, y: 2 };
@@ -121,7 +121,7 @@ effect(() => {
 });
 ```
 
-尝试修改 p.foo 的值，p.bar 的值也会跟着变化,但副作用函数并不会执行。
+尝试修改 p.foo 的值,p.bar 的值也会跟着变化,但副作用函数并不会执行.
 
 ```js
 p.foo = 2;
@@ -154,7 +154,7 @@ const p = new Proxy(obj, {
 })
 ```
 
-p 访问 bar 时，这里的 receiver 指向 p，返回 Reflect.get(target,key,receiver)时触发 get 中的 this 也就指向 p
+p 访问 bar 时,这里的 receiver 指向 p,返回 Reflect.get(target,key,receiver)时触发 get 中的 this 也就指向 p
 
 ## [vuejs Challenge ... simple](https://cn-vuejs-challenges.netlify.app/questions/10-lifecycle/README.zh-CN.html)
 
@@ -181,7 +181,7 @@ nextTick()
 
 [\<Teleport>](https://vuejs.org/api/built-in-components.html#teleport)
 
-Vue 3 引入了\<Teleport>组件，这是一个非常有用的功能，它允许您将组件的内容移动到 DOM 中的其他位置，而无需改变其在组件树中的位置。这在创建模态框、下拉菜单或其他需要将内容移动到特定位置的组件时特别有用。
+Vue 3 引入了\<Teleport>组件,这是一个非常有用的功能,它允许您将组件的内容移动到 DOM 中的其他位置,而无需改变其在组件树中的位置.这在创建模态框、下拉菜单或其他需要将内容移动到特定位置的组件时特别有用.
 
 ```vue
 <script setup>
@@ -302,44 +302,44 @@ console.log(fooRef.value === 3);
 <article>
  <blockquote>
 
-在 Vue 3 中，事件修饰符是一种可以用来调整或增强事件监听行为的特殊标记。这些修饰符通常使用.前缀来应用于 v-on 指令。以下是一些常用的事件修饰符及其用途：
+在 Vue 3 中,事件修饰符是一种可以用来调整或增强事件监听行为的特殊标记.这些修饰符通常使用.前缀来应用于 v-on 指令.以下是一些常用的事件修饰符及其用途：
 
 .stop：
 
-阻止事件冒泡。
+阻止事件冒泡.
 示例：\<button @click.stop="handleClick">点击我\</button>
 
 .prevent：
 
-阻止事件的默认行为。
+阻止事件的默认行为.
 示例：\<form @submit.prevent="handleSubmit">提交\</form>
 
 .capture：
 
-使用事件捕获阶段而非冒泡阶段进行监听。
+使用事件捕获阶段而非冒泡阶段进行监听.
 示例：\<div @click.capture="handleCapture">监听捕获阶段的点击\</div>
 
 .self：
 
-只当事件是从原始目标（而非子元素）发起时触发监听器时才触发。
+只当事件是从原始目标（而非子元素）发起时触发监听器时才触发.
 示例：\<div @click.self="handleClick">仅在点击 div 本身时触发\</div>
 
 .once：
 
-监听器只会在首次触发时执行，之后将被自动移除。
+监听器只会在首次触发时执行,之后将被自动移除.
 示例：\<button @click.once="handleOnceClick">只触发一次的点击\</button>
 
 .passive：
 
-使用 addEventListener 的\{ passive: true }选项，以告知浏览器监听器不会调用 preventDefault。
-主要用于提高触摸事件的性能。
+使用 addEventListener 的\{ passive: true }选项,以告知浏览器监听器不会调用 preventDefault.
+主要用于提高触摸事件的性能.
 示例：\<div @touchstart.passive="handleTouchStart">触摸开始\</div>
 
 .native：
 
-监听组件根元素的原生事件，而不是组件触发的事件。
+监听组件根元素的原生事件,而不是组件触发的事件.
 示例：\<my-component @hook:mounted.native="handleNativeMounted">组件的挂载\</my-component>
-这些事件修饰符可以组合使用，例如：\<div @click.stop.prevent="handleClick">。在某些情况下，修饰符的顺序可能会影响行为，因此请确保正确地使用它们以实现所需的事件监听行为
+这些事件修饰符可以组合使用,例如：\<div @click.stop.prevent="handleClick">.在某些情况下,修饰符的顺序可能会影响行为,因此请确保正确地使用它们以实现所需的事件监听行为
 
  </blockquote>
 
@@ -461,7 +461,7 @@ vModelText.beforeUpdate = (el, binding) => {
 </template>
 ```
 
-自定义修饰符，自动将输入首字母大写
+自定义修饰符,自动将输入首字母大写
 
 import ToUpper from "@components/vue/challenge/toUpperCase.vue";
 
@@ -595,7 +595,7 @@ watch(
   },
   { flush: "post" }
 );
-//设置 flush: 'post' 将会使侦听器延迟到组件渲染之后再执行。
+//设置 flush: 'post' 将会使侦听器延迟到组件渲染之后再执行.
 age.value = 18;
 </script>
 
@@ -651,7 +651,7 @@ import ShallowRef from "@components/vue/challenge/shallowRef.vue";
 
 <ShallowRef client:visible />
 
-> <>使用 shallowRef 创建的对象是浅响应式的，这意味着只有第一层的属性是响应式的。watch 函数指定 \{ deep: true } 对于浅响应式对象不起作用，因为深度监听不会追踪对象的嵌套属性。</>
+> <>使用 shallowRef 创建的对象是浅响应式的,这意味着只有第一层的属性是响应式的.watch 函数指定 \{ deep: true } 对于浅响应式对象不起作用,因为深度监听不会追踪对象的嵌套属性.</>
 
 ### 12.[Dependence injection](https://cn-vuejs-challenges.netlify.app/questions/9-dependency-injection/README.zh-CN.html)
 
@@ -724,9 +724,9 @@ import InjectChallenge from "@components/vue/challenge/provide.vue";
 <details>
 <summary>为什么称为依赖注入</summary>
 
-- 依赖声明: 组件通过 inject 显式声明它所依赖的数据或功能，而不是在组件内部创建这些依赖。这种方式使得组件更容易理解和测试。
-- 解耦合: 提供者和消费者之间是松散耦合的。提供者不需要知道有多少个消费者，消费者也不需要知道数据是从哪里提供的。这种解耦合有助于代码的模块化和复用。
-- 可替换性: 在测试或开发过程中，可以很容易地替换或模拟提供的数据或功能，从而提高了代码的可测试性。
+- 依赖声明: 组件通过 inject 显式声明它所依赖的数据或功能,而不是在组件内部创建这些依赖.这种方式使得组件更容易理解和测试.
+- 解耦合: 提供者和消费者之间是松散耦合的.提供者不需要知道有多少个消费者,消费者也不需要知道数据是从哪里提供的.这种解耦合有助于代码的模块化和复用.
+- 可替换性: 在测试或开发过程中,可以很容易地替换或模拟提供的数据或功能,从而提高了代码的可测试性.
 
 </details>
 
@@ -793,11 +793,11 @@ import Storage from "@components/vue/challenge/storage.vue";
 <details>
 <summary>2024/01/08 vue3中的customRef</summary>
 
-在 Vue 3 中，`customRef` 是一个新的响应式引用工具，它允许你自定义依赖跟踪。但要注意的是，`customRef` 主要用于特定的高级场景，大多数情况下，你不需要使用它。
+在 Vue 3 中,`customRef` 是一个新的响应式引用工具,它允许你自定义依赖跟踪.但要注意的是,`customRef` 主要用于特定的高级场景,大多数情况下,你不需要使用它.
 
-如果你想使用 `customRef` 和 `watch` 结合起来，首先你需要理解 `customRef` 的工作方式。`customRef` 接受一个函数作为其唯一参数，这个函数会在每次访问引用时被调用，它应该返回一个值和一个依赖数组。
+如果你想使用 `customRef` 和 `watch` 结合起来,首先你需要理解 `customRef` 的工作方式.`customRef` 接受一个函数作为其唯一参数,这个函数会在每次访问引用时被调用,它应该返回一个值和一个依赖数组.
 
-以下是一个简单的例子，使用 `customRef` 创建一个计数器，并使用 `watch` 监听其值：
+以下是一个简单的例子,使用 `customRef` 创建一个计数器,并使用 `watch` 监听其值：
 
 ```javascript
 import { customRef, watch } from "vue";
@@ -836,9 +836,9 @@ export default {
 };
 ```
 
-在上述代码中，我们创建了一个自定义的响应式引用 `counter`，然后使用 `watch` 监听其变化。
+在上述代码中,我们创建了一个自定义的响应式引用 `counter`,然后使用 `watch` 监听其变化.
 
-总结一下，`customRef` 让你有更多的灵活性来定义自己的响应式逻辑，但在实际开发中，通常只有在特定的高级场景下才需要使用它。
+总结一下,`customRef` 让你有更多的灵活性来定义自己的响应式逻辑,但在实际开发中,通常只有在特定的高级场景下才需要使用它.
 
 </details>
 </blockquote>

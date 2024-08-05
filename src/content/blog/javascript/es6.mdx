@@ -62,7 +62,7 @@ console.log(b);
 
 ## [String.prototype.localeCompare](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare)
 
-localeCompare 方法是 JavaScript 字符串对象的一个方法，用于比较两个字符串的大小。它主要用于比较字符串的 Unicode 值，以便在某些语言环境下进行排序。
+localeCompare 方法是 JavaScript 字符串对象的一个方法,用于比较两个字符串的大小.它主要用于比较字符串的 Unicode 值,以便在某些语言环境下进行排序.
 
 localeCompare 方法的语法如下：
 
@@ -70,14 +70,14 @@ localeCompare 方法的语法如下：
 str1.localeCompare(str2, [locale, [options]]);
 ```
 
-其中，str1 和 str2 是需要比较的两个字符串。locale 是一个可选参数，表示用于比较字符串的语言环境。options 是一个可选参数，表示用于比较字符串的选项。
+其中,str1 和 str2 是需要比较的两个字符串.locale 是一个可选参数,表示用于比较字符串的语言环境.options 是一个可选参数,表示用于比较字符串的选项.
 
-localeCompare 方法的返回值是一个整数，表示两个字符串的大小关系：
+localeCompare 方法的返回值是一个整数,表示两个字符串的大小关系：
 
-如果第一个字符串大于第二个字符串，则返回正数。
-如果第一个字符串小于第二个字符串，则返回负数。
-如果两个字符串相等，则返回 0。
-例如，以下代码将比较两个字符串的大小：
+如果第一个字符串大于第二个字符串,则返回正数.
+如果第一个字符串小于第二个字符串,则返回负数.
+如果两个字符串相等,则返回 0.
+例如,以下代码将比较两个字符串的大小：
 
 ```js
 const str1 = "apple";
@@ -94,15 +94,15 @@ if (result > 0) {
 }
 ```
 
-在这个例子中，我们使用了 'en-US' 作为语言环境参数。这将根据英语的规则对 str1 和 str2 进行排序。如果需要使用其他语言环境进行比较，可以将其传递给 localeCompare 方法。
+在这个例子中,我们使用了 'en-US' 作为语言环境参数.这将根据英语的规则对 str1 和 str2 进行排序.如果需要使用其他语言环境进行比较,可以将其传递给 localeCompare 方法.
 
-需要注意的是，localeCompare 方法比较的是字符串的 Unicode 值，而不是它们在屏幕上的显示顺序。因此，它可能会受到字符串的字体和显示设置的影响。
+需要注意的是,localeCompare 方法比较的是字符串的 Unicode 值,而不是它们在屏幕上的显示顺序.因此,它可能会受到字符串的字体和显示设置的影响.
 
 ## [Array.prototype.flatMap()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap)
 
-flatMap 方法接受一个回调函数作为参数，该回调函数用于处理数组中的每个元素，并返回一个新的数组。flatMap 方法会遍历数组中的每个元素，并将回调函数返回的数组中的所有元素合并为一个新数组。
+flatMap 方法接受一个回调函数作为参数,该回调函数用于处理数组中的每个元素,并返回一个新的数组.flatMap 方法会遍历数组中的每个元素,并将回调函数返回的数组中的所有元素合并为一个新数组.
 
-flatMap 方法返回的新数组中的元素顺序与原始数组中的元素顺序相同。如果回调函数返回的数组中的元素不是数组类型，那么它们将被添加到新数组中，而不是将它们作为一个数组添加到新数组中。
+flatMap 方法返回的新数组中的元素顺序与原始数组中的元素顺序相同.如果回调函数返回的数组中的元素不是数组类型,那么它们将被添加到新数组中,而不是将它们作为一个数组添加到新数组中.
 
 以下是一个 flatMap 方法的示例：
 
@@ -114,11 +114,11 @@ const doubledNumbers = numbers.flatMap(number => [number * 2, number * 3]);
 console.log(doubledNumbers); // [2, 4, 6, 8, 10, 3, 6, 9, 12, 15]
 ```
 
-在这个示例中，我们有一个名为 numbers 的数组，其中包含一些整数。我们使用 flatMap 方法将 numbers 数组中的每个元素乘以 2 或 3，然后将结果作为一个新数组返回。最后，我们将新数组 doubledNumbers 输出到控制台。
+在这个示例中,我们有一个名为 numbers 的数组,其中包含一些整数.我们使用 flatMap 方法将 numbers 数组中的每个元素乘以 2 或 3,然后将结果作为一个新数组返回.最后,我们将新数组 doubledNumbers 输出到控制台.
 
-总之，flatMap 方法用于对数组进行变换操作，将数组中的每个元素转换为一个新数组，并将新数组中的所有元素合并为一个新数组。
+总之,flatMap 方法用于对数组进行变换操作,将数组中的每个元素转换为一个新数组,并将新数组中的所有元素合并为一个新数组.
 
-**flatMap() 方法是一个迭代方法。有关回调函数的详细说明，请参见 Array.prototype.map()。flatMap() 方法等同于调用 map(callbackFn, thisArg) 后再调用 flat(1)——对于每个元素，它都会生成一个新元素数组，并将生成的数组连接起来形成一个新数组。**
+**flatMap() 方法是一个迭代方法.有关回调函数的详细说明,请参见 Array.prototype.map().flatMap() 方法等同于调用 map(callbackFn, thisArg) 后再调用 flat(1)——对于每个元素,它都会生成一个新元素数组,并将生成的数组连接起来形成一个新数组.**
 
 ## ecma2023
 
@@ -167,7 +167,7 @@ console.log(months); // ["Jan", "Mar", "Apr", "May"]
 
 - [width](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/with)
 
-> with() 通过返回一个指定索引处的值被新值替换的新数组，来改变数组中指定索引处的值。原数组不会被修改。这使得你可以以链式调用数组方法的方式来对数组进行操作
+> with() 通过返回一个指定索引处的值被新值替换的新数组,来改变数组中指定索引处的值.原数组不会被修改.这使得你可以以链式调用数组方法的方式来对数组进行操作
 
 ```js
 const arr = [1, 2, 3, 4, 5];
@@ -182,15 +182,15 @@ console.log(arr); // [1, 2, 3, 4, 5]
 <details>
 <summary>2023/1/3 什么是hashbang_comments</summary>
 <blockquote>
-`hashbang`（也称为 "shebang"）在编程中指的是 `#!`，它出现在脚本文件的第一行，用于指定脚本的解释器。
+`hashbang`（也称为 "shebang"）在编程中指的是 `#!`,它出现在脚本文件的第一行,用于指定脚本的解释器.
 
-在 Web 开发中，特别是在早期，`hashbang`被广泛用于指定前端框架或工具，如 JavaScript 库或框架，来处理单页面应用（SPA）的路由。当用户在浏览器中访问一个带有 `hashbang` 的 URL 时（如 `http://example.com/#!/path/to/resource`），浏览器会忽略 `#!` 之后的内容，并且只请求 `http://example.com/`。然后，JavaScript 会解析 `#!/path/to/resource` 并相应地更新页面内容，而不刷新整个页面。
+在 Web 开发中,特别是在早期,`hashbang`被广泛用于指定前端框架或工具,如 JavaScript 库或框架,来处理单页面应用（SPA）的路由.当用户在浏览器中访问一个带有 `hashbang` 的 URL 时（如 `http://example.com/#!/path/to/resource`）,浏览器会忽略 `#!` 之后的内容,并且只请求 `http://example.com/`.然后,JavaScript 会解析 `#!/path/to/resource` 并相应地更新页面内容,而不刷新整个页面.
 
-例如，使用这样的 URL 可以使得 JavaScript 应用在浏览器中更加平滑地进行导航，而不需要整个页面的重新加载。
+例如,使用这样的 URL 可以使得 JavaScript 应用在浏览器中更加平滑地进行导航,而不需要整个页面的重新加载.
 
-然而，随着时间的推移和 Web 标准的发展，`hashbang` 的使用逐渐减少，并被 HTML5 的`pushState`和`replaceState`方法以及新的路由管理库（如 React Router 或 Vue Router）所取代。
+然而,随着时间的推移和 Web 标准的发展,`hashbang` 的使用逐渐减少,并被 HTML5 的`pushState`和`replaceState`方法以及新的路由管理库（如 React Router 或 Vue Router）所取代.
 
-至于 `hashbang_comments`，这可能是一个特定的标记或指示符，但在标准的 Web 开发文献或实践中并不常见。如果你遇到了这个术语，最好参考具体的上下文或来源来了解其具体含义。
+至于 `hashbang_comments`,这可能是一个特定的标记或指示符,但在标准的 Web 开发文献或实践中并不常见.如果你遇到了这个术语,最好参考具体的上下文或来源来了解其具体含义.
 
 </blockquote>
 
@@ -211,17 +211,17 @@ console.log(privateData.get(key)); // Output: {label:'Private data'}
 <details>
 <summary>2023/1/3 WeakMap</summary>
 <blockquote>
-`WeakMap` 是 JavaScript 的一个内置对象，用于存储键值对，其中键是对象，而值可以是任意类型的值。与普通的 `Map` 对象不同，`WeakMap` 的键是弱引用的，这意味着当键对象不再被引用时，它会被垃圾回收，这有助于避免内存泄漏。
+`WeakMap` 是 JavaScript 的一个内置对象,用于存储键值对,其中键是对象,而值可以是任意类型的值.与普通的 `Map` 对象不同,`WeakMap` 的键是弱引用的,这意味着当键对象不再被引用时,它会被垃圾回收,这有助于避免内存泄漏.
 
 以下是关于 `WeakMap` 的一些关键点：
 
-1. **键是弱引用的**：如果一个键对象没有其他引用，那么它可能会被垃圾回收，这将导致该键值对从 `WeakMap` 中自动删除。
+1. **键是弱引用的**：如果一个键对象没有其他引用,那么它可能会被垃圾回收,这将导致该键值对从 `WeakMap` 中自动删除.
 
-2. **不可迭代**：由于 `WeakMap` 的键是弱引用的，所以不能像 `Map` 那样迭代它们，也没有公开的方法或属性来获取所有键。
+2. **不可迭代**：由于 `WeakMap` 的键是弱引用的,所以不能像 `Map` 那样迭代它们,也没有公开的方法或属性来获取所有键.
 
-3. **用途**：`WeakMap` 主要用于在不干扰垃圾回收的情况下存储对象与相关数据，或者在某些情况下需要确保对象被垃圾回收的场景中。
+3. **用途**：`WeakMap` 主要用于在不干扰垃圾回收的情况下存储对象与相关数据,或者在某些情况下需要确保对象被垃圾回收的场景中.
 
-4. **方法**：`WeakMap` 提供了 `get(key)`、`set(key, value)`、`has(key)` 和 `delete(key)` 方法，与 `Map` 的方法类似。
+4. **方法**：`WeakMap` 提供了 `get(key)`、`set(key, value)`、`has(key)` 和 `delete(key)` 方法,与 `Map` 的方法类似.
 
 使用示例：
 
@@ -245,7 +245,7 @@ weakMap.delete(obj);
 console.log(weakMap.has(obj)); // 输出 false
 ```
 
-总之，`WeakMap` 提供了一种方式来存储对象与数据的关联，同时确保当对象不再被引用时，相关数据也可以被垃圾回收。
+总之,`WeakMap` 提供了一种方式来存储对象与数据的关联,同时确保当对象不再被引用时,相关数据也可以被垃圾回收.
 
 </blockquote>
 </details>
@@ -258,11 +258,11 @@ console.log(weakMap.has(obj)); // 输出 false
 
 <details>
 <summary>Click to expand</summary>
-JavaScript数组可以存储不同类型的数据，主要是因为JavaScript是一种弱类型语言。这意味着变量的类型是在运行时动态确定的，而不是在编写代码时静态定义的。因此，JavaScript数组可以包含任意类型的元素，包括数字、字符串、对象、函数、甚至其他数组等[1](https://stackoverflow.com/questions/39059473/how-come-javascript-arrays-can-hold-multiple-data-types-at-same-time)[4](https://javascript.plainenglish.io/can-javascript-arrays-contain-different-types-e34a4939befc).
+JavaScript数组可以存储不同类型的数据,主要是因为JavaScript是一种弱类型语言.这意味着变量的类型是在运行时动态确定的,而不是在编写代码时静态定义的.因此,JavaScript数组可以包含任意类型的元素,包括数字、字符串、对象、函数、甚至其他数组等[1](https://stackoverflow.com/questions/39059473/how-come-javascript-arrays-can-hold-multiple-data-types-at-same-time)[4](https://javascript.plainenglish.io/can-javascript-arrays-contain-different-types-e34a4939befc).
 
-具体来说，JavaScript中的数组实际上是对象的一种特殊类型。数组的每个元素都可以是不同的数据类型，因为它们都是以键值对的形式存储的，其中键是索引，值是元素的内容。这种灵活性使得JavaScript数组在处理多种数据类型时非常方便[3](https://www.quora.com/Can-a-JavaScript-array-contain-different-types)[5](https://www.freecodecamp.org/news/how-to-declare-an-array-in-javascript-creating-an-array-in-js).
+具体来说,JavaScript中的数组实际上是对象的一种特殊类型.数组的每个元素都可以是不同的数据类型,因为它们都是以键值对的形式存储的,其中键是索引,值是元素的内容.这种灵活性使得JavaScript数组在处理多种数据类型时非常方便[3](https://www.quora.com/Can-a-JavaScript-array-contain-different-types)[5](https://www.freecodecamp.org/news/how-to-declare-an-array-in-javascript-creating-an-array-in-js).
 
-例如，以下是一个包含不同类型元素的JavaScript数组的示例：
+例如,以下是一个包含不同类型元素的JavaScript数组的示例：
 
 ```javascript
 let mixedArray = [
@@ -278,7 +278,7 @@ let mixedArray = [
 ];
 ```
 
-在这个数组中，包含了数字、字符串、对象、数组、null、undefined和函数等多种类型的元素。这种特性使得JavaScript数组在处理复杂数据结构时非常灵活和强大[6](https://www.simplilearn.com/tutorials/javascript-tutorial/javascript-arrays).
+在这个数组中,包含了数字、字符串、对象、数组、null、undefined和函数等多种类型的元素.这种特性使得JavaScript数组在处理复杂数据结构时非常灵活和强大[6](https://www.simplilearn.com/tutorials/javascript-tutorial/javascript-arrays).
 
 </details>
 
@@ -286,13 +286,13 @@ let mixedArray = [
 
 <details>
 <summary>Click to expand</summary>
-在JavaScript中，数组是存储在堆内存中的。JavaScript的内存管理分为两部分：栈和堆。
+在JavaScript中,数组是存储在堆内存中的.JavaScript的内存管理分为两部分：栈和堆.
 
-栈主要用于存储简单的原始数据类型（如数字、字符串和布尔值）以及函数调用的上下文。当你创建一个数组时，数组本身是一个复杂的数据结构，它的内容（即数组中的元素）会被存储在堆中。数组的变量在栈中存储的是对堆中实际数组数据的引用[1](https://stackoverflow.com/questions/65653015/are-some-variables-in-js-stored-on-the-stack-instead-of-the-heap)[2](https://medium.com/@dondeveloper/quickie-javascript-heap-and-stack-745b6d0c8e54).
+栈主要用于存储简单的原始数据类型（如数字、字符串和布尔值）以及函数调用的上下文.当你创建一个数组时,数组本身是一个复杂的数据结构,它的内容（即数组中的元素）会被存储在堆中.数组的变量在栈中存储的是对堆中实际数组数据的引用[1](https://stackoverflow.com/questions/65653015/are-some-variables-in-js-stored-on-the-stack-instead-of-the-heap)[2](https://medium.com/@dondeveloper/quickie-javascript-heap-and-stack-745b6d0c8e54).
 
-例如，当你定义一个数组时，数组的引用会存储在栈中，而数组的实际数据则存储在堆中。这种设计允许数组在运行时动态调整大小，因为堆内存可以灵活分配和释放，而栈内存的大小是有限的[3](https://www.linkedin.com/pulse/objects-arrays-working-javascript-yash-raj).
+例如,当你定义一个数组时,数组的引用会存储在栈中,而数组的实际数据则存储在堆中.这种设计允许数组在运行时动态调整大小,因为堆内存可以灵活分配和释放,而栈内存的大小是有限的[3](https://www.linkedin.com/pulse/objects-arrays-working-javascript-yash-raj).
 
-总结来说，JavaScript数组的引用存储在栈中，而数组的实际数据则存储在堆中。
+总结来说,JavaScript数组的引用存储在栈中,而数组的实际数据则存储在堆中.
 
 </details>
 

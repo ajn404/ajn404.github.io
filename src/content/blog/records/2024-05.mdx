@@ -50,7 +50,7 @@ bunx shadcn-ui@latest add button
 - 原始数据类型 string undefined bigint number null Symbol Boolean
 - Object
   内置Objects 例如 String , Number
-  继承，原型
+  继承,原型
   原型链
 - typeof
 
@@ -85,8 +85,8 @@ In programming language, casting is a way of telling the compiler to change an e
 - 索引集合
 
   - [类型化数组](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Typed_arrays)
-    JavaScript 类型化数组是一种类似数组的对象，并提供了一种用于在内存缓冲中访问原始二进制数据的机制。
-    这部分有点难，缓冲和视图那里，基本上只会手抄别人的模板，这里的mdn文章需要**精读**
+    JavaScript 类型化数组是一种类似数组的对象,并提供了一种用于在内存缓冲中访问原始二进制数据的机制.
+    这部分有点难,缓冲和视图那里,基本上只会手抄别人的模板,这里的mdn文章需要**精读**
 
   - 数组
 
@@ -107,12 +107,12 @@ In programming language, casting is a way of telling the compiler to change an e
   {" "}
 
   <blockquote>
-    通常情况下，唯一需要关注 Object.is
-    对零的特殊行为的时机是在实施特定的元编程范式时，特别是涉及属性描述符时，当你的工作需要镜像
-    Object.defineProperty 的某些特性时。如果你的用例不需要这样做，建议避免使用
-    Object.is，而改用 ===。即使你的要求涉及将两个 NaN 值之间的比较计算为
-    true，通常特殊处理 NaN 检查（使用先前版本的 ECMAScript 中提供的 isNaN
-    方法）比解决相关计算如何影响零的符号更为简单。
+    通常情况下,唯一需要关注 Object.is
+    对零的特殊行为的时机是在实施特定的元编程范式时,特别是涉及属性描述符时,当你的工作需要镜像
+    Object.defineProperty 的某些特性时.如果你的用例不需要这样做,建议避免使用
+    Object.is,而改用 ===.即使你的要求涉及将两个 NaN 值之间的比较计算为
+    true,通常特殊处理 NaN 检查（使用先前版本的 ECMAScript 中提供的 isNaN
+    方法）比解决相关计算如何影响零的符号更为简单.
   </blockquote>
 
 #### 7.循环和遍历
@@ -202,15 +202,15 @@ typeof undefined === "undefined";
 
 - void
 
-你可以使用 void 运算符指明一个超文本链接。该表达式是有效的，但是并不会在当前文档中进行加载。
+你可以使用 void 运算符指明一个超文本链接.该表达式是有效的,但是并不会在当前文档中进行加载.
 
-如下创建了一个超链接文本，当用户单击该文本时，不会有任何效果。
+如下创建了一个超链接文本,当用户单击该文本时,不会有任何效果.
 
 ```html
 <a href="javascript:void(0)">Click here to do nothing</a>
 ```
 
-下面的代码创建了一个超链接，当用户单击它时，提交一个表单。
+下面的代码创建了一个超链接,当用户单击它时,提交一个表单.
 
 ```html
 <a href="javascript:void(document.form.submit())">Click here to submit</a>
@@ -242,7 +242,7 @@ var abc = [ "A", "B", "C" ];
 
 ```
 
-Comprehensions 特性被许多编程语言所采用，该特性能够使你快速地通过一个已有的数组来创建出一个新的数组
+Comprehensions 特性被许多编程语言所采用,该特性能够使你快速地通过一个已有的数组来创建出一个新的数组
 
 #### 10.函数
 
@@ -272,13 +272,13 @@ myConcat.apply(null, ["-", ";", "."]);
 <blockquote>
   <p>
     调用栈是解释器（比如 Web 浏览器中的 JavaScript
-    解释器）用来追踪其在调用多个函数的脚本中所处位置的机制——当前正在运行的函数是哪一个，以及在该函数内部调用了哪些函数，等等。
+    解释器）用来追踪其在调用多个函数的脚本中所处位置的机制——当前正在运行的函数是哪一个,以及在该函数内部调用了哪些函数,等等.
   </p>
   <p>
-    当脚本调用一个函数时，解释器就会把该函数添加进调用栈，然后开始执行这个函数。
-    正在调用栈中执行的函数调用的其他任何函数也将会被添加进调用栈。一旦这个函数被调用，便会立即执行。
-    当前函数执行完毕后，解释器将其清出调用栈，继续执行当前执行环境下的剩余的代码。
-    当分配的调用栈空间被占满时，会引发“堆栈溢出”错误。
+    当脚本调用一个函数时,解释器就会把该函数添加进调用栈,然后开始执行这个函数.
+    正在调用栈中执行的函数调用的其他任何函数也将会被添加进调用栈.一旦这个函数被调用,便会立即执行.
+    当前函数执行完毕后,解释器将其清出调用栈,继续执行当前执行环境下的剩余的代码.
+    当分配的调用栈空间被占满时,会引发“堆栈溢出”错误.
   </p>
 </blockquote>
 递归/词法作用域/闭包
@@ -484,17 +484,17 @@ ReactDOM.render(<JSXDemo />, document.getElementById("root"));
 
 - props vs state
 
-一个是传递给组件的，一个是在组件内部进行管理的
-使用props传递父组件控制的数据和回调函数，确保子组件的行为由父组件控制。
-使用state管理组件内部的状态和数据，确保组件能够根据用户交互或其他内部逻辑动态更新。
+一个是传递给组件的,一个是在组件内部进行管理的
+使用props传递父组件控制的数据和回调函数,确保子组件的行为由父组件控制.
+使用state管理组件内部的状态和数据,确保组件能够根据用户交互或其他内部逻辑动态更新.
 
 - 条件渲染
 - Composition vs Inheritance
 
   <blockquote>
-    在React中，组件之间的代码复用主要通过组合（Composition）来实现，而不是继承（Inheritance）。React团队建议使用组合而不是继承来实现组件的复用，因为组合更符合React的设计哲学，即"组合优于继承"。
+    在React中,组件之间的代码复用主要通过组合（Composition）来实现,而不是继承（Inheritance）.React团队建议使用组合而不是继承来实现组件的复用,因为组合更符合React的设计哲学,即"组合优于继承".
   </blockquote>
-  继承会导致组件之间的耦合度更高，不利于代码的复用和维护。
+  继承会导致组件之间的耦合度更高,不利于代码的复用和维护.
 
 ##### 组件渲染
 
@@ -537,7 +537,7 @@ export default MyFunctionComponent;
 
   [React Render Props](https://www.robinwieruch.de/react-render-props/)
   通过一个值为函数的 prop 动态决定组件渲染内容的技术
-  指一个用于告知组件该渲染什么内容的函数 prop。通过这种模式，可以在不使用高阶组件（HOC）或 context 的情况下共享组件逻辑
+  指一个用于告知组件该渲染什么内容的函数 prop.通过这种模式,可以在不使用高阶组件（HOC）或 context 的情况下共享组件逻辑
 
 例如
 
@@ -651,11 +651,11 @@ class MyComponent extends Component {
 
 SyntheticEvent =>事件处理函数
 
-React使用合成事件而不是原生DOM事件，因此某些特性可能与原生DOM事件有所不同（例如，事件委托）
+React使用合成事件而不是原生DOM事件,因此某些特性可能与原生DOM事件有所不同（例如,事件委托）
 
-在使用函数组件时，事件处理函数可以直接作为 JSX 中的箭头函数定义，而不需要将它们作为类方法来定义。
+在使用函数组件时,事件处理函数可以直接作为 JSX 中的箭头函数定义,而不需要将它们作为类方法来定义.
 
-合成事件对象在每次事件触发时都会被重用，因此如果你想在异步代码中访问合成事件属性，需要在事件处理函数中调用 event.persist() 方法，以确保事件对象在异步代码中仍然可用。
+合成事件对象在每次事件触发时都会被重用,因此如果你想在异步代码中访问合成事件属性,需要在事件处理函数中调用 event.persist() 方法,以确保事件对象在异步代码中仍然可用.
 
 demo:
 
@@ -677,7 +677,7 @@ export default MyComponent;
 
 - High Order Components
 
-  高阶组件（Higher Order Components，HOC）是一种用于增强组件功能的模式。它是一个函数，接受一个组件作为参数，并返回一个新的组件。通过高阶组件，你可以在不修改原始组件代码的情况下，添加新的功能或修改现有功能。
+  高阶组件（Higher Order Components,HOC）是一种用于增强组件功能的模式.它是一个函数,接受一个组件作为参数,并返回一个新的组件.通过高阶组件,你可以在不修改原始组件代码的情况下,添加新的功能或修改现有功能.
 
   demo
 
@@ -700,19 +700,19 @@ function withLogger(WrappedComponent) {
 const EnhancedComponent = withLogger(MyComponent);
 ```
 
-以下是一个更具体的示例，演示了如何使用高阶组件来添加身份验证功能：
+以下是一个更具体的示例,演示了如何使用高阶组件来添加身份验证功能：
 
 ```jsx
 import React from "react";
 
-// 定义一个高阶组件，用于身份验证
+// 定义一个高阶组件,用于身份验证
 function withAuthorization(WrappedComponent) {
   return class extends React.Component {
     componentDidMount() {
       // 模拟检查用户是否已登录
       const isAuthenticated = true;
       if (!isAuthenticated) {
-        // 如果用户未登录，则重定向到登录页面
+        // 如果用户未登录,则重定向到登录页面
         this.props.history.push("/login");
       }
     }
@@ -748,67 +748,67 @@ react router/reach router
 
 #### 源码学习
 
-- React 不再使用 requestIdleCallback，而改用 scheduler 包来管理任务调度，这是因为 scheduler 包提供了更强大和精确的任务调度功能，支持任务优先级管理，能够更好地优化任务执行顺序和性能
+- React 不再使用 requestIdleCallback,而改用 scheduler 包来管理任务调度,这是因为 scheduler 包提供了更强大和精确的任务调度功能,支持任务优先级管理,能够更好地优化任务执行顺序和性能
 -
 
-##### 问题解决，详细见[react相关](/posts/react)
+##### 问题解决,详细见[react相关](/posts/react)
 
-1.react17之前jsx文件为什么要声明import React from 'react'，之后为什么不需要了<br/>
-在 React 17 之前，显式引入 React 是为了确保 JSX 被正确编译为 React.createElement 调用。而在 React 17 之后，通过引入新的 JSX 转换功能，编译器会自动处理所需的引入<br/>
+1.react17之前jsx文件为什么要声明import React from 'react',之后为什么不需要了<br/>
+在 React 17 之前,显式引入 React 是为了确保 JSX 被正确编译为 React.createElement 调用.而在 React 17 之后,通过引入新的 JSX 转换功能,编译器会自动处理所需的引入<br/>
 2.jsx和Fiber有什么关系<br/>
-JSX 是用于编写组件的语法糖，而 Fiber 是用于优化 React 应用性能的底层机制<br/>
-3.Fiber是什么，它为什么能提高性能<br/>
-Fiber 是一种重新实现的协调算法，旨在增强 React 处理 UI 更新的能力。<br/>
-它将更新工作分成更小的任务单元，可以在需要时中断和恢复这些任务，从而提高响应能力。<br/>
+JSX 是用于编写组件的语法糖,而 Fiber 是用于优化 React 应用性能的底层机制<br/>
+3.Fiber是什么,它为什么能提高性能<br/>
+Fiber 是一种重新实现的协调算法,旨在增强 React 处理 UI 更新的能力.<br/>
+它将更新工作分成更小的任务单元,可以在需要时中断和恢复这些任务,从而提高响应能力.<br/>
 4.componentDidMount和useEffect的区别是什么<br/><br/>
 **使用场景**：<br/><br/>
 
-componentDidMount 只能在类组件中使用。<br/>
-useEffect 只能在函数组件中使用。<br/><br/>
+componentDidMount 只能在类组件中使用.<br/>
+useEffect 只能在函数组件中使用.<br/><br/>
 **依赖管理**：<br/><br/>
 
-componentDidMount 只会在组件挂载后执行一次。<br/>
-useEffect 默认在每次渲染后都会执行，但可以通过依赖数组来控制其执行时机。如果依赖数组为空（[]），它的行为类似于 componentDidMount，只在组件挂载后执行一次。<br/><br/>
+componentDidMount 只会在组件挂载后执行一次.<br/>
+useEffect 默认在每次渲染后都会执行,但可以通过依赖数组来控制其执行时机.如果依赖数组为空（[]）,它的行为类似于 componentDidMount,只在组件挂载后执行一次.<br/><br/>
 **清理副作用**：<br/><br/>
 
-componentDidMount 本身没有清理副作用的机制，需要在 componentWillUnmount 方法中处理清理逻辑。<br/>
-useEffect 可以直接返回一个清理函数，在组件卸载或者依赖项变化时自动执行该清理函数。<br/>
+componentDidMount 本身没有清理副作用的机制,需要在 componentWillUnmount 方法中处理清理逻辑.<br/>
+useEffect 可以直接返回一个清理函数,在组件卸载或者依赖项变化时自动执行该清理函数.<br/>
 
 5.scheduler与fiber
 
 <details>
 <summary>区别与联系</summary>
 
-React 的 Scheduler 和 Fiber 是两个不同但相互关联的组件，它们在 React 应用中扮演了不同的角色，分别负责任务调度和组件更新。以下是它们的区别与联系的详细解释：
+React 的 Scheduler 和 Fiber 是两个不同但相互关联的组件,它们在 React 应用中扮演了不同的角色,分别负责任务调度和组件更新.以下是它们的区别与联系的详细解释：
 
 Fiber
 
 定义和作用：
 
-- **Fiber 是 React 的新的协调引擎**，它重新设计了 React 的核心算法，用于更高效地管理组件更新和渲染。
-- **核心目标**：通过分割可中断的工作单元来提高 React 的性能，使得渲染过程能够被中断和恢复，从而保持应用的响应性。
+- **Fiber 是 React 的新的协调引擎**,它重新设计了 React 的核心算法,用于更高效地管理组件更新和渲染.
+- **核心目标**：通过分割可中断的工作单元来提高 React 的性能,使得渲染过程能够被中断和恢复,从而保持应用的响应性.
 
 主要特性：
 
-1. **时间分片**：将渲染工作拆分成多个小任务，可以在主线程空闲时执行这些任务。
-2. **优先级管理**：支持对不同任务分配不同的优先级，高优先级任务（如用户交互）会被优先处理。
-3. **增量渲染**：允许在更新过程中中断并恢复任务，减少长时间的主线程阻塞，提升用户体验。
-4. **链表结构**：使用链表结构来组织和遍历组件树中的 Fiber 节点，使任务调度更加灵活和高效。
+1. **时间分片**：将渲染工作拆分成多个小任务,可以在主线程空闲时执行这些任务.
+2. **优先级管理**：支持对不同任务分配不同的优先级,高优先级任务（如用户交互）会被优先处理.
+3. **增量渲染**：允许在更新过程中中断并恢复任务,减少长时间的主线程阻塞,提升用户体验.
+4. **链表结构**：使用链表结构来组织和遍历组件树中的 Fiber 节点,使任务调度更加灵活和高效.
 
 Scheduler
 
 定义和作用：
 
-- **Scheduler 是一个独立的包**，用于任务的调度和优先级管理。
-- **核心目标**：提供一个高效的任务调度机制，确保高优先级任务能够及时执行，而低优先级任务在主线程空闲时处理。
+- **Scheduler 是一个独立的包**,用于任务的调度和优先级管理.
+- **核心目标**：提供一个高效的任务调度机制,确保高优先级任务能够及时执行,而低优先级任务在主线程空闲时处理.
 
 主要特性：
 
-1. **任务优先级**：支持将任务分为不同的优先级，如 Immediate（立即）、User-blocking（用户阻塞）、Normal（普通）、Low（低）和 Idle（空闲）。
-2. **时间分片**：调度器可以在时间片内执行任务，并在每个时间片结束后将控制权交还给浏览器，从而避免长时间阻塞主线程。
+1. **任务优先级**：支持将任务分为不同的优先级,如 Immediate（立即）、User-blocking（用户阻塞）、Normal（普通）、Low（低）和 Idle（空闲）.
+2. **时间分片**：调度器可以在时间片内执行任务,并在每个时间片结束后将控制权交还给浏览器,从而避免长时间阻塞主线程.
 3. **任务调度**：调度器根据任务的优先级和过
 
-期时间（deadline）来决定何时执行哪些任务，确保高优先级任务优先得到处理。
+期时间（deadline）来决定何时执行哪些任务,确保高优先级任务优先得到处理.
 
 Fiber 和 Scheduler 的联系与区别
 
@@ -816,29 +816,29 @@ Fiber 和 Scheduler 的联系与区别
 
 1. **目标一致**：
 
-   - **提高性能和响应性**：Fiber 和 Scheduler 都旨在提高 React 应用的性能和响应性。Fiber 通过增量渲染和时间分片实现，而 Scheduler 通过高效的任务调度和优先级管理实现。
+   - **提高性能和响应性**：Fiber 和 Scheduler 都旨在提高 React 应用的性能和响应性.Fiber 通过增量渲染和时间分片实现,而 Scheduler 通过高效的任务调度和优先级管理实现.
 
 2. **协同工作**：
-   - **Fiber 使用 Scheduler 进行任务调度**：在 React 应用中，Fiber 引擎会将需要执行的工作单元提交给 Scheduler，由 Scheduler 来决定这些工作单元的执行时机和顺序。
-   - **协调任务执行**：Scheduler 负责管理任务的调度，而 Fiber 负责具体的协调和渲染工作。两者协同工作，共同实现高效的组件更新和渲染。
+   - **Fiber 使用 Scheduler 进行任务调度**：在 React 应用中,Fiber 引擎会将需要执行的工作单元提交给 Scheduler,由 Scheduler 来决定这些工作单元的执行时机和顺序.
+   - **协调任务执行**：Scheduler 负责管理任务的调度,而 Fiber 负责具体的协调和渲染工作.两者协同工作,共同实现高效的组件更新和渲染.
 
 区别
 
 1. **职责不同**：
 
-   - **Fiber**：主要负责组件树的协调和渲染。它使用链表结构来组织组件，并通过时间分片和增量渲染来优化更新过程。
-   - **Scheduler**：主要负责任务的调度和优先级管理。它根据任务的优先级和过期时间来安排任务的执行，以确保高优先级任务得到及时处理。
+   - **Fiber**：主要负责组件树的协调和渲染.它使用链表结构来组织组件,并通过时间分片和增量渲染来优化更新过程.
+   - **Scheduler**：主要负责任务的调度和优先级管理.它根据任务的优先级和过期时间来安排任务的执行,以确保高优先级任务得到及时处理.
 
 2. **实现层级**：
-   - **Fiber 是 React 的内部机制**：Fiber 是 React 的核心引擎部分，直接管理组件树的更新和渲染。
-   - **Scheduler 是一个独立的任务调度库**：Scheduler 可以独立于 React 使用，用于任何需要高效任务调度的场景。它提供了基础设施，使 Fiber 可以更灵活地进行任务管理。
+   - **Fiber 是 React 的内部机制**：Fiber 是 React 的核心引擎部分,直接管理组件树的更新和渲染.
+   - **Scheduler 是一个独立的任务调度库**：Scheduler 可以独立于 React 使用,用于任何需要高效任务调度的场景.它提供了基础设施,使 Fiber 可以更灵活地进行任务管理.
 
 示例说明
 
-假设我们有一个需要高频更新的动画组件，同时还有一些用户交互任务（如按钮点击）。下面是 Fiber 和 Scheduler 如何协同工作的示例：
+假设我们有一个需要高频更新的动画组件,同时还有一些用户交互任务（如按钮点击）.下面是 Fiber 和 Scheduler 如何协同工作的示例：
 
-1. **动画任务**（低优先级）和 **用户交互任务**（高优先级）被提交给 Fiber。
-2. Fiber 将这些任务按优先级和依赖关系组织成 Fiber 节点，并使用 Scheduler 来调度这些任务的执行。
+1. **动画任务**（低优先级）和 **用户交互任务**（高优先级）被提交给 Fiber.
+2. Fiber 将这些任务按优先级和依赖关系组织成 Fiber 节点,并使用 Scheduler 来调度这些任务的执行.
 
 ```javascript
 import {
@@ -874,13 +874,13 @@ useEffect(() => {
 
 在这个示例中：
 
-- 动画任务被设为 `NormalPriority`，因此在主线程空闲时执行。
-- 用户交互任务被设为 `UserBlockingPriority`，确保在用户点击按钮时能够及时响应。
+- 动画任务被设为 `NormalPriority`,因此在主线程空闲时执行.
+- 用户交互任务被设为 `UserBlockingPriority`,确保在用户点击按钮时能够及时响应.
 
 总结
 
-- **Fiber 和 Scheduler 的区别**在于它们的职责和实现层级：Fiber 是 React 内部的协调引擎，负责组件树的更新和渲染；Scheduler 是独立的任务调度库，负责任务的优先级管理和调度。
-- **Fiber 和 Scheduler 的联系**在于它们的协同工作：Fiber 通过 Scheduler 来高效地调度和管理任务，确保 React 应用的高性能和响应性。通过这种协作，React 能够更好地处理复杂的用户界面更新和交互操作。
+- **Fiber 和 Scheduler 的区别**在于它们的职责和实现层级：Fiber 是 React 内部的协调引擎,负责组件树的更新和渲染；Scheduler 是独立的任务调度库,负责任务的优先级管理和调度.
+- **Fiber 和 Scheduler 的联系**在于它们的协同工作：Fiber 通过 Scheduler 来高效地调度和管理任务,确保 React 应用的高性能和响应性.通过这种协作,React 能够更好地处理复杂的用户界面更新和交互操作.
 
 </details>
 
@@ -920,4 +920,4 @@ null ?? "some"; //some
 
 ## 链接
 
-[<div class="p-10 m-10 text-lg indent-3.5 text-center stroke-card-foreground hover:no-underline">更多知识，请看下月记录</div>](/posts/2024-06)
+[<div class="p-10 m-10 text-lg indent-3.5 text-center stroke-card-foreground hover:no-underline">更多知识,请看下月记录</div>](/posts/2024-06)

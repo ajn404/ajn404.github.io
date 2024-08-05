@@ -6,7 +6,7 @@
 
 ## docker-compose 
 
-`docker-compose` 是 Docker 的一个工具，用于定义和运行多容器 Docker 应用程序。通过 `docker-compose`，您可以使用一个 YAML 文件来配置应用的服务、网络和卷，然后使用单个命令即可启动、停止和管理整个应用程序。以下是一些常用的 `docker-compose` 命令：
+`docker-compose` 是 Docker 的一个工具,用于定义和运行多容器 Docker 应用程序.通过 `docker-compose`,您可以使用一个 YAML 文件来配置应用的服务、网络和卷,然后使用单个命令即可启动、停止和管理整个应用程序.以下是一些常用的 `docker-compose` 命令：
 
 ### 基本命令：
 
@@ -14,37 +14,37 @@
    ```
    docker-compose up
    ```
-   启动并运行容器，可以使用 `-d` 选项将容器在后台运行。
+   启动并运行容器,可以使用 `-d` 选项将容器在后台运行.
 
 2. **停止容器**：
    ```
    docker-compose down
    ```
-   停止并删除容器，使用 `-v` 选项可以同时删除相关的数据卷。
+   停止并删除容器,使用 `-v` 选项可以同时删除相关的数据卷.
 
 3. **重启容器**：
    ```
    docker-compose restart
    ```
-   重启容器，可以指定具体的服务名。
+   重启容器,可以指定具体的服务名.
 
 4. **查看日志**：
    ```
    docker-compose logs [SERVICE_NAME]
    ```
-   查看容器的日志输出，可以指定具体的服务名。
+   查看容器的日志输出,可以指定具体的服务名.
 
 5. **查看运行中的容器**：
    ```
    docker-compose ps
    ```
-   查看当前 `docker-compose` 定义的容器的状态。
+   查看当前 `docker-compose` 定义的容器的状态.
 
 6. **构建镜像**：
    ```
    docker-compose build [SERVICE_NAME]
    ```
-   构建指定服务的镜像，或者不指定服务名构建所有服务的镜像。
+   构建指定服务的镜像,或者不指定服务名构建所有服务的镜像.
 
 ### 高级命令：
 
@@ -52,31 +52,31 @@
    ```
    docker-compose up -d
    ```
-   创建并在后台启动容器。
+   创建并在后台启动容器.
 
 2. **启动特定服务**：
    ```
    docker-compose up -d [SERVICE_NAME]
    ```
-   启动指定的服务并在后台运行。
+   启动指定的服务并在后台运行.
 
 3. **停止并移除容器、网络和卷**：
    ```
    docker-compose down -v
    ```
-   停止并删除容器、相关网络和数据卷。
+   停止并删除容器、相关网络和数据卷.
 
 4. **重建容器**：
    ```
    docker-compose up -d --build [SERVICE_NAME]
    ```
-   重新构建并启动指定的服务。
+   重新构建并启动指定的服务.
 
 5. **查看配置**：
    ```
    docker-compose config
    ```
-   显示 `docker-compose` 文件的配置。
+   显示 `docker-compose` 文件的配置.
 
 <details>
 
@@ -117,12 +117,12 @@ networks:
    ```
    docker-compose pause [SERVICE_NAME]
    ```
-   暂停指定的服务。
+   暂停指定的服务.
 
 7. **恢复暂停的容器**：
    ```
    docker-compose unpause [SERVICE_NAME]
    ```
-   恢复暂停的服务。
+   恢复暂停的服务.
 
-这些 `docker-compose` 命令提供了一个简单、一致和可重复的方法来管理多容器 Docker 应用程序，使得开发、测试和部署更加高效和可靠。
+这些 `docker-compose` 命令提供了一个简单、一致和可重复的方法来管理多容器 Docker 应用程序,使得开发、测试和部署更加高效和可靠.

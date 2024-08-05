@@ -10,7 +10,7 @@ export default () => {
     let id = 0; // 用来记录帧数
 
     const render = () => {
-      // 更新 b 的值，循环变化
+      // 更新 b 的值,循环变化
       bRef.current = bRef.current <= 0 ? 255 : bRef.current - 5; // 逐渐减小 b 的值
       let g = 255 - bRef.current;
       let r = bRef.current <= 0 ? 255 : bRef.current - 1;

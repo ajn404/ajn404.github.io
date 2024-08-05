@@ -565,58 +565,58 @@ import Graphviz from "@components/react/d3/graphviz/basic.tsx";
 
 <blockquote>
 
-D3.js（Data-Driven Documents）是一个功能强大且灵活的数据可视化库，但其灵活性也意味着需要掌握一定的底层知识才能充分利用它的优势。以下是使用D3.js时需要掌握的关键底层知识：
+D3.js（Data-Driven Documents）是一个功能强大且灵活的数据可视化库,但其灵活性也意味着需要掌握一定的底层知识才能充分利用它的优势.以下是使用D3.js时需要掌握的关键底层知识：
 
 ### 1. JavaScript
 
-- **基础语法**：了解JavaScript的基本语法和概念，如变量、数据类型、函数、作用域等。
-- **DOM操作**：掌握原生JavaScript的DOM操作，D3.js主要通过操作DOM来创建和更新图表。
-- **事件处理**：理解JavaScript的事件机制，熟悉常见的事件如点击、鼠标悬停等，以及如何使用事件监听器。
+- **基础语法**：了解JavaScript的基本语法和概念,如变量、数据类型、函数、作用域等.
+- **DOM操作**：掌握原生JavaScript的DOM操作,D3.js主要通过操作DOM来创建和更新图表.
+- **事件处理**：理解JavaScript的事件机制,熟悉常见的事件如点击、鼠标悬停等,以及如何使用事件监听器.
 
 ### 2. HTML
 
-- **基础结构**：理解HTML文档的基本结构，标签的使用，特别是常用的元素如`div`、`svg`、`canvas`等。
-- **SVG**：深入了解SVG（可缩放矢量图形），包括基本元素如`<circle>`、`<rect>`、`<line>`、`<path>`等，以及如何使用属性和样式来控制它们。
+- **基础结构**：理解HTML文档的基本结构,标签的使用,特别是常用的元素如`div`、`svg`、`canvas`等.
+- **SVG**：深入了解SVG（可缩放矢量图形）,包括基本元素如`<circle>`、`<rect>`、`<line>`、`<path>`等,以及如何使用属性和样式来控制它们.
 
 ### 3. CSS
 
-- **选择器**：掌握CSS选择器的用法，D3.js常用选择器来选择和操作DOM元素。
-- **样式应用**：理解如何通过CSS控制元素的样式，包括颜色、字体、边框等。
-- **布局**：了解基本的布局模型，如盒模型、Flexbox等，方便对图表的整体布局进行控制。
+- **选择器**：掌握CSS选择器的用法,D3.js常用选择器来选择和操作DOM元素.
+- **样式应用**：理解如何通过CSS控制元素的样式,包括颜色、字体、边框等.
+- **布局**：了解基本的布局模型,如盒模型、Flexbox等,方便对图表的整体布局进行控制.
 
 ### 4. SVG（可缩放矢量图形）
 
-- **基本图形**：理解SVG基本形状（如`<rect>`、`<circle>`、`<line>`、`<path>`等）及其属性。
-- **路径数据**：掌握路径的绘制方法，特别是路径命令（如`M`、`L`、`C`等）。
-- **坐标系**：理解SVG的坐标系和视口（viewport），以及如何使用`viewBox`来控制图形的缩放和平移。
+- **基本图形**：理解SVG基本形状（如`<rect>`、`<circle>`、`<line>`、`<path>`等）及其属性.
+- **路径数据**：掌握路径的绘制方法,特别是路径命令（如`M`、`L`、`C`等）.
+- **坐标系**：理解SVG的坐标系和视口（viewport）,以及如何使用`viewBox`来控制图形的缩放和平移.
 
 ### 5. 数学和几何
 
-- **坐标系**：熟悉笛卡尔坐标系和极坐标系，了解如何在这些坐标系中绘制图形。
-- **几何变换**：掌握平移、旋转、缩放等几何变换及其矩阵表示法。
-- **比例尺**：理解线性比例、对数比例、时间比例等概念，以及如何在数据映射中使用它们。
+- **坐标系**：熟悉笛卡尔坐标系和极坐标系,了解如何在这些坐标系中绘制图形.
+- **几何变换**：掌握平移、旋转、缩放等几何变换及其矩阵表示法.
+- **比例尺**：理解线性比例、对数比例、时间比例等概念,以及如何在数据映射中使用它们.
 
 ### 6. 数据处理
 
-- **数组和对象操作**：熟悉JavaScript中的数组和对象操作，特别是数组的方法如`map`、`filter`、`reduce`等。
-- **数据格式**：了解常见的数据格式如JSON、CSV等，以及如何解析和处理这些数据。
-- **数据绑定**：掌握D3.js中的数据绑定概念，理解如何将数据绑定到DOM元素，并根据数据更新元素。
+- **数组和对象操作**：熟悉JavaScript中的数组和对象操作,特别是数组的方法如`map`、`filter`、`reduce`等.
+- **数据格式**：了解常见的数据格式如JSON、CSV等,以及如何解析和处理这些数据.
+- **数据绑定**：掌握D3.js中的数据绑定概念,理解如何将数据绑定到DOM元素,并根据数据更新元素.
 
 ### 7. D3.js核心概念
 
-- **选择器和选择**：理解D3.js的选择器和选择机制，特别是`d3.select`和`d3.selectAll`。
-- **数据绑定**：掌握`data`、`enter`、`update`和`exit`选择集的概念及其用法。
-- **过渡和动画**：了解D3.js中如何创建平滑的过渡和动画效果。
-- **比例尺和坐标轴**：熟悉D3.js中的比例尺（`scale`）和坐标轴（`axis`）模块，知道如何使用它们来创建图表的比例尺和坐标轴。
-- **布局**：掌握D3.js中的布局模块，如树形布局（`d3.tree`）、力导向图（`d3.forceSimulation`）等。
+- **选择器和选择**：理解D3.js的选择器和选择机制,特别是`d3.select`和`d3.selectAll`.
+- **数据绑定**：掌握`data`、`enter`、`update`和`exit`选择集的概念及其用法.
+- **过渡和动画**：了解D3.js中如何创建平滑的过渡和动画效果.
+- **比例尺和坐标轴**：熟悉D3.js中的比例尺（`scale`）和坐标轴（`axis`）模块,知道如何使用它们来创建图表的比例尺和坐标轴.
+- **布局**：掌握D3.js中的布局模块,如树形布局（`d3.tree`）、力导向图（`d3.forceSimulation`）等.
 
 ### 8. 高级技巧
 
-- **模块化开发**：理解如何使用D3.js进行模块化开发，方便维护和扩展代码。
-- **性能优化**：了解如何优化D3.js图表的性能，特别是在处理大规模数据时。
-- **可视化设计**：掌握一些基本的可视化设计原则，确保图表不仅功能强大，还具有良好的可读性和美观性。
+- **模块化开发**：理解如何使用D3.js进行模块化开发,方便维护和扩展代码.
+- **性能优化**：了解如何优化D3.js图表的性能,特别是在处理大规模数据时.
+- **可视化设计**：掌握一些基本的可视化设计原则,确保图表不仅功能强大,还具有良好的可读性和美观性.
 
-通过掌握上述底层知识，能够更好地理解和使用D3.js，创建功能强大且灵活的可视化图表。虽然学习曲线较为陡峭，但D3.js的强大功能和灵活性使其成为复杂和自定义数据可视化的理想选择。
+通过掌握上述底层知识,能够更好地理解和使用D3.js,创建功能强大且灵活的可视化图表.虽然学习曲线较为陡峭,但D3.js的强大功能和灵活性使其成为复杂和自定义数据可视化的理想选择.
 
 </blockquote>
 
@@ -735,7 +735,7 @@ chart = {
 
 <details>
 <summary>详细解释</summary>
-这个代码片段是一个使用D3.js创建力导向图（force-directed graph）的示例。这个图表通常用于显示节点和它们之间的关系（连接）。以下是对每个部分的详细解释：
+这个代码片段是一个使用D3.js创建力导向图（force-directed graph）的示例.这个图表通常用于显示节点和它们之间的关系（连接）.以下是对每个部分的详细解释：
 
 ```javascript
 chart = {
@@ -744,14 +744,14 @@ chart = {
   const height = 680;
 ```
 
-首先，定义了图表的宽度和高度。
+首先,定义了图表的宽度和高度.
 
 ```javascript
 // Specify the color scale.
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 ```
 
-定义了一个颜色比例尺，用于根据节点的不同组别（group）着色。
+定义了一个颜色比例尺,用于根据节点的不同组别（group）着色.
 
 ```javascript
 // The force simulation mutates links and nodes, so create a copy
@@ -760,7 +760,7 @@ const links = data.links.map(d => ({ ...d }));
 const nodes = data.nodes.map(d => ({ ...d }));
 ```
 
-复制数据中的链接和节点，防止直接修改原始数据。
+复制数据中的链接和节点,防止直接修改原始数据.
 
 ```javascript
 // Create a simulation with several forces.
@@ -775,11 +775,11 @@ const simulation = d3
   .force("y", d3.forceY());
 ```
 
-创建一个力模拟（force simulation），包括以下几种力：
+创建一个力模拟（force simulation）,包括以下几种力：
 
-- **link**: 用于保持连接节点的距离。
-- **charge**: 模拟节点间的电荷力，使它们彼此排斥。
-- **x** 和 **y**: 用于将节点拉向中心，防止它们散开。
+- **link**: 用于保持连接节点的距离.
+- **charge**: 模拟节点间的电荷力,使它们彼此排斥.
+- **x** 和 **y**: 用于将节点拉向中心,防止它们散开.
 
 ```javascript
 // Create the SVG container.
@@ -791,7 +791,7 @@ const svg = d3
   .attr("style", "max-width: 100%; height: auto;");
 ```
 
-创建一个SVG容器，并设置它的尺寸和视图框。
+创建一个SVG容器,并设置它的尺寸和视图框.
 
 ```javascript
 // Add a line for each link, and a circle for each node.
@@ -805,7 +805,7 @@ const link = svg
   .attr("stroke-width", d => Math.sqrt(d.value));
 ```
 
-添加表示每个链接的线条，并根据链接的值设置线条的宽度。
+添加表示每个链接的线条,并根据链接的值设置线条的宽度.
 
 ```javascript
 const node = svg
@@ -819,13 +819,13 @@ const node = svg
   .attr("fill", d => color(d.group));
 ```
 
-添加表示每个节点的圆圈，并根据节点的组别设置颜色。
+添加表示每个节点的圆圈,并根据节点的组别设置颜色.
 
 ```javascript
 node.append("title").text(d => d.id);
 ```
 
-为每个节点添加标题，在悬停时显示节点的ID。
+为每个节点添加标题,在悬停时显示节点的ID.
 
 ```javascript
 // Add a drag behavior.
@@ -834,7 +834,7 @@ node.call(
 );
 ```
 
-为每个节点添加拖动行为，允许用户拖动节点。
+为每个节点添加拖动行为,允许用户拖动节点.
 
 ```javascript
 // Set the position attributes of links and nodes each time the simulation ticks.
@@ -849,7 +849,7 @@ simulation.on("tick", () => {
 });
 ```
 
-每次模拟“tick”时更新链接和节点的位置。
+每次模拟“tick”时更新链接和节点的位置.
 
 ```javascript
 // Reheat the simulation when drag starts, and fix the subject position.
@@ -876,9 +876,9 @@ function dragended(event) {
 
 定义拖动行为的函数：
 
-- **dragstarted**: 当拖动开始时，加热模拟并固定节点位置。
-- **dragged**: 在拖动过程中更新节点位置。
-- **dragended**: 当拖动结束时，冷却模拟并释放节点位置。
+- **dragstarted**: 当拖动开始时,加热模拟并固定节点位置.
+- **dragged**: 在拖动过程中更新节点位置.
+- **dragended**: 当拖动结束时,冷却模拟并释放节点位置.
 
 ```javascript
   // When this cell is re-run, stop the previous simulation. (This doesn’t
@@ -890,13 +890,13 @@ function dragended(event) {
 }
 ```
 
-当重新运行此单元格时，停止之前的模拟。这通常不会影响结果，但是一种良好的实践。
+当重新运行此单元格时,停止之前的模拟.这通常不会影响结果,但是一种良好的实践.
 
-最后，返回SVG节点，该节点包含生成的力导向图。
+最后,返回SVG节点,该节点包含生成的力导向图.
 
 ### 总结
 
-这个代码片段展示了如何使用D3.js创建一个力导向图，包括定义图表尺寸、颜色比例尺、力模拟、SVG容器、链接和节点的可视化、拖动行为以及更新位置的机制。这种图表对于展示节点之间的关系非常有用，常用于网络图、社交关系图等。
+这个代码片段展示了如何使用D3.js创建一个力导向图,包括定义图表尺寸、颜色比例尺、力模拟、SVG容器、链接和节点的可视化、拖动行为以及更新位置的机制.这种图表对于展示节点之间的关系非常有用,常用于网络图、社交关系图等.
 
 </details>
 
@@ -910,14 +910,14 @@ import Voronoi from "@components/react/d3/practice/Voronoi";
 
 - [delatin](https://github.com/mapbox/delatin)
 
-一个快速的 JavaScript 3D 地形网格生成工具。使用 Delaunay 三角剖分近似高度场，在给定的最大误差下最小化点和三角形的数量。
+一个快速的 JavaScript 3D 地形网格生成工具.使用 Delaunay 三角剖分近似高度场,在给定的最大误差下最小化点和三角形的数量.
 
 - [ZDog](https://zzz.dog/)
 
 Round, flat, designer-friendly
 pseudo-3D engine for canvas & SVG
 
-ZDog 是一个用于 Canvas 和 SVG 的伪 3D 引擎，它提供了一个简单而强大的 API，用于创建圆角、阴影和透视效果的 2D 和 3D 形状。
+ZDog 是一个用于 Canvas 和 SVG 的伪 3D 引擎,它提供了一个简单而强大的 API,用于创建圆角、阴影和透视效果的 2D 和 3D 形状.
 
 import Zdog from "@components/react/d3/fantastic/zdog";
 

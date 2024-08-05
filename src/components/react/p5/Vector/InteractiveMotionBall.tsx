@@ -15,7 +15,7 @@ class MouseMover {
   trend: number = 0.2;
   constructor(p: p5) {
     this.circleRadius = p.random(1, 20);
-    //球越大，趋势越小
+    //球越大,趋势越小
     this.trend = p.map(this.circleRadius, 1, 20, 1, 0.5);
     this.position = p.createVector(
       p.random(this.circleRadius, p.width - this.circleRadius),

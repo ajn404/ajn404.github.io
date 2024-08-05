@@ -221,7 +221,7 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 ## path
 
-在SVG中，路径（`<path>`元素）是最强大且灵活的绘制形状的方式之一。SVG路径通过一系列命令和参数来定义复杂的形状。下面是SVG路径的基本绘制方法和常用命令：
+在SVG中,路径（`<path>`元素）是最强大且灵活的绘制形状的方式之一.SVG路径通过一系列命令和参数来定义复杂的形状.下面是SVG路径的基本绘制方法和常用命令：
 
 ### 基本结构
 
@@ -233,14 +233,14 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 </svg>
 ```
 
-其中，`d`属性包含了路径数据，即路径命令和参数的组合。
+其中,`d`属性包含了路径数据,即路径命令和参数的组合.
 
 ### 常用路径命令
 
 1. **`M` 和 `m` - moveto**
 
-   - `M x y`: 将画笔移动到指定的绝对坐标 `(x, y)`。
-   - `m dx dy`: 将画笔移动到相对于当前点的偏移坐标 `(dx, dy)`。
+   - `M x y`: 将画笔移动到指定的绝对坐标 `(x, y)`.
+   - `m dx dy`: 将画笔移动到相对于当前点的偏移坐标 `(dx, dy)`.
 
    ```html
    <path d="M 50 50" />
@@ -251,8 +251,8 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 2. **`L` 和 `l` - lineto**
 
-   - `L x y`: 画一条直线到指定的绝对坐标 `(x, y)`。
-   - `l dx dy`: 画一条直线到相对于当前点的偏移坐标 `(dx, dy)`。
+   - `L x y`: 画一条直线到指定的绝对坐标 `(x, y)`.
+   - `l dx dy`: 画一条直线到相对于当前点的偏移坐标 `(dx, dy)`.
 
    ```html
    <path d="M 10 10 L 100 10" />
@@ -263,8 +263,8 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 3. **`H` 和 `h` - horizontal lineto**
 
-   - `H x`: 画一条水平线到指定的绝对x坐标。
-   - `h dx`: 画一条水平线到相对于当前x坐标的偏移位置。
+   - `H x`: 画一条水平线到指定的绝对x坐标.
+   - `h dx`: 画一条水平线到相对于当前x坐标的偏移位置.
 
    ```html
    <path d="M 10 10 H 100" />
@@ -275,8 +275,8 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 4. **`V` 和 `v` - vertical lineto**
 
-   - `V y`: 画一条垂直线到指定的绝对y坐标。
-   - `v dy`: 画一条垂直线到相对于当前y坐标的偏移位置。
+   - `V y`: 画一条垂直线到指定的绝对y坐标.
+   - `v dy`: 画一条垂直线到相对于当前y坐标的偏移位置.
 
    ```html
    <path d="M 10 10 V 100" />
@@ -287,7 +287,7 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 5. **`Z` 和 `z` - closepath**
 
-   - `Z` 或 `z`: 关闭路径，画一条直线回到路径的起点。
+   - `Z` 或 `z`: 关闭路径,画一条直线回到路径的起点.
 
    ```html
    <path d="M 10 10 L 100 10 L 100 100 L 10 100 Z" />
@@ -296,8 +296,8 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 6. **`C` 和 `c` - cubic Bézier curve**
 
-   - `C x1 y1, x2 y2, x y`: 画一条三次贝塞尔曲线到 `(x, y)`，控制点为 `(x1, y1)` 和 `(x2, y2)`。
-   - `c dx1 dy1, dx2 dy2, dx dy`: 画一条相对于当前点的三次贝塞尔曲线，控制点为 `(dx1, dy1)` 和 `(dx2, dy2)`。
+   - `C x1 y1, x2 y2, x y`: 画一条三次贝塞尔曲线到 `(x, y)`,控制点为 `(x1, y1)` 和 `(x2, y2)`.
+   - `c dx1 dy1, dx2 dy2, dx dy`: 画一条相对于当前点的三次贝塞尔曲线,控制点为 `(dx1, dy1)` 和 `(dx2, dy2)`.
 
    ```html
    <path d="M 10 80 C 40 10, 65 10, 95 80" />
@@ -308,8 +308,8 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 7. **`S` 和 `s` - shorthand/smooth cubic Bézier curve**
 
-   - `S x2 y2, x y`: 画一条三次贝塞尔曲线到 `(x, y)`，只有一个控制点 `(x2, y2)`，另一个控制点假定为前一个曲线的反射点。
-   - `s dx2 dy2, dx dy`: 画一条相对于当前点的三次贝塞尔曲线。
+   - `S x2 y2, x y`: 画一条三次贝塞尔曲线到 `(x, y)`,只有一个控制点 `(x2, y2)`,另一个控制点假定为前一个曲线的反射点.
+   - `s dx2 dy2, dx dy`: 画一条相对于当前点的三次贝塞尔曲线.
 
    ```html
    <path d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" />
@@ -317,8 +317,8 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 8. **`Q` 和 `q` - quadratic Bézier curve**
 
-   - `Q x1 y1, x y`: 画一条二次贝塞尔曲线到 `(x, y)`，控制点为 `(x1, y1)`。
-   - `q dx1 dy1, dx dy`: 画一条相对于当前点的二次贝塞尔曲线。
+   - `Q x1 y1, x y`: 画一条二次贝塞尔曲线到 `(x, y)`,控制点为 `(x1, y1)`.
+   - `q dx1 dy1, dx dy`: 画一条相对于当前点的二次贝塞尔曲线.
 
    ```html
    <path d="M 10 80 Q 95 10, 180 80" />
@@ -327,20 +327,20 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 
 9. **`T` 和 `t` - shorthand/smooth quadratic Bézier curve**
 
-   - `T x y`: 画一条二次贝塞尔曲线到 `(x, y)`，控制点假定为前一个曲线的反射点。
-   - `t dx dy`: 画一条相对于当前点的二次贝塞尔曲线。
+   - `T x y`: 画一条二次贝塞尔曲线到 `(x, y)`,控制点假定为前一个曲线的反射点.
+   - `t dx dy`: 画一条相对于当前点的二次贝塞尔曲线.
 
    ```html
    <path d="M 10 80 Q 95 10, 180 80 T 270 80" />
    ```
 
 10. **`A` 和 `a` - elliptical arc curve**
-    - `A rx ry x-axis-rotation large-arc-flag sweep-flag x y`: 画一条椭圆弧线到 `(x, y)`，参数包括：
+    - `A rx ry x-axis-rotation large-arc-flag sweep-flag x y`: 画一条椭圆弧线到 `(x, y)`,参数包括：
       - `rx`, `ry`: 椭圆的x和y半径
       - `x-axis-rotation`: 椭圆的x轴相对于当前坐标系x轴的旋转角度
-      - `large-arc-flag`: 1表示大弧，0表示小弧
-      - `sweep-flag`: 1表示顺时针弧，0表示逆时针弧
-    - `a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy`: 相对于当前点的椭圆弧。
+      - `large-arc-flag`: 1表示大弧,0表示小弧
+      - `sweep-flag`: 1表示顺时针弧,0表示逆时针弧
+    - `a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy`: 相对于当前点的椭圆弧.
     ```html
     <path d="M 10 80 A 45 45, 0, 0, 1, 95 125" />
     <path d="m 10 80 a 45 45, 0, 0, 1, 85 45" />
@@ -369,7 +369,7 @@ import CustomerSvg from "@components/react/d3/customerSvg.tsx";
 </svg>
 ```
 
-通过掌握这些路径命令，可以创建复杂而多样的图形。路径命令的组合使用可以满足大多数矢量图形的绘制需求，是SVG中非常强大的工具。
+通过掌握这些路径命令,可以创建复杂而多样的图形.路径命令的组合使用可以满足大多数矢量图形的绘制需求,是SVG中非常强大的工具.
 
 - M L Z
 
