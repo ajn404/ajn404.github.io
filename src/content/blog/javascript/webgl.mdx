@@ -1,6 +1,5 @@
 ---
 title: webgl
-
 pubDatetime: 2023-09-07T03:37:23Z
 upDateTime: 2023-09-11 09:44:33
 postSlug: webgl
@@ -133,9 +132,9 @@ export const useParticle = (
           this.vy = 0;
         }
 
-        draw(contex: CanvasRenderingContext2D) {
-          contex.fillStyle = this.color;
-          contex.fillRect(this.x, this.y, this.size, this.size);
+        draw(context: CanvasRenderingContext2D) {
+          context.fillStyle = this.color;
+          context.fillRect(this.x, this.y, this.size, this.size);
         }
         update() {
           //妙
@@ -511,4 +510,5 @@ import Switch from "@components/react/webgl/mdn/switch.tsx";
 ## 链接
 
 - [regl quick start](https://github.com/regl-project/regl/blob/gh-pages/API.md#quick-start)
-- [regl toturial](https://observablehq.com/collection/@rreusser/regl-examples)
+- [regl tutorial](https://observablehq.com/collection/@rreusser/regl-examples)
+- [webgl](https://developer.mozilla.org/zh-CN/docs/Glossary/WebGL)
