@@ -11,6 +11,7 @@ tags:
   - peakjs
   - audiomotion-analyzer
   - Wavesurfer
+  - 音频
 description: "前端音乐可视化"
 ---
 
@@ -128,7 +129,7 @@ export const Audio: React.FC<any> = props => {
   useEffect(() => {
     if (dotRef.current && src) {
       const position = {
-        oriOffestLeft: 0, // 移动开始时进度条的点距离进度条的偏移值
+        oriOffsetLeft: 0, // 移动开始时进度条的点距离进度条的偏移值
         oriX: 0, // 移动开始时的x坐标
         maxLeft: 0, // 向左最大可拖动距离
         maxRight: 0, // 向右最大可拖动距离
@@ -139,12 +140,12 @@ export const Audio: React.FC<any> = props => {
       const down = (event: TouchEvent | MouseEvent) => {
         if (!audioRef.current?.paused || audioRef.current.currentTime !== 0) {
           flag = true;
-          position.oriOffestLeft = dotRef.current?.offsetLeft ?? 0; // 初始位置
+          position.oriOffsetLeft = dotRef.current?.offsetLeft ?? 0; // 初始位置
           position.oriX = position.oriX =
             event instanceof TouchEvent
               ? event.touches[0].clientX
               : event.clientX; // 要同时适配mousedown和touchstart事件
-          position.maxLeft = position.oriOffestLeft; // 向左最大可拖动距离
+          position.maxLeft = position.oriOffsetLeft; // 向左最大可拖动距离
           position.maxRight =
             barBgRef.current?.offsetWidth ?? 0 - position.oriOffestLeft; // 向右边最大可拖动距离
 
@@ -287,3 +288,4 @@ import TriggerTone from "@components/react/little/TriggerTone.tsx";
 - [peakjs - npm](https://www.npmjs.com/package/peaks.js)
 - [ai 根据风格生成音乐](https://bgmcat.com/home)
 - [深入体验 audiomotion-analyzer 1](/fantastic/music)
+- [tone.js](https://tonejs.github.io/)
