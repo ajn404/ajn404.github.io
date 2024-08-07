@@ -142,3 +142,9 @@ pnpm run dev
 11. **"tauri:dev": "tauri dev"**：这个命令用于启动 Tauri 开发服务器,通常用于开发桌面应用.
 
 12. **"tauri:build": "tauri build"**：这个命令用于构建 Tauri 应用,生成可供发布的桌面应用程序.
+
+## mac 下载已损坏问题
+
+1. 打开终端(将app所在目录拖向终端)
+2. 输入 `sudo xattr -rd com.apple.quarantine ./ajn404-github-io.app/`
+3. 输入电脑密码

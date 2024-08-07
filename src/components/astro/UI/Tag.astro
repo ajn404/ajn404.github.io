@@ -5,59 +5,75 @@ export interface Props {
 
 const { name } = Astro.props;
 
-let rgbList = [];
-let colorList = [];
-for (let i = 0; i < 3; i++) {
-  let num = Math.floor(Math.random() * 256);
-  rgbList.push(num);
-  colorList.push(255 - num);
-}
+// 生成随机颜色
+const generateRandomColor = () => {
+  const rgbList = Array.from({ length: 3 }, () => Math.floor(Math.random() * 256));
+  const colorList = rgbList.map(num => 255 - num);
+  
+  return {
+    randomColor: `rgba(${rgbList.join(',')}, 0.8)`,
+    fontColor: `rgb(${colorList.join(',')})`
+  };
+};
 
-const randomColor = `rgba(${rgbList[0]},${rgbList[1]},${rgbList[2]},0.8)`;
-const fontColor = `rgb(${colorList[0]},${colorList[1]},${colorList[2]})`;
+const { randomColor, fontColor } = generateRandomColor();
+
 ---
 
 <li
-  class={`tag inline-block my-1 underline-offset-4`}
-  style={`background-color:${randomColor};color:${fontColor}`}
+  class="tag inline-block my-1 underline-offset-4"
+  style={`background-color: ${randomColor}; color: ${fontColor}`}
 >
   <a href={`/tags/${name.toLowerCase()}/`} class="text-xl">
-    <svg xmlns="http://www.w3.org/2000/svg" class={`scale-75 small-svg`}
-      ><path
-        d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z"
-      ></path>
+    <svg xmlns="http://www.w3.org/2000/svg" class="scale-75 small-svg">
+      <path d="M16.018 3.815 15.232 8h-4.966l.716-3.815-1.964-.37L8.232 8H4v2h3.857l-.751 4H3v2h3.731l-.714 3.805 1.965.369L8.766 16h4.966l-.714 3.805 1.965.369.783-4.174H20v-2h-3.859l.751-4H21V8h-3.733l.716-3.815-1.965-.37zM14.106 14H9.141l.751-4h4.966l-.752 4z"></path>
     </svg>
     &nbsp;<span>{name.toLowerCase()}</span>
   </a>
 </li>
 
-<style lang="scss">
+<style lang="scss" is:inline>
+  :root {
+    --tag-padding: 0 10px 0 20px;
+    --hover-filter: brightness(120%);
+    --tag-background: rgba(255, 255, 255, 0.8); // 默认背景色
+    --hover-background: rgba(255, 255, 255, 0.6); // hover 背景色
+    --transition-speed: 0.3s; // 过渡速度
+  }
+
   .tag {
-    clip-path: polygon(
-      20px 0,
-      100% 0,
-      100% 100%,
-      20px 100%,
-      0 50%
-    ); /* 
-    定义切角形状 */
-    padding: 0 10px 0 20px;
+    clip-path: polygon(20px 0, 100% 0, 100% 100%, 20px 100%, 0 50%);
+    padding: var(--tag-padding);
+    transition: background-color var(--transition-speed), filter var(--transition-speed); // 添加过渡效果
+
     a,
     svg {
-      filter: brightness(120%);
+      filter: var(--hover-filter);
+      transition: filter var(--transition-speed); // 添加过渡效果
     }
+
     &:hover {
+      background-color: var(--hover-background); // hover 背景色
       filter: invert(100%);
+
       a,
       svg {
-        filter: brightness(120%);
+        filter: var(--hover-filter);
       }
     }
   }
+
   a {
     @apply relative focus-visible:p-1;
   }
+
   a svg {
     @apply -mr-5 h-6 w-6 scale-95 group-hover:fill-skin-accent;
+    transition: transform var(--transition-speed); // 添加缩放过渡效果
+
+    /* 添加 hover 效果 */
+    .tag:hover & {
+      transform: scale(1.1); // hover 时放大
+    }
   }
 </style>
