@@ -2,8 +2,8 @@ import { slugifyStr } from "@utils/slugify";
 import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
 import Text from "@components/react/UI/Text";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import classNames from "classnames";
 
 export interface Props {
   href?: string;
@@ -18,70 +18,82 @@ export default function Card({
   secHeading = true,
   showBackground = true,
 }: Props) {
-  const { title, pubDatetime, modDatetime, description, upDateTime } =
-    frontmatter;
+  const { title, pubDatetime, description } = frontmatter;
 
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-  let image;
+  const ref = useRef<HTMLAnchorElement>(null);
 
-  //564*846
-  let src = `/assets/bg/${Math.floor(Math.random() * 12) + 1}.${
-    Math.floor(Math.random() * 10) % 2 === 1 ? "jpg" : "png"
-  }`;
+  const src = useMemo(() => {
+    return `/assets/bg/${Math.floor(Math.random() * 12) + 1}.${Math.random() < 0.5 ? "jpg" : "png"}`;
+  }, []);
 
-  let [backgroundImageStyle, setStyle] = useState({
-    backgroundImage: `radial-gradient(ellipse at top, rgb(${Math.floor(
-      Math.random() * 255
-    )},${Math.floor(Math.random() * 355) - 100},${
-      Math.floor(Math.random() * 255) % 250
-    }), transparent),
-            radial-gradient(ellipse at bottom, #4d9f0c, transparent)`,
+  const [backgroundImageStyle, setBackgroundImageStyle] = useState({
+    backgroundImage: "",
   });
 
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
-    className: "text-lg card__heading pt-4 font-medium ",
+    className: "text-lg card__heading pt-4 font-medium",
   };
 
   useEffect(() => {
-    import("@styles/card.scss");
-  }, []);
+    const loadStyles = async () => {
+      if (showBackground) {
+        await import("@styles/card.scss");
+      } else {
+        await import("@styles/searchCard.scss");
+      }
+    };
+    loadStyles();
+  }, [showBackground]);
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
-      if (!entries || entries.length === 0) return;
-      setIsVisible(entries[0].isIntersecting);
+      if (entries.length > 0) {
+        setIsVisible(entries[0].isIntersecting);
+      }
     });
-    obs.observe(ref.current!);
+    if (ref.current) {
+      obs.observe(ref.current);
+    }
+    return () => {
+      if (ref.current) {
+        obs.unobserve(ref.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
-    image = new Image();
+    const image = new Image();
     image.src = src;
     image.onload = () => {
-      if (isVisible)
-        setStyle({
-          backgroundImage: `url(${image.src})`,
-        });
+      if (isVisible) {
+        setBackgroundImageStyle({ backgroundImage: `url(${image.src})` });
+      }
     };
-  }, [isVisible]);
+  }, [isVisible, src]);
+
+  const handleTouchStart = useCallback(() => {
+    ref.current?.classList.add("hover-effect");
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    ref.current?.classList.remove("hover-effect");
+  }, []);
 
   useEffect(() => {
-    let element = ref.current!;
-
-    element.addEventListener("touchstart", function () {
-      this.classList.add("hover-effect");
-    });
-
-    element.addEventListener("touchend", function () {
-      this.classList.remove("hover-effect");
-    });
-  });
+    const element = ref.current!;
+    element.addEventListener("touchstart", handleTouchStart);
+    element.addEventListener("touchend", handleTouchEnd);
+    return () => {
+      element.removeEventListener("touchstart", handleTouchStart);
+      element.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [handleTouchStart, handleTouchEnd]);
 
   return (
     <a
-      className="card"
+      className={classNames("card", { "hover-effect": isVisible })}
       data-astro-prefetch
       href={href}
       ref={ref}
@@ -94,7 +106,6 @@ export default function Card({
         ) : (
           <h3 {...headerProps}>{title}</h3>
         )}
-
         <Datetime className="pt-4" datetime={pubDatetime} />
         <Text>
           <h3>{description}</h3>

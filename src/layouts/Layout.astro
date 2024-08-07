@@ -4,7 +4,6 @@ import "@styles/base.css";
 import "driver.js/dist/driver.css";
 import "@styles/components.scss";
 import Header from "@components/astro/UI/Header.astro";
-// import { ViewTransitions } from "astro:transitions";
 import "./KeySearch.astro"
 import { Toaster } from "@shadcn/ui/sonner"
 
@@ -34,7 +33,6 @@ const socialImageURL = new URL(
 ).href;
 ---
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -43,28 +41,20 @@ const socialImageURL = new URL(
     <link rel="icon" type="image/svg+xml" href=`/favicon.svg` />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
-
-    <!-- General Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
     <link rel="sitemap" href=`sitemap-index.xml` />
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
-
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -80,7 +70,6 @@ const socialImageURL = new URL(
         />
       )
     }
-    <!-- <ViewTransitions /> -->
     <script is:inline src=`/toggle-theme.js`></script>
     
   </head>
@@ -92,14 +81,14 @@ const socialImageURL = new URL(
 </html>
 
 
-<script src="./importTwElement"></script>
-<script src="./defineEvents"></script>
+<script src="./importTwElement" defer></script>
+<script src="./defineEvents" defer></script>
 
 <script>
-    import eruda from 'eruda'
-    const width = window.innerWidth;
-    if (width < 768) {
-        eruda.init()
-    }
+import eruda from 'eruda';
+const width = window.innerWidth;
+if (width < 768) {
+    eruda.init()
+}
 </script>
 

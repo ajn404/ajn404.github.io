@@ -9,34 +9,16 @@ import Socials from "@components/astro/UI/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
-
 import TextAnimation from "@components/react/d3/textAnimation.tsx";
-
 import Header from "@components/astro/UI/Header.astro";
-// import Bg from "@components/react/UI/bg.tsx";
 
 const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const socialCount = SOCIALS.filter(social => social.active).length;
-
-//import { getSession } from "auth-astro/server";
-
-//const session = await getSession(Astro.request);
 ---
 
 <Layout>
-  <!-- {
-    session ? (
-      <div>
-        <p>Welcome {session.user?.name}</p>
-        <button id="logout">Logout</button>
-      </div>
-    ) : (
-      <button id="login">Login</button>
-    )
-  } -->
-
   <main id="main-content">
     <section id="hero">
       <h1>
@@ -86,7 +68,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </p>
 
       {
-        // only display if at least one social link is enabled
         socialCount > 0 && (
           <div class="social-wrapper">
             <div class="social-links">"社交账号":</div>
@@ -95,11 +76,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         )
       }
     </section>
-
-    <!-- <Bg client:load /> -->
-
     <Hr />
-
     {
       featuredPosts.length > 0 && (
         <>
@@ -164,7 +141,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       information anywhere. "
     </p>
     <cite class="text-sm text-right"
-      ><a target="_blank" href="https://www.w3.org/People/Berners-Lee/1991/08/art-6484.txt"
+      ><a
+        target="_blank"
+        href="https://www.w3.org/People/Berners-Lee/1991/08/art-6484.txt"
         >Tim Berners-Lee, 1991</a
       ></cite
     >
@@ -177,57 +156,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     client:load
   />
 </Layout>
-
-<!-- 
-<script>
-  import * as THREE from "three";
-
-  // 初始化 Three.js 场景
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.domElement.style.position = "fixed";
-  renderer.domElement.style.top = "0";
-  renderer.domElement.style.left = "0";
-  renderer.domElement.style.zIndex = "-1";
-  renderer.domElement.style.pointerEvents = "none";
-  //   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  document.body.appendChild(renderer.domElement);
-
-  // 添加背景图
-  const textureLoader = new THREE.TextureLoader();
-  const texture = textureLoader.load("/assets/tao.jpeg");
-  const backgroundPlane = new THREE.Mesh(
-    new THREE.PlaneGeometry(10, 5), // 调整尺寸
-    new THREE.MeshBasicMaterial({
-      map: texture,
-      transparent: true, // 设置透明度
-      opacity: 0.8, // 设置透明度
-    })
-  );
-  backgroundPlane.position.set(0, 0, -5); // 调整位置
-  scene.add(backgroundPlane);
-
-  // 添加光源
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  scene.add(ambientLight);
-
-  // 渲染场景
-  const animate = () => {
-    requestAnimationFrame(animate);
-    backgroundPlane.rotation.y += 0.01; // 旋转背景
-    renderer.render(scene, camera);
-  };
-  animate();
-</script> -->
-
 <style>
   #hero {
     @apply pb-6 pt-8;
@@ -252,8 +180,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   .social-links {
     @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
   }
-
-  /* ===== Featured & Recent Posts Sections ===== */
   #featured,
   #recent-posts {
     @apply pb-6 pt-12;
@@ -266,11 +192,3 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply my-8 text-center;
   }
 </style>
-<!-- 
-<script>
-  const { signIn, signOut } = await import("auth-astro/client");
-  (document.querySelector("#login") as HTMLButtonElement).onclick = () =>
-    signIn("github");
-  (document.querySelector("#logout") as HTMLButtonElement).onclick = () =>
-    signOut();
-</script> -->

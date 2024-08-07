@@ -832,13 +832,15 @@ import Balloon from "@components/react/p5/Forces/balloon.tsx";
 
 有一说一,我想要的不是这个,但不管怎么说先留着
 
-import TabsCode from "@components/react/UI/TabsCode";
+import ForceA from "@components/react/p5/Forces/ForceA";
 
-<TabsCode componentName="ForceA" client:load />
+<ForceA client:visible />
 
 让我来看看这个新写的组件会请求几次ForceA
 
-<TabsCode componentName="ForceB" client:load />
+import ForceB from "@components/react/p5/Forces/ForceB";
+
+<ForceB client:visible />
 
 <details >
 <summary>这个组件🙅,内部调用的动态组件不知道为什么不能使用useState</summary>
