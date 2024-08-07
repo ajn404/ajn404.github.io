@@ -6,7 +6,7 @@ const path = require("path");
 const app = express();
 const server = require("http").Server(app);
 const PORT = 5500;
-const RTSP_URL = "rtsp测试地址(替换)";
+const RTSP_URL = "";
 
 const emitters = {};
 const firstChunks = {};

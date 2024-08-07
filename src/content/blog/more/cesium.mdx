@@ -395,3 +395,54 @@ multiple ? (
 ```
 
 直接就一个multiple控制了右边已选择,难绷
+
+## 安卓项目
+
+<details>
+<summary>keystore</summary>
+
+在 Android 项目中生成 keystore 文件，您需要使用 Java Development Kit (JDK) 中自带的 `keytool` 工具。
+
+以下是生成 keystore 的步骤：
+
+1. **打开命令行工具**
+
+   - 在 Windows 上，您可以使用 `cmd` 或 `PowerShell`。
+   - 在 macOS 或 Linux 上，您可以使用 `Terminal`。
+
+2. **进入 JDK 的 `bin` 目录**
+
+   - 您可以使用 `cd` 命令进入该目录，例如：
+     ```bash
+     cd C:\Program Files\Java\jdk-17.0.1\bin
+     ```
+   - 请将 `C:\Program Files\Java\jdk-17.0.1\bin` 替换为您实际安装 JDK 的路径。
+
+3. **执行以下命令生成 keystore 文件**
+
+   ```bash
+   keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+   ```
+
+   - 将 `my-release-key.keystore` 替换为您想要的 keystore 文件名。
+   - 将 `alias_name` 替换为您想要的别名。
+   - `keyalg` 指定密钥算法，这里使用 RSA。
+   - `keysize` 指定密钥长度，这里使用 2048 位。
+   - `validity` 指定有效期，这里设置为 10000 天。
+
+4. **根据提示输入信息**
+
+   - 您需要输入 keystore 和密钥的密码，以及一些个人信息。
+   - 这些信息将用于生成证书，请确保妥善保管密码。
+
+5. **生成 keystore 文件**
+
+   - 命令执行成功后，将在当前目录下生成名为 `my-release-key.keystore` 的 keystore 文件。
+
+**注意：**
+
+- 请妥善保管生成的 keystore 文件和密码，因为它们用于签名您的应用。
+- 如果丢失了 keystore 文件或密码，您将无法更新您的应用。
+- 建议您备份 keystore 文件，并将其存储在安全的地方。 [2](https://stackoverflow.com/questions/3997748/how-can-i-create-a-keystore)[3](https://help.gamesalad.com/gamesalad-cookbook/publishing/4-android-publishing/4-02-creating-a-keystore/)
+
+</details>
