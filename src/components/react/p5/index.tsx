@@ -47,6 +47,7 @@ const Button = ({
     {children}
   </button>
 );
+let doOnce = false;
 
 const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const container = useRef<HTMLDivElement>(null);
@@ -69,7 +70,9 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   const init = async () => {
     remove();
     await start();
+    setLoading(false);
   };
+  const [loading, setLoading] = useState(true);
 
   const clear = () => {
     remove();
@@ -101,10 +104,13 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
         container.current.style.minHeight = p?.height + "px";
       };
     }
+
     const obs = new IntersectionObserver(async ([entry]) => {
-      entry.isIntersecting && !container.current.innerHTML && (await init());
-      entry.isIntersecting && !showControls && begin(); //没有按钮自动启动
-      !entry.isIntersecting && stop();
+      if (entry.isIntersecting) {
+        !doOnce && !container.current.innerHTML && (await init());
+        !doOnce && !showControls && begin(); //没有按钮自动启动
+        if (!doOnce && !container.current.innerHTML) doOnce = true;
+      } else stop();
     });
     obs.observe(trueContainer.current);
     return () => {
@@ -114,11 +120,13 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
   }, [isFullscreen, p]);
 
   const handleFullscreenChange = () => {
+    setLoading(true);
     setIsFullscreen(!!document.fullscreenElement);
   };
 
   useEffect(() => {
     (async () => {
+      if (!container.current) return;
       container.current.innerHTML = "";
       await init();
     })();
@@ -140,11 +148,13 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
 
   return (
     <>
-      <div ref={trueContainer} className="p5_container mt-4">
+      <div ref={trueContainer} className="p5_container mt-4 relative">
         <div
           ref={container}
           className="flex w-full max-w-full justify-center"
         ></div>
+        {loading && <div className="loading">加载中...</div>}
+
         {/* 控制按钮 */}
         {showControls && (
           <div

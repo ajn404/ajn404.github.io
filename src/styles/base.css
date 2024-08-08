@@ -343,3 +343,16 @@ details::-webkit-scrollbar {
 iframe{
     max-width:calc(100% - 2em);
 }
+
+.loading{
+     position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: grid;
+        place-items: center;
+        font-size: 5em;
+        color: rosybrown;
+}
