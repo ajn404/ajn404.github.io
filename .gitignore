@@ -34,4 +34,4 @@ pnpm-debug.log*
 .vercel
 build
 pnpm-lock.yaml
-Excalidraw
+src/content/obsidian/Excalidraw
