@@ -11,7 +11,6 @@ export interface Props {
   secHeading?: boolean;
   showBackground?: boolean;
 }
-
 export default function Card({
   href,
   frontmatter,
@@ -19,23 +18,19 @@ export default function Card({
   showBackground = true,
 }: Props) {
   const { title, pubDatetime, description } = frontmatter;
-
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(true); // 新增加载状态
   const ref = useRef<HTMLAnchorElement>(null);
-
   const src = useMemo(() => {
     return `/assets/bg/${Math.floor(Math.random() * 12) + 1}.${Math.random() < 0.5 ? "jpg" : "png"}`;
   }, []);
-
   const [backgroundImageStyle, setBackgroundImageStyle] = useState({
     backgroundImage: "",
   });
-
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
     className: "text-lg card__heading pt-4 font-medium",
   };
-
   useEffect(() => {
     const loadStyles = async () => {
       if (showBackground) {
@@ -46,7 +41,6 @@ export default function Card({
     };
     loadStyles();
   }, [showBackground]);
-
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       if (entries.length > 0) {
@@ -62,25 +56,22 @@ export default function Card({
       }
     };
   }, []);
-
   useEffect(() => {
     const image = new Image();
     image.src = src;
     image.onload = () => {
+      setLoading(false); // 图片加载完成，设置加载状态为 false
       if (isVisible) {
         setBackgroundImageStyle({ backgroundImage: `url(${image.src})` });
       }
     };
   }, [isVisible, src]);
-
   const handleTouchStart = useCallback(() => {
     ref.current?.classList.add("hover-effect");
   }, []);
-
   const handleTouchEnd = useCallback(() => {
     ref.current?.classList.remove("hover-effect");
   }, []);
-
   useEffect(() => {
     const element = ref.current!;
     element.addEventListener("touchstart", handleTouchStart);
@@ -90,7 +81,6 @@ export default function Card({
       element.removeEventListener("touchend", handleTouchEnd);
     };
   }, [handleTouchStart, handleTouchEnd]);
-
   return (
     <a
       className={classNames("card", { "hover-effect": isVisible })}
@@ -99,7 +89,14 @@ export default function Card({
       ref={ref}
       data-astro-reload
     >
-      <div className="card__background" style={backgroundImageStyle}></div>
+      <div className="card__background" style={backgroundImageStyle}>
+        {loading && (
+          <div className="loading-spinner w-full h-full flex justify-center items-center">
+            加载中...
+          </div>
+        )}{" "}
+        {/* 加载动画 */}
+      </div>
       <div className="card__content pt-4">
         {secHeading ? (
           <h2 {...headerProps}>{title}</h2>
