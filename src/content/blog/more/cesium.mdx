@@ -8,6 +8,9 @@ tags:
   - cesium
   - map
   - computer vision
+  - flv
+  - rtsp
+  - webrtc
 description: "cesium探索"
 ---
 
@@ -447,4 +450,374 @@ multiple ? (
 
 </details>
 
-## rtsp/express/ffmpeg/flv项目demo
+## [rtsp/express/ffmpeg/flv项目demo](https://github1s.com/ajn404/ajn404.github.io/tree/main/src/assets/rtsp)
+
+<details>
+<summary>index.js</summary>
+
+这段代码是一个使用 Node.js 和 Express 框架构建的简单视频流服务器，主要用于将 RTSP（实时流协议）视频流转换为 FLV（Flash 视频）格式并通过 HTTP 提供给客户端。下面是对代码的详细解释：
+
+### 主要目标
+
+1. **创建一个 HTTP 服务器**：使用 Express 框架来处理 HTTP 请求。
+2. **处理视频流**：使用 FFmpeg 将 RTSP 视频流转换为 FLV 格式，并将其通过 HTTP 发送给客户端。
+3. **事件管理**：使用 EventEmitter 来管理视频流数据的传输。
+
+### 代码逐行解释
+
+1. **导入模块**：
+
+   ```javascript
+   const { spawn } = require("child_process");
+   const { EventEmitter } = require("events");
+   const express = require("express");
+   const path = require("path");
+   ```
+
+   - `spawn`：用于创建子进程，这里用于启动 FFmpeg。
+   - `EventEmitter`：用于创建事件发射器，以便在数据流中进行事件管理。
+   - `express`：用于创建 HTTP 服务器。
+   - `path`：用于处理文件路径。
+
+2. **初始化应用和服务器**：
+
+   ```javascript
+   const app = express();
+   const server = require("http").Server(app);
+   const PORT = 5500;
+   const RTSP_URL = "";
+   ```
+
+   - 创建一个 Express 应用实例。
+   - 创建一个 HTTP 服务器并指定端口（5500）。
+   - `RTSP_URL` 是 RTSP 视频流的 URL，当前为空。
+
+3. **初始化事件发射器和首个数据块**：
+
+   ```javascript
+   const emitters = {};
+   const firstChunks = {};
+   ```
+
+   - `emitters` 用于存储每个视频流的事件发射器。
+   - `firstChunks` 用于存储每个视频流的首个数据块。
+
+4. **初始化事件发射器的函数**：
+
+   ```javascript
+   const initEmitter = feed => {
+     if (!emitters[feed]) {
+       emitters[feed] = new EventEmitter().setMaxListeners(0);
+     }
+     return emitters[feed];
+   };
+   ```
+
+   - 如果指定的 `feed`（视频流标识符）没有对应的事件发射器，则创建一个新的事件发射器并返回。
+
+5. **初始化首个数据块的函数**：
+
+   ```javascript
+   const initFirstChunk = (feed, firstBuffer) => {
+     if (!firstChunks[feed]) {
+       firstChunks[feed] = firstBuffer;
+     }
+     return firstChunks[feed];
+   };
+   ```
+
+   - 如果指定的 `feed` 没有首个数据块，则将其初始化为传入的 `firstBuffer`。
+
+6. **启动服务器**：
+
+   ```javascript
+   console.log(`Starting Express Web Server on Port ${PORT}`);
+   server.listen(PORT);
+   ```
+
+   - 在控制台输出服务器启动信息，并开始监听指定的端口。
+
+7. **提供静态文件**：
+
+   ```javascript
+   app.use("/libs", express.static(path.join(__dirname, "../../web/libs")));
+   app.use("/", express.static(__dirname));
+   ```
+
+   - 设置静态文件服务，允许访问 `libs` 目录和当前目录下的文件。
+
+8. **主页路由**：
+
+   ```javascript
+   app.get("/", (req, res) => {
+     res.sendFile(path.join(__dirname, "index.html"));
+   });
+   ```
+
+   - 当访问根路径时，返回 `index.html` 文件。
+
+9. **FLV 视频流路由**：
+
+   ```javascript
+   app.get(["/flv", "/flv/:feed/s.flv"], (req, res) => {
+     const feed = req.params.feed || "1";
+     req.Emitter = initEmitter(feed);
+     ...
+   });
+   ```
+
+   - 处理 `/flv` 和 `/flv/:feed/s.flv` 路由，初始化事件发射器并设置响应头。
+
+10. **设置响应头和初始化首个数据块**：
+
+    ```javascript
+    res.setHeader("Content-Type", "video/x-flv");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.write(initFirstChunk(feed, Buffer.alloc(0))); // Initialize with empty buffer
+    ```
+
+    - 设置内容类型为 FLV 视频，并允许跨域请求。
+    - 初始化首个数据块为空缓冲区。
+
+11. **处理数据流**：
+
+    ```javascript
+    const contentWriter = buffer => res.write(buffer);
+    req.Emitter.on("data", contentWriter);
+    res.on("close", () => {
+      req.Emitter.removeListener("data", contentWriter);
+    });
+    ```
+
+    - 当接收到数据时，将其写入响应中，并在连接关闭时移除监听器。
+
+12. **启动 FFmpeg 进程**：
+
+    ```javascript
+    console.log("Starting FFMPEG");
+    let ffmpegArgs = [
+      "-i",
+      RTSP_URL,
+      "-c:v",
+      "libx264",
+      "-preset",
+      "fast",
+      "-crf",
+      "23",
+      "-an",
+      "-f",
+      "flv",
+      "pipe:1",
+    ];
+    ```
+
+    - 设置 FFmpeg 的参数以从 RTSP URL 读取视频流并将其转换为 FLV 格式。
+
+13. **检查 RTSP URL**：
+
+    ```javascript
+    if (RTSP_URL.includes("rtsp://")) {
+      ffmpegArgs.unshift("-rtsp_transport", "tcp");
+    }
+    ```
+
+    - 如果 RTSP URL 包含 `rtsp://`，则使用 TCP 作为传输协议。
+
+14. **执行 FFmpeg**：
+
+    ```javascript
+    console.log(`Executing: ffmpeg ${ffmpegArgs.join(" ")}`);
+    const ffmpeg = spawn("ffmpeg", ffmpegArgs, {
+      stdio: ["pipe", "pipe", "pipe"],
+    });
+    ```
+
+    - 输出执行的 FFmpeg 命令，并启动 FFmpeg 进程。
+
+15. **处理 FFmpeg 进程的关闭和错误**：
+
+    ```javascript
+    ffmpeg.on("close", () => {
+      console.log("FFmpeg process exited");
+    });
+
+    ffmpeg.stderr.on("data", data => {
+      console.error(`FFmpeg error: ${data.toString()}`);
+    });
+    ```
+
+    - 监听 FFmpeg 进程的关闭事件和错误输出。
+
+16. **处理 FFmpeg 输出的数据**：
+    ```javascript
+    ffmpeg.stdout.on("data", buffer => {
+      initFirstChunk("1", buffer);
+      initEmitter("1").emit("data", buffer);
+    });
+    ```
+    - 当 FFmpeg 输出数据时，初始化首个数据块并通过事件发射器发送数据。
+
+### 总结
+
+这段代码实现了一个简单的 HTTP 视频流服务器，能够将 RTSP 视频流转换为 FLV 格式并通过 HTTP 提供给客户端。它使用了 Node.js 的子进程功能来运行 FFmpeg，并通过事件发射器来管理视频流数据的传输。
+
+</details>
+
+<details>
+<summary>html</summary>
+
+这段代码是一个 HTML 页面，用于实现一个简单的 FLV 视频直播播放器，支持播放、暂停、停止、快退、全屏、录制等功能。以下是对代码的详细解释：
+
+### HTML 结构
+
+1. **文档类型和语言**：
+
+   ```html
+   <!doctype html>
+   <html lang="zh-CN"></html>
+   ```
+
+   - 指定文档类型为 HTML5，并设置页面语言为中文（简体）。
+
+2. **头部信息**：
+
+   ```html
+   <head>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta charset="UTF-8" />
+     <title>FLV直播测试</title>
+     <script src="http://cdn.shinobi.video/js/flv.min.js"></script>
+     ...
+   </head>
+   ```
+
+   - 设置浏览器兼容性和字符编码。
+   - 页面标题为“FLV直播测试”。
+   - 引入了 FLV 播放器的 JavaScript 库。
+
+3. **样式**：
+   ```html
+   <style>
+     body {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         background-color: #f0f0f0;
+         font-family: Arial, sans-serif;
+     }
+     ...
+   </style>
+   ```
+   - 使用 CSS 设置页面的布局和样式，包括背景色、字体、视频元素的样式等。
+
+### 主体内容
+
+4. **视频元素**：
+
+   ```html
+   <video id="videoElement" controls></video>
+   ```
+
+   - 创建一个视频元素，ID 为 `videoElement`，并启用默认控制。
+
+5. **控制面板**：
+   ```html
+   <div id="controls">
+     <button id="playButton">播放</button>
+     <button id="pauseButton">暂停</button>
+     ...
+   </div>
+   ```
+   - 创建一个控制面板，包含多个按钮用于控制视频播放、暂停、停止、快退、全屏和录制等功能。
+
+### JavaScript 功能实现
+
+6. **获取元素**：
+
+   ```javascript
+   const videoElement = document.getElementById("videoElement");
+   const playButton = document.getElementById("playButton");
+   ...
+   ```
+
+   - 获取页面中的视频元素和控制按钮的引用。
+
+7. **FLV 播放器初始化**：
+
+   ```javascript
+   if (flvjs.isSupported()) {
+       flvPlayer = flvjs.createPlayer({
+           type: "flv",
+           isLive: true,
+           url: "/flv/1/s.flv",
+       });
+       ...
+   }
+   ```
+
+   - 检查浏览器是否支持 FLV 播放器，如果支持，则创建一个 FLV 播放器实例，设置为直播模式，并指定视频流的 URL。
+
+8. **事件监听器**：
+
+   ```javascript
+   const addEventListeners = () => {
+       playButton.addEventListener("click", () => flvPlayer.play());
+       pauseButton.addEventListener("click", () => flvPlayer.pause());
+       ...
+   };
+   ```
+
+   - 为各个控制按钮添加事件监听器，以实现相应的功能，如播放、暂停、停止等。
+
+9. **快退功能**：
+
+   ```javascript
+   const rewindCustom = seconds => {
+     videoElement.currentTime = Math.max(0, videoElement.currentTime - seconds);
+   };
+   ```
+
+   - 定义一个快退函数，允许用户将视频回退指定的秒数。
+
+10. **全屏切换**：
+
+    ```javascript
+    const toggleFullScreen = () => {
+      if (!document.fullscreenElement) {
+        videoElement.requestFullscreen().catch(err => console.log(err));
+      } else {
+        document.exitFullscreen();
+      }
+    };
+    ```
+
+    - 定义一个函数用于切换全屏模式。
+
+11. **录制功能**：
+
+    ```javascript
+    const startRecording = () => {
+        recordedChunks = [];
+        const stream = videoElement.captureStream();
+        mediaRecorder = new MediaRecorder(stream);
+        ...
+    };
+    ```
+
+    - 定义开始录制的函数，使用 `MediaRecorder` API 录制视频流，并在录制停止时生成一个可下载的录制文件。
+
+12. **停止录制**：
+    ```javascript
+    const stopRecording = () => {
+      mediaRecorder.stop();
+      recordButton.disabled = false;
+      stopRecordButton.disabled = true;
+    };
+    ```
+    - 定义停止录制的函数，停止媒体录制并更新按钮状态。
+
+### 总结
+
+这段代码实现了一个功能丰富的 FLV 视频直播播放器，用户可以通过简单的按钮控制视频的播放、暂停、快退、全屏和录制等功能。通过使用 FLV.js 库和 MediaRecorder API，页面能够处理实时视频流并提供录制功能，增强了用户体验。
+
+</details>

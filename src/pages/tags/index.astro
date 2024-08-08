@@ -8,14 +8,36 @@ import getUniqueTags from "@utils/getUniqueTags";
 import { SITE } from "@config";
 
 const posts = await getCollection("blog");
-
 let tags = getUniqueTags(posts);
+const groupedTags = tags.reduce((acc, tag) => {
+  const firstLetter = tag.charAt(0).toUpperCase();
+  if (!acc[firstLetter]) {
+    acc[firstLetter] = [];
+  }
+  acc[firstLetter].push(tag);
+  return acc;
+}, {});
 ---
 
 <Layout activeNav="tags" title={`Tags | ${SITE.title}`}>
   <Main pageTitle="Tags" pageDesc="所有博客的标签都在这里">
-    <ul>
-      {tags.map(tag => <Tag name={tag} />)}
+    <ul class="flex flex-wrap  gap-y-6">
+      {
+        Object.keys(groupedTags)
+          .sort()
+          .map(letter => (
+            <li class="inline-flex flex-col gap-2 min-w-[20%] max-w-[50%]">
+              <h2 class="text-2xl font-bold uppercase indent-4">{letter}</h2> {/* 显示分组标题 */}
+              <ul>
+                {groupedTags[letter].map(tag => (
+                  <li>
+                    <Tag name={tag} />
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+      }
     </ul>
   </Main>
   <Footer />

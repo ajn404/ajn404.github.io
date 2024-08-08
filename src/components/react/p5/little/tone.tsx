@@ -27,13 +27,13 @@ export default ({ curve }: { curve?: Boolean }) => {
       else player.connect(fft);
       p.createCanvas(p.windowWidth - 100, 240);
       p.frameRate(120); // 设置帧率
+      p.background(255, 255, 255);
     };
     const draw = () => {
       if (drawMe && fft && waveform) {
         p.background(255, 255, 255);
         p.strokeWeight(4);
         p.stroke(255);
-        // 绘制频谱
         if (!curve) {
           let spectrum = fft.getValue();
           p.noStroke();

@@ -119,6 +119,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
 
   useEffect(() => {
     (async () => {
+      container.current.innerHTML = "";
       await init();
     })();
     return () => {
