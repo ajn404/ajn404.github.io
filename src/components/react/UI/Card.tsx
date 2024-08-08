@@ -72,6 +72,8 @@ export default function Card({
   const handleTouchEnd = useCallback(() => {
     ref.current?.classList.remove("hover-effect");
   }, []);
+  let randomNum = Math.floor(Math.random() * 10) + 1;
+
   useEffect(() => {
     const element = ref.current!;
     element.addEventListener("touchstart", handleTouchStart);
@@ -91,9 +93,12 @@ export default function Card({
     >
       <div className="card__background" style={backgroundImageStyle}>
         {loading && (
-          <div className="loading-spinner w-full h-full flex justify-center items-center">
-            加载中...
-          </div>
+          <div
+            className={`w-20 m-auto h-20 rounded-full random-gradient${randomNum}`}
+            style={{
+              animation: `loadingcard ${randomNum / 2}s 0.1s linear infinite`,
+            }}
+          ></div>
         )}{" "}
         {/* 加载动画 */}
       </div>

@@ -283,6 +283,18 @@ details::-webkit-scrollbar {
 }
 
 
+@keyframes loadingcard {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(0, 15px) rotate(180deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg)
+  }
+}
+
 
 @media print {
   #目录 + ul,#dev-overlay,#btn-back-to-top,header{

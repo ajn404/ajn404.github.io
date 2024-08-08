@@ -60,12 +60,12 @@ function App({ item }: { item?: string }) {
                 ))}
               </div>
 
-              <div className="fixed top-0 left-0 z-20 w-full h-screen pointer-events-none ">
+              <div className="absolute top-0 left-0 z-20 w-screen h-screen  ">
                 <Canvas
                   camera={{
                     zoom: 0.8,
                   }}
-                  className="fixed"
+                  className="absolute"
                   eventSource={document.getElementById("root")!}
                 >
                   <View.Port />
