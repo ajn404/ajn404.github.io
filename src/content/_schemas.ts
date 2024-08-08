@@ -20,6 +20,7 @@ export const blogSchema = z
     isDev: z.boolean().optional(), //是否只在开发环境显示
     detailButton: z.boolean().optional().default(false), //是否显示详情按钮
     navToc: z.boolean().optional().default(false), //是否将目录搞到左侧
+    excalidraw: z.string().optional().default("ffmpeg"), //当前页面显示的excalidraw
   })
   .strict();
 
