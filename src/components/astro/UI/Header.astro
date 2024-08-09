@@ -20,6 +20,7 @@ const { activeNav,home } = Astro.props;
           <li>
             <a
               href=`/posts`
+              data-astro-prefetch
               class={activeNav === "posts" ? "active" : ""}
               data-te-toggle="tooltip"
               data-te-placement="left"
@@ -34,17 +35,10 @@ const { activeNav,home } = Astro.props;
           <li>
             <a
               href=`/tags`
+              data-astro-prefetch
               class={activeNav === "tags" ? "active" : ""}
             >
               标签
-            </a>
-          </li>
-          <li>
-            <a
-              href=`/fantastic`
-              class={activeNav === "fantastic" ? "active" : ""}
-            >
-              单页
             </a>
           </li>
           <li>

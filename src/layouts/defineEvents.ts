@@ -26,4 +26,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // 监听打印事件
   window.addEventListener("beforeprint", handlePrint.bind(null, true));
   window.addEventListener("afterprint", handlePrint.bind(null, false));
+
+  setTimeout(() => {
+    const links: NodeListOf<HTMLAnchorElement> =
+      document.querySelectorAll("a.card");
+    links.forEach(link => {
+      link.addEventListener("mouseover", () => {
+        // 创建一个 <link> 元素用于预加载
+        requestIdleCallback(() => {
+          // 创建一个 <link> 元素用于预加载
+          const prefetchLink = document.createElement("link");
+          prefetchLink.rel = "prefetch";
+          prefetchLink.href = link.href; // 获取链接的 href
+          document.head.appendChild(prefetchLink); // 将 <link> 添加到文档头部
+        });
+      });
+    });
+  }, 2000);
 });

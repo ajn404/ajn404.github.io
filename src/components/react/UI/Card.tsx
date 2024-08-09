@@ -86,10 +86,9 @@ export default function Card({
   return (
     <a
       className={classNames("card", { "hover-effect": isVisible })}
-      data-astro-prefetch
       href={href}
       ref={ref}
-      data-astro-reload
+      data-astro-prefetch
     >
       <div className="card__background " style={backgroundImageStyle}>
         {loading && (

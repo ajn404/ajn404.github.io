@@ -8,12 +8,12 @@ function Bnbshader() {
   useEffect(() => {
     const runtime = new Runtime();
     //@ts-ignore
-    import(
-      /* @vite-ignore */ "https://api.observablehq.com/@makio135/bnbshader.js?v=4"
-    ).then(module => {
-      const notebook = module.default;
-      runtime.module(notebook, Inspector.into(ref.current));
-    });
+    import("https://api.observablehq.com/@makio135/bnbshader.js?v=4").then(
+      module => {
+        const notebook = module.default;
+        runtime.module(notebook, Inspector.into(ref.current));
+      }
+    );
 
     return () => runtime.dispose();
   }, [ref.current]);

@@ -23,7 +23,11 @@ function Bnbshader() {
         className="max-w-full overflow-auto obs show"
       >
         <summary>
-          <a href="https://observablehq.com/d/215f9d2b56c1ade0" target="_blank">
+          <a
+            href="https://observablehq.com/d/215f9d2b56c1ade0"
+            data-astro-prefetch
+            target="_blank"
+          >
             混沌方程等的gpu可视化
           </a>
         </summary>

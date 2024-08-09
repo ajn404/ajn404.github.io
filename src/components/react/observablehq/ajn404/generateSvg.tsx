@@ -21,7 +21,12 @@ function Bnbshader() {
     <>
       <details open={open.current} className="max-w-full overflow-auto obs">
         <summary>
-          <a href="https://observablehq.com/@makio135/bnbshader">原文</a>
+          <a
+            href="https://observablehq.com/@makio135/bnbshader"
+            data-astro-prefetch
+          >
+            原文
+          </a>
         </summary>
         <div ref={ref} />
       </details>

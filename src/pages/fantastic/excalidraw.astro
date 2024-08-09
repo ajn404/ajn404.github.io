@@ -57,39 +57,46 @@
 <script is:inline defer>
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".loading").style.display = "none";
-    let file = localStorage.getItem("excalidraw")||"ffmpeg";
+    let file = localStorage.getItem("excalidraw") || "ffmpeg";
     fetch(`/assets/excalidraw/${file}.json`).then(res => {
       res.json().then(data => {
+        const { convertToExcalidrawElements, Excalidraw, loadLibraryFromBlob } =
+          ExcalidrawLib;
         if (!data.elements) return;
-        const elements = ExcalidrawLib.convertToExcalidrawElements(
+        const elements = convertToExcalidrawElements(
           data.elements.filter(item => !item.isDeleted)
         );
-        const App = () => {
-          return React.createElement(
-            React.Fragment,
-            null,
-            React.createElement(
-              "div",
-              {
-                style: { height: "100vh" },
-              },
-              React.createElement(ExcalidrawLib.Excalidraw, {
-                initialData: {
-                  elements,
-                  appState: {
-                    ...data.appState,
-                  },
-                  scrollToContent: true,
-                },
-              })
-            )
-          );
-        };
 
-        const excalidrawWrapper = document.getElementById("app");
-        const root = ReactDOM.createRoot(excalidrawWrapper);
-        root.render(React.createElement(App));
+        initApp(elements, Excalidraw, data);
       });
     });
+
+    const initApp = (elements, Excalidraw, data) => {
+      const App = () => {
+        return React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(
+            "div",
+            {
+              style: { height: "100vh" },
+            },
+            React.createElement(Excalidraw, {
+              initialData: {
+                elements,
+                appState: {
+                  ...data.appState,
+                },
+                scrollToContent: true,
+              },
+            })
+          )
+        );
+      };
+
+      const excalidrawWrapper = document.getElementById("app");
+      const root = ReactDOM.createRoot(excalidrawWrapper);
+      root.render(React.createElement(App));
+    };
   });
 </script>
