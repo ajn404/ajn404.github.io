@@ -1,0 +1,2 @@
+import{a as r}from"./_commonjsHelpers.B3ooHNLg.js";(function(){try{var e=typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},t=new Error().stack;t&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[t]="4d35d943-55f3-442e-a9a7-c4b3671e0290",e._sentryDebugIdIdentifier="sentry-dbid-4d35d943-55f3-442e-a9a7-c4b3671e0290")}catch{}})();const n={},d=Object.freeze(Object.defineProperty({__proto__:null,default:n},Symbol.toStringTag,{value:"Module"})),s=r(d);export{s as r};
+//# sourceMappingURL=___vite-browser-external_commonjs-proxy.BWey5jUP.js.map
