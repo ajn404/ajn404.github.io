@@ -60,7 +60,6 @@
     let file = localStorage.getItem("excalidraw")||"ffmpeg";
     fetch(`/assets/excalidraw/${file}.json`).then(res => {
       res.json().then(data => {
-        console.log(ExcalidrawLib);
         if (!data.elements) return;
         const elements = ExcalidrawLib.convertToExcalidrawElements(
           data.elements.filter(item => !item.isDeleted)

@@ -91,16 +91,15 @@ export default function Card({
       ref={ref}
       data-astro-reload
     >
-      <div className="card__background" style={backgroundImageStyle}>
+      <div className="card__background " style={backgroundImageStyle}>
         {loading && (
           <div
-            className={`w-20 m-auto h-20 rounded-full random-gradient${randomNum}`}
+            className={`w-10 absolute right-0 top-0 h-10 rounded-full random-gradient${randomNum}`}
             style={{
               animation: `loadingcard ${randomNum / 2}s 0.1s linear infinite`,
             }}
           ></div>
         )}{" "}
-        {/* 加载动画 */}
       </div>
       <div className="card__content pt-4">
         {secHeading ? (

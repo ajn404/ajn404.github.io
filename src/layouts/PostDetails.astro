@@ -53,6 +53,12 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
       </svg>
     </button>
   </div>
+  {
+    excalidraw && (
+      <LocalStorage client:load keyValue="excalidraw" value={excalidraw} />
+    )
+  }
+
   <main id="main-content">
     <h1 class="post-title" transition:name={slugifyStr(title)}>{title}</h1>
     <Datetime datetime={pubDatetime} size="lg" className="my-2" />
@@ -70,6 +76,14 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
         role="article"
         class="prose mx-auto mt-8 max-w-[100vw] w-full"
       >
+        {
+          excalidraw && (
+            <iframe
+              src="/fantastic/excalidraw"
+              class="h-[500px] w-full m-4 mx-auto overflow-scroll"
+            />
+          )
+        }
         <Content components={{ pre: Code }} />
       </article>
     </div>
@@ -80,11 +94,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     <!-- {navToc && <NavToc />} -->
   </main>
   {detailButton && <OpenDetails />}
-  {
-    excalidraw && (
-      <LocalStorage client:load keyValue="excalidraw" value={excalidraw} />
-    )
-  }
+
   <Lenis />
   <button
     type="button"
@@ -129,7 +139,11 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
       ></path>
     </svg>
   </button>
-
+  {
+    excalidraw && (
+      <LocalStorage client:load keyValue="excalidraw" value={excalidraw} />
+    )
+  }
   <Footer />
 </Layout>
 
