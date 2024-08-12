@@ -6,7 +6,7 @@ featured: false
 draft: false
 tags:
   - report
-  - 2024
+  - "2024"
   - 2024-03
   - vue
 description: 个人报告 report
