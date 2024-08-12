@@ -33,8 +33,9 @@ html[data-theme="dark"] .hero-section .card:hover,
 .card:active {
   .card__background {
     transform: scale(1.05) translateZ(0);
-    background-size: contain;
-    animation: gradient 6s ease infinite;
+    background-size: cover;
+    background-repeat: no-repeat;
+    // animation: gradient 6s ease infinite;
   }
   .card__heading {
     text-decoration: rgb(255, 255, 255) wavy underline 1px;
