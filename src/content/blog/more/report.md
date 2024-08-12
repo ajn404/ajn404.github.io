@@ -6,6 +6,7 @@ featured: false
 draft: false
 tags:
   - report
+  - 2024
   - 2024-03
   - vue
 description: 个人报告 report
@@ -63,3 +64,5 @@ let,const,箭头函数,解构赋值,class,import,export,模块化等等,可以�
 - [vue-devtools](https://github.com/vuejs/vue-devtools)
 - [vue跳转](https://cn-vuejs-challenges.netlify.app/)
 - [vue2官网](https://v2.cn.vuejs.org/)
+
+## 日报

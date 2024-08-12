@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/user/018defe3-c72b-44bd-9a7e-3a7605089bf0/project/018df007-4860-4f87-bdb6-017c942ba8c6.svg)](https://wakatime.com/badge/user/018defe3-c72b-44bd-9a7e-3a7605089bf0/project/018df007-4860-4f87-bdb6-017c942ba8c6)
+
 ## overview
 
 博客网页/tauri应用

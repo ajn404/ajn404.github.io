@@ -1,7 +1,7 @@
 ---
 title: 重装mac
 pubDatetime: 2023-09-19T08:52:10Z
-postSlug: remac
+postSlug: mac-reinstall
 featured: false
 draft: true
 tags:
@@ -35,7 +35,7 @@ nvim ~/.config/nvim/init.vim
 brew install nushell
 ```
 
-## howbrew
+## homebrew
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sH)"

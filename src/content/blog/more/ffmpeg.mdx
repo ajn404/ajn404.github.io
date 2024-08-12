@@ -692,3 +692,291 @@ FFmpeg是一个强大的开源软件项目，包含多个库和工具，用于�
 这些基础库的组合使得FFmpeg成为一个功能强大且灵活的多媒体处理工具，广泛应用于视频编辑、转码和流媒体等领域。
 
 </details>
+
+### 2.3.3 macOS平台编译
+
+```shell
+clang --version
+Apple clang version 15.0.0 (clang-1500.3.9.4)
+Target: arm64-apple-darwin23.5.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+```
+
+`clang --version`的输出显示你正在使用的是Apple的Clang编译器，版本为15.0.0，目标平台是`arm64-apple-darwin`，这意味着你正在使用的是针对Apple Silicon（如M1或M2芯片）的编译器。
+
+以下是输出信息的详细解释：
+
+1. **Apple clang version 15.0.0**：这是Clang编译器的版本信息，表明你使用的是Apple提供的Clang版本15.0.0。
+
+2. **Target: arm64-apple-darwin23.5.0**：这表示编译器的目标架构是`arm64`，即64位ARM架构，适用于Apple的最新操作系统（Darwin 23.5.0）。
+
+3. **Thread model: posix**：这表明编译器使用POSIX线程模型，适用于多线程编程。
+
+4. **InstalledDir**：显示了Clang编译器的安装目录，通常是在Xcode的工具链目录下。
+
+<details>
+<summary>编译详细步骤</summary>
+
+在macOS上编译FFmpeg源码的过程相对简单，但需要确保你已经安装了必要的工具和依赖。以下是详细的步骤：
+
+### 步骤 1: 安装Xcode和命令行工具
+
+首先，你需要安装Xcode和其命令行工具。可以通过以下命令在终端中安装命令行工具：
+
+```bash
+xcode-select --install
+```
+
+### 步骤 2: 安装Homebrew
+
+Homebrew是macOS上的一个包管理器，可以方便地安装FFmpeg的依赖。打开终端并运行以下命令来安装Homebrew：
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### 步骤 3: 安装FFmpeg依赖
+
+使用Homebrew安装FFmpeg所需的依赖库。运行以下命令：
+
+```bash
+brew install automake fdk-aac git lame libass libtool libvorbis libvpx opus sdl texi2html theora wget x264 x265 xvid nasm
+```
+
+### 步骤 4: 下载FFmpeg源码
+
+你可以从FFmpeg的官方网站或GitHub仓库下载源码。以下是使用Git克隆FFmpeg源码的命令：
+
+```bash
+git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+cd ffmpeg
+```
+
+### 步骤 5: 配置编译选项
+
+在编译之前，你需要配置FFmpeg的编译选项。可以使用以下命令：
+
+```bash
+./configure --prefix=/usr/local --enable-gpl --enable-libx264 --enable-libx265 --enable-libfdk-aac --enable-libmp3lame --enable-libvorbis --enable-libvpx --enable-libass --enable-libopus --enable-nonfree
+```
+
+你可以根据需要添加或删除选项，`--enable-nonfree`选项用于启用某些非自由的编解码器。
+
+### 步骤 6: 编译和安装
+
+配置完成后，运行以下命令进行编译和安装：
+
+```bash
+make -j$(sysctl -n hw.ncpu)  # 使用所有可用的CPU核心进行编译
+sudo make install
+```
+
+### 步骤 7: 验证安装
+
+安装完成后，可以通过以下命令验证FFmpeg是否成功安装：
+
+```bash
+ffmpeg -version
+```
+
+如果显示FFmpeg的版本信息，则表示安装成功。
+
+通过以上步骤，你应该能够在macOS上成功编译并安装FFmpeg。如果在过程中遇到任何问题，可以查看FFmpeg的官方文档或相关社区寻求帮助。
+
+</details>
+
+<details>
+<summary>问题</summary>
+
+- sdl
+
+```shell
+Warning: No available formula with the name "homebrew/core/sdl". Did you mean homeworlds?
+Please tap it and then try again: brew tap homebrew/core
+```
+
+解决
+
+```shell
+└─(14:11:27)──> brew tap homebrew/core                        1 ↵ ──(一, 812)─┘
+Warning: Tapping homebrew/core is no longer typically necessary.
+Add --force if you are sure you need it done.
+==> Tapping homebrew/core
+Cloning into '/opt/homebrew/Library/Taps/homebrew/homebrew-core'...
+remote: Enumerating objects: 2109432, done.
+remote: Counting objects: 100% (2516/2516), done.
+remote: Compressing objects: 100% (1019/1019), done.
+remote: Total 2109432 (delta 1805), reused 2149 (delta 1497), pack-reused 2106916
+Receiving objects: 100% (2109432/2109432), 773.19 MiB | 7.99 MiB/s, done.
+Resolving deltas: 100% (1521840/1521840), done.
+Tapped 3 commands and 7117 formulae (7,471 files, 856.9MB).
+```
+
+```shell
+┌─(~/Desktop)──────────────────────────(ninghuiyue@ninghuiyuedeMac-mini:s009)─┐
+└─(14:14:43)──> brew update                                       ──(一, 812)─┘
+Already up-to-date.
+```
+
+```shell
+└─(14:15:01)──> brew search sdl                                   ──(一, 812)─┘
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/bottles-portable-ruby/portable-ruby-3.3.4_1.arm64_big_sur.bottle.tar.gz
+######################################################################### 100.0%
+==> Pouring portable-ruby-3.3.4_1.arm64_big_sur.bottle.tar.gz
+==> Formulae
+cdogs-sdl       sdl2_gfx        sdl2_ttf        sdl_sound       gdl
+gowsdl          sdl2_image      sdl_gfx         sdl_ttf
+msdl            sdl2_mixer      sdl_image       sdlpop
+sdl12-compat    sdl2_net        sdl_mixer       sd
+sdl2 ✔          sdl2_sound      sdl_net         sdb
+
+==> Casks
+sdm                                      sol
+Warning: Formula sdl was renamed to sdl12-compat.
+```
+
+切换成sdl2
+
+```shell
+┌─(~/Desktop)──────────────────────────(ninghuiyue@ninghuiyuedeMac-mini:s009)─┐
+└─(14:15:09)──> brew install automake fdk-aac git lame libass libtool libvorbis libvpx opus sdl2 texi2html theora wget x264 x265 xvid nasm
+Warning: lame 3.100 is already installed and up-to-date.
+To reinstall 3.100, run:
+  brew reinstall lame
+Warning: libass 0.17.3 is already installed and up-to-date.
+To reinstall 0.17.3, run:
+  brew reinstall libass
+Warning: libvorbis 1.3.7 is already installed and up-to-date.
+To reinstall 1.3.7, run:
+  brew reinstall libvorbis
+Warning: libvpx 1.13.1 is already installed and up-to-date.
+To reinstall 1.13.1, run:
+  brew reinstall libvpx
+Warning: opus 1.5.2 is already installed and up-to-date.
+To reinstall 1.5.2, run:
+  brew reinstall opus
+Warning: sdl2 2.30.6 is already installed and up-to-date.
+To reinstall 2.30.6, run:
+  brew reinstall sdl2
+Warning: theora 1.1.1 is already installed and up-to-date.
+To reinstall 1.1.1, run:
+  brew reinstall theora
+Warning: wget 1.24.5 is already installed and up-to-date.
+To reinstall 1.24.5, run:
+  brew reinstall wget
+Warning: x264 r3108 is already installed and up-to-date.
+To reinstall r3108, run:
+  brew reinstall x264
+Warning: x265 3.6 is already installed and up-to-date.
+To reinstall 3.6, run:
+  brew reinstall x265
+Warning: xvid 1.3.7 is already installed and up-to-date.
+To reinstall 1.3.7, run:
+  brew reinstall xvid
+==> Fetching automake
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/automake-1.
+######################################################################### 100.0%
+==> Fetching fdk-aac
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/fdk-aac-2.0
+######################################################################### 100.0%
+==> Fetching git
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/git-2.46.0.
+######################################################################### 100.0%
+==> Fetching libtool
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/libtool-2.4
+######################################################################### 100.0%
+==> Fetching texi2html
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/texi2html-5
+######################################################################### 100.0%
+==> Fetching nasm
+==> Downloading https://mirrors.ustc.edu.cn/homebrew-bottles/bottles/nasm-2.16.0
+######################################################################### 100.0%
+==> Pouring automake-1.17.arm64_sonoma.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/automake/1.17: 134 files, 3.6MB
+==> Running `brew cleanup automake`...
+Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+==> Pouring fdk-aac-2.0.3.arm64_sonoma.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/fdk-aac/2.0.3: 16 files, 2.8MB
+==> Running `brew cleanup fdk-aac`...
+==> Upgrading git
+  2.45.2 -> 2.46.0
+==> Pouring git-2.46.0.arm64_sonoma.bottle.tar.gz
+==> Caveats
+The Tcl/Tk GUIs (e.g. gitk, git-gui) are now in the `git-gui` formula.
+Subversion interoperability (git-svn) is now in the `git-svn` formula.
+
+zsh completions and functions have been installed to:
+  /opt/homebrew/share/zsh/site-functions
+==> Summary
+🍺  /opt/homebrew/Cellar/git/2.46.0: 1,678 files, 51.5MB
+==> Running `brew cleanup git`...
+Removing: /opt/homebrew/Cellar/git/2.45.2... (1,664 files, 51.5MB)
+==> Pouring libtool-2.4.7.arm64_sonoma.bottle.3.tar.gz
+==> Caveats
+All commands have been installed with the prefix "g".
+If you need to use these commands with their normal names, you
+can add a "gnubin" directory to your PATH from your bashrc like:
+  PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
+==> Summary
+🍺  /opt/homebrew/Cellar/libtool/2.4.7: 76 files, 3.8MB
+==> Running `brew cleanup libtool`...
+==> Pouring texi2html-5.0.arm64_sonoma.bottle.2.tar.gz
+🍺  /opt/homebrew/Cellar/texi2html/5.0: 280 files, 6.2MB
+==> Running `brew cleanup texi2html`...
+==> Pouring nasm-2.16.03.arm64_sonoma.bottle.tar.gz
+🍺  /opt/homebrew/Cellar/nasm/2.16.03: 12 files, 2.7MB
+==> Running `brew cleanup nasm`...
+==> Caveats
+==> git
+The Tcl/Tk GUIs (e.g. gitk, git-gui) are now in the `git-gui` formula.
+Subversion interoperability (git-svn) is now in the `git-svn` formula.
+
+zsh completions and functions have been installed to:
+  /opt/homebrew/share/zsh/site-functions
+==> libtool
+All commands have been installed with the prefix "g".
+If you need to use these commands with their normal names, you
+can add a "gnubin" directory to your PATH from your bashrc like:
+  PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
+```
+
+</details>
+
+[ffmpeg external libraries](https://www.ffmpeg.org/general.html#External-libraries)
+
+<details>
+<summary>配置 FFmpeg 以关闭不需要的编解码器、封装/解封装模块和协议</summary>
+
+可以使用 `configure` 脚本中的一系列选项。以下是详细的步骤和选项说明：
+
+1. **禁用所有组件**：首先，可以使用 `--disable-everything` 选项来禁用所有组件。这是一个好的起点，因为你可以从一个干净的状态开始，只启用你需要的部分。
+
+   ```bash
+   ./configure --disable-everything
+   ```
+
+2. **启用所需的编解码器**：使用 `--enable-encoder=NAME` 和 `--enable-decoder=NAME` 选项来启用特定的编解码器。例如，如果你只需要 PCM 和 MP3 编解码器，可以这样做：
+
+   ```bash
+   ./configure --enable-encoder=pcm_s16le --enable-encoder=mp3 --enable-decoder=pcm_s16le --enable-decoder=mp3
+   ```
+
+3. **启用所需的封装和解封装器**：类似地，使用 `--enable-muxer=NAME` 和 `--enable-demuxer=NAME` 来启用特定的封装和解封装器。例如，如果你需要 MP3 封装器，可以这样配置：
+
+   ```bash
+   ./configure --enable-muxer=mp3 --enable-demuxer=mp3
+   ```
+
+4. **禁用不需要的协议**：如果你想禁用某些协议，可以使用 `--disable-protocol=NAME` 选项。例如，禁用某个不需要的协议：
+
+   ```bash
+   ./configure --disable-protocol=ftp
+   ```
+
+5. **查看可用选项**：可以通过运行 `./configure --help` 来查看所有可用的配置选项，包括编解码器、封装器、解封装器和协议的详细列表。这将帮助你确定哪些组件是你需要的，哪些是可以禁用的。
+
+通过这些步骤，你可以根据自己的需求定制 FFmpeg 的构建，确保只包含必要的功能，从而减小最终构建的体积和复杂性[1](https://stackoverflow.com/questions/24849129/compile-ffmpeg-without-most-codecs)[2](https://gist.github.com/omegdadi/6904512c0a948225c81114b1c5acb875)[4](https://github.com/FFmpeg/FFmpeg/blob/master/configure)。
+
+</details>

@@ -35,3 +35,4 @@ pnpm-debug.log*
 build
 pnpm-lock.yaml
 src/content/obsidian/Excalidraw
+src/content/obsidian/.*

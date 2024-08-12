@@ -1,6 +1,5 @@
 ---
 title: 音乐可视化
-
 pubDatetime: 2023-9-26 10:41:00
 postSlug: music
 featured: false
@@ -12,6 +11,7 @@ tags:
   - audiomotion-analyzer
   - Wavesurfer
   - 音频
+  - p5
 description: "前端音乐可视化"
 ---
 
@@ -23,11 +23,19 @@ description: "前端音乐可视化"
 
 > [npm peaks.js](https://www.npmjs.com/package/peaks.js)
 
+<details>
+<summary>展开查看</summary>
+
 import Peaks from "@components/react/little/peaks.tsx";
 
 <Peaks client:load />
 
+</details>
+
 ## audiomotion-analyzer
+
+<details>
+<summary>展开</summary>
 
 import Motion from "@components/react/little/audioMotion.tsx";
 
@@ -261,6 +269,8 @@ export const Audio: React.FC<any> = props => {
 };
 export default Audio;
 ```
+
+</details>
 
 </details>
 
