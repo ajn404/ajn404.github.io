@@ -980,3 +980,65 @@ can add a "gnubin" directory to your PATH from your bashrc like:
 通过这些步骤，你可以根据自己的需求定制 FFmpeg 的构建，确保只包含必要的功能，从而减小最终构建的体积和复杂性[1](https://stackoverflow.com/questions/24849129/compile-ffmpeg-without-most-codecs)[2](https://gist.github.com/omegdadi/6904512c0a948225c81114b1c5acb875)[4](https://github.com/FFmpeg/FFmpeg/blob/master/configure)。
 
 </details>
+
+<details>
+<summary>FFmpeg支持的编码器</summary>
+
+```shell
+┌─(/Volumes/m2-500G/openSource/FFmpeg)────────────────────────────────────────────(ninghuiyue@ninghuiyuedeMac-mini:s023)─┐
+└─(08:53:21 on master)──> ./configure --list-encoders                                                        ──(二, 813)─┘
+a64multi                dvdsub                  libopencore_amrnb       pcm_alaw_at             rv10
+a64multi5               dvvideo                 libopenh264             pcm_bluray              rv20
+aac                     dxv                     libopenjpeg             pcm_dvd                 s302m
+aac_at                  eac3                    libopus                 pcm_f32be               sbc
+aac_mf                  exr                     librav1e                pcm_f32le               sgi
+ac3                     ffv1                    libshine                pcm_f64be               smc
+ac3_fixed               ffvhuff                 libspeex                pcm_f64le               snow
+ac3_mf                  fits                    libsvtav1               pcm_mulaw               sonic
+adpcm_adx               flac                    libtheora               pcm_mulaw_at            sonic_ls
+adpcm_argo              flashsv                 libtwolame              pcm_s16be               speedhq
+adpcm_g722              flashsv2                libvo_amrwbenc          pcm_s16be_planar        srt
+adpcm_g726              flv                     libvorbis               pcm_s16le               ssa
+adpcm_g726le            g723_1                  libvpx_vp8              pcm_s16le_planar        subrip
+adpcm_ima_alp           gif                     libvpx_vp9              pcm_s24be               sunrast
+adpcm_ima_amv           h261                    libvvenc                pcm_s24daud             svq1
+adpcm_ima_apm           h263                    libwebp                 pcm_s24le               targa
+adpcm_ima_qt            h263_v4l2m2m            libwebp_anim            pcm_s24le_planar        text
+adpcm_ima_ssi           h263p                   libx262                 pcm_s32be               tiff
+adpcm_ima_wav           h264_amf                libx264                 pcm_s32le               truehd
+adpcm_ima_ws            h264_mediacodec         libx264rgb              pcm_s32le_planar        tta
+adpcm_ms                h264_mf                 libx265                 pcm_s64be               ttml
+adpcm_swf               h264_nvenc              libxavs                 pcm_s64le               utvideo
+adpcm_yamaha            h264_omx                libxavs2                pcm_s8                  v210
+alac                    h264_qsv                libxeve                 pcm_s8_planar           v308
+alac_at                 h264_v4l2m2m            libxvid                 pcm_u16be               v408
+alias_pix               h264_vaapi              ljpeg                   pcm_u16le               v410
+amv                     h264_videotoolbox       magicyuv                pcm_u24be               vbn
+anull                   hap                     mjpeg                   pcm_u24le               vc2
+apng                    hdr                     mjpeg_qsv               pcm_u32be               vnull
+aptx                    hevc_amf                mjpeg_vaapi             pcm_u32le               vorbis
+aptx_hd                 hevc_d3d12va            mlp                     pcm_u8                  vp8_mediacodec
+ass                     hevc_mediacodec         movtext                 pcm_vidc                vp8_v4l2m2m
+asv1                    hevc_mf                 mp2                     pcx                     vp8_vaapi
+asv2                    hevc_nvenc              mp2fixed                pfm                     vp9_mediacodec
+av1_amf                 hevc_qsv                mp3_mf                  pgm                     vp9_qsv
+av1_mediacodec          hevc_v4l2m2m            mpeg1video              pgmyuv                  vp9_vaapi
+av1_nvenc               hevc_vaapi              mpeg2_qsv               phm                     wavpack
+av1_qsv                 hevc_videotoolbox       mpeg2_vaapi             png                     wbmp
+av1_vaapi               huffyuv                 mpeg2video              ppm                     webvtt
+avrp                    ilbc_at                 mpeg4                   prores                  wmav1
+avui                    jpeg2000                mpeg4_mediacodec        prores_aw               wmav2
+bitpacked               jpegls                  mpeg4_omx               prores_ks               wmv1
+bmp                     libaom_av1              mpeg4_v4l2m2m           prores_videotoolbox     wmv2
+cfhd                    libcodec2               msmpeg4v2               qoi                     wrapped_avframe
+cinepak                 libfdk_aac              msmpeg4v3               qtrle                   xbm
+cljr                    libgsm                  msrle                   r10k                    xface
+comfortnoise            libgsm_ms               msvideo1                r210                    xsub
+dca                     libilbc                 nellymoser              ra_144                  xwd
+dfpwm                   libjxl                  opus                    rawvideo                y41p
+dnxhd                   libkvazaar              pam                     roq                     yuv4
+dpx                     liblc3                  pbm                     roq_dpcm                zlib
+dvbsub                  libmp3lame              pcm_alaw                rpza                    zmbv
+```
+
+</details>

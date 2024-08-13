@@ -90,7 +90,7 @@ export default function Card({
       ref={ref}
       data-astro-prefetch
     >
-      <div className="card__background " style={backgroundImageStyle}>
+      <div className="card__background absolute" style={backgroundImageStyle}>
         {loading && (
           <div
             className={`w-10 absolute right-0 top-0 h-10 rounded-full random-gradient${randomNum}`}
