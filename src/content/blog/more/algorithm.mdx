@@ -17,6 +17,34 @@ description: "算法"
 
 ## leetcode(js)
 
+### 插入排序
+
+```txt
+INSERTION-SORT(A)
+for j = 2 to A.length
+    key = A[j]
+    i = j - 1
+    while i > 0 and A[i] > key
+        A[i+1] = A[i]
+        i = i-1
+    A[i+1] = key
+```
+
+```js
+function insertionSort(arr) {
+  for (let j = 1; j < arr.length; j++) {
+    let key = arr[j];
+    let i = j - 1;
+    while (i >= 0 && arr[i] > key) {
+      arr[i + 1] = arr[i];
+      i = i - 1;
+    }
+    arr[i + 1] = key;
+  }
+  return arr;
+}
+```
+
 ### 简单记录
 
 1. 两数之和
