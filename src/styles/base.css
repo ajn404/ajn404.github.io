@@ -221,6 +221,7 @@
 /* 引用 */
 blockquote {
   margin: 0;
+  word-break: break-word;
 }
 
 blockquote p {
@@ -353,6 +354,6 @@ iframe{
         background-color: rgba(0, 0, 0, 0.8);
         display: grid;
         place-items: center;
-        font-size: 5em;
+        font-size: 1em;
         color: rosybrown;
 }

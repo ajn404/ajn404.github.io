@@ -48,6 +48,25 @@ git cherry-pick f
 a - b - c - d - f  Main
          \
           e - f - g  Feature
-
-
 ```
+
+## 浅层克隆
+
+<details>
+<summary>查看详情</summary>
+
+要进行 Git 的浅层克隆并只克隆某个特定的分支，可以使用以下命令：
+
+```bash
+git clone --depth 1 -b <分支名称> <仓库地址>
+```
+
+在这个命令中，`--depth 1` 表示只克隆最新的提交，而 `-b <分支名称>` 则指定了要克隆的分支。例如，如果你想要克隆名为 `feature-branch` 的分支，可以这样写：
+
+```bash
+git clone --depth 1 -b feature-branch https://github.com/example/repo.git
+```
+
+这样，你就会得到一个只包含 `feature-branch` 分支最新提交的浅层克隆，而不会下载该分支的完整历史记录。这种方法非常适合需要节省带宽和存储空间的场景，尤其是在处理大型仓库时[1](https://stackoverflow.com/questions/21833870/how-do-i-shallow-clone-a-repo-on-a-specific-branch)[2](https://graphite.dev/guides/git-shallow-clone)。
+
+</details>
