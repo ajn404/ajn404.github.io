@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Card, CardContent } from "@shadcn/ui/card";
 import {
   Carousel,
@@ -12,13 +11,13 @@ export default () => {
   return (
     <Carousel className="w-full max-w-xs m-auto">
       <CarouselContent>
-        {Array.from({ length: 4 }).map((_, index) => (
+        {Array.from({ length: 12 }).map((_, index) => (
           <CarouselItem key={index}>
             <div className="p-1">
               <Card>
                 <CardContent className="flex items-center justify-center p-6">
                   <img
-                    src={`/assets/svg/line${index + 1}.svg`}
+                    src={`/assets/bg/${index + 1}.jpg`}
                     className="w-full h-full bg-white"
                     alt=""
                   />

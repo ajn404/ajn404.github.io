@@ -46,7 +46,7 @@ function App({ item }: { item?: string }) {
   return (
     <>
       {!item && (
-        <div className="min-h-screen text-white bg-[#0c0c0c] select-none background">
+        <div className="min-h-screen text-white bg-[#0c0c0c] select-none background hidden md:block">
           <div className="container p-5 pb-20 mx-auto ">
             <div className="relative mt-5 overflow-hidden">
               <div
