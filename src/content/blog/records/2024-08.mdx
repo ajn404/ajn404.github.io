@@ -284,4 +284,149 @@ Swapouts:                              11132853.
 
 </details>
 
+## 2024-08-19 17:41:19
+
+- 使用kontra
+
+<details>
+<summary>show code</summary>
+
+```astro
+---
+
+---
+
+<script>
+  import { init, Sprite, GameLoop } from "kontra/kontra.mjs";
+
+  let { canvas } = init();
+
+  // 创建一个简单的角色
+  let player = Sprite({
+    x: 100, // 起始位置
+    y: 80,
+    color: "red", // 颜色
+    width: 20, // 宽度
+    height: 40, // 高度
+    dx: 2, // 水平方向速度
+  });
+
+  // 创建游戏循环
+  let loop = GameLoop({
+    update: function () {
+      player.update();
+
+      // 反转方向以防止角色离开画布
+      if (player.x > canvas.width || player.x < 0) {
+        player.dx = -player.dx;
+      }
+    },
+    render: function () {
+      player.render();
+    },
+  });
+
+  loop.start(); // 开始游戏循环
+</script>
+
+<style>
+  canvas {
+    display: block;
+    margin: 0 auto;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+  }
+</style>
+
+<canvas width="640" height="480"></canvas>
+
+```
+
+import Kontra from "@components/astro/canvas/kontra.astro";
+
+<Kontra client:visible />
+
+</details>
+
+## 2024-08-19 18:14:23
+
+<details>
+<summary>如何查看请求地址是否被nginx代理</summary>
+要查看某个请求地址是否被 Nginx 代理，可以通过以下几种方式来确认：
+
+### 1. **使用 `curl` 查看响应头**
+
+你可以使用 `curl` 命令行工具来查看请求是否经过了 Nginx 代理。Nginx 通常会在响应头中添加一些自定义头信息。
+
+```bash
+curl -I http://your-nginx-domain.com/path/to/resource
+```
+
+或使用 `-v` 选项查看详细的请求和响应信息：
+
+```bash
+curl -v http://your-nginx-domain.com/path/to/resource
+```
+
+#### 如何判断：
+
+- 检查响应头是否包含 `Server: nginx` 或者其他 Nginx 添加的头信息，例如 `X-Proxy-Cache`，`X-Real-IP`，`X-Forwarded-For`，`X-Forwarded-Proto` 等。
+- 如果你看到这些头信息，那么可以确定请求是通过 Nginx 代理的。
+
+### 2. **查看 Nginx 访问日志**
+
+Nginx 会将所有处理的请求记录到访问日志中。你可以通过查看 Nginx 的访问日志来确认某个请求是否通过了 Nginx。
+
+Nginx 的访问日志通常位于 `/var/log/nginx/access.log`，你可以使用以下命令查看最新的日志条目：
+
+```bash
+tail -f /var/log/nginx/access.log
+```
+
+然后发起请求，查看日志中是否记录了这个请求。如果日志中显示了该请求的路径、方法、状态码等信息，说明请求已经经过了 Nginx。
+
+### 3. **使用 Nginx 错误日志**
+
+如果你的请求被 Nginx 代理时出现了错误，可以查看 Nginx 的错误日志。这通常位于 `/var/log/nginx/error.log`。
+
+```bash
+tail -f /var/log/nginx/error.log
+```
+
+当你发起请求时，检查错误日志中是否有相关的错误信息。Nginx 在处理错误时通常会记录相关的上下文。
+
+### 4. **使用 `ngrep` 或 `tcpdump` 监控流量**
+
+如果你想查看 Nginx 是否接收并转发了某个请求，可以使用 `ngrep` 或 `tcpdump` 来捕获网络流量。
+
+例如，使用 `ngrep` 监听 HTTP 请求：
+
+```bash
+sudo ngrep -d any -W byline 'GET|POST' tcp port 80
+```
+
+使用 `tcpdump` 监听流量：
+
+```bash
+sudo tcpdump -i any -A -s 0 'tcp port 80'
+```
+
+通过分析这些工具捕获到的数据，你可以看到请求的具体流向。
+
+### 5. **添加调试日志**
+
+你可以在 Nginx 配置中为某些 `location` 块或整个服务器块添加调试日志，以确认请求的流向。修改 `nginx.conf` 并设置日志级别为 `debug`：
+
+```nginx
+error_log /var/log/nginx/error.log debug;
+```
+
+然后重启 Nginx 服务，重新查看 `error.log` 中的调试信息，确认请求是否被代理。
+
+### 总结
+
+通过以上方法，你可以有效地确认请求是否经过了 Nginx 代理。使用 `curl` 查看响应头和查看 Nginx 日志是最常用的方法，而流量监控工具和调试日志则更适合于更深入的分析和问题排查。
+
+</details>
+
 ## links

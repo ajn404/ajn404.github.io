@@ -3,5 +3,45 @@
 ---
 
 <script>
-import { init, Sprite, GameLoop } from "kontra/kontra.mjs";
+  import { init, Sprite, GameLoop } from "kontra/kontra.mjs";
+
+  let { canvas } = init();
+
+  // 创建一个简单的角色
+  let player = Sprite({
+    x: 100, // 起始位置
+    y: 80,
+    color: "red", // 颜色
+    width: 20, // 宽度
+    height: 40, // 高度
+    dx: 2, // 水平方向速度
+  });
+
+  // 创建游戏循环
+  let loop = GameLoop({
+    update: function () {
+      player.update();
+
+      // 反转方向以防止角色离开画布
+      if (player.x > canvas.width || player.x < 0) {
+        player.dx = -player.dx;
+      }
+    },
+    render: function () {
+      player.render();
+    },
+  });
+
+  loop.start(); // 开始游戏循环
 </script>
+
+<style>
+  canvas {
+    display: block;
+    margin: 0 auto;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+  }
+</style>
+
+<canvas width="640" height="480"></canvas>
