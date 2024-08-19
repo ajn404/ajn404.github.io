@@ -109,6 +109,7 @@
     "github-slugger": "^2.0.0",
     "gsap": "^3.12.4",
     "impress.js": "^1.1.0",
+    "kontra": "^10.0.0",
     "konva": "^9.3.0",
     "lodash.uniqueid": "^4.0.1",
     "lucide-react": "^0.315.0",

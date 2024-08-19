@@ -150,4 +150,138 @@ pyenv global 2.7.18
 
 </details>
 
+## 2024-08-19 13:47:52
+
+<details>
+<summary>如何播放dav文件</summary>
+
+要在网页上播放 DAV 文件，通常需要将 DAV 文件转换为浏览器支持的格式，因为大多数浏览器不直接支持 DAV 格式。以下是一些常见的方法来实现这一目标：
+
+### 1. 使用转换工具
+
+首先，你可以使用一些在线或离线工具将 DAV 文件转换为常见的视频格式，如 MP4 或 HLS。以下是一些推荐的工具：
+
+- **FFmpeg**：这是一个强大的命令行工具，可以将 DAV 文件转换为其他格式。你可以使用以下命令将 DAV 转换为 MP4：
+
+  ```bash
+  ffmpeg -i input.dav -c:v libx264 -c:a aac output.mp4
+  ```
+
+- **在线转换器**：有许多在线服务可以将 DAV 文件转换为 MP4 或其他格式，例如 [Online Convert](https://video.online-convert.com/convert/dav-to-mpg) [3](https://video.online-convert.com/convert/dav-to-mpg)。
+
+### 2. 使用流媒体服务器
+
+如果你需要实时播放 DAV 文件，可以考虑使用流媒体服务器（如 Wowza、Red5 或 Nginx RTMP 模块）来处理 DAV 流并将其转换为浏览器支持的格式（如 HLS 或 DASH）。这样，你可以在网页上使用 HTML5 `<video>` 标签播放流。
+
+### 3. 播放转换后的文件
+
+一旦你将 DAV 文件转换为浏览器支持的格式（如 MP4），你可以使用 HTML5 `<video>` 标签在网页上播放它。示例代码如下：
+
+```html
+<video controls>
+  <source src="path/to/your/video.mp4" type="video/mp4" />
+  您的浏览器不支持视频标签。
+</video>
+```
+
+### 4. 使用 JavaScript 播放
+
+如果你希望通过 JavaScript 控制视频播放，可以使用以下代码：
+
+```html
+<video id="myVideo" controls>
+  <source src="path/to/your/video.mp4" type="video/mp4" />
+  您的浏览器不支持视频标签。
+</video>
+
+<script>
+  const video = document.getElementById("myVideo");
+  video.play(); // 自动播放视频
+</script>
+```
+
+### 总结
+
+由于浏览器不直接支持 DAV 文件，最有效的方法是将其转换为 MP4 或其他支持的格式，然后使用 HTML5 `<video>` 标签进行播放。通过使用 FFmpeg 或在线转换工具，你可以轻松地完成这一过程。
+
+</details>
+
+<details>
+<summary>vm_stat</summary>
+
+```shell
+└─(14:00:18)──> vm_stat                                           ──(一, 819)─┘
+Mach Virtual Memory Statistics: (page size of 16384 bytes)
+Pages free:                                5743.
+Pages active:                            319024.
+Pages inactive:                          314350.
+Pages speculative:                         4305.
+Pages throttled:                              0.
+Pages wired down:                        131577.
+Pages purgeable:                           5434.
+"Translation faults":                5790473889.
+Pages copy-on-write:                   18486166.
+Pages zero filled:                    691393681.
+Pages reactivated:                    315635451.
+Pages purged:                          13915221.
+File-backed pages:                       223422.
+Anonymous pages:                         414257.
+Pages stored in compressor:              420240.
+Pages occupied by compressor:            240030.
+Decompressions:                       337929136.
+Compressions:                         387047075.
+Pageins:                               29825800.
+Pageouts:                                833135.
+Swapins:                                7152830.
+Swapouts:                              11132853.
+```
+
+从你提供的 `vm_stat` 输出中，可以分析出当前系统的虚拟内存使用情况。以下是各项指标的解释：
+
+1. **Pages free (空闲页面)**: 当前系统中有 5743 个页面是空闲的，表示这些页面可以被分配给新的进程或用于缓存。
+
+2. **Pages active (活动页面)**: 有 319024 个页面正在被使用，这些页面包含当前正在运行的进程的数据。
+
+3. **Pages inactive (非活动页面)**: 314350 个页面处于非活动状态，这些页面曾经被使用，但现在不再被活跃进程使用，可以被系统回收。
+
+4. **Pages speculative (推测页面)**: 4305 个页面被标记为推测性，这些页面是系统预先加载的，以提高性能。
+
+5. **Pages wired down (固定页面)**: 131577 个页面是固定的，意味着这些页面不能被交换到磁盘上，通常是操作系统的核心部分或驱动程序。
+
+6. **Pages purgeable (可清除页面)**: 5434 个页面是可清除的，表示这些页面可以在内存紧张时被释放。
+
+7. **Translation faults (地址转换错误)**: 5790473889 次，表示在访问内存时发生了多少次地址转换错误，通常是由于页面不在内存中而需要从磁盘加载。
+
+8. **Pages copy-on-write (写时复制页面)**: 18486166 次，表示在进行写操作时，系统需要复制页面以保持数据一致性。
+
+9. **Pages zero filled (零填充页面)**: 691393681 次，表示系统为新分配的页面填充了零。
+
+10. **Pages reactivated (重新激活页面)**: 315635451 次，表示从非活动状态重新激活的页面。
+
+11. **Pages purged (清除页面)**: 13915221 次，表示被清除的页面数量。
+
+12. **File-backed pages (文件支持页面)**: 223422 个页面是由文件支持的，通常是映射到磁盘文件的页面。
+
+13. **Anonymous pages (匿名页面)**: 414257 个页面是匿名的，表示这些页面没有文件支持。
+
+14. **Pages stored in compressor (压缩存储页面)**: 420240 个页面被压缩存储，以节省内存。
+
+15. **Pages occupied by compressor (压缩占用页面)**: 240030 个页面被压缩器占用。
+
+16. **Decompressions (解压缩次数)**: 337929136 次，表示从压缩状态恢复到正常状态的次数。
+
+17. **Compressions (压缩次数)**: 387047075 次，表示将页面压缩以节省内存的次数。
+
+18. **Pageins (页面调入)**: 29825800 次，表示从磁盘调入内存的页面数量。
+
+19. **Pageouts (页面调出)**: 833135 次，表示从内存调出到磁盘的页面数量。
+
+20. **Swapins (交换调入)**: 7152830 次，表示从交换空间调入内存的页面数量。
+
+21. **Swapouts (交换调出)**: 11132853 次，表示从内存调出到交换空间的页面数量。
+
+从这些数据可以看出，系统的内存使用情况相对活跃，尤其是活动页面和非活动页面的数量都很高。需要注意的是，频繁的页面调入和调出可能会影响系统性能，建议监控这些指标，并考虑关闭一些占用内存较大的应用程序，或者增加物理内存以改善性能。
+
+</details>
+
 ## links

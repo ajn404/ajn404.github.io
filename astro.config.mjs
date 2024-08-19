@@ -15,7 +15,7 @@ import { fileURLToPath } from "url";
 import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
 import cesium from "vite-plugin-cesium";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import myIntegration from "./plugin/devtool/my-integration"
+import myIntegration from "./plugin/devtool/my-integration";
 
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
@@ -25,6 +25,66 @@ const __dirname = path.dirname(__filenameNew);
 
 const cesiumSource = "node_modules/cesium/Build/Cesium";
 const cesiumBaseUrl = "cesiumStatic";
+
+const vite = {
+    optimizeDeps: {
+      exclude: ["@resvg/resvg-js"],
+    },
+    ssr: {
+      noExternal: ["@notes/editor", "@shoelace-style/shoelace"],
+    },
+    define: {
+      CESIUM_BASE_URL: JSON.stringify(`/${cesiumBaseUrl}`),
+    },
+    plugins: [
+      viteStaticCopy({
+        targets: [
+          { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
+          { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
+          { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
+          { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
+        ],
+      }),
+    ],
+    build: {
+      rollupOptions: {
+        plugins: [
+          css({
+            output: "bundle.css",
+          }),
+        ],
+        external: [
+          "wavesurfer.js",
+          "wavesurfer.js/dist/plugins/spectrogram.esm.js",
+        ],
+        sourceMap: "inline",
+      },
+    },
+    server: {}
+};
+if (import.meta.env.DEV) {
+vite.server = {
+    proxy: {
+      "/RPC2_Login": {
+        target: "http://192.168.200.2/RPC2_Login", // 目标服务器地址
+        changeOrigin: true, // 是否改变请求源
+        secure: false,
+        rewrite: path => path.replace(/^\/RPC2_Login/, ""),
+      },
+      "/RPC2": {
+        target: `http://192.168.200.2/RPC2`,
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/RPC2/, ""),
+      },
+      "/RPC_Loadfile": {
+        arget: `http://192.168.200.2/RPC_Loadfile`,
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/RPC_Loadfile/, ""),
+      },
+    }}
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -90,41 +150,5 @@ export default defineConfig({
     },
     extendDefaultPlugins: true,
   },
-  vite: {
-    optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
-    },
-    ssr: {
-      noExternal: ["@notes/editor", "@shoelace-style/shoelace"],
-    },
-    define: {
-      // https://vitejs.dev/config/shared-options.html#define
-      CESIUM_BASE_URL: JSON.stringify(`/${cesiumBaseUrl}`),
-    },
-    plugins: [
-      // and other options listed here: https://vitejs.dev/guide/assets.html#the-public-directory
-      viteStaticCopy({
-        targets: [
-          { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
-          { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
-          { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
-          { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
-        ],
-      }),
-    ],
-    build: {
-      rollupOptions: {
-        plugins: [
-          css({
-            output: "bundle.css",
-          }),
-        ],
-        external: [
-          "wavesurfer.js",
-          "wavesurfer.js/dist/plugins/spectrogram.esm.js",
-            ],
-        sourceMap: "inline",
-      },
-    },
-  },
+  vite,
 });
