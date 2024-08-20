@@ -429,4 +429,17 @@ error_log /var/log/nginx/error.log debug;
 
 </details>
 
+## 2024-08-20 17:38:26
+
+<details>
+<summary>什么是跳板机</summary>
+
+跳板机（Jump Server）是一种网络安全设备，主要用于在不同的安全区域之间提供受控的访问。它充当一个中介，允许用户从一个网络连接到跳板机，然后再“跳转”到另一个网络。这种设计可以增强网络的安全性，因为跳板机通常会被配置为监控和记录所有通过它的流量，从而为网络管理员提供审计和监控的能力[1](https://www.ssh.com/academy/iam/jump-server)[5](https://nordvpn.com/cybersecurity/glossary/jump-server/?srsltid=AfmBOooMrGW0zN32U1ZlSynznh0FHI8JKPozz2vz_yCMWeUAL9lHRs5F)。
+
+跳板机的工作原理是，当用户需要访问一个位于受保护网络（如DMZ）中的设备时，他们首先需要通过跳板机进行身份验证。只有经过验证的用户才能访问目标设备，这样可以有效地防止未授权的访问[3](https://en.wikipedia.org/wiki/Jump_server)[4](https://community.cisco.com/t5/network-management/what-is-jump-server-or-jump-box/td-p/4684022)。
+
+跳板机通常用于大型企业或数据中心，因为它们需要管理多个客户端和服务器连接。通过使用跳板机，企业可以增强对内部服务器和域的控制，并提高安全性，防止数据泄露和网络攻击[1](https://www.ssh.com/academy/iam/jump-server)[6](https://www.javatpoint.com/what-is-a-jump-server)。
+
+</details>
+
 ## links
