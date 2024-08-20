@@ -18,7 +18,38 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
+<style is:inline>
+  #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+  }
+
+  #progress {
+    width: 0;
+    height: 5px;
+    background: #fff;
+    transition: width 0.5s ease;
+  }
+
+  #main-content {
+    display: none; /* 初始隐藏内容 */
+  }
+</style>
+
 <Layout>
+  <div id="overlay">
+    <div id="progress"></div>
+    <div>loading...</div>
+  </div>
   <main id="main-content">
     <section id="hero">
       <h1>
@@ -204,3 +235,41 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply my-8 text-center;
   }
 </style>
+
+<script is:inline>
+  const overlay = document.getElementById("overlay");
+  const progress = document.getElementById("progress");
+  const content = document.getElementById("main-content");
+
+  // 模拟加载进度
+  let loadedImages = 0;
+  const totalImages = document.images.length;
+
+  if (totalImages === 0) {
+    doneLoading();
+  } else {
+    for (let img of document.images) {
+      img.onload = img.onerror = () => {
+        loadedImages++;
+        const percentage = Math.floor((loadedImages / totalImages) * 100);
+        progress.style.width = percentage + "%";
+        if (loadedImages === totalImages) {
+          doneLoading();
+        }
+      };
+    }
+  }
+
+  function doneLoading() {
+    overlay.style.opacity = 0;
+    setTimeout(() => {
+      overlay.style.display = "none";
+      content.style.display = "block"; // 显示内容
+    }, 500);
+  }
+
+  // 页面加载完成后显示内容
+  document.addEventListener("DOMContentLoaded", () => {
+    content.style.display = "block"; // 显示内容
+  });
+</script>
