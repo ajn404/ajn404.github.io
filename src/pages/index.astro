@@ -10,8 +10,8 @@ import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
 import TextAnimation from "@components/react/d3/textAnimation.tsx";
+import AlertDialogDemo from "@components/react/shadcn/demo/jumpCF.tsx";
 import Header from "@components/astro/UI/Header.astro";
-
 const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
@@ -197,6 +197,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     className="xing-cao absolute -z-10 right-0 opacity-5 text-animation  md:opacity-10"
     client:load
   />
+  <AlertDialogDemo  client:load/>
 </Layout>
 
 <style>
