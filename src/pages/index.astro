@@ -241,22 +241,46 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   const progress = document.getElementById("progress");
   const content = document.getElementById("main-content");
 
-  // 模拟加载进度
   let loadedImages = 0;
-  const totalImages = document.images.length;
+  let totalImages = document.images.length;
+  const backgroundImages = [];
+
+  // Collect all elements with a background image
+  document.querySelectorAll("*").forEach(el => {
+    const bgImage = window.getComputedStyle(el).backgroundImage;
+    if (bgImage && bgImage !== "none") {
+      // Extract the URL from the background-image property
+      const urlMatch = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
+      if (urlMatch && urlMatch[1]) {
+        backgroundImages.push(urlMatch[1]);
+      }
+    }
+  });
+
+  totalImages += backgroundImages.length; // Include background images in the total
 
   if (totalImages === 0) {
     doneLoading();
   } else {
+    // Load standard <img> elements
     for (let img of document.images) {
-      img.onload = img.onerror = () => {
-        loadedImages++;
-        const percentage = Math.floor((loadedImages / totalImages) * 100);
-        progress.style.width = percentage + "%";
-        if (loadedImages === totalImages) {
-          doneLoading();
-        }
-      };
+      img.onload = img.onerror = updateProgress;
+    }
+
+    // Load background images
+    backgroundImages.forEach(url => {
+      const img = new Image();
+      img.src = url;
+      img.onload = img.onerror = updateProgress;
+    });
+  }
+
+  function updateProgress() {
+    loadedImages++;
+    const percentage = Math.floor((loadedImages / totalImages) * 100);
+    progress.style.width = percentage + "%";
+    if (loadedImages === totalImages) {
+      doneLoading();
     }
   }
 
@@ -264,12 +288,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     overlay.style.opacity = 0;
     setTimeout(() => {
       overlay.style.display = "none";
-      content.style.display = "block"; // 显示内容
+      content.style.display = "block"; // Show content
     }, 500);
   }
 
-  // 页面加载完成后显示内容
+  // Show content after the DOM is fully loaded (optional safeguard)
   document.addEventListener("DOMContentLoaded", () => {
-    content.style.display = "block"; // 显示内容
+    content.style.display = "block"; // Show content
   });
 </script>
