@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,14 +10,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { Button } from "../ui/button";
 
 const AlertDialogDemo = () => {
   const dev = import.meta.env.DEV;
   const [open, setOpen] = useState(true);
+  let [isCloudFlare, setIsCloudFlare] = useState(false);
+  useEffect(() => {
+    if (window.location.href === "https://ajn404-github-io.pages.dev/") {
+      setIsCloudFlare(true);
+    }
+  });
   return (
     <>
-      {!dev && (
+      {!dev && !isCloudFlare && (
         <AlertDialog open={open}>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -27,14 +32,20 @@ const AlertDialogDemo = () => {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>算了</AlertDialogCancel>
+              <AlertDialogCancel
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                算了
+              </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
                   setOpen(false);
                   window.location.href = "https://ajn404-github-io.pages.dev/";
                 }}
               >
-                确认
+                好的
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

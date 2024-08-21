@@ -199,6 +199,52 @@ function raf(time) {
 requestAnimationFrame(raf);
 ```
 
+<details>
+<summary>实现原理</summary>
+
+Lenis 是一个轻量级的 JavaScript 库，旨在实现平滑的惯性滚动效果，模拟原生滚动行为，并提供丰富的自定义选项。其核心原理是通过监听用户的滚动操作，计算目标滚动位置，并使用 `requestAnimationFrame` API 来实现平滑的动画过渡。以下是具体的实现步骤：
+
+1. **监听滚动事件：** Lenis 会监听用户的鼠标滚轮事件或触摸屏滑动事件，以捕捉用户的滚动操作。
+
+2. **计算目标位置：** 根据用户的滚动操作和 Lenis 的配置参数（如惯性强度、滚动方向等），计算出目标滚动位置。这一过程涉及到对用户输入的处理和目标位置的动态计算。
+
+3. **启动动画循环：** 使用 `requestAnimationFrame` API 启动一个动画循环，这样可以确保动画在浏览器的每一帧中平滑执行。
+
+4. **更新滚动位置：** 在每一帧动画中，根据当前位置和目标位置之间的差值，计算出一个新的滚动位置，并使用 `scrollTo` 方法更新页面的滚动位置。
+
+5. **平滑过渡：** Lenis 使用 easing 函数来控制动画的过渡效果，使得滚动体验更加平滑自然。通过调整 easing 函数，开发者可以自定义滚动的感觉。
+
+6. **停止动画循环：** 当滚动位置到达目标位置或用户进行新的滚动操作时，停止动画循环。这可以通过检测用户的输入来实现。
+
+以下是一个核心代码示例，展示了如何初始化 Lenis 并启动动画循环：
+
+```javascript
+// 初始化 Lenis 实例
+const lenis = new Lenis({
+  duration: 1.2, // 滚动动画持续时间
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // 自定义 easing 函数
+});
+
+// 监听滚动事件
+lenis.on("scroll", () => {
+  // 获取当前滚动位置
+  const scroll = lenis.scroll;
+
+  // 执行其他操作，例如更新页面元素的位置
+});
+
+// 启动动画循环
+function raf(time) {
+  lenis.raf(time); // 更新 Lenis 实例
+  requestAnimationFrame(raf); // 请求下一帧
+}
+requestAnimationFrame(raf); // 启动动画循环
+```
+
+通过以上步骤和代码示例，Lenis 实现了流畅的惯性滚动效果，提升了用户在网页上的滚动体验。
+
+</details>
+
 ### Remark 和 Rehype
 
 > Remark 和 Rehype 都是用于将 Markdown 转换为 HTML 的工具.
