@@ -16,6 +16,7 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const socialCount = SOCIALS.filter(social => social.active).length;
+const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
 ---
 
 <style is:inline>
@@ -197,7 +198,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     className="xing-cao absolute -z-10 right-0 opacity-5 text-animation  md:opacity-10"
     client:load
   />
-  <AlertDialogDemo  client:load/>
+  {showDialog&&<AlertDialogDemo  client:load/>}
 </Layout>
 
 <style>
@@ -241,16 +242,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   const overlay = document.getElementById("overlay");
   const progress = document.getElementById("progress");
   const content = document.getElementById("main-content");
-
   let loadedImages = 0;
   let totalImages = document.images.length;
   const backgroundImages = [];
 
-  // Collect all elements with a background image
   document.querySelectorAll("*").forEach(el => {
     const bgImage = window.getComputedStyle(el).backgroundImage;
     if (bgImage && bgImage !== "none") {
-      // Extract the URL from the background-image property
       const urlMatch = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
       if (urlMatch && urlMatch[1]) {
         backgroundImages.push(urlMatch[1]);
@@ -258,17 +256,15 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     }
   });
 
-  totalImages += backgroundImages.length; // Include background images in the total
+  totalImages += backgroundImages.length; 
 
   if (totalImages === 0) {
     doneLoading();
   } else {
-    // Load standard <img> elements
     for (let img of document.images) {
       img.onload = img.onerror = updateProgress;
     }
 
-    // Load background images
     backgroundImages.forEach(url => {
       const img = new Image();
       img.src = url;
@@ -289,12 +285,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     overlay.style.opacity = 0;
     setTimeout(() => {
       overlay.style.display = "none";
-      content.style.display = "block"; // Show content
+      content.style.display = "block"; 
     }, 500);
   }
 
-  // Show content after the DOM is fully loaded (optional safeguard)
   document.addEventListener("DOMContentLoaded", () => {
-    content.style.display = "block"; // Show content
+    content.style.display = "block";
   });
 </script>

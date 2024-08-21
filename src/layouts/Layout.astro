@@ -4,10 +4,12 @@ import "@styles/base.css";
 import "driver.js/dist/driver.css";
 import "@styles/components.scss";
 import Header from "@components/astro/UI/Header.astro";
-import "./KeySearch.astro"
-import { Toaster } from "@shadcn/ui/sonner"
+import "./KeySearch.astro";
+import { Toaster } from "@shadcn/ui/sonner";
 
-const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION||"oiTGKD7piiaRlZMEPHyQRioUB3lwoLNll7yZPPG7gEg";
+const googleSiteVerification =
+  import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION ||
+  "oiTGKD7piiaRlZMEPHyQRioUB3lwoLNll7yZPPG7gEg";
 
 export interface Props {
   title?: string;
@@ -33,7 +35,7 @@ const socialImageURL = new URL(
 ).href;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,24 +73,28 @@ const socialImageURL = new URL(
       )
     }
     <script is:inline src=`/toggle-theme.js`></script>
-    
   </head>
-  <body class="top-[100px]" >
-        {activeNav&&<Header  activeNav={activeNav} />}
-        <slot  />
-        <Toaster client:load/>
+  <body class="top-[100px]">
+    {activeNav && <Header activeNav={activeNav} />}
+    <slot />
+    <Toaster client:load />
   </body>
 </html>
-
 
 <script src="./importTwElement"></script>
 <script src="./defineEvents"></script>
 
 <script>
-import eruda from 'eruda';
-const width = window.innerWidth;
-if (width < 768) {
-    eruda.init()
-}
+  import eruda from "eruda";
+  const width = window.innerWidth;
+  if (width < 768) {
+    // 添加一个被动事件监听器
+    window.addEventListener(
+      "touchstart",
+      function (e) {
+        eruda.init();
+      },
+      { passive: true }
+    );
+  }
 </script>
-

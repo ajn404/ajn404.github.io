@@ -76,7 +76,7 @@ export default function Card({
 
   useEffect(() => {
     const element = ref.current!;
-    element.addEventListener("touchstart", handleTouchStart);
+    element.addEventListener("touchstart", handleTouchStart, { passive: true });
     element.addEventListener("touchend", handleTouchEnd);
     return () => {
       element.removeEventListener("touchstart", handleTouchStart);

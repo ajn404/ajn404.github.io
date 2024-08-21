@@ -14,15 +14,13 @@ import {
 const AlertDialogDemo = () => {
   const dev = import.meta.env.DEV;
   const [open, setOpen] = useState(true);
-  let [isCloudFlare, setIsCloudFlare] = useState(false);
+  const [showed, setShowed] = useState(true);
   useEffect(() => {
-    if (window.location.href === "https://ajn404-github-io.pages.dev/") {
-      setIsCloudFlare(true);
-    }
+    setShowed(localStorage.getItem("showed") === "true");
   });
   return (
     <>
-      {!dev && !isCloudFlare && (
+      {!showed && !dev && (
         <AlertDialog open={open}>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -35,17 +33,19 @@ const AlertDialogDemo = () => {
               <AlertDialogCancel
                 onClick={() => {
                   setOpen(false);
+                  localStorage.setItem("showed", "true");
                 }}
               >
-                算了
+                算了(记住我的决定)
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
                   setOpen(false);
+                  localStorage.setItem("showed", "true");
                   window.location.href = "https://ajn404-github-io.pages.dev/";
                 }}
               >
-                好的
+                好的(记住我的决定)
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
