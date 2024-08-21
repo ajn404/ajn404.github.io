@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,13 +14,14 @@ import { Button } from "../ui/button";
 
 const AlertDialogDemo = () => {
   const dev = import.meta.env.DEV;
+  const [open, setOpen] = useState(true);
   return (
     <>
-      {dev && (
-        <AlertDialog open>
+      {!dev && (
+        <AlertDialog open={open}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>你确定吗?</AlertDialogTitle>
               <AlertDialogDescription>
                 CloudFlare 同样部署成功了，是否跳转
               </AlertDialogDescription>
@@ -28,6 +30,7 @@ const AlertDialogDemo = () => {
               <AlertDialogCancel>算了</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
+                  setOpen(false);
                   window.location.href = "https://ajn404-github-io.pages.dev/";
                 }}
               >
