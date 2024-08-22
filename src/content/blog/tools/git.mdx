@@ -50,6 +50,107 @@ a - b - c - d - f  Main
           e - f - g  Feature
 ```
 
+<details>
+<summary>如果我想移植多个提交，应该如何使用 `cherry-pick` 命令？</summary>
+
+如果你想移植多个提交，可以使用 `git cherry-pick` 命令来选择并应用这些提交。你可以选择单个提交、多个提交，或者一个提交范围。以下是详细的步骤和示例：
+
+### 移植单个提交
+
+如果你只想移植一个提交，可以直接使用提交的哈希值：
+
+```bash
+git cherry-pick <commit-hash>
+```
+
+例如：
+
+```bash
+git cherry-pick abc1234
+```
+
+### 移植多个提交
+
+如果你想移植多个不连续的提交，可以在 `git cherry-pick` 命令后面列出所有提交的哈希值：
+
+```bash
+git cherry-pick <commit1> <commit2> <commit3>
+```
+
+例如：
+
+```bash
+git cherry-pick abc1234 def5678 ghi9012
+```
+
+### 移植一个提交范围
+
+如果你想移植一个范围内的所有提交，可以使用 `A..B` 的语法，其中 `A` 是起始提交的前一个提交，`B` 是结束提交：
+
+```bash
+git cherry-pick A..B
+```
+
+例如，如果你想移植从 `commit1` 到 `commit5` 的所有提交（包括 `commit1` 和 `commit5`），可以这样做：
+
+```bash
+git cherry-pick commit1^..commit5
+```
+
+### 具体步骤
+
+1. **查看提交历史**：首先，查看你想要移植的分支的提交历史，以确定从哪个提交开始。可以使用以下命令：
+
+   ```bash
+   git log 分支名
+   ```
+
+2. **找到目标提交的哈希值**：记下你想要移植的提交的哈希值。
+
+3. **切换到目标分支**：使用 `checkout` 命令切换到你想要将更改移植到的分支：
+
+   ```bash
+   git checkout 目标分支名
+   ```
+
+4. **使用 `cherry-pick` 命令**：根据你的需求，选择适当的 `cherry-pick` 命令格式：
+
+   - 移植单个提交：
+
+     ```bash
+     git cherry-pick abc1234
+     ```
+
+   - 移植多个提交：
+
+     ```bash
+     git cherry-pick abc1234 def5678 ghi9012
+     ```
+
+   - 移植一个提交范围：
+     ```bash
+     git cherry-pick commit1^..commit5
+     ```
+
+### 解决冲突
+
+在使用 `cherry-pick` 时，可能会遇到合并冲突。Git 会提示你解决这些冲突，解决后需要使用 `git add` 添加解决后的文件，然后继续操作：
+
+```bash
+git add <resolved-file>
+git cherry-pick --continue
+```
+
+如果你想中止 `cherry-pick` 操作，可以使用：
+
+```bash
+git cherry-pick --abort
+```
+
+通过以上步骤，你可以成功地将多个提交移植到另一个分支。
+
+</details>
+
 ## 浅层克隆
 
 <details>
