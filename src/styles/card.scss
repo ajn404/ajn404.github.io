@@ -35,16 +35,32 @@ html[data-theme="dark"] .hero-section .card:hover,
     transform: scale(1.05) translateZ(0);
     background-size: cover;
     background-repeat: no-repeat;
-    // animation: gradient 6s ease infinite;
   }
   .card__heading {
-    text-decoration: rgb(255, 255, 255) wavy underline 1px;
+    font-family: "Xingcao", "xkcd";
   }
 }
 
-html[data-theme="dark"] .hero-section .card-grid:hover .card:not(:hover,:focus,:active,:focus-visible) {
+html[data-theme="dark"]
+  .hero-section
+  .card-grid:hover
+  .card:not(:hover, :focus, :active, :focus-visible) {
   .card__background {
     filter: brightness(0.3) contrast(0.9) blur(10px);
+  }
+}
+
+html[data-theme="dark"] .hero-section .card-grid .card:hover {
+  .card__heading {
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #fff,
+      0 0 40px #ff00de,
+      0 0 70px #ff00de,
+      0 0 80px #ff00de,
+      0 0 100px #ff00de,
+      0 0 150px #ff00de;
   }
 }
 
