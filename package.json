@@ -199,6 +199,7 @@
     "remark-math": "^6.0.0",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-css-only": "^4.5.2",
+    "tailwindcss-highlights": "^1.0.0",
     "vite-plugin-cesium": "^1.2.22",
     "vite-plugin-static-copy": "^1.0.6"
   },

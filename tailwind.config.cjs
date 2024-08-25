@@ -160,6 +160,7 @@ module.exports = {
     plugins: [
         require("@tailwindcss/typography"),
         require("tw-elements/dist/plugin.cjs"),
+        require('tailwindcss-highlights'),
         // require("tailwindcss-animate"),
         addVariablesForColors
     ],

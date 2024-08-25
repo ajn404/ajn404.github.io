@@ -357,3 +357,80 @@ iframe{
         font-size: 1em;
         color: rosybrown;
 }
+
+.highlight-variant-1 {
+  --tw-highlight-variant: url(/assets/svg/1.svg) !important;
+}
+
+.highlight-variant-2 {
+  --tw-highlight-variant: url(/assets/svg/2.svg) !important;
+}
+
+.highlight-variant-3 {
+  --tw-highlight-variant: url(/assets/svg/3.svg) !important;
+}
+
+.highlight-variant-4 {
+  --tw-highlight-variant: url(/assets/svg/4.svg) !important;
+}
+
+.highlight-variant-5 {
+  --tw-highlight-variant: url(/assets/svg/5.svg) !important;
+}
+
+.highlight-variant-6 {
+  --tw-highlight-variant: url(/assets/svg/6.svg) !important;
+}
+
+.highlight-variant-7 {
+  --tw-highlight-variant: url(/assets/svg/7.svg) !important;
+}
+
+.highlight-variant-8 {
+  --tw-highlight-variant: url(/assets/svg/8.svg) !important;
+}
+
+.highlight-variant-9 {
+  --tw-highlight-variant: url(/assets/svg/9.svg) !important;
+}
+
+.highlight-variant-10 {
+  --tw-highlight-variant: url(/assets/svg/10.svg) !important;
+}
+
+.highlight-variant-11 {
+  --tw-highlight-variant: url(/assets/svg/11.svg) !important;
+}
+
+.highlight-variant-13 {
+  --tw-highlight-variant: url(/assets/svg/13.svg) !important;
+}
+
+.highlight-variant-14 {
+  --tw-highlight-variant: url(/assets/svg/14.svg) !important;
+}
+
+.highlight-variant-15 {
+  --tw-highlight-variant: url(/assets/svg/15.svg) !important;
+}
+
+.highlight-variant-16 {
+  --tw-highlight-variant: url(/assets/svg/16.svg) !important;
+}
+
+.highlight-variant-17 {
+  --tw-highlight-variant: url(/assets/svg/17.svg) !important;
+}
+
+.highlight-variant-18 {
+  --tw-highlight-variant: url(/assets/svg/18.svg) !important;
+}
+
+.highlight-variant-19 {
+  --tw-highlight-variant: url(/assets/svg/19.svg) !important;
+}
+
+.highlight-variant-20 {
+  --tw-highlight-variant: url(/assets/svg/20.svg) !important;
+}   
+

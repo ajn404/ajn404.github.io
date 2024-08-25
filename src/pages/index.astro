@@ -16,16 +16,18 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const socialCount = SOCIALS.filter(social => social.active).length;
-const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
+const showDialog = Astro.request.url !== "https://ajn404-github-io.pages.dev/";
 ---
 
 <Layout>
   <main id="main-content">
     <section id="hero">
-      <h1>
+      <h1
+        class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900"
+      >
         今日方知我为
         <a
-          class="inline-block skew-x-12 xing-cao text-skin-gray-light"
+          class="inline-block  skew-x-12 xing-cao text-skin-gray-light"
           target="_blank"
           href="https://github.com/ajn404">我</a
         >
@@ -56,22 +58,20 @@ const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
         >)个人成长以及知识仓库
         <br />
         <span class="text-sm opacity-50">
-          穿插个人的一些技术探索, 奇奇
+          穿插个人的一些技术探索,
           <span
             class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
             >🥸</span
           >
-          怪怪
+
           <span
             class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
             >🧠</span
           >
-          , 可可
           <span
             class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
             >☄️</span
           >
-          爱爱
           <span
             class="cursor-not-allowed hover:scale-[2] relative inline-block bg-transparent"
             >☃️</span
@@ -147,7 +147,7 @@ const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
 
     <Header home={true} />
   </main>
-  <blockquote class="w-full text-center my-10 font-bold italic text-white">
+  <blockquote class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900 w-full text-center my-10 font-bold italic text-white">
     <p>
       "The WorldWideWeb (WWW) project aims to allow links to be made to any
       information anywhere."
@@ -167,7 +167,7 @@ const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
     className="xing-cao absolute -z-10 right-0 opacity-5 text-animation  md:opacity-10"
     client:load
   />
-  {showDialog&&<AlertDialogDemo  client:load/>}
+  {showDialog && <AlertDialogDemo client:load />}
 </Layout>
 
 <style>
