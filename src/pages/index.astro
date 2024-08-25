@@ -19,38 +19,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
 ---
 
-<style is:inline>
-  #overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease;
-  }
-
-  #progress {
-    width: 0;
-    height: 5px;
-    background: #fff;
-    transition: width 0.5s ease;
-  }
-
-  #main-content {
-    display: none; /* 初始隐藏内容 */
-  }
-</style>
-
 <Layout>
-  <div id="overlay">
-    <div id="progress"></div>
-    <div>loading...</div>
-  </div>
   <main id="main-content">
     <section id="hero">
       <h1>
@@ -237,59 +206,3 @@ const showDialog = Astro.request.url!=="https://ajn404-github-io.pages.dev/"
     @apply my-8 text-center;
   }
 </style>
-
-<script is:inline>
-  const overlay = document.getElementById("overlay");
-  const progress = document.getElementById("progress");
-  const content = document.getElementById("main-content");
-  let loadedImages = 0;
-  let totalImages = document.images.length;
-  const backgroundImages = [];
-
-  document.querySelectorAll("*").forEach(el => {
-    const bgImage = window.getComputedStyle(el).backgroundImage;
-    if (bgImage && bgImage !== "none") {
-      const urlMatch = bgImage.match(/url\(["']?([^"')]+)["']?\)/);
-      if (urlMatch && urlMatch[1]) {
-        backgroundImages.push(urlMatch[1]);
-      }
-    }
-  });
-
-  totalImages += backgroundImages.length; 
-
-  if (totalImages === 0) {
-    doneLoading();
-  } else {
-    for (let img of document.images) {
-      img.onload = img.onerror = updateProgress;
-    }
-
-    backgroundImages.forEach(url => {
-      const img = new Image();
-      img.src = url;
-      img.onload = img.onerror = updateProgress;
-    });
-  }
-
-  function updateProgress() {
-    loadedImages++;
-    const percentage = Math.floor((loadedImages / totalImages) * 100);
-    progress.style.width = percentage + "%";
-    if (loadedImages === totalImages) {
-      doneLoading();
-    }
-  }
-
-  function doneLoading() {
-    overlay.style.opacity = 0;
-    setTimeout(() => {
-      overlay.style.display = "none";
-      content.style.display = "block"; 
-    }, 500);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    content.style.display = "block";
-  });
-</script>
