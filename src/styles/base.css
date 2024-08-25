@@ -125,7 +125,10 @@
     @apply mb-2;
   }
   .prose details {
-    @apply inline-block cursor-pointer  text-skin-base;
+    @apply inline-block cursor-pointer  text-skin-base ;
+  }
+  .prose details[open]{
+     @apply text-skin-base highlight highlight-variant-2 after:bg-gradient-to-tr after:from-[rgb(111,93,193)]  after:to-[rgb(47,111,123)];
   }
   .prose summary {
     @apply focus-outline;
