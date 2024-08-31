@@ -1,0 +1,120 @@
+---
+
+---
+
+<html>
+  <head>
+    <title>cesium demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #cesiumContainer {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+  </body>
+
+  <script>
+    import * as Cesium from "cesium";
+    import p5 from "p5";
+    import "cesium/Build/Cesium/Widgets/widgets.css";
+    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg`;
+    Cesium.Ion.defaultAccessToken = token;
+
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+      scene3DOnly: true,
+      maximumRenderTimeChange: Infinity,
+      sceneModePicker: false,
+      baseLayerPicker: false,
+      animation: false,
+      timeline: false,
+      requestRenderMode: true,
+      homeButton: false,
+      fullscreenButton: false,
+      geocoder: false,
+      infoBox: false,
+      selectionIndicator: false,
+      navigationHelpButton: false,
+      vrButton: false,
+      sceneMode: Cesium.SceneMode.SCENE3D,
+      // globe: false,
+    });
+    //@ts-ignore
+    viewer._cesiumWidget._creditContainer.parentNode.removeChild(
+      //@ts-ignore
+      viewer._cesiumWidget._creditContainer
+    );
+
+    // 禁用天空盒和大气层
+    viewer.scene.skyBox.show = false;
+    viewer.scene.skyAtmosphere.show = false;
+
+    // 抗锯齿
+    viewer.scene.postProcessStages.fxaa.enabled = true;
+
+    const positions = [
+      {
+        id: "person1",
+        name: "Alice",
+        latitude: 40.748817,
+        longitude: -73.985428,
+      },
+    ];
+
+    positions.forEach(person => {
+      viewer.entities.add({
+        id: person.id,
+        name: person.name,
+        position: Cesium.Cartesian3.fromDegrees(
+          person.longitude,
+          person.latitude
+        ),
+        billboard: {
+          image: "/assets/ajn404.jpeg",
+          width: 62,
+          height: 62,
+        },
+      });
+      viewer.trackedEntity = viewer.entities.getById("person1");
+    });
+
+    // 更新人员位置的示例
+    function updatePersonPosition(
+      id: string,
+      newLatitude: number,
+      newLongitude: number
+    ) {
+      const entity = viewer.entities.getById(id);
+      //   viewer.zoomTo(entity);
+
+      if (entity) {
+        // 注意：Cartesian3.fromDegrees 不应该有问题
+        //@ts-ignore
+        entity.position = Cesium.Cartesian3.fromDegrees(
+          newLongitude,
+          newLatitude
+        );
+      }
+    }
+    let p = new p5(_ => {});
+
+    viewer.clock.onTick.addEventListener(clock => {
+      const currentTime = clock.currentTime;
+      let startTime = Cesium.JulianDate.now(); // 记录初始时间
+
+      const elapsedSeconds = Cesium.JulianDate.secondsDifference(
+        currentTime,
+        startTime
+      );
+      let r = (p.noise(elapsedSeconds) - 0.5) / 5000;
+      updatePersonPosition("person1", 40.749817 + r, -73.985428+r); // 替换为实际的新坐标
+    });
+  </script>
+</html>
