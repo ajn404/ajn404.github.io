@@ -1303,3 +1303,41 @@ npm config set registry=https://registry.npmjs.org
 ```shell
 sudo xattr -rd com.apple.quarantine /Applications/xxxxxx.app
 ```
+
+### mac定时开机`sudo pmset repeat wakeorpoweron MTWRF 08:30:00`
+
+<details>
+<summary>pmset</summary>
+
+`pmset` 是 macOS 中用于管理电源管理设置的命令行工具。它可以用来调度系统的唤醒、睡眠和关机等事件。使用 `pmset schedule` 命令，你可以设置特定的时间让你的 Mac 进行唤醒或关机。
+
+以下是 `pmset schedule` 命令的基本用法：
+
+1. **唤醒**: 你可以设置 Mac 在特定时间唤醒。例如，使用以下命令可以在 2023 年 5 月 1 日的早上 8:00 唤醒 Mac：
+
+   ```bash
+   sudo pmset schedule wake "05/01/23 08:00:00"
+   ```
+
+2. **关机**: 如果你想在特定时间关机，可以使用：
+
+   ```bash
+   sudo pmset schedule shutdown "05/01/23 20:00:00"
+   ```
+
+3. **取消调度**: 如果你想取消之前设置的调度，可以使用：
+
+   ```bash
+   sudo pmset schedule cancel
+   ```
+
+4. **重复调度**: 你也可以设置重复的调度，例如每天在某个时间唤醒：
+   ```bash
+   sudo pmset repeat wakeorpoweron MTWRF 08:00:00
+   ```
+
+请注意，`pmset` 命令需要以管理员权限运行，因此在命令前加上 `sudo` 是必要的。此外，确保你的系统时间设置正确，以便调度能够按预期执行。
+
+有关 `pmset` 的更多详细信息，可以参考其手册页，使用命令 `man pmset` 查看所有可用选项和设置。
+
+</details>
