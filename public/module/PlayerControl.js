@@ -5211,7 +5211,7 @@ var PlayerControl = (function (t) {
           var e =
             arguments.length > 1 && void 0 !== arguments[1]
               ? arguments[1]
-              : "http://192.168.200.2/RPC2";
+              : "/RPC2";
           return new Promise(function (n, r) {
             (0, a.default)({
               method: "POST",
@@ -5226,7 +5226,7 @@ var PlayerControl = (function (t) {
               .then(function (i) {
                 (i = i.data).result
                   ? ((i =
-                      i.params && "http://192.168.200.2/RPC2_Login" !== e
+                      i.params && "/RPC2_Login" !== e
                         ? i.params.table
                           ? i.params.table
                           : i.params
@@ -5251,7 +5251,7 @@ var PlayerControl = (function (t) {
         var e =
           arguments.length > 1 && void 0 !== arguments[1]
             ? arguments[1]
-            : "http://192.168.200.2/RPC2";
+            : "/RPC2";
         return new Promise(function (n, r) {
           (0, a.default)({
             method: "POST",
@@ -5266,7 +5266,7 @@ var PlayerControl = (function (t) {
             .then(function (i) {
               (i = i.data).result
                 ? ((i =
-                    i.params && "http://192.168.200.2/RPC2_Login" !== e
+                    i.params && "/RPC2_Login" !== e
                       ? i.params.table
                         ? i.params.table
                         : i.params
@@ -5339,10 +5339,7 @@ var PlayerControl = (function (t) {
                                 ),
                                 id: l++,
                               };
-                              return w(
-                                n,
-                                "http://192.168.200.2/RPC2_Login"
-                              ).catch(function (t) {
+                              return w(n, "/RPC2_Login").catch(function (t) {
                                 return p(t.session), t;
                               });
                             },
@@ -5370,7 +5367,7 @@ var PlayerControl = (function (t) {
                                       n
                                     )
                                   ),
-                                  "http://192.168.200.2/RPC2_Login"
+                                  "/RPC2_Login"
                                 )
                                   .then(function (e) {
                                     r

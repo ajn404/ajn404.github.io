@@ -235,3 +235,86 @@ import { Tooltip } from 'react-tooltip'
 ## 2024-09-08 13:41:26=>\*\*
 
 - [100万个选择框](https://onemillioncheckboxes.com/)
+- [v0 ai](https://v0.dev/chat)
+
+> <a href="/posts/cesium#react-tsx-page-使用web组件" target="_blank">
+>   v0 ai 初次使用
+> </a>
+
+<details>
+<summary>今天写了一个还有点不错的代码</summary>
+
+```js
+socket = new WebSocket(`ws://${host}/websocket/position/ajn404`);
+let lastExecutionTime = 0; // 上次执行时间
+let cache = [];
+let processing = false;
+const cacheMap = new Map();
+
+socket.addEventListener("message", function (event) {
+  const parsedData = JSON.parse(event.data);
+
+  // 处理警告通知
+  if (parsedData.method === "warning") {
+    showNotification(parsedData);
+    return;
+  }
+
+  const currentTime = Date.now(); // 获取当前时间
+  // 如果距离上次执行时间小于 100ms，则继续缓存数据
+  if (currentTime - lastExecutionTime < 100) {
+    cacheMap.set(parsedData.params.tagId, parsedData.params); // 用 tagId 作为键，去重存储数据
+    return;
+  }
+  lastExecutionTime = currentTime; // 更新上次执行时间
+  cacheMap.set(parsedData.params.tagId, parsedData.params); // 用 tagId 作为键，去重存储数据
+
+  // 如果正在处理缓存中的数据，则不再处理
+  if (processing) return;
+  processing = true; // 标记为正在处理
+
+  setTimeout(() => {
+    // 将 Map 转换为数组，取出所有的缓存数据
+    cache = Array.from(cacheMap.values());
+
+    // 过滤并获取车辆和人员的更新数据
+    const updateData = getGraphicData(
+      cache.filter(item => item.entityType === "car"),
+      "car"
+    );
+
+    const updateDataMember = getGraphicData(
+      cache.filter(item => item.entityType === "staff"),
+      "member"
+    );
+
+    // 更新车辆位置
+    if (updateData && updateData.length > 0) {
+      vehicleLocation.locationView.update(updateData);
+    }
+
+    // 更新人员位置
+    if (updateDataMember && updateDataMember.length > 0) {
+      memberLocation.locationView.update(updateDataMember);
+    }
+
+    cacheMap.clear(); // 清空 Map 以保证缓存不重复
+
+    if (!memberLocation.positionGroupGraphics) {
+      cache = [...updateDataMember];
+    }
+
+    if (!vehicleLocation.positionGroupGraphics) {
+      cache = [...cache, ...updateData];
+    }
+
+    // 处理完成后清空缓存并重置标记
+
+    processing = false;
+
+    console.log(cache, updateDataMember, updateData);
+  }, 0); // 异步处理，保证不会阻塞消息接收
+});
+```
+
+</details>

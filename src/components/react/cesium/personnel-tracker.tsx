@@ -24,6 +24,13 @@ export default function PersonnelTracker() {
         timeline: false,
         fullscreenButton: false,
       });
+      const viewer = viewerRef.current;
+
+      //@ts-ignore
+      viewer._cesiumWidget._creditContainer.parentNode.removeChild(
+        //@ts-ignore
+        viewer._cesiumWidget._creditContainer
+      );
       const personnelPosition = Cartesian3.fromDegrees(-75.59777, 40.03883);
       const entity = new Entity({
         position: personnelPosition,
@@ -36,17 +43,24 @@ export default function PersonnelTracker() {
           font: "14pt sans-serif",
           horizontalOrigin: 0, // LEFT
           verticalOrigin: 1, // BOTTOM
-          pixelOffset: new Cartesian3(5, 5, 0),
+          pixelOffset: new Cartesian3(5, 5, 10),
         },
       });
 
       viewerRef.current.entities.add(entity);
 
-      // Set the camera to look at the personnel
       viewerRef.current.camera.flyTo({
         destination: Cartesian3.fromDegrees(-75.59777, 40.03883, 1000),
       });
     }
+
+    const handleWheel = event => {
+      //阻止冒泡
+      event.stopPropagation();
+    };
+
+    const containerElement = cesiumContainer.current;
+    containerElement.addEventListener("wheel", handleWheel);
 
     return () => {
       if (viewerRef.current) {
@@ -56,6 +70,15 @@ export default function PersonnelTracker() {
   }, []);
 
   return (
-    <div ref={cesiumContainer} style={{ width: "100%", height: "500px" }} />
+    <div
+      onDoubleClick={() => {
+        if (cesiumContainer) {
+          if (document.fullscreenElement) document.exitFullscreen();
+          else cesiumContainer.current.requestFullscreen();
+        }
+      }}
+      ref={cesiumContainer}
+      style={{ width: "100%", height: "500px", userSelect: "none" }}
+    />
   );
 }
