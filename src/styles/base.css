@@ -128,7 +128,7 @@
     @apply inline-block cursor-pointer  text-skin-base ;
   }
   .prose details[open]{
-     @apply text-skin-base highlight highlight-variant-2 after:bg-gradient-to-tr after:from-[rgb(111,93,193)]  after:to-[rgb(47,111,123)];
+     @apply text-skin-base highlight highlight-variant-1 after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)];
   }
   .prose summary {
     @apply focus-outline;

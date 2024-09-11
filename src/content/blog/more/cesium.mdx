@@ -321,6 +321,16 @@ engine-strict=true
 - [load Model](/cesiumPage/loadGltfModel)
 - [开车](/cesiumPage/carMove)
 - [优化加载](/cesiumPage/loadModelOptmize)
+- [人员定位](/cesiumPage/memberPosition)
+
+<details>
+<summary>v0 to generate component</summary>
+
+import PersonnelTracker from "@components/react/cesium/personnel-tracker.tsx";
+
+<PersonnelTracker client:visible />
+
+</details>
 
 ## 优化3dtiles加载
 
@@ -832,3 +842,54 @@ multiple ? (
 - [插件演示地址](/fantastic/dahua)
 
 </details>
+
+## api
+
+### `Cesium.Transforms.eastNorthUpToFixedFrame`
+
+<details>
+<summary>devv</summary>
+
+`Cesium.Transforms.eastNorthUpToFixedFrame` 是 Cesium 中的一个方法，用于生成一个将东、北、上（East, North, Up）坐标系转换为固定框架（Fixed Frame）坐标系的变换矩阵。
+
+### 详细说明：
+
+- **坐标系**：
+
+  - **东、北、上坐标系**：这是一个局部坐标系，通常用于描述相对于某个点的方向。东（East）指向地球的东边，北（North）指向地球的北边，上（Up）指向地球的上方。
+  - **固定框架坐标系**：这是一个全局坐标系，通常与地球的中心对齐。
+
+- **用途**：
+  - 这个方法常用于在 Cesium 中进行对象的定位和方向设置。通过将局部坐标系转换为全局坐标系，可以更方便地在三维空间中放置和旋转对象。
+
+### 方法签名：
+
+```javascript
+Cesium.Transforms.eastNorthUpToFixedFrame(origin, result);
+```
+
+- **参数**：
+  - `origin`：表示局部坐标系的原点，通常是一个 `Cartesian3` 类型的坐标。
+  - `result`（可选）：一个 `Matrix4` 类型的对象，用于存储返回的变换矩阵。如果不提供，方法将返回一个新的 `Matrix4` 对象。
+
+### 示例：
+
+以下是一个简单的示例，展示如何使用 `eastNorthUpToFixedFrame` 方法：
+
+```javascript
+const origin = Cesium.Cartesian3.fromDegrees(longitude, latitude, height);
+const transformMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+
+// 使用变换矩阵进行对象的定位
+const modelMatrix = Cesium.Matrix4.multiplyByTranslation(
+  transformMatrix,
+  new Cesium.Cartesian3(0, 0, 0),
+  new Cesium.Matrix4()
+);
+```
+
+在这个示例中，`origin` 是一个地理坐标（经度、纬度和高度），`transformMatrix` 是将该点的东、北、上坐标系转换为固定框架坐标系的变换矩阵。通过这个变换矩阵，你可以在 Cesium 中正确地放置和旋转对象。
+
+</details>
+
+## 链接
