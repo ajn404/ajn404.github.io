@@ -11,7 +11,7 @@
         padding: 0;
         overflow: hidden;
       }
-      #cesiumContainer{
+      #cesiumContainer {
         width: 100vw;
         height: 100vh;
       }
@@ -46,9 +46,11 @@
       //   globe: false,
     });
     //@ts-ignore
-    viewer._cesiumWidget._creditContainer.parentNode.removeChild(viewer._cesiumWidget._creditContainer);
+    viewer._cesiumWidget._creditContainer.parentNode.removeChild(
+      //@ts-ignore
+      viewer._cesiumWidget._creditContainer
+    );
 
-    
     // 禁用天空盒和大气层
     viewer.scene.skyBox.show = false;
     viewer.scene.skyAtmosphere.show = false;
@@ -60,13 +62,19 @@
     const tileset = await Cesium.Cesium3DTileset.fromUrl(url, {
       preloadWhenHidden: true,
       dynamicScreenSpaceError: true,
+      enablePick: true,
     });
 
     viewer.scene.primitives.add(tileset);
 
+    // tileset.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(
+    //   Cesium.Cartesian3.fromDegrees(lon, lat, 0)
+    // );
+
     // 加载模型后,设置相机视角
     requestIdleCallback(() => {
       viewer.zoomTo(tileset);
+      console.log(tileset.modelMatrix);
     });
   </script>
 </html>

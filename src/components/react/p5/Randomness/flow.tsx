@@ -35,7 +35,7 @@ export default () => {
       }
     };
     const resize = () => {
-      p.resizeCanvas(p.windowWidth / 2, 240);
+      p.resizeCanvas(p.windowWidth / 2, p.windowWidth / 3);
     };
     p.setup = setup;
     p.draw = draw;

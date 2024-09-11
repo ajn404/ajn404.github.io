@@ -62,7 +62,7 @@ export default ({ curve }: { curve?: Boolean }) => {
       }
     };
     const resize = () => {
-      p.resizeCanvas(p.windowWidth / 2, 240);
+      p.resizeCanvas(p.windowWidth - 100, 240);
     };
     p.setup = setup;
     p.draw = draw;
