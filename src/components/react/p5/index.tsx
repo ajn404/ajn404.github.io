@@ -153,10 +153,14 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
           ref={container}
           className="flex w-full max-w-full justify-center"
         ></div>
-        {loading && <div className="loading">加载中...</div>}
+        {loading && (
+          <div className="min-h-[200px] flex justify-center items-center text-2xl">
+            加载中...
+          </div>
+        )}
 
         {/* 控制按钮 */}
-        {showControls && (
+        {!loading && showControls && (
           <div
             className={
               "flex pt-4 select-none justify-around" +

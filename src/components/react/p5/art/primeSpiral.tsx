@@ -47,7 +47,9 @@ export default () => {
         p.line(0, p.height / 2, p.width, p.height / 2);
         p.line(p.width / 2, 0, p.width / 2, p.height);
       };
-      const resize = () => p.setup();
+      const resize = () => {
+        p.resizeCanvas(p.windowWidth / 2, 240);
+      };
       p.setup = setup;
       p.draw = draw;
       p.windowResized = resize;

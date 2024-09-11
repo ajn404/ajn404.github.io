@@ -150,7 +150,9 @@ export default () => {
         drawStarBelow("rgb(81,132,123)", y3);
       }
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.windowResized = resize;
   };
   return <Basic sketch={sketch} showControls></Basic>;

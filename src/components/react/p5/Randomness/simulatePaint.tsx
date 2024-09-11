@@ -27,7 +27,9 @@ export default () => {
 
         p.circle(x, y, p.random(16));
       };
-      const resize = () => p.setup();
+      const resize = () => {
+        p.resizeCanvas(p.windowWidth / 2, 240);
+      };
       p.setup = setup;
       p.draw = draw;
       p.windowResized = resize;

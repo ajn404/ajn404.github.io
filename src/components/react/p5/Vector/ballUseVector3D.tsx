@@ -37,7 +37,9 @@ export default () => {
       p.sphere(16); // 绘制球体
       p.pop(); // 恢复之前的变换状态
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;

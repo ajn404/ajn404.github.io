@@ -15,7 +15,9 @@ export default () => {
       mover.checkEdges();
       mover.show();
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;

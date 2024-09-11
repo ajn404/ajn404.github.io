@@ -434,7 +434,9 @@ export default () => {
       yoff = p.random(1000);
       seed = p.millis();
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -489,7 +491,9 @@ export default () => {
       p.fill(127, 30, 30);
       p.circle(x, y, 16);
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -535,7 +539,9 @@ export default () => {
       pos.add(velocity);
       p.circle(pos.x, pos.y, 16);
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -595,7 +601,9 @@ export default () => {
       p.sphere(16); // 绘制球体
       p.pop(); // 恢复之前的变换状态
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -677,7 +685,9 @@ export default () => {
       mover.checkEdges();
       mover.show();
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -780,7 +790,9 @@ export default () => {
         m.show();
       });
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -1139,6 +1151,31 @@ todo: apply friction
 
 ### 3. Oscillation
 
+<details open>
+<summary>angles</summary>
+
+在 p5.js 中，默认情况下，角度是以弧度（radians）为单位进行测量的，而不是以度（degrees）为单位。弧度是一种角度的度量方式，它是通过圆弧的长度与圆的半径之间的比率来定义的。具体来说，一个弧度是指弧长等于半径的角度。
+
+以下是一些常见的角度与弧度之间的转换关系：
+
+- 一个完整的圆（360度）等于 $2\pi$ 弧度。
+- 180度等于$\Pi$ 弧度。
+- 90度等于 $\frac{\pi}{2}$ 弧度。
+
+这意味着在使用 p5.js 进行图形绘制时，如果你想使用度数来指定角度，你需要将度数转换为弧度。例如，可以使用以下公式进行转换：
+
+$$
+\text{弧度} = \text{度数} \times \frac{\pi}{180}
+$$
+
+了解这一点对于在 p5.js 中进行旋转、绘制形状和处理动画等操作非常重要。
+
+import Angle from "@components/react/p5/Oscillation/angle";
+
+<Angle client:visible />
+
+</details>
+
 ### 4. Particle System
 
 ### 5. Autonomous Agents
@@ -1331,7 +1368,9 @@ export default () => {
         }
       };
       const draw = () => {};
-      const resize = () => p.setup();
+      const resize = () => {
+        p.resizeCanvas(p.windowWidth / 2, 240);
+      };
       p.setup = setup;
       p.draw = draw;
       p.windowResized = resize;

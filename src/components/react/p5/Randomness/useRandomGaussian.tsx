@@ -15,7 +15,9 @@ export default () => {
       p.fill(255, 244, 233);
       p.circle(p.width - x, p.height / 2 + 16, 16);
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;

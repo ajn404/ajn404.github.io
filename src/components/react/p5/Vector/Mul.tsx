@@ -26,7 +26,9 @@ export default () => {
       p.stroke(124, 119, 118);
       p.line(0, 0, mouse.x, mouse.y);
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;

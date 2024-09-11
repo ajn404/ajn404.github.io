@@ -24,7 +24,9 @@ export default ({ hideRandom }: { hideRandom?: boolean }) => {
 
       time += 0.01;
     };
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
@@ -47,7 +49,9 @@ export default ({ hideRandom }: { hideRandom?: boolean }) => {
     };
     p.setup = setup;
     p.draw = draw;
-    const resize = () => p.setup();
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth / 2, 240);
+    };
     p.windowResized = resize;
   };
 
