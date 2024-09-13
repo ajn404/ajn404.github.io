@@ -27,43 +27,43 @@ const cesiumSource = "node_modules/cesium/Build/Cesium";
 const cesiumBaseUrl = "cesiumStatic";
 
 const vite = {
-    optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
+  optimizeDeps: {
+    exclude: ["@resvg/resvg-js"],
+  },
+  ssr: {
+    noExternal: ["@notes/editor", "@shoelace-style/shoelace"],
+  },
+  define: {
+    CESIUM_BASE_URL: JSON.stringify(`/${cesiumBaseUrl}`),
+  },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
+        { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
+        { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
+        { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
+      ],
+    }),
+  ],
+  build: {
+    rollupOptions: {
+      plugins: [
+        css({
+          output: "bundle.css",
+        }),
+      ],
+      external: [
+        "wavesurfer.js",
+        "wavesurfer.js/dist/plugins/spectrogram.esm.js",
+      ],
+      sourceMap: "inline",
     },
-    ssr: {
-      noExternal: ["@notes/editor", "@shoelace-style/shoelace"],
-    },
-    define: {
-      CESIUM_BASE_URL: JSON.stringify(`/${cesiumBaseUrl}`),
-    },
-    plugins: [
-      viteStaticCopy({
-        targets: [
-          { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
-          { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
-          { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
-          { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
-        ],
-      }),
-    ],
-    build: {
-      rollupOptions: {
-        plugins: [
-          css({
-            output: "bundle.css",
-          }),
-        ],
-        external: [
-          "wavesurfer.js",
-          "wavesurfer.js/dist/plugins/spectrogram.esm.js",
-        ],
-        sourceMap: "inline",
-      },
-    },
-    server: {}
+  },
+  server: {},
 };
 if (import.meta.env.DEV) {
-vite.server = {
+  vite.server = {
     proxy: {
       "/RPC2_Login": {
         target: "http://192.168.200.2/RPC2_Login", // 目标服务器地址
@@ -83,14 +83,16 @@ vite.server = {
         secure: false,
         rewrite: path => path.replace(/^\/RPC_Loadfile/, ""),
       },
-    }}
-};
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
   server: {
     port: 3333,
     open: true,
+    host: true,
   },
   build: {
     assets: "static",
