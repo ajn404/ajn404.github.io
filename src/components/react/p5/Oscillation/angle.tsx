@@ -6,9 +6,10 @@ export default () => {
     const setup = () => {
       p.createCanvas(p.windowWidth / 2, 240);
       p.angleMode(p.DEGREES);
+      p.frameRate(60);
     };
     const draw = () => {
-      p.background(255);
+      p.background(250);
       p.push();
       p.translate(p.width / 2, p.height / 2);
       p.rotate(p.frameCount);
@@ -17,15 +18,21 @@ export default () => {
       //线的两端画两个实心圆
       p.fill(255, 0, 0);
       p.ellipse(-50, 0, 10);
+      p.text("开始", -60, 20);
+
       p.ellipse(50, 0, 10);
+      p.text("结束", 40, 20);
+
       p.fill(0);
-      p.text(p.frameCount, 0, 0);
+      p.text(p.frameCount % 360, -5, 20);
       p.pop();
     };
     const resize = () => {
       p.resizeCanvas(p.windowWidth / 2, 240);
     };
-    p.setup = setup;
+    p.setup = () => {
+      setup();
+    };
     p.draw = draw;
     p.windowResized = resize;
   };

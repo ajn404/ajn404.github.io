@@ -1151,6 +1151,8 @@ todo: apply friction
 
 ### 3. Oscillation
 
+#### angles
+
 <details open>
 <summary>angles</summary>
 
@@ -1173,6 +1175,54 @@ $$
 import Angle from "@components/react/p5/Oscillation/angle";
 
 <Angle client:visible />
+
+```tsx
+const sketch = (p: p5) => {
+  const setup = () => {
+    p.createCanvas(p.windowWidth / 2, 240);
+    p.angleMode(p.DEGREES);
+    p.frameRate(60);
+  };
+  const draw = () => {
+    p.background(250);
+    p.push();
+    p.translate(p.width / 2, p.height / 2);
+    p.rotate(p.frameCount);
+    // center
+    p.line(-50, 0, 50, 0);
+    //线的两端画两个实心圆
+    p.fill(255, 0, 0);
+    p.ellipse(-50, 0, 10);
+    p.text("开始", -60, 20);
+
+    p.ellipse(50, 0, 10);
+    p.text("结束", 40, 20);
+
+    p.fill(0);
+    p.text(p.frameCount % 360, -5, 20);
+    p.pop();
+  };
+  const resize = () => {
+    p.resizeCanvas(p.windowWidth / 2, 240);
+  };
+  p.setup = () => {
+    setup();
+  };
+  p.draw = draw;
+  p.windowResized = resize;
+};
+```
+
+</details>
+
+#### 加速度
+
+<details>
+<summary>加速度</summary>
+
+import AngleVelocity from "@components/react/p5/Oscillation/angleAcceleration.tsx";
+
+<AngleVelocity client:visible />
 
 </details>
 
