@@ -16,8 +16,14 @@ class AttractMover extends Mover {
 
   constructor(p: p5) {
     super(p);
-    this.mass = p.random(0.1, 2);
+    this.mass = p.random(0.5, 2);
     this.circleRadius = this.mass * 8;
+    this.color = p.color(
+      p.random(0, 255),
+      p.random(0, 255),
+      p.random(0, 255),
+      p.random(0, 100)
+    );
   }
 
   applyForce(force: p5.Vector) {
@@ -59,8 +65,8 @@ export class Attractor {
   display() {
     const p = this.p;
     p.ellipseMode(p.CENTER);
-    p.stroke(0);
-    p.fill(175, 200);
+    p.stroke(10);
+    p.fill(255, 0, 0);
     p.ellipse(this.position.x, this.position.y, this.mass * 2);
   }
 }
