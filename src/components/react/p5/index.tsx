@@ -8,6 +8,7 @@ import {
   ResumeIcon,
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
+import { DownloadIcon } from "lucide-react";
 
 type Sketch = (p: p5) => void;
 
@@ -95,6 +96,11 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
     }
   };
 
+  const download = () => {
+    if (!p) return;
+    p.saveGif("sketch", 5, { delay: 1 });
+  };
+
   useEffect(() => {
     if (p && isFullscreen) {
       p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
@@ -173,9 +179,14 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
             <Button onClick={begin}>
               <PlayIcon />
             </Button>
-            <Button onClick={init}>
-              <ResumeIcon></ResumeIcon>
+            <Button onClick={download}>
+              <DownloadIcon></DownloadIcon>
             </Button>
+
+            {/* <Button onClick={init}>
+                            <ResumeIcon></ResumeIcon>
+                        </Button> */}
+
             <Button onClick={clear}>
               <ExclamationTriangleIcon></ExclamationTriangleIcon>
             </Button>

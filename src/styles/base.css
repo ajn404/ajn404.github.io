@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "Xingcao";
-  src: url("/assets/Xingcao.ttf") format("truetype");
+  src: url("/assets/font/Xingcao.ttf") format("truetype");
 }
 
 .xing-cao,.xing-cao * {
@@ -13,11 +13,16 @@
 
 @font-face {
   font-family: 'xkcd'; 
-  src: url('/assets/xkcd.woff') format('woff');
+  src: url('/assets/font/xkcd.woff') format('woff');
 }
 
 .font-xkcd,.font-xkcd *{
   font-family: "xkcd","Xingcao", "DM Sans", sans-serif;
+}
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url('/assets/font/WorkSans-Regular.woff2') format('woff');
 }
 
 @layer base {
@@ -49,6 +54,9 @@
     --input: 12 6.5% 15.1%;
     --ring: 20.5 90.2% 48.2%;
     --radius: 0.75rem;
+    font-variant-ligatures: no-contextual;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   #sun-svg,
   html[data-theme="dark"] #moon-svg {
@@ -262,6 +270,13 @@ blockquote footer cite::before {
 /* 顶部framer */
 .progress-bar {
   @apply backdrop-blur-3xl bg-gradient-to-r from-purple-500 to-pink-500;
+}
+
+@font-feature-values "Work Sans" {
+    @swash {
+        on: 1;
+        off: 0;
+    }
 }
 
 /* 折叠 */

@@ -18,3 +18,89 @@ import Tag from "@components/astro/UI/Tag.astro";
 <Tag name="ts" className="max-w-[100px]" />
 
 [ts5.6 RC 新特性](https://devblogs.microsoft.com/typescript/announcing-typescript-5-6-rc/#disallowed-nullish-and-truthy-checks)
+
+## 2024-09-18 10:32:06
+
+<details open>
+<summary>view transition api</summary>
+**View Transition API** 是一个新兴的 Web API，用于在 Web 应用中创建无缝的页面或组件过渡动画。它通过浏览器级别的渲染技术，简化了在单页应用（SPA）或多页应用（MPA）中实现平滑过渡动画的过程，使页面内容的变化更流畅和自然。
+
+### 主要特性
+
+- **无缝过渡**：允许在页面切换、组件状态变化时，提供平滑的视觉过渡效果。
+- **元素的关联**：可以标记页面中变化的元素，浏览器会自动计算和动画化它们在两个状态之间的过渡。
+- **简化过渡动画的编写**：开发者无需手动管理复杂的动画逻辑，只需要声明哪些元素需要过渡，浏览器会自动计算和应用动画。
+- **适用于多种场景**：可以用于单页应用（SPA）中的路由切换，也可以用于多页应用（MPA）中的页面切换。
+
+### 工作原理
+
+View Transition API 利用了浏览器的渲染机制，通过快照（snapshot）页面的前后状态，然后计算和应用过渡动画，使页面切换或元素变化更加流畅。
+
+### 基本使用方式
+
+1. **启动过渡**：在页面状态变化时，可以通过 JavaScript 调用 `document.startViewTransition()` 来触发视图的过渡。
+2. **标记过渡元素**：使用 `view-transition-name` 属性标记你想要过渡的元素，浏览器将跟踪这些元素，并应用过渡效果。
+
+### 示例
+
+#### 1. 单页应用中的过渡
+
+```html
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    margin: 20px;
+    transition: all 0.5s ease;
+  }
+
+  .new-state {
+    width: 200px;
+    background-color: lightcoral;
+  }
+</style>
+
+<div class="box" id="box" view-transition-name="box"></div>
+
+<script>
+  const box = document.getElementById("box");
+
+  // 启动视图过渡
+  document.getElementById("box").addEventListener("click", () => {
+    document.startViewTransition(() => {
+      box.classList.toggle("new-state");
+    });
+  });
+</script>
+```
+
+在这个例子中，`startViewTransition()` 被用来启动过渡动画，当点击 `box` 时，它会在两种状态（原始状态和 `new-state`）之间进行平滑的过渡。
+
+#### 2. 多页应用中的过渡
+
+View Transition API 还可以在页面导航时用于多页应用，确保页面切换动画也同样流畅。
+
+```javascript
+document.startViewTransition(() => {
+  window.location.href = "/new-page";
+});
+```
+
+当你导航到新的页面时，`startViewTransition` 将确保旧页面与新页面之间的切换是平滑的，并且浏览器会自动生成过渡动画。
+
+### 优点
+
+- **简化动画开发**：开发者不再需要手动处理动画的复杂细节，View Transition API 会自动管理动画的开始和结束。
+- **提高性能**：由于动画由浏览器本地处理，因此能够获得更高的性能和流畅度。
+- **统一过渡**：可以在页面切换、元素变化等多种场景下统一实现过渡动画效果。
+
+### 浏览器支持
+
+目前，View Transition API 处于实验性阶段，支持度正在逐渐提升。现代浏览器如 Chrome 110+ 已经开始支持该 API，不过其他浏览器如 Firefox 和 Safari 可能仍在开发中。可以通过 `feature-detection` 检查当前浏览器是否支持该功能。
+
+### 总结
+
+View Transition API 是 Web 动画开发的一个强大工具，能够大幅简化页面过渡效果的实现，尤其适用于需要在前后状态间提供平滑过渡的场景。它提升了 Web 应用的用户体验，让页面切换、状态变化更加流畅自然。
+
+</details>

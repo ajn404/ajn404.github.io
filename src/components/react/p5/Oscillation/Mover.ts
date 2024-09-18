@@ -18,6 +18,7 @@ export class Mover {
       p.random(this.circleRadius + 1, p.height - this.circleRadius - 1)
     );
     this.velocity = p.createVector(p.random(-2, 2), p.random(-2, 2));
+    this.acceleration = p.createVector(0, 0);
     this.p = p;
     this.color = p.color(p.random(0, 255), p.random(0, 255), p.random(0, 255));
   }

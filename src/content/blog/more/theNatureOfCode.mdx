@@ -15,6 +15,23 @@ tags:
 description: "代码的本质 use p5 to know the world"
 ---
 
+## 简介
+
+《The Nature of Code》是由 Daniel Shiffman 编写的一本书，致力于帮助读者理解如何在计算机编程中模拟自然系统的行为。它以处理复杂的现象为核心，例如物理、力学、遗传算法、群体行为等自然现象，并通过代码和算法的方式进行解释和模拟。
+
+这本书的特点是以编程为手段，从基础的数学和物理概念出发，逐渐引入复杂的主题，展示如何使用代码模拟自然界中的随机行为、粒子系统、动力学、群体行为等。书中使用的编程语言主要是JavaScript以及基于Processing的库P5.js，但概念是通用的，读者可以应用到其他编程语言中。
+
+书中讨论的几个核心主题包括：
+
+1. **向量和运动**：如何用代码模拟物体的运动，利用向量进行位置、速度和加速度的计算。
+2. **力和环境**：通过模拟物理力（如重力、摩擦力等）来创建更逼真的动画。
+3. **随机性与概率**：使用随机数生成和概率来模拟不确定性或自然现象中的随机行为。
+4. **粒子系统**：如何使用粒子系统来模拟自然中的复杂系统，比如烟雾、火焰等。
+5. **群体行为**：模拟鸟群、鱼群等集体行为，通过规则和算法来展示复杂的协调性。
+6. **遗传算法和进化**：如何模拟自然选择和进化过程，展示群体如何通过遗传算法“进化”出解决问题的能力。
+
+《The Nature of Code》不仅仅是一本编程指南，还是探索自然现象背后的数学和算法的一种方式。它适合对物理模拟、创意编程以及自然系统感兴趣的开发者或艺术家。
+
 ## 目录
 
 ## nature of code
@@ -810,7 +827,7 @@ export default () => {
 
 ### 2. [Forces](https://natureofcode.com/forces/)
 
-<details>
+<details open>
 <summary>牛顿第二定律</summary>
 
 牛顿第二定律是经典力学中的一个基本原理,描述了力、质量和加速度之间的关系.它可以用数学公式表示为：
@@ -1232,6 +1249,12 @@ import AngleVelocity from "@components/react/p5/Oscillation/angleAcceleration.ts
 import AngleMover from "@components/react/p5/Oscillation/angleMover.tsx";
 
 <AngleMover client:visible />
+
+- mover add force
+
+import AngleAttractMover from "@components/react/p5/Oscillation/angleAttractMover.tsx";
+
+<AngleAttractMover client:visible />
 
 </details>
 

@@ -42,7 +42,7 @@ const App = () => {
         {items.map((item, index) => (
           <li
             key={index}
-            className={`flex min-h-[40vmin] max-w-[40vmin] items-center justify-center rounded-md transition-all hover:scale-105 ${item}`}
+            className={`flex min-h-[40vmin] max-w-[40vmin] items-center justify-center rounded-md transition-all ${item}`}
           >
             box{index + 1}
           </li>
