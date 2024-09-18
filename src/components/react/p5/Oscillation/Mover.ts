@@ -32,8 +32,10 @@ export class Mover {
     this.velocity.limit(10);
     this.velocity.add(this.acceleration);
     this.position.add(this.velocity);
-    this.angleAcceleration = (this.p.width / 2 - this.position.x) / 100000;
+    this.angleAcceleration = (this.p.width / 2 - this.position.x) / 10;
     this.angleVelocity += this.angleAcceleration;
+
+    this.angleVelocity = this.p.constrain(this.angleVelocity, -0.1, 0.1);
     this.angle += this.angleVelocity;
     this.acceleration.mult(0);
   }
@@ -48,7 +50,11 @@ export class Mover {
 
     p.strokeWeight(2);
     p.circle(0, 0, this.circleRadius * 2);
+
+    p.stroke(p.map(this.position.x, 0, p.width, 0, 255));
     p.line(-this.circleRadius, 0, this.circleRadius, 0);
+    p.stroke(p.map(this.position.x, p.width, 0, 0, 255));
+    p.line(0, -this.circleRadius, 0, this.circleRadius);
     this.p.pop();
   }
 

@@ -15,11 +15,12 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
-    className: "text-lg card__heading pt-4 font-medium",
+    className:
+      "text-lg card__heading pt-4 font-medium hover:underline visited:underline focus-within:underline focus:underline focus-visible:underline target:underline",
   };
   return (
-    <a href={href} ref={ref} data-astro-prefetch>
-      <div className="card__content pt-4">
+    <a className="focus:underline " href={href} ref={ref} data-astro-prefetch>
+      <div className="card__content pt-4 ">
         {secHeading ? (
           <h2 {...headerProps}>{title}</h2>
         ) : (
