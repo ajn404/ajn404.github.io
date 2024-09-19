@@ -68,9 +68,7 @@ export class Cannonball {
     p.translate(this.position.x - 20, this.position.y - 20);
     p.rotate(this.rotation);
     p.fill(255, 0, 0);
-    // p.ellipse(0, 0, 20, 20); // 投射物
     p.circle(0, 0, this.circleRadius * 2);
-    // p.text("Cannonball", -10, -10);
     if (this.img) {
       p.image(
         this.img,
@@ -112,7 +110,7 @@ export default () => {
       let cannon: Cannon;
       let cannonballList: Cannonball[] = [];
       const setup = () => {
-        let canvas = p.createCanvas(p.windowWidth - 200, 240);
+        let canvas = p.createCanvas(p.windowWidth - 100, 240);
         canvas.drop(gotFile);
         p.background(255);
         cannon = new Cannon(p, 50, p.height - 20);
@@ -138,7 +136,7 @@ export default () => {
         }
       };
       const resize = () => {
-        p.resizeCanvas(p.windowWidth - 200, 240);
+        p.resizeCanvas(p.windowWidth - 100, 240);
       };
 
       p.mousePressed = () => {
@@ -167,19 +165,17 @@ export default () => {
   return (
     <>
       <Basic sketch={sketch} showControls></Basic>
-      <Label htmlFor="openCheckEdges" className="text-center px-10">
+      <Label htmlFor="openCheckEdges" className="text-center p-10 select-none">
         {" "}
         打开边缘碰撞
       </Label>
       <Switch
         id="openCheckEdges"
+        className="p-4"
         checked={openCheckEdges}
-        onCheckedChange={e => {
-          console.log(e);
-          setOpenCheckEdges(e);
-        }}
+        onCheckedChange={e => setOpenCheckEdges(e)}
       ></Switch>
-      <p className="text-center brightness-75">
+      <p className="text-center brightness-75 select-none">
         {" "}
         拖动图片至canvas,会生成大炮的背景
       </p>

@@ -114,6 +114,7 @@
     "lodash.uniqueid": "^4.0.1",
     "lucide-react": "^0.315.0",
     "maath": "^0.10.7",
+    "matter-js": "^0.20.0",
     "mdast-util-to-string": "^4.0.0",
     "next-themes": "^0.2.1",
     "novel": "^0.2.4",
