@@ -1,0 +1,13 @@
+---
+const res = await fetch("https://api.github.com/user", {
+  method: "GET",
+  headers: {
+    Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+  },
+});
+
+const userInfo = await res.json();
+
+---
+
+<div>{userInfo.login}</div>
