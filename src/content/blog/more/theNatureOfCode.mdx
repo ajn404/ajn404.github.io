@@ -1380,29 +1380,28 @@ todo: apply friction
 
 #### 振动
 
-<details>
+<details open>
 <summary>振动相关的物理/数学</summary>
 
 振动（Oscillation）是物理学中一个重要的概念，涉及到多个数学和物理知识。振动通常指的是物体围绕某个平衡位置的周期性运动。以下是与振动相关的一些基本概念和知识：
 
 1. **简谐振动**：简谐振动是最基本的振动形式，描述的是物体在平衡位置附近的运动。其特点是加速度与位移成正比且方向相反，符合胡克定律。简谐振动的数学表达式为：
-   \[
-   x(t) = A \sin(\omega t + \phi)
-   \]
-   其中，\(x(t)\) 是位移，\(A\) 是振幅，\(\omega\) 是角频率，\(\phi\) 是初相位。
+   $$x(t) = A \sin(\omega t + \phi)$$
+   其中，$$x(t)$$是位移 `A` 是振幅，$$\omega$$ 是角频率，$$\phi$$ 是初相位。
 
-2. **频率和周期**：频率（\(f\)）是单位时间内完成的振动次数，周期（\(T\)）是完成一次振动所需的时间。它们之间的关系为：
-   \[
+1. **频率和周期**：频率$$f$$是单位时间内完成的振动次数，周期$$T$$是完成一次振动所需的时间。它们之间的关系为：
+
+   $$
    f = \frac{1}{T}
-   \]
+   $$
 
-3. **能量**：在振动过程中，系统的能量在动能和势能之间转换。在简谐振动中，势能和动能的总和保持不变，表现为机械能守恒。
+1. **能量**：在振动过程中，系统的能量在动能和势能之间转换。在简谐振动中，势能和动能的总和保持不变，表现为机械能守恒。
 
-4. **阻尼振动**：实际系统中，振动往往会受到阻力（如摩擦力）的影响，导致振幅逐渐减小，这种现象称为阻尼振动。阻尼振动的方程通常包含一个阻尼项，描述能量的损失。
+1. **阻尼振动**：实际系统中，振动往往会受到阻力（如摩擦力）的影响，导致振幅逐渐减小，这种现象称为阻尼振动。阻尼振动的方程通常包含一个阻尼项，描述能量的损失。
 
-5. **共振**：当外部驱动力的频率与系统的自然频率相匹配时，会发生共振现象，导致振幅显著增加。这在许多物理和工程应用中都非常重要。
+1. **共振**：当外部驱动力的频率与系统的自然频率相匹配时，会发生共振现象，导致振幅显著增加。这在许多物理和工程应用中都非常重要。
 
-6. **数学工具**：振动分析常用到三角函数、微分方程和线性代数等数学工具，帮助描述和解决振动系统的动态行为。
+1. **数学工具**：振动分析常用到三角函数、微分方程和线性代数等数学工具，帮助描述和解决振动系统的动态行为。
 
 理解这些基本概念有助于深入研究振动现象及其在物理学、工程学和其他相关领域的应用。
 
@@ -1410,7 +1409,7 @@ todo: apply friction
 
 #### angles
 
-<details open>
+<details>
 <summary>angles</summary>
 
 在 p5.js 中，默认情况下，角度是以弧度（radians）为单位进行测量的，而不是以度（degrees）为单位。弧度是一种角度的度量方式，它是通过圆弧的长度与圆的半径之间的比率来定义的。具体来说，一个弧度是指弧长等于半径的角度。
@@ -1498,6 +1497,21 @@ import AngleAttractMover from "@components/react/p5/Oscillation/angleAttractMove
 
 </details>
 
+<details open>
+<summary>练习</summary>
+
+> 第1步:建立从大炮中被射出物体的模拟. 每个物体在被击中时(仅一次)和重力(始终存在)应会突然发生力.
+
+> 第2步:在物体上加上旋转来模拟其从大炮中被射出时的自旋. 做出来的东西看看有多现实
+
+<img src="/assets/generation/cannon.png" alt="cannon" width="300" />
+
+import Cannon from "@components/react/p5/Oscillation/cannon.tsx";
+
+<Cannon client:visible />
+
+</details>
+
 ### 4. Particle System
 
 ### 5. Autonomous Agents
@@ -1518,12 +1532,8 @@ import AngleAttractMover from "@components/react/p5/Oscillation/angleAttractMove
 
 ### flow field
 
-<blockquote>
-<details open>
-<summary>flow field</summary>
-
 <details>
-<summary>FlowFieldA</summary>
+<summary>flow field</summary>
 
 import FlowFieldA from "@components/react/p5/art/flowFieldA";
 
@@ -1619,23 +1629,15 @@ export default () => {
 };
 ```
 
-</details>
-
 - after i changed walker angle
-
-<details>
-<summary>FlowFieldB</summary>
 
 import FlowFieldB from "@components/react/p5/art/flowFieldB";
 
 <FlowFieldB client:visible />
 
-</details>
-
 error
 
 </details>
-</blockquote>
 
 ### 质数螺旋
 
