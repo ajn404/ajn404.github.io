@@ -10,7 +10,7 @@ import { cn } from "@utils/utils";
 
 export default () => {
   const [num, setNum] = useState(10);
-  const useDebouncedNum = useDebounce(num, 1000);
+  const useDebouncedNum = useDebounce(num, 100);
   const sketch = useCallback(
     (p: p5) => {
       let mover: Mover[];
@@ -52,7 +52,7 @@ export default () => {
       <br />
       <Slider
         defaultValue={[50]}
-        max={1000}
+        max={100}
         min={1}
         step={1}
         className={cn("w-[100%] m-4")}

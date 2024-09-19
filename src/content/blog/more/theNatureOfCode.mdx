@@ -39,7 +39,7 @@ description: "代码的本质 use p5 to know the world"
 我与p5的缘分真的蛮深的,DANIEL SHIFFMAN也算是我的编程启蒙老师了,
 nature of code,这是一本他撰写的一本关于编程和计算机生成艺术的书籍,详细链接见[⬇️](#links)
 
-### code template
+### code template(下述代码模版)
 
 <details>
 <summary>template</summary>
@@ -47,6 +47,212 @@ nature of code,这是一本他撰写的一本关于编程和计算机生成艺�
 import Template from "@components/react/p5/index.tsx";
 
 <Template client:visible />
+
+```tsx
+import type p5 from "p5";
+import { useEffect, useRef, memo, useState } from "react";
+import {
+  EnterFullScreenIcon,
+  ExitFullScreenIcon,
+  PlayIcon,
+  StopIcon,
+  ResumeIcon,
+  ExclamationTriangleIcon,
+} from "@radix-ui/react-icons";
+import { DownloadIcon } from "lucide-react";
+
+type Sketch = (p: p5) => void;
+
+const defaultSketch: Sketch = (p: p5) => {
+  let xoff = 0.0;
+  p.setup = () => {
+    p.createCanvas(100, 100);
+    p.frameRate(60);
+  };
+  p.draw = () => {
+    let noise = p.noise(xoff) * (p.width - 50);
+    p.background(255);
+    p.noStroke();
+    p.fill(34, 39, 54);
+    xoff += 0.01;
+    p.ellipse(noise, p.height / 2, 25, 25);
+  };
+};
+
+interface Props {
+  sketch: Sketch;
+  showControls?: boolean; // defaults to false
+}
+
+const Button = ({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="inline-block text-skin-inverted rounded bg-skin-inverted px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
+  >
+    {children}
+  </button>
+);
+let doOnce = false;
+
+const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
+  const container = useRef<HTMLDivElement>(null);
+  const trueContainer = useRef<HTMLDivElement>(null);
+  let [p, setP] = useState<p5>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const start = async () => {
+    if (container.current) {
+      const p5 = await import("p5");
+      !p && setP(new p5.default(sketch || defaultSketch, container.current));
+    }
+  };
+  const remove = () => {
+    p && p.remove();
+    p && setP(null);
+  };
+  const stop = () => p && p.isLooping() && p.noLoop();
+  const begin = () => p && !p.isLooping() && p.loop();
+  const init = async () => {
+    remove();
+    await start();
+    setLoading(false);
+  };
+  const [loading, setLoading] = useState(true);
+
+  const clear = () => {
+    remove();
+    container.current && (container.current.innerHTML = "");
+  };
+
+  const toggleFullscreen = async () => {
+    if (trueContainer.current && !isFullscreen) {
+      if (trueContainer.current.requestFullscreen) {
+        await trueContainer.current.requestFullscreen();
+        trueContainer.current.style.backgroundColor = "black";
+      }
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      }
+      trueContainer.current.style.backgroundColor = "";
+      setIsFullscreen(false);
+    }
+  };
+
+  const download = () => {
+    if (!p) return;
+    p.saveGif("sketch", 5, { delay: 1 });
+  };
+
+  useEffect(() => {
+    if (p && isFullscreen) {
+      p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
+      p.windowResized = async () => {
+        await init();
+        p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
+        container.current.style.minHeight = p?.height + "px";
+      };
+    }
+
+    const obs = new IntersectionObserver(async ([entry]) => {
+      if (entry.isIntersecting) {
+        !doOnce && !container.current.innerHTML && (await init());
+        !doOnce && !showControls && begin(); //没有按钮自动启动
+        if (!doOnce && !container.current.innerHTML) doOnce = true;
+      } else stop();
+    });
+    obs.observe(trueContainer.current);
+    return () => {
+      obs.disconnect();
+      remove();
+    };
+  }, [isFullscreen, p]);
+
+  const handleFullscreenChange = () => {
+    setLoading(true);
+    setIsFullscreen(!!document.fullscreenElement);
+  };
+
+  useEffect(() => {
+    (async () => {
+      if (!container.current) return;
+      container.current.innerHTML = "";
+      await init();
+    })();
+    return () => {
+      remove();
+      container.current.innerHTML = "";
+    };
+  }, [sketch]);
+
+  useEffect(() => {
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    container.current.style.minHeight = p?.height + "px";
+    trueContainer.current.style.backgroundColor = "";
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      remove();
+    };
+  }, [p]);
+
+  return (
+    <>
+      <div ref={trueContainer} className="p5_container mt-4 relative">
+        <div
+          ref={container}
+          className="flex w-full max-w-full justify-center"
+        ></div>
+        {loading && (
+          <div className="min-h-[200px] flex justify-center items-center text-2xl">
+            加载中...
+          </div>
+        )}
+
+        {/* 控制按钮 */}
+        {!loading && showControls && (
+          <div
+            className={
+              "flex pt-4 select-none justify-around" +
+              (isFullscreen ? " fixed mb-10 pb-10 left-0 w-full" : "")
+            }
+          >
+            <Button onClick={stop}>
+              <StopIcon />
+            </Button>
+            <Button onClick={begin}>
+              <PlayIcon />
+            </Button>
+            <Button onClick={download}>
+              <DownloadIcon></DownloadIcon>
+            </Button>
+
+            {/* <Button onClick={init}>
+                            <ResumeIcon></ResumeIcon>
+                        </Button> */}
+
+            <Button onClick={clear}>
+              <ExclamationTriangleIcon></ExclamationTriangleIcon>
+            </Button>
+            <Button onClick={toggleFullscreen}>
+              {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
+            </Button>
+          </div>
+        )}
+      </div>
+    </>
+  );
+});
+
+export default P5Canvas;
+```
 
 </details>
 
@@ -471,6 +677,8 @@ todo: flow demo
 <details></details>
 
 ### 1. [Vectors](https://natureofcode.com/vectors/)
+
+`向量` `力` `Mover`
 
 #### ball
 
@@ -1166,7 +1374,39 @@ import ForceG from "@components/react/p5/Forces/ForceG";
 
 todo: apply friction
 
-### 3. Oscillation
+### 3. Oscillation(振动)
+
+`角度`
+
+#### 振动
+
+<details>
+<summary>振动相关的物理/数学</summary>
+
+振动（Oscillation）是物理学中一个重要的概念，涉及到多个数学和物理知识。振动通常指的是物体围绕某个平衡位置的周期性运动。以下是与振动相关的一些基本概念和知识：
+
+1. **简谐振动**：简谐振动是最基本的振动形式，描述的是物体在平衡位置附近的运动。其特点是加速度与位移成正比且方向相反，符合胡克定律。简谐振动的数学表达式为：
+   \[
+   x(t) = A \sin(\omega t + \phi)
+   \]
+   其中，\(x(t)\) 是位移，\(A\) 是振幅，\(\omega\) 是角频率，\(\phi\) 是初相位。
+
+2. **频率和周期**：频率（\(f\)）是单位时间内完成的振动次数，周期（\(T\)）是完成一次振动所需的时间。它们之间的关系为：
+   \[
+   f = \frac{1}{T}
+   \]
+
+3. **能量**：在振动过程中，系统的能量在动能和势能之间转换。在简谐振动中，势能和动能的总和保持不变，表现为机械能守恒。
+
+4. **阻尼振动**：实际系统中，振动往往会受到阻力（如摩擦力）的影响，导致振幅逐渐减小，这种现象称为阻尼振动。阻尼振动的方程通常包含一个阻尼项，描述能量的损失。
+
+5. **共振**：当外部驱动力的频率与系统的自然频率相匹配时，会发生共振现象，导致振幅显著增加。这在许多物理和工程应用中都非常重要。
+
+6. **数学工具**：振动分析常用到三角函数、微分方程和线性代数等数学工具，帮助描述和解决振动系统的动态行为。
+
+理解这些基本概念有助于深入研究振动现象及其在物理学、工程学和其他相关领域的应用。
+
+</details>
 
 #### angles
 
