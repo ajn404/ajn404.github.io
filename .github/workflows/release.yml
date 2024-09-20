@@ -78,3 +78,7 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.settings.args }}
+
+      - name: Clean up .env file
+        run: |
+          rm -f .env

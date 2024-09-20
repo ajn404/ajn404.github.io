@@ -50,6 +50,10 @@ jobs:
       - name: Build site
         run: pnpm run build
 
+      - name: Clean up .env file
+        run: |
+          rm -f .env
+
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
