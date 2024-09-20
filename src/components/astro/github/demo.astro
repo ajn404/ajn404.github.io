@@ -1,13 +1,38 @@
 ---
-const res = await fetch("https://api.github.com/user", {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
-  },
-});
-
-const userInfo = await res.json();
 
 ---
 
-<div>{userInfo.login}</div>
+<div id="user-info"></div>
+
+<script>
+  const getUserInfo = async () => {
+    if (!import.meta.env.PUBLIC_GITHUB_TOKEN) return;
+    const res = await fetch("https://api.github.com/user", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.PUBLIC_GITHUB_TOKEN}`,
+      },
+    });
+
+    const userInfo = await res.json();
+
+    console.log(userInfo);
+    document.getElementById("user-info").innerHTML = `
+      <h1>账户名:${userInfo.name}</h1>
+      <img src="${userInfo.avatar_url}" alt="${userInfo.name}" width="100" />
+      <p>账户ID:${userInfo.id}</p>
+      <p>账户地址:${userInfo.html_url}</p>
+      <p>账户类型:${userInfo.type}</p>
+      <p>账户创建时间:${userInfo.created_at}</p>
+      <p>账户更新时间:${userInfo.updated_at}</p>
+      <p>账户博客地址:${userInfo.blog}</p>
+      <p>账户位置:${userInfo.location}</p>
+      <p>账户邮箱:${userInfo.email}</p>
+      <p>账户bio:${userInfo.bio}</p>
+      <p>账户仓库数量:${userInfo.public_repos}</p>
+      <p>账户关注者数量:${userInfo.followers}</p>
+      <p>账户被关注数量:${userInfo.following}</p>
+    `;
+  };
+  getUserInfo();
+</script>

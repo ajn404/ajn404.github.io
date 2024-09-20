@@ -1,0 +1,31 @@
+---
+
+---
+
+<div id="action-info"></div>
+
+<script>
+  const owner = "ajn404";
+  const repo = "ajn404.github.io";
+  const token = import.meta.env.PUBLIC_GITHUB_TOKEN; // 替换为您的访问令牌
+
+  fetch(`https://api.github.com/repos/${owner}/${repo}/actions/runs`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("网络响应不正常");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data); // 打印工作流运行状态
+    })
+    .catch(error => {
+      console.error("获取状态时出错:", error);
+    });
+</script>
