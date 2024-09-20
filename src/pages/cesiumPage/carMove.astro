@@ -5,6 +5,17 @@
 <html>
   <head>
     <title>cesium demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #cesiumContainer {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
     <div id="cesiumContainer"></div>
@@ -17,7 +28,27 @@
     Cesium.Ion.defaultAccessToken = token;
     const viewer = new Cesium.Viewer("cesiumContainer", {
       shouldAnimate: true,
+      scene3DOnly: true,
+      maximumRenderTimeChange: Infinity,
+      sceneModePicker: false,
+      baseLayerPicker: false,
+      animation: false,
+      timeline: false,
+      requestRenderMode: true,
+      homeButton: false,
+      fullscreenButton: false,
+      geocoder: false,
+      infoBox: false,
+      selectionIndicator: false,
+      navigationHelpButton: false,
+      vrButton: false,
+      sceneMode: Cesium.SceneMode.SCENE3D,
     });
+    //@ts-ignore
+    viewer._cesiumWidget._creditContainer.parentNode.removeChild(
+      //@ts-ignore
+      viewer._cesiumWidget._creditContainer
+    );
     let entity;
 
     const partsToLoad = [
@@ -45,7 +76,7 @@
     viewer.dataSources.add(dataSource);
     // const part = partsToLoad[0];
 
-    const procesPart = (part) => {
+    const procesPart = part => {
       dataSource.process(part.url).then(function () {
         part.loaded = true;
         if (!viewer.trackedEntity) {
