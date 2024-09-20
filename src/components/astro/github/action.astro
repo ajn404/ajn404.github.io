@@ -2,7 +2,45 @@
 
 ---
 
-<div id="action-info"></div>
+<style is:inline>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    font-weight: 900;
+  }
+  .status-success {
+    color: green;
+  }
+  .status-failure {
+    color: red;
+  }
+  .status-in_progress {
+    color: orange;
+  }
+</style>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Conclusion</th>
+      <th>Run At</th>
+    </tr>
+  </thead>
+  <tbody id="actionsTable">
+    <!-- Data will be injected here -->
+  </tbody>
+</table>
 
 <script>
   const owner = "ajn404";
@@ -23,7 +61,39 @@
       return response.json();
     })
     .then(data => {
-      console.log(data); // 打印工作流运行状态
+      const runs = data.workflow_runs.slice(0, 50); // Get the latest 5 runs
+      const tableBody = document.getElementById("actionsTable");
+      runs.forEach(run => {
+        const row = document.createElement("tr");
+        // Run ID
+        const idCell = document.createElement("td");
+        idCell.textContent = run.id;
+        row.appendChild(idCell);
+
+        // Name
+        const nameCell = document.createElement("td");
+        nameCell.textContent = run.name;
+        row.appendChild(nameCell);
+
+        // Status
+        const statusCell = document.createElement("td");
+        statusCell.textContent = run.status;
+        statusCell.classList.add(`status-${run.status}`);
+        row.appendChild(statusCell);
+
+        // Conclusion
+        const conclusionCell = document.createElement("td");
+        conclusionCell.textContent = run.conclusion || "In progress";
+        conclusionCell.classList.add(`status-${run.conclusion}`);
+        row.appendChild(conclusionCell);
+
+        // Run created at
+        const dateCell = document.createElement("td");
+        dateCell.textContent = new Date(run.created_at).toLocaleString();
+        row.appendChild(dateCell);
+
+        tableBody.appendChild(row);
+      });
     })
     .catch(error => {
       console.error("获取状态时出错:", error);
