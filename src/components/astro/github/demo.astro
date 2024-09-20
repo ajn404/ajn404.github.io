@@ -13,10 +13,7 @@
         Authorization: `Bearer ${import.meta.env.PUBLIC_GITHUB_TOKEN}`,
       },
     });
-
     const userInfo = await res.json();
-
-    console.log(userInfo);
     document.getElementById("user-info").innerHTML = `
       <h1>账户名:${userInfo.name}</h1>
       <img src="${userInfo.avatar_url}" alt="${userInfo.name}" width="100" />
