@@ -15,10 +15,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Create .env file
-        run: |
-          echo "PUBLIC_GITHUB_TOKEN=${{ secrets.PUBLIC_GITHUB_TOKEN }}" >> .env
-
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
@@ -49,10 +45,8 @@ jobs:
 
       - name: Build site
         run: pnpm run build
-
-      - name: Clean up .env file
-        run: |
-          rm -f .env
+        env:
+          PUBLIC_GITHUB_TOKEN: ${{ secrets.PUBLIC_GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
