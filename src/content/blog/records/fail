@@ -1,0 +1,30 @@
+
+
+
+## 2024-09-20 10:30:54
+
+token🧑‍🏫失效，很烦
+
+### add github api
+
+- 获取基本信息
+
+<details>
+<summary>https://api.github.com/user</summary>
+
+import Demo from "@components/astro/github/demo.astro";
+
+<Demo />
+
+</details>
+
+- 获取action状态
+
+<details>
+<summary>Click to expand</summary>
+
+import Action from "@components/astro/github/action.astro";
+
+<Action />{" "}
+
+</details>

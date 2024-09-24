@@ -6,10 +6,11 @@ postSlug: 2024-09
 tags:
   - "2024"
   - "2024-09"
+  - driver
+  - english
 description: 上个月不算，八月公司的活有点多，这个月重来
 ---
 
-import Driver from "@components/react/little/driver.tsx";
 import DriverNoText from "@components/react/little/driverNoText.tsx";
 import Tag from "@components/astro/UI/Tag.astro";
 
@@ -110,34 +111,6 @@ View Transition API 是 Web 动画开发的一个强大工具，能够大幅简�
 ## 2024-09-18 21:09:59
 
 决定重新学习ts
-
-## 2024-09-20 10:30:54
-
-token🧑‍🏫失效，很烦
-
-### add github api
-
-- 获取基本信息
-
-<details>
-<summary>https://api.github.com/user</summary>
-
-import Demo from "@components/astro/github/demo.astro";
-
-<Demo />
-
-</details>
-
-- 获取action状态
-
-<details>
-<summary>Click to expand</summary>
-
-import Action from "@components/astro/github/action.astro";
-
-<Action />{" "}
-
-</details>
 
 ### 新增字体 Whisper
 
@@ -359,35 +332,27 @@ type ResultType = MyReturnType<typeof exampleFunction>; // ResultType 将被推�
 
 ### 今日英语
 
-Fabric is a <span id="fabric">JSON schema</span> for describing <span id="cesiumjs">materials in CesiumJS</span>.
-Materials represent the appearance of an object such as <span id="polygons">polygons</span>,
-
-{" "}
-<span id="polylines">polylines</span>, <span id="ellipsoids">ellipsoids</span>,
-and <span id="sensors">sensors</span>.
-<br />
-Note: For details about applying <span id="custom-materials">
-  custom materials
-</span> to <span id="d_models">3D models</span>
-or <span id="d_tiles">3D Tiles</span>, use the <span id="custom-shader-guide">
-  Custom Shader Guide
-</span> instead.
-<br />
-Materials can be as simple as draping an image over an object, or applying a
-pattern such as <span id="stripes">stripes</span>
-or a <span id="checkerboard">checkerboard</span>. Using Fabric and <span id="glsl">
-  GLSL
-</span>
-, new materials can be scripted from scratch or created by combining existing
-materials in a hierarchy; for example, <span id="wet-bricks">
-  wet crumbling bricks
-</span>
-can be created with a combination of <span id="procedural-brick">
-  procedural brick
-</span>
-, <span id="bump-map">bump map</span>, and <span id="specular-map">
-  specular map
-</span> materials.
+<blockquote>
+  Fabric is a <span id="fabric">JSON schema</span> for describing{" "}
+  <span id="cesiumjs">materials in CesiumJS </span>.Materials represent the
+  appearance of an object such as <span id="polygons">polygons</span> ,
+  <span id="polylines">polylines</span>, <span id="ellipsoids">ellipsoids</span>
+  , and <span id="sensors">sensors</span>.<br />
+  Note: For details about applying{" "}
+  <span id="custom-materials">custom materials</span> to{" "}
+  <span id="d_models">3D models</span>or <span id="d_tiles">3D Tiles</span>, use
+  the <span id="custom-shader-guide">Custom Shader Guide</span> instead.
+  <br />
+  Materials can be as simple as draping an image over an object, or applying a
+  pattern such as <span id="stripes">stripes</span>or a{" "}
+  <span id="checkerboard">checkerboard</span>. Using Fabric and{" "}
+  <span id="glsl"> GLSL </span>, new materials can be scripted from scratch or
+  created by combining existing materials in a hierarchy; for example,{" "}
+  <span id="wet-bricks"> wet crumbling bricks </span> can be created with a
+  combination of <span id="procedural-brick"> procedural brick </span> ,{" "}
+  <span id="bump-map">bump map</span>, and{" "}
+  <span id="specular-map"> specular map </span> materials.
+</blockquote>
 
 <blockquote>
 Fabric是一个用于描述CesiumJS中材料的JSON架构。材料表示对象的外观，例如多边形、折线、椭球体和传感器。
@@ -426,3 +391,9 @@ Fabric是一个用于描述CesiumJS中材料的JSON架构。材料表示对象�
 之前总想着在vscode里放浏览器，没想到...
 
 <img src="/assets/gif/workspace.gif" class="3/4" />
+
+### 今日cesium
+
+import CustomShaderDemo from "@components/react/cesium/customShader/demo.tsx";
+
+<CustomShaderDemo client:visible />
