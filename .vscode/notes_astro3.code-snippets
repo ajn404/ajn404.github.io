@@ -102,5 +102,14 @@
     ],
     "description": "details tag in mdx"
   },
+
+"title for today": {
+    "scope": "markdown",
+    "prefix": "t",
+    "body": [
+        "### 今日${1:topic}",
+    ],
+    "description": " today topic"
+},
   
 }

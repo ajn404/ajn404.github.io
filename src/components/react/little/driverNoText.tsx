@@ -5,18 +5,32 @@ interface Pros {
   elements?: string;
 }
 export default ({ elements }: Pros) => {
-  const click = () => {
-    if (elements && elements?.length > 0) {
-      const driverObj = driver({
-        showProgress: true,
-        animate: true,
-        steps: JSON.parse(elements),
+  useEffect(() => {
+    let steps: any[] = Array.from(JSON.parse(elements));
+    if (steps && steps.length > 0) {
+      steps.forEach(item => {
+        let target: HTMLDivElement = document.querySelector(`${item.element}`);
+        let randomColor = `rgb(${Math.floor(Math.random() * (255 - 100 + 1)) + 100},${Math.floor(Math.random() * (255 - 100 + 1)) + 100},${Math.floor(Math.random() * (255 - 100 + 1)) + 100})`;
+        target.style.color = randomColor;
+        target.style.cursor = "pointer";
+        target.style.fontSize = "1.25rem";
+        let driverObj;
+        target.addEventListener("click", () => {
+          if (driverObj) {
+            driverObj.destroy();
+            driverObj = null;
+            return;
+          }
+          driverObj = driver({
+            animate: true,
+            steps: [item],
+            showProgress: false,
+          });
+          driverObj.drive();
+        });
       });
-      driverObj.drive();
     }
-  };
-
-  console.log(elements);
+  });
 
   return <></>;
 };

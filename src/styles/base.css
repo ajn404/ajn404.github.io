@@ -123,6 +123,9 @@
   .prose h1,.prose h2,.prose h3,.prose h4,.prose h5,.prose h6{
     @apply my-4 brightness-150;
   }
+  .prose p{
+    @apply my-auto;
+  }
   .prose pre{
     padding-right:1em;
   }
@@ -237,8 +240,6 @@
   }
 }
 
-
-
 /* 引用 */
 blockquote {
   margin: 0;
@@ -246,15 +247,14 @@ blockquote {
 }
 
 blockquote p {
-  padding: 15px;
   border-radius: 5px;
 }
 
-blockquote p::before {
+blockquote::before {
   content: " "!important;
 }
 
-blockquote p::after {
+blockquote::after {
   content: " "!important;
 }
 
