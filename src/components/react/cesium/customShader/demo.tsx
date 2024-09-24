@@ -1,12 +1,5 @@
 import { useEffect, useRef } from "react";
-import {
-  Viewer,
-  Entity,
-  Cartesian3,
-  Color,
-  CustomShader,
-  UniformType,
-} from "cesium";
+import { Viewer } from "cesium";
 import { Ion } from "cesium";
 import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
@@ -79,14 +72,14 @@ export default function template() {
             // 计算颜色值
             float r = u_time; // 红色分量
             float b = 1.0 - u_time; // 蓝色分量
-            v_selectedColor = vec4(r, 0.0, b, 1.0);
+            v_selectedColor = vec4(r, r , b, 1.0);
         }
     `,
         fragmentShaderText: `
         void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
             
             material.diffuse = v_selectedColor.rgb; // 设置漫反射颜色为红色
-            material.alpha = 0.5; // 设置透明度
+            material.alpha = 1.0; // 设置透明度
         }
     `,
       });
