@@ -1,6 +1,14 @@
 import { useEffect, useRef } from "react";
-import { Viewer, Entity, Cartesian3, Color } from "cesium";
+import {
+  Viewer,
+  Entity,
+  Cartesian3,
+  Color,
+  CustomShader,
+  UniformType,
+} from "cesium";
 import { Ion } from "cesium";
+import * as Cesium from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
 // Make sure to set your Cesium ion access token
@@ -12,7 +20,7 @@ export default function template() {
   const viewerRef = useRef(null);
 
   useEffect(() => {
-    let viewer;
+    let viewer: Viewer;
 
     const init = () => {
       if (cesiumContainer.current && !viewerRef.current) {
@@ -42,6 +50,105 @@ export default function template() {
     };
 
     init();
+
+    requestIdleCallback(async () => {
+      // 创建自定义着色器
+      const customShader = new Cesium.CustomShader({
+        uniforms: {
+          u_time: {
+            value: 0, // 初始值
+            type: Cesium.UniformType.FLOAT,
+          },
+          u_externalTexture: {
+            value: new Cesium.TextureUniform({
+              url: "/assets/bg/1.jpeg",
+            }),
+            type: Cesium.UniformType.SAMPLER_2D,
+          },
+        },
+        varyings: {
+          v_customTexCoords: Cesium.VaryingType.VEC2,
+          v_selectedColor: Cesium.VaryingType.VEC4,
+        },
+        mode: Cesium.CustomShaderMode.MODIFY_MATERIAL,
+        lightingModel: Cesium.LightingModel.PBR,
+        translucencyMode: Cesium.CustomShaderTranslucencyMode.TRANSLUCENT,
+        vertexShaderText: `
+        void vertexMain(VertexInput vsInput, inout czm_modelVertexOutput vsOutput) {
+            // 这里可以添加自定义的顶点着色器代码
+            // 计算颜色值
+            float r = u_time; // 红色分量
+            float b = 1.0 - u_time; // 蓝色分量
+            v_selectedColor = vec4(r, 0.0, b, 1.0);
+        }
+    `,
+        fragmentShaderText: `
+        void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
+            
+            material.diffuse = v_selectedColor.rgb; // 设置漫反射颜色为红色
+            material.alpha = 0.5; // 设置透明度
+        }
+    `,
+      });
+
+      // 更新u_time的值
+      function updateShaderTime() {
+        const currentTime = performance.now() * 0.001; // 获取当前时间（秒）
+        customShader.setUniform("u_time", Math.sin(currentTime)); // 使用正弦函数使颜色在0到1之间变化
+      }
+
+      // 在渲染循环中更新时间
+      viewer.scene.preRender.addEventListener(updateShaderTime);
+
+      const translation = new Cesium.Cartesian3(
+        -1571952.1361662298,
+        4395241.97876768,
+        4332149.3142119665
+      );
+      const cartographic = Cesium.Cartographic.fromCartesian(translation);
+      const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+      const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+      const height = cartographic.height;
+
+      const entity = (viewer.trackedEntity = viewer.entities.add({
+        name: "animate",
+        position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+        model: {
+          uri: "/assets/models/gltf/animate.gltf",
+          scale: 1000000,
+          customShader: customShader,
+        },
+      }));
+      viewer.trackedEntity = entity;
+    });
+
+    // 创建事件处理器
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+
+    // 监听右键点击事件
+    handler.setInputAction(movement => {
+      const windowPosition = movement.position;
+
+      // 将屏幕坐标转换为地球表面的坐标
+      const pickedPosition = viewer.camera.pickEllipsoid(windowPosition);
+
+      if (pickedPosition) {
+        // 将笛卡尔坐标转换为经纬度
+        const cartographic = Cesium.Cartographic.fromCartesian(pickedPosition);
+        const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+        const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+        // console.log(`经度: ${longitude.toFixed(6)}, 纬度: ${latitude.toFixed(6)}`);
+        const position = Cesium.Cartesian3.fromDegrees(
+          longitude,
+          latitude,
+          200
+        );
+
+        console.log(position);
+      } else {
+        console.log("未点击到地球表面");
+      }
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
     const containerElement = cesiumContainer.current;
     containerElement.addEventListener("wheel", handleWheel);
