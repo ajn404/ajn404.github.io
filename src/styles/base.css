@@ -25,6 +25,16 @@
     src: url('/assets/font/WorkSans-Regular.woff2') format('woff');
 }
 
+@font-face {
+    font-family: 'Whisper';
+    src: url('/assets/font/Whisper-400-latin3.woff2') format('woff');
+}
+
+.font-whisper,.font-whisper * {
+    font-family: "Whisper", "Work Sans", sans-serif;
+}
+
+
 @layer base {
   :root{
     --color-fill: 33, 39, 55;

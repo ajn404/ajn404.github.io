@@ -9,6 +9,7 @@ tags:
 description: 上个月不算，八月公司的活有点多，这个月重来
 ---
 
+import Driver from "@components/react/little/driver.tsx";
 import Tag from "@components/astro/UI/Tag.astro";
 
 ## 目录
@@ -136,3 +137,152 @@ import Action from "@components/astro/github/action.astro";
 <Action />{" "}
 
 </details>
+
+### 新增字体 Whisper
+
+签名字体 <span class="font-whisper">Whisper</span>
+
+<blockquote class="font-whisper text-2xl">
+  From fairest creatures we desire increase,
+  <br />
+  That thereby beauty's rose might never die,
+  <br />
+  But as the riper should by time decease,
+  <br />
+  His tender heir might bear his memory:
+  <br />
+  But thou, contending with old age and death,
+  <br />
+  To hide thyself, diedst not leave me so.
+  <br />
+  Thy self thy foe, to thy sweet self too cruel,
+  <br />
+  Thou that art now the world's fresh ornament,
+  <br />
+  And only herald of the gaudy spring,
+  <br />
+  Wilt thou, upon the high and giddy mast,
+  <br />
+  Seal up thy lips, and drown the whole world in tears?
+  <br />
+  O, let me not be made a fool of thee,
+  <br />
+  To be so cruel, and yet so fair!
+  <br />
+</blockquote>
+
+### show code
+
+<details>
+<summary>今天写了一个还有点不错的代码</summary>
+
+```js
+socket = new WebSocket(`ws://${host}/websocket/position/ajn404`);
+let lastExecutionTime = 0; // 上次执行时间
+let cache = [];
+let processing = false;
+const cacheMap = new Map();
+
+socket.addEventListener("message", function (event) {
+  const parsedData = JSON.parse(event.data);
+
+  // 处理警告通知
+  if (parsedData.method === "warning") {
+    showNotification(parsedData);
+    return;
+  }
+
+  const currentTime = Date.now(); // 获取当前时间
+  // 如果距离上次执行时间小于 100ms，则继续缓存数据
+  if (currentTime - lastExecutionTime < 100) {
+    cacheMap.set(parsedData.params.tagId, parsedData.params); // 用 tagId 作为键，去重存储数据
+    return;
+  }
+  lastExecutionTime = currentTime; // 更新上次执行时间
+  cacheMap.set(parsedData.params.tagId, parsedData.params); // 用 tagId 作为键，去重存储数据
+
+  // 如果正在处理缓存中的数据，则不再处理
+  if (processing) return;
+  processing = true; // 标记为正在处理
+
+  setTimeout(() => {
+    // 将 Map 转换为数组，取出所有的缓存数据
+    cache = Array.from(cacheMap.values());
+
+    // 过滤并获取车辆和人员的更新数据
+    const updateData = getGraphicData(
+      cache.filter(item => item.entityType === "car"),
+      "car"
+    );
+
+    const updateDataMember = getGraphicData(
+      cache.filter(item => item.entityType === "staff"),
+      "member"
+    );
+
+    // 更新车辆位置
+    if (updateData && updateData.length > 0) {
+      vehicleLocation.locationView.update(updateData);
+    }
+
+    // 更新人员位置
+    if (updateDataMember && updateDataMember.length > 0) {
+      memberLocation.locationView.update(updateDataMember);
+    }
+
+    cacheMap.clear(); // 清空 Map 以保证缓存不重复
+
+    if (!memberLocation.positionGroupGraphics) {
+      cache = [...updateDataMember];
+    }
+
+    if (!vehicleLocation.positionGroupGraphics) {
+      cache = [...cache, ...updateData];
+    }
+
+    // 处理完成后清空缓存并重置标记
+
+    processing = false;
+
+    console.log(cache, updateDataMember, updateData);
+  }, 0); // 异步处理，保证不会阻塞消息接收
+});
+```
+
+</details>
+
+### Visual Viewport API
+
+<details>
+<summary>什么是Visual Viewport API</summary>
+
+Visual Viewport API 是一种机制，允许开发者查询和修改窗口可视区域的属性。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API) 可视区域是指屏幕上除去屏幕键盘、缩放区域外以及其他不随页面缩放的屏幕元素后，实际可见的部分。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API)
+
+移动网页包含两个视口：布局视口和可视视口。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API) 布局视口涵盖页面上的所有元素，而可视视口是屏幕上实际可见的部分。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API)[6](https://github.com/WICG/visual-viewport) 当用户放大页面时，可视视口会缩小，但布局视口保持不变。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API) 用户界面功能（如屏幕键盘）可以缩小可视视口，而不会影响布局视口。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API) Visual Viewport API 允许开发者相对于屏幕上显示的内容定位元素，从而解决布局视口和可视视口不一致的问题。 [1](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API)
+
+</details>
+
+## 2024-09-23 14:15:19
+
+### 每日英语
+
+<div id="second">
+  I <span id="use">use</span> <span id="nestjs">Nest.Js</span> at work but{" "}
+  <span id="dislike">don’t like it</span>, too much{" "}
+  <span id="boilerplate">boilerplate</span>. I like{" "}
+  <span id="express">express</span> more, very <span id="easy">easy</span> to
+  use with <span id="ts">TS</span> too.
+</div>
+
+<Driver
+  client:load
+  elements='[
+          {"element":"#use","popover":{"title":"use","description":"表示应用或使用某物，通常指工作或开发中的实践。","side":"top","align":"start"}},
+          {"element":"#nestjs","popover":{"title":"Nest.Js","description":"一种渐进式的Node.js框架，专为构建可扩展的服务器端应用而设计，结合了面向对象和函数式编程。","side":"top","align":"start"}},
+          {"element":"#dislike","popover":{"title":"don’t like it","description":"表达对某事物的反感或不满。此处指作者不喜欢Nest.Js。","side":"top","align":"start"}},
+          {"element":"#boilerplate","popover":{"title":"boilerplate","description":"指重复的、冗余的代码，通常是开发者认为不必要或繁琐的部分。","side":"top","align":"start"}},
+          {"element":"#express","popover":{"title":"express","description":"一个简洁且灵活的Node.js框架，用于构建服务器端应用，开发者常称其为轻量、快速。","side":"top","align":"start"}},
+          {"element":"#easy","popover":{"title":"easy","description":"表示简单、方便，此处指Express.js比Nest.Js更加容易使用。","side":"top","align":"start"}},
+          {"element":"#ts","popover":{"title":"TS","description":"TypeScript的简称，是JavaScript的超集，添加了静态类型支持。","side":"top","align":"start"}}
+        ]'
+/>

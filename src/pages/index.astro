@@ -27,7 +27,7 @@ const showDialog = Astro.request.url !== "https://ajn404-github-io.pages.dev/";
       >
         今日方知我为
         <a
-          class="inline-block  skew-x-12 xing-cao text-skin-gray-light"
+          class="inline-block skew-x-12 xing-cao text-skin-gray-light"
           target="_blank"
           href="https://github.com/ajn404">我</a
         >
@@ -147,12 +147,14 @@ const showDialog = Astro.request.url !== "https://ajn404-github-io.pages.dev/";
 
     <Header home={true} />
   </main>
-  <blockquote class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900 w-full text-center my-10 font-bold italic text-white">
+  <blockquote
+    class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900 w-full text-center my-10 font-bold italic text-white"
+  >
     <p>
       "The WorldWideWeb (WWW) project aims to allow links to be made to any
       information anywhere."
     </p>
-    <cite class="text-sm text-right">
+    <cite class="text-sm text-right font-whisper">
       <a
         target="_blank"
         href="https://www.w3.org/People/Berners-Lee/1991/08/art-6484.txt"
@@ -162,9 +164,9 @@ const showDialog = Astro.request.url !== "https://ajn404-github-io.pages.dev/";
   </blockquote>
   <Footer />
   <TextAnimation
-    text="下学blog made by ajn404"
+    text="practical learning blog made by ajn404"
     stroke="white"
-    className="xing-cao absolute -z-10 right-0 opacity-5 text-animation  md:opacity-10"
+    className="xing-cao absolute -z-10 right-0 opacity-5 text-animation  md:opacity-10 font-whisper"
     client:load
   />
   {showDialog && <AlertDialogDemo client:load />}
