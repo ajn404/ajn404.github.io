@@ -386,7 +386,7 @@ Fabric是一个用于描述CesiumJS中材料的JSON架构。材料表示对象�
 - 自定义shader
 
 <details>
-<summary>Click to expand</summary>
+<summary>[相关文档](https://github.com/CesiumGS/cesium/blob/main/Documentation/CustomShaderGuide/README.md)</summary>
 
 import CustomShaderDemo from "@components/react/cesium/customShader/demo.tsx";
 
@@ -473,6 +473,19 @@ If you’re reading this chances are you’re already familiar with WASM to some
 
 如果你正在阅读这篇文章，那么你很可能对 WebAssembly（WASM）已经有一定的了解。如果你还不熟悉，这正是一个很好的时机去查看 webassembly.org。在本文发布时，WebAssembly 刚刚达到了浏览器预览的里程碑，这意味着 WebAssembly 的第一个版本很可能就是当前草案所描述的内容。本文的具体内容是针对版本 mvp-13 的。
 
+WebAssembly really has no dependencies on anything “web” and its module and bytecode format is at such a low level that it can be used to represent any other higher-level program.
+There are several high-quality VMs being implemented, many of them in web browser, which can execute WASM programs efficiently, making distribution a bliss (the web!)
+WASM code can be translated to machine code.
+WASM can be interpreted and emulated which makes debugging a whole lot more pleasant than debugging programs which only run natively. How about we stop the world and interactively inspect the stack? How about we play back an interpreted recording that reproduces a bug deterministically?
+
+WebAssembly（WASM）确实是一个非常强大的技术，它的设计使其能够独立于任何特定的“网络”环境。WASM 的模块和字节码格式非常低级，这意味着它可以用来表示任何其他更高级的程序。这种灵活性使得它在各种应用场景中都能发挥作用，尤其是在 Web 开发中。
+
+目前，有许多高质量的虚拟机（VM）正在实现，许多都在网页浏览器中运行，这使得执行 WASM 程序变得高效且简单。由于 WASM 的可移植性，开发者可以轻松地将其分发到不同的平台上，这无疑是 Web 开发的一大福音。
+
+WASM 代码可以被翻译成机器代码，这意味着它可以在不同的硬件上高效运行。此外，WASM 还支持解释和仿真，这使得调试过程变得更加愉快。开发者可以通过交互式地检查堆栈，甚至可以回放一个解释的记录，以确定性地重现一个 bug，这在传统的本地程序调试中是很难实现的。
+
+这种调试能力的提升，结合 WASM 的高效执行和广泛的兼容性，使得它成为现代 Web 开发中不可或缺的工具。通过 WASM，开发者可以更轻松地构建复杂的应用程序，同时享受更好的性能和更简化的调试过程。
+
 </details>
 
 <DriverNoText
@@ -508,4 +521,8 @@ If you’re reading this chances are you’re already familiar with WASM to some
 
 ### 今日探索
 
-> [lume](https://lume.io/) > [lume demo page](https://docs.lume.io/examples/disco-helmet/example.html) > [yew](https://yew.rs/)
+> [lume](https://lume.io/)
+
+> [lume demo page](https://docs.lume.io/examples/disco-helmet/example.html)
+
+> [yew](https://yew.rs/)

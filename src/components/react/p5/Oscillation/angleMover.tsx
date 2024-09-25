@@ -1,11 +1,9 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 import { Mover } from "./Mover";
-import { useCallback, useState } from "react";
-import { Toggle } from "@components/react/shadcn/ui/toggle";
+import { useCallback } from "react";
 
 export default () => {
-  const [turnOffBackground, setTurnOffBackground] = useState(false);
   const sketch = useCallback((p: p5) => {
     let mover: Mover[];
     const setup = () => {
@@ -31,11 +29,6 @@ export default () => {
   return (
     <>
       <Basic sketch={sketch} showControls></Basic>
-      <Toggle
-        onChange={e => {
-          console.log(e);
-        }}
-      ></Toggle>
     </>
   );
 };

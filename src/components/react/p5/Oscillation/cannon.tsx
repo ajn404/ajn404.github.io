@@ -165,13 +165,16 @@ export default () => {
   return (
     <>
       <Basic sketch={sketch} showControls></Basic>
-      <Label htmlFor="openCheckEdges" className="text-center p-10 select-none">
+      <Label
+        htmlFor="openCheckEdges"
+        className="text-center m-4 p-10 select-none"
+      >
         {" "}
         打开边缘碰撞
       </Label>
       <Switch
         id="openCheckEdges"
-        className="p-4"
+        className="m-4"
         checked={openCheckEdges}
         onCheckedChange={e => setOpenCheckEdges(e)}
       ></Switch>
