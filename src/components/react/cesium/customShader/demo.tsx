@@ -52,33 +52,31 @@ export default function template() {
             value: 0, // 初始值
             type: Cesium.UniformType.FLOAT,
           },
-          u_externalTexture: {
-            value: new Cesium.TextureUniform({
-              url: "/assets/bg/1.jpeg",
-            }),
-            type: Cesium.UniformType.SAMPLER_2D,
-          },
+          //   u_externalTexture: {
+          //     value: new Cesium.TextureUniform({
+          //       url: "/assets/bg/1.jpeg",
+          //     }),
+          //     type: Cesium.UniformType.SAMPLER_2D,
+          //   },
         },
-        varyings: {
-          v_customTexCoords: Cesium.VaryingType.VEC2,
-          v_selectedColor: Cesium.VaryingType.VEC4,
-        },
+        // varyings: {
+        //   v_customTexCoords: Cesium.VaryingType.VEC2,
+        //   v_selectedColor: Cesium.VaryingType.VEC4,
+        // },
         mode: Cesium.CustomShaderMode.MODIFY_MATERIAL,
         lightingModel: Cesium.LightingModel.PBR,
         translucencyMode: Cesium.CustomShaderTranslucencyMode.TRANSLUCENT,
         vertexShaderText: `
         void vertexMain(VertexInput vsInput, inout czm_modelVertexOutput vsOutput) {
             // 这里可以添加自定义的顶点着色器代码
-            // 计算颜色值
-            float r = u_time; // 红色分量
-            float b = 1.0 - u_time; // 蓝色分量
-            v_selectedColor = vec4(r, r , b, 1.0);
         }
     `,
         fragmentShaderText: `
         void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
-            
-            material.diffuse = v_selectedColor.rgb; // 设置漫反射颜色为红色
+            float r = u_time; // 红色分量
+            float b = 1.0 - u_time; // 蓝色分量
+            vec4 color = vec4(r, r , b, 1.0);
+            material.diffuse = color.rgb; // 设置漫反射颜色为红色
             material.alpha = 1.0; // 设置透明度
         }
     `,

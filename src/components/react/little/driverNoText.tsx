@@ -22,11 +22,14 @@ export default ({ elements }: Pros) => {
             return;
           }
           driverObj = driver({
-            animate: true,
-            steps: [item],
-            showProgress: false,
+            popoverClass: "driverjs-theme",
+            stagePadding: 4,
           });
-          driverObj.drive();
+
+          driverObj.highlight({
+            element: item.element,
+            popover: item.popover,
+          });
         });
       });
     }

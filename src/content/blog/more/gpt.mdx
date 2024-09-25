@@ -541,3 +541,73 @@ import Demo from "@components/react/little/driver.tsx";
 通过以上分析，可以更清晰地理解这句话的含义及其语法结构，同时也能掌握一些相关的生僻词汇。
 
 </details>
+
+### aot
+
+<details>
+<summary>Click to expand</summary>
+AOT（Ahead-of-Time Compilation）是一种编译技术，它在程序运行之前将高层次的编程语言（如JavaScript、Java等）编译成低层次的机器代码或字节码。这种方法与JIT（Just-In-Time Compilation）相对，后者是在程序运行时动态编译代码。
+
+AOT的主要优点包括：
+
+1. **性能提升**：由于代码在运行之前已经被编译，AOT可以减少启动时间和运行时的开销，从而提高程序的整体性能。例如，NectarJS的AOT编译器声称其JavaScript代码可以超越其他JavaScript引擎，充分发挥其潜力[2](https://nectar.js.org/)。
+
+2. **更好的优化**：AOT编译器可以在编译时进行更多的全局优化，而JIT编译器通常只能基于运行时的信息进行局部优化。这意味着AOT编译的程序在执行时可能会表现得更高效。
+
+3. **减少运行时依赖**：AOT编译的程序不需要在运行时依赖解释器或JIT编译器，这使得它们在某些环境（如嵌入式系统或安全敏感的应用）中更加可控和安全[3](https://cfallin.org/blog/2024/08/27/aot-js/)。
+
+然而，AOT也有一些缺点，比如编译时间较长，可能会导致开发过程中的反馈循环变慢。此外，由于缺乏运行时信息，AOT编译器可能无法对某些动态特性进行优化。
+
+总的来说，AOT是一种在特定场景下非常有用的编译技术，尤其是在需要高性能和低延迟的应用中。
+
+</details>
+
+### infer
+
+<details>
+<summary>Click to expand</summary>
+在 TypeScript 中，`infer` 关键字用于条件类型中，以便从其他类型中推断出一个类型。它允许你在条件类型的 `extends` 子句中声明一个类型变量，并在条件成立时使用这个变量。这样可以动态地捕获类型信息。
+
+### 使用场景
+
+1. **提取函数返回类型**：
+   `infer` 常用于提取函数的返回类型。例如，TypeScript 的内置 `ReturnType` 工具类型就是利用 `infer` 来实现的：
+
+   ```typescript
+   type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+   ```
+
+   在这个例子中，如果 `T` 是一个函数类型，`R` 就会被推断为该函数的返回类型。
+
+2. **处理数组类型**：
+   你可以使用 `infer` 来提取数组的元素类型：
+
+   ```typescript
+   type ElementType<T> = T extends (infer E)[] ? E : T;
+   ```
+
+   这里，如果 `T` 是一个数组类型，`E` 就会被推断为数组的元素类型；如果不是数组，则返回 `T` 本身。
+
+3. **条件类型的灵活性**：
+   `infer` 使得条件类型更加灵活和强大。你可以在条件成立时捕获类型，并在后续的逻辑中使用它。
+
+### 示例
+
+以下是一个简单的示例，展示如何使用 `infer` 来提取函数的参数类型：
+
+```typescript
+type FirstArgument<T> = T extends (first: infer A, ...args: any[]) => any
+  ? A
+  : never;
+
+const exampleFunction = (x: number, y: string) => {};
+type ArgType = FirstArgument<typeof exampleFunction>; // ArgType 为 number
+```
+
+在这个例子中，`FirstArgument` 类型提取了 `exampleFunction` 的第一个参数类型。
+
+### 总结
+
+`infer` 是 TypeScript 中一个非常强大的工具，它允许开发者在类型系统中进行更复杂的推断和操作。通过使用 `infer`，你可以编写更灵活和可复用的类型定义，使得类型系统更加动态和强大。
+
+</details>

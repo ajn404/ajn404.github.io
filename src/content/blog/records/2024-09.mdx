@@ -14,6 +14,29 @@ description: 上个月不算，八月公司的活有点多，这个月重来
 import DriverNoText from "@components/react/little/driverNoText.tsx";
 import Tag from "@components/astro/UI/Tag.astro";
 
+<blockquote class="xing-cao p-0 m-0 leading-none text-right">
+  目击众神死亡的草原上野花一片
+  <br />
+  　　远在远方的风比远方更远
+  <br />
+  　　我的琴声呜咽泪水全无
+  <br />
+  　　我把这远方的远归还草原
+  <br />
+  　　一个叫木头一个叫马尾
+  <br />
+  　　我的琴声呜咽泪水全无
+  <br />
+  　　远方只有在死亡中凝聚野花一片
+  <br />
+  　　明月如镜高悬草原映照千年岁月
+  <br />
+  　　我的琴声呜咽泪水全无
+  <br />
+  　　只身打马过草原
+  <br />
+</blockquote>
+
 ## 目录
 
 ## 2024-09-04 14:06:14
@@ -250,19 +273,6 @@ Visual Viewport API 是一种机制，允许开发者查询和修改窗口可视
   use with <span id="ts">TS</span> too.
 </div>
 
-<DriverNoText
-  client:load
-  elements='[
-          {"element":"#use","popover":{"title":"use","description":"表示应用或使用某物，通常指工作或开发中的实践。","side":"top","align":"start"}},
-          {"element":"#nestjs","popover":{"title":"Nest.Js","description":"一种渐进式的Node.js框架，专为构建可扩展的服务器端应用而设计，结合了面向对象和函数式编程。","side":"top","align":"start"}},
-          {"element":"#dislike","popover":{"title":"don’t like it","description":"表达对某事物的反感或不满。此处指作者不喜欢Nest.Js。","side":"top","align":"start"}},
-          {"element":"#boilerplate","popover":{"title":"boilerplate","description":"指重复的、冗余的代码，通常是开发者认为不必要或繁琐的部分。","side":"top","align":"start"}},
-          {"element":"#express","popover":{"title":"express","description":"一个简洁且灵活的Node.js框架，用于构建服务器端应用，开发者常称其为轻量、快速。","side":"top","align":"start"}},
-          {"element":"#easy","popover":{"title":"easy","description":"表示简单、方便，此处指Express.js比Nest.Js更加容易使用。","side":"top","align":"start"}},
-          {"element":"#ts","popover":{"title":"TS","description":"TypeScript的简称，是JavaScript的超集，添加了静态类型支持。","side":"top","align":"start"}}
-        ]'
-/>
-
 ## 2024-09-24 14:27:16
 
 ### 今日类型体操
@@ -382,7 +392,14 @@ Fabric是一个用于描述CesiumJS中材料的JSON架构。材料表示对象�
           {"element":"#wet-bricks","popover":{"title":"wet crumbling bricks","description":"湿润的破碎砖块，表示一种特定的材料效果。","side":"top","align":"start"}},
           {"element":"#procedural-brick","popover":{"title":"procedural brick","description":"程序生成的砖块材料，用于创建复杂的表面效果。","side":"top","align":"start"}},
           {"element":"#bump-map","popover":{"title":"bump map","description":"凹凸贴图，用于在不增加几何体的情况下添加表面细节。","side":"top","align":"start"}},
-          {"element":"#specular-map","popover":{"title":"specular map","description":"高光贴图，用于定义表面反射光的强度。","side":"top","align":"start"}}
+          {"element":"#specular-map","popover":{"title":"specular map","description":"高光贴图，用于定义表面反射光的强度。","side":"top","align":"start"}},
+          {"element":"#use","popover":{"title":"use","description":"表示应用或使用某物，通常指工作或开发中的实践。","side":"top","align":"start"}},
+          {"element":"#nestjs","popover":{"title":"Nest.Js","description":"一种渐进式的Node.js框架，专为构建可扩展的服务器端应用而设计，结合了面向对象和函数式编程。","side":"top","align":"start"}},
+          {"element":"#dislike","popover":{"title":"don’t like it","description":"表达对某事物的反感或不满。此处指作者不喜欢Nest.Js。","side":"top","align":"start"}},
+          {"element":"#boilerplate","popover":{"title":"boilerplate","description":"指重复的、冗余的代码，通常是开发者认为不必要或繁琐的部分。","side":"top","align":"start"}},
+          {"element":"#express","popover":{"title":"express","description":"一个简洁且灵活的Node.js框架，用于构建服务器端应用，开发者常称其为轻量、快速。","side":"top","align":"start"}},
+          {"element":"#easy","popover":{"title":"easy","description":"表示简单、方便，此处指Express.js比Nest.Js更加容易使用。","side":"top","align":"start"}},
+          {"element":"#ts","popover":{"title":"TS","description":"TypeScript的简称，是JavaScript的超集，添加了静态类型支持。","side":"top","align":"start"}}
         ]'
 />
 
@@ -402,5 +419,67 @@ Fabric是一个用于描述CesiumJS中材料的JSON架构。材料表示对象�
 import CustomShaderDemo from "@components/react/cesium/customShader/demo.tsx";
 
 <CustomShaderDemo client:visible />
+
+</details>
+
+## 2024-09-25 09:20:52
+
+### 今日类型体操
+
+- 手写<div id="Omit">Omit</div>\<T,K>
+
+<details>
+<summary>`type MyOmit<T, K extends keyof T> = {[P in keyof T as P extends K ? never : P]: T[P]}`</summary>
+
+好的，让我们来深入理解这个 `MyOmit` 类型的定义。
+
+### `MyOmit` 类型的目的
+
+`MyOmit` 是一个自定义的 TypeScript 类型，用于从一个对象类型 `T` 中排除指定的键 `K`。换句话说，它会返回一个新类型，该类型与 `T` 相同，但不包含 `K` 中指定的属性。
+
+### 代码解析
+
+```typescript
+type MyOmit<T, K extends keyof T> = {
+  [P in keyof T as P extends K ? never : P]: T[P];
+};
+```
+
+#### 逐行解析
+
+1. **`type MyOmit<T, K extends keyof T>`**:
+
+   - 这里定义了一个类型 `MyOmit`，它接受两个类型参数：
+     - `T`：表示要操作的对象类型。
+     - `K`：表示要排除的键，`K` 必须是 `T` 的键之一（`K extends keyof T`）。
+
+2. **`{ [P in keyof T as P extends K ? never : P]: T[P] }`**:
+   - 这是一个映射类型（Mapped Type），用于构建新类型。
+   - `P in keyof T`：遍历 `T` 的所有键。
+   - `as P extends K ? never : P`：这是一个条件类型，用于决定是否保留当前键 `P`。
+     - 如果 `P` 是 `K` 中的一个键（即要排除的键），则返回 `never`，表示不保留这个键。
+     - 否则，保留这个键 `P`。
+   - `T[P]`：表示新类型中对应键 `P` 的值类型。
+
+### 整体效果
+
+通过这个定义，`MyOmit` 会创建一个新类型，包含 `T` 中所有的键，除了那些在 `K` 中指定的键。例如：
+
+```typescript
+type Person = {
+  name: string;
+  age: number;
+  address: string;
+};
+
+type OmittedPerson = MyOmit<Person, "age" | "address">;
+// OmittedPerson 的类型为 { name: string }
+```
+
+在这个例子中，`OmittedPerson` 类型将只包含 `name` 属性，因为 `age` 和 `address` 被排除了。
+
+### 总结
+
+`MyOmit` 是一个非常实用的工具类型，可以帮助你在 TypeScript 中灵活地处理对象类型，排除不需要的属性。通过使用映射类型和条件类型，`MyOmit` 提供了一种优雅的方式来创建新的类型。希望这个解释能帮助你更好地理解 TypeScript 的类型系统！如果还有其他问题，随时问我哦！
 
 </details>
