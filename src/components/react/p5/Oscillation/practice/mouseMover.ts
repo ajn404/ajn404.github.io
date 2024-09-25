@@ -27,12 +27,14 @@ class Mover {
       this.position.x < this.circleRadius
     ) {
       this.velocity.x *= -1;
+      this.position.x = p.width / 2;
     }
     if (
       this.position.y + this.circleRadius > p.height ||
       this.position.y < this.circleRadius
     ) {
       this.velocity.y *= -1;
+      this.position.y = p.height / 2;
     }
   }
 

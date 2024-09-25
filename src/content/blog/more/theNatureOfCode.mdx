@@ -1605,15 +1605,13 @@ class Mover {
     );
   }
 }
-
 export { Mover };
 ```
 
 </details>
 
 - 稍微加两行角度控制和show函数更改
-
-<details>
+  <details>
 <summary>Click to expand</summary>
 
 ```ts
@@ -1635,7 +1633,6 @@ export default class MouseLeadingCar extends Mover {
     _.fill(0);
     _.translate(this.position.x, this.position.y);
     _.rotate(angle);
-
     _.rect(0, 0, 30, 10);
     _.pop();
   }
