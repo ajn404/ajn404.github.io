@@ -28,7 +28,11 @@ export default ({ elements }: Pros) => {
 
           driverObj.highlight({
             element: item.element,
-            popover: item.popover,
+            popover: {
+              ...item.popover,
+              side: "top",
+              align: "start",
+            },
           });
         });
       });

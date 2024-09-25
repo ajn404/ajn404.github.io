@@ -12,6 +12,13 @@ tags:
 description: "openai chatgpt问答"
 ---
 
+零零散散问了不少
+
+<div class="flex justify-between">
+  <img src="/assets/gif/record.gif" alt="问问题好啊" class="w-2/5"></img>
+  <img src="/assets/gif/record-gpt.gif" alt="问问题好啊" class="w-2/5"></img>
+</div>
+
 ### 目录
 
 ### 前端 effect 有哪些概念
@@ -609,5 +616,86 @@ type ArgType = FirstArgument<typeof exampleFunction>; // ArgType 为 number
 ### 总结
 
 `infer` 是 TypeScript 中一个非常强大的工具，它允许开发者在类型系统中进行更复杂的推断和操作。通过使用 `infer`，你可以编写更灵活和可复用的类型定义，使得类型系统更加动态和强大。
+
+</details>
+
+### as
+
+<details>
+<summary>ts use as</summary>
+
+在 TypeScript 中，`as` 关键字用于类型断言（Type Assertion），它允许开发者显式地指定一个值的类型。这在处理动态类型或不确定类型时非常有用，可以帮助 TypeScript 编译器理解你对某个值的类型的信心。
+
+### 基本用法
+
+1. **类型断言**：你可以使用 `as` 来告诉 TypeScript 编译器将一个值视为特定类型。例如：
+
+   ```typescript
+   let someValue: any = "这是一个字符串";
+   let strLength: number = (someValue as string).length;
+   ```
+
+   在这个例子中，`someValue` 被断言为 `string` 类型，从而可以安全地访问其 `length` 属性。
+
+2. **与 JSX 结合使用**：在使用 JSX 时，`as` 语法更为常见，因为它在处理类型时更清晰。例如：
+
+   ```typescript
+   interface User {
+     name: string;
+     age: number;
+   }
+
+   const user = {} as User; // 断言 user 为 User 类型
+   ```
+
+### 其他用法
+
+- **映射类型**：在 TypeScript 4.1 及以上版本中，`as` 还可以用于键映射，允许你重新映射类型的键。例如：
+
+  ```typescript
+  type Person = {
+    name: string;
+    age: number;
+  };
+
+  type Getters<T> = {
+    [K in keyof T as `get${Capitalize<K & string>}`]: () => T[K];
+  };
+
+  type MappedPerson = Getters<Person>;
+  ```
+
+  这里，`MappedPerson` 将 `Person` 类型的键映射为以 `get` 开头的方法名。
+
+### 注意事项
+
+使用 `as` 进行类型断言时要小心，因为如果你错误地断言了类型，可能会导致运行时错误。例如：
+
+```typescript
+let someValue: any = "这是一个字符串";
+let num: number = someValue as number; // 这将导致运行时错误
+```
+
+在这个例子中，`someValue` 实际上是一个字符串，但被错误地断言为 `number` 类型。
+
+总之，`as` 关键字在 TypeScript 中是一个强大的工具，可以帮助你更好地控制类型，但使用时要确保你对类型的理解是正确的，以避免潜在的错误[1](https://stackoverflow.com/questions/55781559/what-does-the-as-keyword-do)[5](https://dev.to/diwakarkashyap/as-in-typescript-as-keyword-in-typescript-31k7)。
+
+</details>
+
+### JavaScript为什么不能通过 AOT（Ahead-of-Time）编译成二进制
+
+<details>
+<summary>Click to expand</summary>
+JavaScript 不能通过 AOT（Ahead-of-Time）编译成二进制的原因主要与其动态特性和运行时环境有关。以下是一些关键因素：
+
+1. **动态类型**：JavaScript 是一种动态类型语言，变量的类型在运行时可以改变。这使得编译器在编译时无法确定变量的确切类型，从而无法进行有效的 AOT 编译。相比之下，静态类型语言（如 C 或 Rust）在编译时能够确定类型，从而可以生成优化的二进制代码[1](https://stackoverflow.com/questions/46672752/what-reason-is-there-to-not-use-ahead-of-time-compilation)。
+
+2. **运行时特性**：JavaScript 具有许多运行时特性，例如动态对象、原型链和闭包等。这些特性使得在编译时生成固定的二进制代码变得复杂，因为编译器无法预见代码在运行时的行为[2](https://monarch-innovation.medium.com/7-key-challenges-and-limitations-of-aot-vs-jit-compilers-in-angular-development-81535c4f1dc6)。
+
+3. **JIT 编译的优势**：JavaScript 通常使用 JIT（Just-In-Time）编译，这种方法在代码执行时进行编译，可以根据实际运行情况进行优化。这种灵活性使得 JavaScript 在性能上能够更好地适应不同的运行环境和使用场景，而 AOT 编译则无法做到这一点[3](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)。
+
+4. **生态系统的依赖**：JavaScript 的生态系统依赖于许多动态特性和库，这些库通常在运行时加载和执行。AOT 编译会限制这种灵活性，因为它要求在编译时就确定所有依赖关系和代码路径[4](https://langdev.stackexchange.com/questions/981/what-are-the-advantages-and-disadvantages-of-just-in-time-compilation)。
+
+综上所述，JavaScript 的动态特性、运行时行为以及对灵活性的需求使得 AOT 编译成二进制变得不切实际。相反，JIT 编译为 JavaScript 提供了更好的性能和适应性。
 
 </details>

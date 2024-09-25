@@ -1,6 +1,5 @@
 ---
 title: svg速查
-
 pubDatetime: 2023-09-07T02:43:53Z
 postSlug: svg
 featured: false
@@ -97,7 +96,8 @@ import TextAnimation from "@components/react/d3/textAnimation.tsx";
 
 ## attribute
 
-- [transform](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Attribute/transform)
+### [transform](https://developer.mozilla.org/zh-CN/docs/Web/SVG/Attribute/transform)
+
 - <svg viewBox="-40 0 150 100" xmlns="http://www.w3.org/2000/svg" width="200">
     <g
       fill="grey"
@@ -106,6 +106,19 @@ import TextAnimation from "@components/react/d3/textAnimation.tsx";
       <path d="M10,30 A20,20 0,0,1 50,30 A20,20 0,0,1 90,30 Q90,60 50,90 Q10,60 10,30 Z" />
     </g>
   </svg>
+
+### fill-rule
+
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="50,0 21,90 98,35 2,35 79,90" fill="red" fill-rule="nonzero" />
+  <text x="50" y="50" text-anchor="middle" font-size="20" stroke="indianred" class="white fill-white">nonzero</text>
+  <polygon points="150,0 121,90 198,35 102,35 179,90" fill="red" fill-rule="evenodd" />
+  <text x="150" y="50" text-anchor="middle" font-size="20" stroke="indianred" class="white fill-white">evenodd</text>
+</svg>
+
+- nonzero：这个规则通过从给定点向外发射一条射线，计算路径与射线的交点来确定点是否在形状内部。每当路径从左到右交叉射线时，计数加一；从右到左交叉时，计数减一。如果最终计数为零，则该点在路径外部；否则，该点在路径内部。
+
+- evenodd：这个规则同样是通过发射射线来计算交点，但它只计算交点的数量。如果交点的数量是奇数，则该点在形状内部；如果是偶数，则在外部。
 
 ## 效果
 

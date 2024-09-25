@@ -87,7 +87,7 @@ View Transition API 利用了浏览器的渲染机制，通过快照（snapshot�
   }
 </style>
 
-<div class="box" id="box" view-transition-name="box"></div>
+<div class="box" class="box" view-transition-name="box"></div>
 
 <script>
   const box = document.getElementById("box");
@@ -265,12 +265,12 @@ Visual Viewport API 是一种机制，允许开发者查询和修改窗口可视
 
 ### 今日英语
 
-<div id="second">
-  I <span id="use">use</span> <span id="nestjs">Nest.Js</span> at work but{" "}
-  <span id="dislike">don’t like it</span>, too much{" "}
-  <span id="boilerplate">boilerplate</span>. I like{" "}
-  <span id="express">express</span> more, very <span id="easy">easy</span> to
-  use with <span id="ts">TS</span> too.
+<div class="second">
+  I <span class="use">use</span> <span class="nestjs">Nest.Js</span> at work but{" "}
+  <span class="dislike">don’t like it</span>, too much{" "}
+  <span class="boilerplate">boilerplate</span>. I like{" "}
+  <span class="express">express</span> more, very <span class="easy">easy</span>{" "}
+  to use with <span class="ts">TS</span> too.
 </div>
 
 ## 2024-09-24 14:27:16
@@ -343,25 +343,27 @@ type ResultType = MyReturnType<typeof exampleFunction>; // ResultType 将被推�
 ### 今日英语
 
 <blockquote>
-  Fabric is a <span id="fabric">JSON schema</span> for describing{" "}
-  <span id="cesiumjs">materials in CesiumJS </span>.Materials represent the
-  appearance of an object such as <span id="polygons">polygons</span> ,
-  <span id="polylines">polylines</span>, <span id="ellipsoids">ellipsoids</span>
-  , and <span id="sensors">sensors</span>.<br />
+  Fabric is a <span class="fabric">JSON schema</span> for describing{" "}
+  <span class="cesiumjs">materials in CesiumJS </span>.Materials represent the
+  appearance of an object such as <span class="polygons">polygons</span> ,
+  <span class="polylines">polylines</span>,{" "}
+  <span class="ellipsoids">ellipsoids</span>, and{" "}
+  <span class="sensors">sensors</span>.<br />
   Note: For details about applying{" "}
-  <span id="custom-materials">custom materials</span> to{" "}
-  <span id="d_models">3D models</span>or <span id="d_tiles">3D Tiles</span>, use
-  the <span id="custom-shader-guide">Custom Shader Guide</span> instead.
+  <span class="custom-materials">custom materials</span> to{" "}
+  <span class="d_models">3D models</span>or{" "}
+  <span class="d_tiles">3D Tiles</span>, use the{" "}
+  <span class="custom-shader-guide">Custom Shader Guide</span> instead.
   <br />
   Materials can be as simple as draping an image over an object, or applying a
-  pattern such as <span id="stripes">stripes</span>or a{" "}
-  <span id="checkerboard">checkerboard</span>. Using Fabric and{" "}
-  <span id="glsl"> GLSL </span>, new materials can be scripted from scratch or
-  created by combining existing materials in a hierarchy; for example,{" "}
-  <span id="wet-bricks"> wet crumbling bricks </span> can be created with a
-  combination of <span id="procedural-brick"> procedural brick </span> ,{" "}
-  <span id="bump-map">bump map</span>, and{" "}
-  <span id="specular-map"> specular map </span> materials.
+  pattern such as <span class="stripes">stripes</span>or a{" "}
+  <span class="checkerboard">checkerboard</span>. Using Fabric and{" "}
+  <span class="glsl"> GLSL </span>, new materials can be scripted from scratch
+  or created by combining existing materials in a hierarchy; for example,{" "}
+  <span class="wet-bricks"> wet crumbling bricks </span> can be created with a
+  combination of <span class="procedural-brick"> procedural brick </span> ,{" "}
+  <span class="bump-map">bump map</span>, and{" "}
+  <span class="specular-map"> specular map </span> materials.
 </blockquote>
 
 <blockquote>
@@ -372,36 +374,6 @@ Fabric是一个用于描述CesiumJS中材料的JSON架构。材料表示对象�
 材料可以简单到仅仅是将图像覆盖在对象上，或者应用如条纹或棋盘格等图案。使用Fabric和GLSL，可以从头开始编写新的材料，或者通过组合现有材料创建层次结构的新材料；例如，可以通过程序生成的砖块、凹凸贴图和高光贴图材料的组合来创建湿润的破碎砖块。
 
 </blockquote>
-
-<DriverNoText
-  client:load
-  elements='[
-          {"element":"#fabric","popover":{"title":"JSON schema","description":"用于描述数据结构的格式，便于数据的交换和存储。","side":"top","align":"start"}},
-          {"element":"#cesiumjs","popover":{"title":"materials in CesiumJS","description":"CesiumJS中的材料，用于定义3D对象的外观。","side":"top","align":"start"}},
-          {"element":"#polygons","popover":{"title":"polygons","description":"多边形，表示二维平面上的封闭形状。","side":"top","align":"start"}},
-          {"element":"#polylines","popover":{"title":"polylines","description":"折线，由多个线段连接而成的图形。","side":"top","align":"start"}},
-          {"element":"#ellipsoids","popover":{"title":"ellipsoids","description":"椭球体，三维空间中的一种曲面。","side":"top","align":"start"}},
-          {"element":"#sensors","popover":{"title":"sensors","description":"传感器，用于收集环境数据的设备。","side":"top","align":"start"}},
-          {"element":"#custom-materials","popover":{"title":"custom materials","description":"自定义材料，用户定义的材料类型。","side":"top","align":"start"}},
-          {"element":"#d_models","popover":{"title":"3D models","description":"三维模型，表示物体的三维形态。","side":"top","align":"start"}},
-          {"element":"#d_tiles","popover":{"title":"3D Tiles","description":"用于高效传输和渲染大规模3D城市和建筑数据的格式。","side":"top","align":"start"}},
-          {"element":"#custom-shader-guide","popover":{"title":"Custom Shader Guide","description":"自定义着色器指南，提供如何创建和应用自定义着色器的详细信息。","side":"top","align":"start"}},
-          {"element":"#stripes","popover":{"title":"stripes","description":"条纹图案，交替的颜色或纹理。","side":"top","align":"start"}},
-          {"element":"#checkerboard","popover":{"title":"checkerboard","description":"棋盘格图案，交替的黑白方块。","side":"top","align":"start"}},
-          {"element":"#glsl","popover":{"title":"GLSL","description":"OpenGL着色语言，用于编写图形渲染的着色器。","side":"top","align":"start"}},
-          {"element":"#wet-bricks","popover":{"title":"wet crumbling bricks","description":"湿润的破碎砖块，表示一种特定的材料效果。","side":"top","align":"start"}},
-          {"element":"#procedural-brick","popover":{"title":"procedural brick","description":"程序生成的砖块材料，用于创建复杂的表面效果。","side":"top","align":"start"}},
-          {"element":"#bump-map","popover":{"title":"bump map","description":"凹凸贴图，用于在不增加几何体的情况下添加表面细节。","side":"top","align":"start"}},
-          {"element":"#specular-map","popover":{"title":"specular map","description":"高光贴图，用于定义表面反射光的强度。","side":"top","align":"start"}},
-          {"element":"#use","popover":{"title":"use","description":"表示应用或使用某物，通常指工作或开发中的实践。","side":"top","align":"start"}},
-          {"element":"#nestjs","popover":{"title":"Nest.Js","description":"一种渐进式的Node.js框架，专为构建可扩展的服务器端应用而设计，结合了面向对象和函数式编程。","side":"top","align":"start"}},
-          {"element":"#dislike","popover":{"title":"don’t like it","description":"表达对某事物的反感或不满。此处指作者不喜欢Nest.Js。","side":"top","align":"start"}},
-          {"element":"#boilerplate","popover":{"title":"boilerplate","description":"指重复的、冗余的代码，通常是开发者认为不必要或繁琐的部分。","side":"top","align":"start"}},
-          {"element":"#express","popover":{"title":"express","description":"一个简洁且灵活的Node.js框架，用于构建服务器端应用，开发者常称其为轻量、快速。","side":"top","align":"start"}},
-          {"element":"#easy","popover":{"title":"easy","description":"表示简单、方便，此处指Express.js比Nest.Js更加容易使用。","side":"top","align":"start"}},
-          {"element":"#ts","popover":{"title":"TS","description":"TypeScript的简称，是JavaScript的超集，添加了静态类型支持。","side":"top","align":"start"}}
-        ]'
-/>
 
 ### 今日发现
 
@@ -426,7 +398,7 @@ import CustomShaderDemo from "@components/react/cesium/customShader/demo.tsx";
 
 ### 今日类型体操
 
-- 手写<div id="Omit">Omit</div>\<T,K>
+- 手写<span class="Omit">Omit</span>\<T,K>
 
 <details>
 <summary>`type MyOmit<T, K extends keyof T> = {[P in keyof T as P extends K ? never : P]: T[P]}`</summary>
@@ -483,3 +455,49 @@ type OmittedPerson = MyOmit<Person, "age" | "address">;
 `MyOmit` 是一个非常实用的工具类型，可以帮助你在 TypeScript 中灵活地处理对象类型，排除不需要的属性。通过使用映射类型和条件类型，`MyOmit` 提供了一种优雅的方式来创建新的类型。希望这个解释能帮助你更好地理解 TypeScript 的类型系统！如果还有其他问题，随时问我哦！
 
 </details>
+
+### 今日英语
+
+<details>
+<summary>wasm intro</summary>
+
+WebAssembly, or WASM for short, is a new technology for running portable programs in a safe and efficient manner <span class="primarily">primarily</span> aimed at the web platform. Similarly to ASM.js, WASM aims at a low level-of abstraction suitable as an intermediate representation of a higher-level program — i.e. WebAssembly code is intended to be generated by compilers rather than being written by humans. The W3C community group includes representatives from the largest web-browser companies, including Google, Microsoft, Apple and Mozilla making this whole thing rather exciting.
+
+WebAssembly（简称 WASM）是一种新技术，旨在以安全和高效的方式在网络平台上运行可移植程序。与 ASM.js 类似，WASM 旨在提供一种低抽象级别的表示，适合作为更高层次程序的中间表示——即 WebAssembly 代码主要是由编译器生成，而不是由人手动编写的。
+
+WASM 的设计目标是实现接近原生的执行速度，同时保持与现有 Web 技术的兼容性。WASM 的开发得到了 W3C 社区小组的支持，该小组包括来自 Google、Microsoft、Apple 和 Mozilla 等主要浏览器公司的代表，这使得这一技术的发展充满了期待。
+
+通过 WebAssembly，开发者可以使用 C、C++、Rust 等语言编写高性能的代码，并将其编译为 WebAssembly 格式，从而在浏览器中运行。这种方式不仅提高了 Web 应用的性能，还扩展了 Web 平台的能力，使得开发者能够构建更复杂的应用程序，如游戏、图形处理和科学计算等。
+
+</details>
+
+<DriverNoText
+  client:load
+  elements='[
+          {"element":".fabric","popover":{"title":"JSON schema","description":"用于描述数据结构的格式，便于数据的交换和存储。"}},
+          {"element":".cesiumjs","popover":{"title":"materials in CesiumJS","description":"CesiumJS中的材料，用于定义3D对象的外观。"}},
+          {"element":".polygons","popover":{"title":"polygons","description":"多边形，表示二维平面上的封闭形状。"}},
+          {"element":".polylines","popover":{"title":"polylines","description":"折线，由多个线段连接而成的图形。"}},
+          {"element":".ellipsoids","popover":{"title":"ellipsoids","description":"椭球体，三维空间中的一种曲面。"}},
+          {"element":".sensors","popover":{"title":"sensors","description":"传感器，用于收集环境数据的设备。"}},
+          {"element":".custom-materials","popover":{"title":"custom materials","description":"自定义材料，用户定义的材料类型。"}},
+          {"element":".d_models","popover":{"title":"3D models","description":"三维模型，表示物体的三维形态。"}},
+          {"element":".d_tiles","popover":{"title":"3D Tiles","description":"用于高效传输和渲染大规模3D城市和建筑数据的格式。"}},
+          {"element":".custom-shader-guide","popover":{"title":"Custom Shader Guide","description":"自定义着色器指南，提供如何创建和应用自定义着色器的详细信息。"}},
+          {"element":".stripes","popover":{"title":"stripes","description":"条纹图案，交替的颜色或纹理。"}},
+          {"element":".checkerboard","popover":{"title":"checkerboard","description":"棋盘格图案，交替的黑白方块。"}},
+          {"element":".glsl","popover":{"title":"GLSL","description":"OpenGL着色语言，用于编写图形渲染的着色器。"}},
+          {"element":".wet-bricks","popover":{"title":"wet crumbling bricks","description":"湿润的破碎砖块，表示一种特定的材料效果。"}},
+          {"element":".procedural-brick","popover":{"title":"procedural brick","description":"程序生成的砖块材料，用于创建复杂的表面效果。"}},
+          {"element":".bump-map","popover":{"title":"bump map","description":"凹凸贴图，用于在不增加几何体的情况下添加表面细节。"}},
+          {"element":".specular-map","popover":{"title":"specular map","description":"高光贴图，用于定义表面反射光的强度。"}},
+          {"element":".use","popover":{"title":"use","description":"表示应用或使用某物，通常指工作或开发中的实践。"}},
+          {"element":".nestjs","popover":{"title":"Nest.Js","description":"一种渐进式的Node.js框架，专为构建可扩展的服务器端应用而设计，结合了面向对象和函数式编程。"}},
+          {"element":".dislike","popover":{"title":"don’t like it","description":"表达对某事物的反感或不满。此处指作者不喜欢Nest.Js。"}},
+          {"element":".boilerplate","popover":{"title":"boilerplate","description":"指重复的、冗余的代码，通常是开发者认为不必要或繁琐的部分。"}},
+          {"element":".express","popover":{"title":"express","description":"一个简洁且灵活的Node.js框架，用于构建服务器端应用，开发者常称其为轻量、快速。"}},
+          {"element":".easy","popover":{"title":"easy","description":"表示简单、方便，此处指Express.js比Nest.Js更加容易使用。"}},
+          {"element":".ts","popover":{"title":"TS","description":"TypeScript的简称，是JavaScript的超集，添加了静态类型支持。"}},
+          {"element":".primarily","popover":{"title":"primarily","description":"Primarily的中文翻译是“主要”或“首要地”。它通常用于强调某事物的主要目的或功能。在讨论 WebAssembly 的背景时，可以这样使用：英文： WebAssembly, or WASM for short, is a new technology for running portable programs in a safe and efficient manner primarily aimed at the web platform.中文翻译： WebAssembly（简称 WASM）是一种新技术，旨在以安全和高效的方式运行可移植程序，主要面向网络平台。在这个例子中，“primarily” 强调了 WebAssembly 的主要目标是为网络平台服务。"}}
+        ]'
+/>
