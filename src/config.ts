@@ -26,4 +26,10 @@ export const SOCIALS: SocialObjects = [
     linkTitle: ` ${SITE.title}的代码仓库`,
     active: true,
   },
+  {
+    name: "Discord",
+    href: "https://discord.gg/r6HUuMDs",
+    linkTitle: `discord`,
+    active: true,
+  },
 ];
