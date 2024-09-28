@@ -9,7 +9,7 @@ import {
 
 export default () => {
   return (
-    <Carousel className="w-full max-w-xs m-auto">
+    <Carousel className="w-full max-w-[10em] m-auto">
       <CarouselContent>
         {Array.from({ length: 12 }).map((_, index) => (
           <CarouselItem key={index}>

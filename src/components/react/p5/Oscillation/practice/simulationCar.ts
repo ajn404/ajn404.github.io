@@ -14,7 +14,22 @@ export class SimulationCar {
     this.maxVelocity = 5;
   }
 
-  show() {}
+  show() {
+    let _ = this.p5;
+    let angle = _.atan2(this.velocity.y, this.velocity.x);
 
-  update() {}
+    _.push();
+    _.rectMode(_.CENTER);
+    _.fill(0);
+    _.translate(this.position.x, this.position.y);
+    _.rotate(angle);
+    _.rect(0, 0, 30, 10);
+    _.pop();
+  }
+
+  update() {
+    let p = this.p5;
+    if (p.keyIsDown(p.LEFT_ARROW)) {
+    }
+  }
 }
