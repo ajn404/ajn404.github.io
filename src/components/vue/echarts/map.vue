@@ -8,18 +8,19 @@
 import * as echarts from 'echarts';
 import { ref, onMounted, nextTick } from 'vue';
 const chart = ref(null);
-
-
 let myChart = null;
 
 const initChart = (draftChartJson, china) => {
     if (myChart) return
-
     let data = draftChartJson;
+    let list = [];
     data.cities.forEach((fromCity, fromIndex) => {
         data.cities.forEach((toCity, toIndex) => {
+
             // 确保不从自己到自己，并且只处理组合（fromIndex < toIndex）
             if (fromIndex < toIndex) {
+                list.push(`${fromCity.name}-${toCity.name}`);
+                if(!list.includes(`${toCity.name}-${fromCity.name}`))
                 data.moveLines.push({
                     fromName: fromCity.name,
                     toName: toCity.name,
@@ -119,42 +120,8 @@ const initChart = (draftChartJson, china) => {
                     },
                 },
             },
-            {
-                type: 'map',
-                map: 'china',
-                zlevel: -2,
-                zoom: 1.2,
-                layoutCenter: ['50%', '51.4%'],
-                layoutSize: '100%',
-                roam: false,
-                silent: true,
-                regions: [
-                    {
-                        name: '南海诸岛',
-                        label: {
-                            show: false, // 隐藏文字
-                        },
-                    },
-                ],
-            },
-            {
-                type: 'map',
-                map: 'china',
-                zlevel: -3,
-                zoom: 1.2,
-                layoutCenter: ['50%', '52.4%'],
-                layoutSize: '100%',
-                roam: false,
-                silent: true,
-                regions: [
-                    {
-                        name: '南海诸岛',
-                        label: {
-                            show: false, // 隐藏文字
-                        },
-                    },
-                ],
-            }],
+          
+           ],
         series: [{
             name: '地点',
             type: 'effectScatter',
@@ -187,7 +154,6 @@ const initChart = (draftChartJson, china) => {
     window.addEventListener('resize', function () {
         myChart.resize();
     });
-
 }
 
 onMounted(async () => {
@@ -197,14 +163,14 @@ onMounted(async () => {
             'Content-Type': 'application/json'
         }
     });
-    const chinaJson = await chinaData.json();
-
     const draftChartJsonData = await fetch("/assets/json/points.json", {
         mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json'
         }
     });
+
+    const chinaJson = await chinaData.json();
     const draftChartJson = await draftChartJsonData.json();
     nextTick(() => {
         initChart(draftChartJson, chinaJson);
@@ -214,8 +180,8 @@ onMounted(async () => {
 
 <style scoped>
 .chart-container {
-    height: 200px;
-    width: 200px;
+    height: 100vh;
+    width: 100vw;
 }
  .chart {
      margin: 0 auto;
