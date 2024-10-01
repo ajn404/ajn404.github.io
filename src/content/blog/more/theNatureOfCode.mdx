@@ -429,7 +429,7 @@ export default () => {
 
 #### sigma
 
-<details class="mt-4">
+<details class="mt-4" open>
 <summary>正态分布与标准差</summary>
 正态分布（也称为高斯分布）是统计学中一种重要的概率分布,其特点是对称、钟形曲线.在正态分布中,标准差是一个关键的参数,它衡量数据集中的值与平均值的离散程度.
 
@@ -1649,6 +1649,45 @@ import MouseLeadingCar from "@components/react/p5/Oscillation/practice/mouseLead
 </details>
 
 > 好的，让我们来创建一个简单的车辆模拟程序，使用箭头键控制车辆的移动。左箭头加速向左，右箭头加速向右，同时车辆会朝着它当前移动的方向指向。
+
+todo `import ***`
+
+#### 极坐标系
+
+<details open>
+<summary>polar system</summary>
+
+`x= r* cos(ø)`
+
+`y = r*sin(ø)`
+
+import PolarBasic from "@components/react/p5/Oscillation/polar/basic.tsx";
+
+<PolarBasic client:visible />
+
+exercise 3.5
+
+draw a spiral path start in the center and move outward
+
+import SpiralPath from "@components/react/p5/Oscillation/polar/spiralPath.tsx";
+
+<SpiralPath client:visible />
+
+<details>
+<summary>草图(手拙，勿怪，😂)</summary>
+![哈哈](/assets/svg/spiral.svg)
+
+</details>
+
+> Simulate the spaceship in the game Asteroids. In case you aren’t familiar with Asteroids, here’s a brief description: A spaceship (represented as a triangle) floats in 2D space. The left arrow key turns the spaceship counterclockwise; the right arrow key turns it clockwise. The Z key applies a thrust force in the direction the spaceship is pointing.
+
+import SpaceShip from "@components/react/p5/Oscillation/polar/spaceShip.tsx";
+
+<SpaceShip client:visible />
+
+maybe something went wrong
+
+</details>
 
 ### 4. Particle System
 
