@@ -20,8 +20,7 @@ export default () => {
       const setup = () => {
         p.createCanvas(p.windowWidth / 2, 240);
         p.loadPixels();
-      };
-      const draw = () => {
+        //之前把这个O(n^2)放在时钟函数里简直逆哒天，我说怎么不对劲
         let xoff = 0.0;
         for (let x = 0; x < p.width; x++) {
           let yoff = 0.0;
@@ -39,6 +38,8 @@ export default () => {
           }
           xoff += debouncedXoffRate;
         }
+      };
+      const draw = () => {
         p.updatePixels();
       };
       const resize = () => {

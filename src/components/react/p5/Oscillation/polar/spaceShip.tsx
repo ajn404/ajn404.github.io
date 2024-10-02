@@ -1,6 +1,6 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 class SpaceShip {
   p: p5;
@@ -57,12 +57,10 @@ class SpaceShip {
 
   checkEdges() {
     const p = this.p;
-    if (this.position.x + 15 > p.width || this.position.x < 15) {
+    if (this.position.x + 15 > p.width || this.position.x < 15)
       this.velocity.x *= -1;
-    }
-    if (this.position.y + 5 > p.height || this.position.y < 5) {
+    if (this.position.y + 5 > p.height || this.position.y < 5)
       this.velocity.y *= -1;
-    }
   }
 
   show() {
@@ -83,12 +81,13 @@ class SpaceShip {
 export default () => {
   let spaceShip: SpaceShip;
   const sketch = useCallback((p: p5) => {
+    let c = p.random() * 255;
     const setup = () => {
       p.createCanvas(p.windowWidth / 2, p.windowWidth / 3);
       spaceShip = new SpaceShip(p);
-      p.background(255);
     };
     const draw = () => {
+      p.background(c);
       spaceShip.move();
       spaceShip.checkEdges();
       spaceShip.show();
@@ -96,13 +95,18 @@ export default () => {
     const resize = () => {
       p.resizeCanvas(p.windowWidth / 2, p.windowWidth / 3);
     };
-
     window.addEventListener("keydown", e => {
-      e.preventDefault();
+      e.stopPropagation();
     });
     p.setup = setup;
     p.draw = draw;
     p.windowResized = resize;
   }, []);
-  return <Basic sketch={sketch} showControls></Basic>;
+  return (
+    <>
+      <div id="container">
+        <Basic sketch={sketch} showControls></Basic>
+      </div>
+    </>
+  );
 };

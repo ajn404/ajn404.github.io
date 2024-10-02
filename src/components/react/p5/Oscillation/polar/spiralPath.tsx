@@ -13,7 +13,7 @@ export default () => {
     };
     const draw = () => {
       theta += 0.02;
-      r += 0.02;
+      r += 0.1;
       p.translate(p.width / 2, p.height / 2);
       let x = r * Math.cos(theta);
       let y = r * Math.sin(theta);
@@ -22,7 +22,7 @@ export default () => {
       p.stroke(255);
       p.point(x, y);
       p.pop();
-      if (r > p.width / 2) p.noLoop();
+      if (r > p.width / 2 || r > p.height / 2) p.noLoop();
     };
     const resize = () => {
       p.resizeCanvas(p.windowWidth / 2, 240);
