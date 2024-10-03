@@ -14,9 +14,9 @@ export default () => {
           p.noiseDetail(6, 0.25);
           const color = colorizeMarble(p.noise(xoff, yoff));
           p.set(x, y, color);
-          yoff += 0.1;
+          yoff += 0.5;
         }
-        xoff += 0.1;
+        xoff += 0.5;
       }
       p.updatePixels();
     };
