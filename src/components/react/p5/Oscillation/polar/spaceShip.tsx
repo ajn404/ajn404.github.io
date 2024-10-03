@@ -1,6 +1,6 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 class SpaceShip {
   p: p5;
@@ -19,36 +19,21 @@ class SpaceShip {
 
   move() {
     const p = this.p;
-    if (p.keyIsPressed && [37, 38, 40, 39, 90].includes(p.keyCode)) {
-      if (p.keyCode === 37) {
+    if (p.keyIsPressed) {
+      if (p.keyCode === 65) {
         this.acceleration = p.createVector(-0.1, 0);
-      } else if (p.keyCode === 39) {
+      } else if (p.keyCode === 68) {
         this.acceleration = p.createVector(0.1, 0);
-      } else if (p.keyCode === 38) {
+      } else if (p.keyCode === 87) {
         this.acceleration = p.createVector(0, -0.1);
-      } else if (p.keyCode === 40) {
+      } else if (p.keyCode === 83) {
         this.acceleration = p.createVector(0, 0.1);
-      } else {
-        this.acceleration = this.acceleration.mult(2);
+      } else if (p.keyCode === 90) {
+        this.acceleration = this.acceleration.mult(20);
       }
     } else {
-      let x = p.map(
-        p.noise(this.position.x, this.position.y),
-        0,
-        1,
-        -p.PI,
-        p.PI
-      );
-      let y = p.map(
-        p.noise(this.position.y, this.position.x),
-        0,
-        1,
-        p.PI,
-        -p.PI
-      );
-      this.acceleration = p.createVector(x, y);
+      this.acceleration = p.createVector(0, 0);
     }
-
     this.acceleration.limit(0.1);
     this.velocity.limit(1);
     this.velocity.add(this.acceleration);
