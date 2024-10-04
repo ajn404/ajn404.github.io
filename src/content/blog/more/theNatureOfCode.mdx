@@ -1654,7 +1654,7 @@ todo `import ***`
 
 #### 极坐标系
 
-<details open>
+<details>
 <summary>polar system</summary>
 
 `x= r* cos(ø)`
@@ -1681,15 +1681,29 @@ import SpiralPath from "@components/react/p5/Oscillation/polar/spiralPath.tsx";
 
 > Simulate the spaceship in the game Asteroids. In case you aren’t familiar with Asteroids, here’s a brief description: A spaceship (represented as a triangle) floats in 2D space. The left arrow key turns the spaceship counterclockwise; the right arrow key turns it clockwise. The Z key applies a thrust force in the direction the spaceship is pointing.
 
+- 使用`awsd`控制箭头的方向
+
 import SpaceShip from "@components/react/p5/Oscillation/polar/spaceShip.tsx";
 
 <SpaceShip client:visible />
 
 maybe something went wrong
 
-- elastic collision
+和[官方的答案](https://natureofcode.com/examples/03_oscillation/exercise_3_5_asteroids/)好像不太一样捏
 
-![维基](/assets/p5/elastic-collision.png)
+</details>
+
+#### Properties of Oscillation
+
+<details open>
+<summary>一个周期性振荡的函数</summary>
+
+$f(x) = \text{amplitude} \cdot \sin\left(\frac{2\pi \cdot \text{x}}{\text{period}}\right)$
+
+- amplitude 代表振幅，也就是波形从中心线到波峰（或波谷）的最大距离。它决定了波形的强度或大小
+- x 代表自变量，通常表示时间或空间位置
+- period 代表周期，也就是波形完成一个完整循环所需的时间或距离。它决定了波形的频率，周期越短，频率越高
+- 将x除以周期，再乘以2π，确保当x等于周期时，函数值完成一个完整的正弦周期
 
 </details>
 

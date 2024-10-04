@@ -42,9 +42,9 @@ class SpaceShip {
 
   checkEdges() {
     const p = this.p;
-    if (this.position.x + 15 > p.width || this.position.x < 15)
+    if (this.position.x + 30 > p.width || this.position.x < 15)
       this.velocity.x *= -1;
-    if (this.position.y + 5 > p.height || this.position.y < 5)
+    if (this.position.y + 30 > p.height || this.position.y < 5)
       this.velocity.y *= -1;
   }
 
@@ -59,6 +59,13 @@ class SpaceShip {
     _.translate(this.position.x, this.position.y);
     _.rotate(angle);
     _.rect(0, 0, 30, 10);
+
+    _.beginShape();
+    _.vertex(0, -10);
+    _.vertex(30, 0);
+    _.vertex(0, 10);
+    _.endShape();
+
     _.pop();
   }
 }
