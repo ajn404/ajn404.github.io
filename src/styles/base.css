@@ -462,3 +462,6 @@ iframe{
   --tw-highlight-variant: url(/assets/svg/20.svg) !important;
 }   
 
+.driver-popover{
+    max-width:80vw!important;
+}

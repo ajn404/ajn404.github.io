@@ -1,5 +1,5 @@
 import type p5 from "p5";
-import Basic from "../index";
+import Basic from "@components/react/p5/index.tsx";
 
 export default () => {
   const common = (p: p5, sd = 0.41) => {

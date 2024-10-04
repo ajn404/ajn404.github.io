@@ -31,7 +31,7 @@ export default ({ elements }: Pros) => {
             popover: {
               ...item.popover,
               side: "top",
-              align: "start",
+              align: "center",
             },
           });
         });

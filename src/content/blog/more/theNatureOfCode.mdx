@@ -1695,15 +1695,41 @@ maybe something went wrong
 
 #### Properties of Oscillation
 
-<details open>
+<details>
 <summary>一个周期性振荡的函数</summary>
 
-$f(x) = \text{amplitude} \cdot \sin\left(\frac{2\pi \cdot \text{x}}{\text{period}}\right)$
+$$
+f(x) = \text{amplitude} \cdot \sin\left(\frac{2\pi \cdot \text{x}}{\text{period}}\right)
+$$
 
 - amplitude 代表振幅，也就是波形从中心线到波峰（或波谷）的最大距离。它决定了波形的强度或大小
 - x 代表自变量，通常表示时间或空间位置
 - period 代表周期，也就是波形完成一个完整循环所需的时间或距离。它决定了波形的频率，周期越短，频率越高
 - 将x除以周期，再乘以2π，确保当x等于周期时，函数值完成一个完整的正弦周期
+
+import PeriodOscillation from "@components/react/p5/Oscillation/polar/periodOscillation.tsx";
+
+<PeriodOscillation client:visible />
+
+</details>
+
+<details open>
+<summary>Exercise 3.7</summary>
+
+> <span
+>   class="e3-7"
+>   data-description="使用正弦函数模拟一个从窗口顶部弹簧悬挂的重物（有时称为摆锤）。利用 map() 函数计算摆锤的垂直位置。在“弹簧力”部分，我将演示如何通过根据胡克定律模拟弹簧力来创建相同的模拟。"
+> >
+>   Using the sine function, create a simulation of a weight (sometimes referred
+>   to as a bob) that hangs from a spring from the top of the window. Use the
+>   map() function to calculate the vertical position of the bob. In “Spring
+>   Forces”, I’ll demonstrate how to create this same simulation by modeling the
+>   forces of a spring according to Hooke’s law.
+> </span>
+
+import SinSpring from "@components/react/p5/Oscillation/polar/sinSpring.tsx";
+
+<SinSpring client:visible />
 
 </details>
 
@@ -1953,7 +1979,7 @@ import Trigonometry from "@components/react/p5/Oscillation/trigonometry.tsx";
 
 </details>
 
-<DriverNoText client:load elements="trigonometry" />
+<DriverNoText client:load elements="trigonometry,e3-7" />
 
 ## links
 
