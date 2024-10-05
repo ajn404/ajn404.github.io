@@ -138,6 +138,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
       await init();
     })();
     return () => {
+      if (!container.current) return;
       remove();
       container.current.innerHTML = "";
     };
