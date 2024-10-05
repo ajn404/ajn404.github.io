@@ -6,6 +6,7 @@ import {
   PlayIcon,
   StopIcon,
   ResumeIcon,
+  ReloadIcon,
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
 import { DownloadIcon } from "lucide-react";
@@ -164,13 +165,11 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
             加载中...
           </div>
         )}
-
-        {/* 控制按钮 */}
         {!loading && showControls && (
           <div
             className={
               "flex pt-4 select-none justify-around" +
-              (isFullscreen ? " fixed mb-10 pb-10 left-0 w-full" : "")
+              (isFullscreen ? " fixed mb-10 pb-4 left-0 w-full" : "")
             }
           >
             <Button onClick={stop}>
@@ -188,7 +187,7 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
                         </Button> */}
 
             <Button onClick={clear}>
-              <ExclamationTriangleIcon></ExclamationTriangleIcon>
+              <ReloadIcon></ReloadIcon>
             </Button>
             <Button onClick={toggleFullscreen}>
               {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}

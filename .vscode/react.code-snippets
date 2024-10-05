@@ -20,5 +20,25 @@
       "};",
     ],
     "description": "details tag in mdx"
-  }
+  },
+"p5js-oscillator": {
+    "prefix": "p5Class",
+    "body": [
+        "import type p5 from \"p5\";",
+        "",
+        "export class Oscillator {",
+        "  p5: p5;",
+        "  constructor(p5: p5) {",
+        "    this.p5 = p5;",
+        "  }",
+        "  show() {",
+        "    // Add your visualization code here",
+        "  }",
+        "  update() {",
+        "    // Add your update logic here, e.g., changing frequency or amplitude",
+        "  }",
+        "}"
+    ],
+    "description": "Creates a p5.js class"
+}
 }
