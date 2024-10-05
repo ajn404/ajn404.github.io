@@ -62,7 +62,7 @@ export default () => {
         onCheckedChange={e => setBackground(e)}
       ></Switch>
 
-      <Code data-description="导入p5.js库的类型定义，用于类型检查和代码提示，不导入库的实际代码。">
+      <Code>
         {`import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 import Oscillator from "./Oscillator"
