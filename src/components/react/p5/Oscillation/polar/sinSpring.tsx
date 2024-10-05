@@ -7,7 +7,6 @@ export default () => {
       p.createCanvas(p.windowWidth / 4, p.windowWidth / 3);
       p.frameRate(120);
     };
-
     const draw = () => {
       let radius = 20;
       let amplitude = p.height - radius;
@@ -22,7 +21,6 @@ export default () => {
       p.stroke(color[0], color[1], color[2]);
       p.fill(color[1], color[2], color[0]);
       p.background(color[2], color[0], color[1]);
-
       p.translate(p.width / 2, 0);
       p.line(0, 0, 0, position);
       p.circle(0, position, 20);
