@@ -10,8 +10,6 @@ import { Slider } from "@shadcn/ui/slider";
 export default () => {
   let [len, setLen] = useState(0);
   const slider = useRef(null);
-  console.log("render");
-
   let [max, setMax] = useState(100);
   const sketch = useCallback((p: p5) => {
     console.log("sketch");

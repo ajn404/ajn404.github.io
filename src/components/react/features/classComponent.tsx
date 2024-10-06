@@ -63,7 +63,6 @@ class LifecycleExample extends Component<{}, LifecycleExampleState> {
   };
 
   render() {
-    console.log("Render");
     return (
       <div>
         <h1>Counter: {this.state.counter}</h1>

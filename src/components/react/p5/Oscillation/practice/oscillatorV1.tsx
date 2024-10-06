@@ -2,10 +2,10 @@ import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 import Oscillator from "./Oscillator";
 import { Slider } from "@shadcn/ui/slider";
+import { Switch } from "@shadcn/ui/switch";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useCallback, useState } from "react";
 import { cn } from "@utils/utils";
-import { Switch } from "@components/react/shadcn/ui/switch";
 import Code from "@components/react/editor/code";
 
 export default () => {

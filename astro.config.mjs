@@ -46,6 +46,13 @@ const vite = {
       ],
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern",
+      },
+    },
+  },
   build: {
     rollupOptions: {
       plugins: [

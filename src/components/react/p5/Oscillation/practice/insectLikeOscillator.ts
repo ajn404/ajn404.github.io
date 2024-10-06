@@ -1,41 +1,60 @@
 import type p5 from "p5";
 
-export default class Oscillator {
+export class InsectLikeOscillator {
   p5: p5;
-  angle: p5.Vector;
-  angleVelocity: p5.Vector;
-  amplitude: p5.Vector;
+  angle: number;
+  angleVelocity: number;
+  amplitude: number;
+  offset: number; // 新增：腿部偏移量
 
-  constructor(p5: p5) {
+  constructor(p5: p5, index: number, numLegs: number) {
     this.p5 = p5;
-    this.angle = p5.createVector();
-    this.angleVelocity = p5.createVector(
-      p5.random(-0.05, 0.05),
-      p5.random(-0.05, 0.05)
-    );
-    this.amplitude = p5.createVector(
-      p5.random(20, p5.width / 2),
-      p5.random(20, p5.height / 2)
-    );
+    this.angle = 0;
+    this.angleVelocity = 0.05 + index * 0.01; // 不同的腿有不同的速度
+    this.amplitude = 50 + index * 10; // 不同的腿有不同的振幅
+    this.offset = (index / numLegs) * Math.PI; // 腿部角度偏移
   }
+
   show() {
-    // Add your visualization code here
-    let _ = this.p5;
-    let x = _.sin(this.angle.x) * this.amplitude.x;
-    let y = _.sin(this.angle.y) * this.amplitude.y;
-    let r = _.map(_.sin(this.angle.x), -1, 1, 0, 255);
-    let g = _.map(_.sin(this.angle.x), 1, -1, 0, 255);
-    let b = _.map(_.sin(this.angle.x), -1, 1, _.random(100), 200);
+    const _ = this.p5;
+    const x = _.cos(this.angle + this.offset) * this.amplitude;
+    const y = _.sin(this.angle + this.offset) * this.amplitude;
+    const r = _.map(_.sin(this.angle), -1, 1, 0, 255);
+    const g = _.map(_.cos(this.angle), -1, 1, 0, 255);
+    const b = _.map(_.sin(this.angle), -1, 1, 100, 200);
     _.push();
     _.translate(_.width / 2, _.height / 2);
     _.stroke(r, g, b);
     _.fill(r, g, b);
     _.line(0, 0, x, y);
-    _.circle(x, y, 20);
+    _.circle(x, y, 10); // 减小圆圈大小
     _.pop();
   }
+
   update() {
-    // Add your update logic here, e.g., changing frequency or amplitude
-    this.angle.add(this.angleVelocity);
+    this.angle += this.angleVelocity;
+  }
+}
+
+export class Insect {
+  p5: p5;
+  oscillators: InsectLikeOscillator[];
+  numLegs: number;
+
+  constructor(p5: p5, numLegs: number = 60) {
+    this.p5 = p5;
+    this.numLegs = numLegs;
+    this.oscillators = Array.from(
+      { length: numLegs },
+      (_, i) => new InsectLikeOscillator(p5, i, numLegs)
+    );
+  }
+
+  show() {
+    this.oscillators.forEach(oscillator => oscillator.show());
+  }
+
+  update() {
+    this.oscillators.forEach(oscillator => oscillator.update());
   }
 }

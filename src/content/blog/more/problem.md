@@ -285,3 +285,17 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
 - **动态创建 `.env` 文件**：在工作流中生成 `.env` 文件，使构建和部署过程能够访问这些环境变量。
 
 通过这种方式，你可以安全地在 GitHub Actions 构建和部署时使用你的 tokens 和环境变量。
+
+## Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+你遇到的 `Deprecation Warning: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0` 警告是因为你使用了 Dart Sass 的旧版 JavaScript API。Dart Sass 1.45.0 版本引入了新的现代 API，旧版 API 现在已弃用，将在 Dart Sass 2.0.0 版本中完全移除 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/). 这个警告会在 Dart Sass 1.79.0 及更高版本中出现 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/).
+
+解决方法是迁移到新的现代 API。这涉及到修改你代码中使用 `sass.render()` 或 `sass.renderSync()` 的部分。旧版 API 的两个主要入口点 `render` 和 `renderSync` 已被新的 `compile`、`compileAsync`、`compileString` 和 `compileStringAsync` 取代 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/)。 新的 API 更清晰地区分了编译文件和编译字符串，并且异步操作使用 Promise 而不是回调函数 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/). 此外，自定义函数和导入器的使用方法也发生了变化 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/).
+
+如果你使用的是像 Vite 或者 Webpack 这样的打包工具，你需要在配置文件中进行相应的设置。例如，在 Vite 中，你需要在 `vite.config.[js/ts]` 文件中设置 `css.preprocessorOptions.scss.api` 为 `"modern"` 或 `"modern-compiler"` [1](https://stackoverflow.com/questions/78997907/the-legacy-js-api-is-deprecated-and-will-be-removed-in-dart-sass-2-0-0) [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/)。Webpack 通常默认使用现代 API，但如果仍然出现警告，也需要进行类似的设置 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/).
+
+如果你暂时不想迁移，也可以通过设置 `silenceDeprecations` 选项来暂时抑制警告 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/)。但这只是权宜之计，最终仍然需要迁移到现代 API。 例如，使用 `sass.renderSync({ silenceDeprecations: ['legacy-js-api'], ... })` 可以暂时关闭警告 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/). 记住，这只是临时的解决方案，Dart Sass 2.0.0 将完全移除旧版 API [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/) [6](https://sass-lang.com/documentation/breaking-changes/).
+
+迁移到现代 API 是必要的，因为它提高了代码的可维护性和长期兼容性。 尽早迁移可以避免将来因为旧版 API 被移除而导致的项目中断。

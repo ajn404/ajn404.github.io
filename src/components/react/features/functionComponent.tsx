@@ -51,8 +51,6 @@ const LifecycleExample: React.FC<LifecycleExampleProps> = ({
     dispatch({ type: "decrement" });
   };
 
-  console.log("Render");
-
   return (
     <div>
       <h1>Counter: {state.counter}</h1>

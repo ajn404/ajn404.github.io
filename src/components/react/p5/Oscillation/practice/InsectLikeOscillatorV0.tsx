@@ -1,23 +1,19 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import Oscillator from "./Oscillator";
+import { Insect } from "./insectLikeOscillator";
 
 export default () => {
   const sketch = (p: p5) => {
-    let osi: Oscillator[];
+    let osi: Insect;
     const setup = () => {
       p.createCanvas(p.windowWidth / 2, 240);
       p.frameRate(120);
-      osi = new Array(10).fill(0).map(_ => {
-        return new Oscillator(p);
-      });
+      osi = new Insect(p);
     };
     const draw = () => {
       p.background(255);
-      osi.forEach(item => {
-        item.update();
-        item.show();
-      });
+      osi.update();
+      osi.show();
     };
     const resize = () => {
       p.resizeCanvas(p.windowWidth / 2, 240);
