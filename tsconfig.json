@@ -19,6 +19,7 @@
       "@utils/*": ["utils/*"],
       "@shadcn/*": ["components/react/shadcn/*"],
       "@aceternity/*": ["components/react/aceternity/*"]
-    }
+    },
+    "forceConsistentCasingInFileNames": true
   }
 }
