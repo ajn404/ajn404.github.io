@@ -10,9 +10,9 @@ export class InsectLikeOscillator {
   constructor(p5: p5, index: number, numLegs: number) {
     this.p5 = p5;
     this.angle = 0;
-    this.angleVelocity = 0.05 + index * 0.01; // 不同的腿有不同的速度
-    this.amplitude = 50 + index * 10; // 不同的腿有不同的振幅
-    this.offset = (index / numLegs) * Math.PI; // 腿部角度偏移
+    this.angleVelocity = 0.001 + index * 0.001; // 不同的腿有不同的速度
+    this.amplitude = 50 + index; // 不同的腿有不同的振幅
+    this.offset = ((index - numLegs / 2) / numLegs) * Math.PI; // 腿部角度偏移
   }
 
   show() {

@@ -1,6 +1,6 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { Insect } from "./insectLikeOscillator";
+import { Insect } from "./InsectLikeOscillator.ts";
 
 export default () => {
   const sketch = (p: p5) => {
