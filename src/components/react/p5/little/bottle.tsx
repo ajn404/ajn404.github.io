@@ -1,6 +1,6 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 
 let img;
 let bottleModel;
@@ -22,99 +22,111 @@ const colors = [
 export default () => {
   const container = useRef(null);
   const fileInput = useRef(null);
+  const [imgUrl, setImgUrl] = useState(8);
 
-  const sketch = useCallback((p: p5) => {
-    const setup = () => {
-      canvas = p.createCanvas(p.windowWidth, p.windowHeight - 200, p.WEBGL);
-      canvas.drop(gotFile);
-      p.textFont(font);
-      button = p
-        .createButton("切换背景颜色")
-        .position(20, 100)
-        .mousePressed(randomColor);
+  const randomImg = () => {
+    let num = ((Math.random() * 11) % 11) + 1;
+    num = Number(num.toFixed(0));
+    setImgUrl(num);
+  };
 
-      fileInput.current.addEventListener(
-        "change",
-        e => {
-          let file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = event => {
-            const fileData = event.target.result;
-            gotFile({
-              type: "image",
-              data: fileData,
-            });
-          };
-          reader.onerror = error => {
-            console.error("读取文件时出错:", error);
-          };
-          reader.readAsDataURL(file);
-        },
-        false
-      );
-    };
+  const sketch = useCallback(
+    (p: p5) => {
+      const setup = () => {
+        canvas = p.createCanvas(p.windowWidth, p.windowHeight - 200, p.WEBGL);
+        canvas.drop(gotFile);
+        p.textFont(font);
+        button = p
+          .createButton("切换背景颜色")
+          .position(20, 100)
+          .mousePressed(randomColor);
 
-    function randomColor() {
-      let c = Math.floor(Math.random() * colors.length);
-      button.value(c);
-    }
+        fileInput.current.addEventListener(
+          "change",
+          e => {
+            let file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = event => {
+              const fileData = event.target.result;
+              gotFile({
+                type: "image",
+                data: fileData,
+              });
+            };
+            reader.onerror = error => {
+              console.error("读取文件时出错:", error);
+            };
+            reader.readAsDataURL(file);
+          },
+          false
+        );
+      };
 
-    const preload = () => {
-      img = p.loadImage("/assets/bg/8.jpg");
-      font = p.loadFont("/assets/font/Xingcao.ttf");
-      bottleModel = p.loadModel(
-        "/assets/models/obj/up_glucose_bottle.obj",
-        true,
-        () => {},
-        () => {},
-        ".obj"
-      );
-    };
-
-    const gotFile = file => {
-      if (file.type === "image") {
-        img = p.createImg(file.data, "").hide();
-        img.elt.onload = () => {
-          randomColor();
-          p.redraw();
-        };
+      function randomColor() {
+        let c = Math.floor(Math.random() * colors.length);
+        button.value(c);
       }
-    };
 
-    const draw = () => {
-      p.textureMode(p.IMAGE);
-      p.background(colors[(button.value() as number) || 0].background);
-      p.orbitControl();
-      p.push();
-      p.scale(3);
-      p.rotateZ(p.PI);
-      p.rotateY(-p.PI / 2);
-      if (bottleModel) {
-        p.texture(img); // 应用贴图
-        p.model(bottleModel); // 绘制模型
-      } else {
-        console.error("Bottle model is not loaded");
-      }
-      p.push();
-      p.translate(-100, 0, 0); // 将文字放置在模型旁边
+      const preload = () => {
+        img = p.loadImage(
+          `/assets/bg/${imgUrl}${Math.random() > 0.5 ? ".jpg" : ".png"}`
+        );
+        font = p.loadFont("/assets/font/Xingcao.ttf");
+        bottleModel = p.loadModel(
+          "/assets/models/obj/up_glucose_bottle.obj",
+          true,
+          () => {},
+          () => {},
+          ".obj"
+        );
+      };
 
-      p.rotateY(-p.PI / 2);
-      p.rotateX(-p.PI);
+      const gotFile = file => {
+        if (file.type === "image") {
+          img = p.createImg(file.data, "").hide();
+          img.elt.onload = () => {
+            randomColor();
+            p.redraw();
+          };
+        }
+      };
 
-      p.fill(colors[(button.value() as number) || 0].text);
-      p.text("尝试拖动图片进场景或者点击上传", 0, 0);
-      p.pop();
-    };
-    const resize = () => {
-      p.resizeCanvas(p.windowWidth, p.windowHeight - 200);
-      p.redraw();
-    };
-    p.setup = setup;
-    p.draw = draw;
-    p.preload = preload;
-    p.windowResized = resize;
-  }, []);
+      const draw = () => {
+        p.textureMode(p.IMAGE);
+        p.background(colors[(button.value() as number) || 0].background);
+        p.orbitControl();
+        p.push();
+        p.scale(2);
+        p.rotateZ(p.PI);
+        p.rotateY(-p.PI / 2);
+        if (bottleModel) {
+          p.texture(img); // 应用贴图
+          p.model(bottleModel); // 绘制模型
+        } else {
+          console.error("Bottle model is not loaded");
+        }
+        p.push();
+        p.translate(-100, 0, 0); // 将文字放置在模型旁边
+
+        p.rotateY(-p.PI / 2);
+        p.rotateX(-p.PI);
+
+        p.fill(colors[(button.value() as number) || 0].text);
+        p.text("尝试拖动图片进场景或者点击上传", 0, 0);
+        p.pop();
+      };
+      const resize = () => {
+        p.resizeCanvas(p.windowWidth, p.windowHeight - 200);
+        p.redraw();
+      };
+      p.setup = setup;
+      p.draw = draw;
+      p.preload = preload;
+      p.windowResized = resize;
+    },
+    [imgUrl]
+  );
 
   return (
     <div ref={container} className="absolute inset-0 w-full h-full">
@@ -129,10 +141,17 @@ export default () => {
 
       <label
         htmlFor="input"
-        className="block text-center self-center p-4 m-auto font-semibold text-2xl xing-cao"
+        className="block cursor-pointer text-center self-center p-4 m-auto font-semibold text-2xl xing-cao"
       >
         点击上传材质
       </label>
+
+      <p
+        onClick={randomImg}
+        className="block cursor-pointer text-center self-center p-4 m-auto font-semibold text-2xl xing-cao"
+      >
+        或者点击使用随机图片
+      </p>
     </div>
   );
 };
