@@ -13,9 +13,20 @@ import Bottle from "@components/react/p5/little/bottle.tsx";
         margin: 0;
         padding: 0;
       }
-      canvas {
-        display: block;
-      } /* 防止canvas下方出现空白 */
+      canvas,
+      .p5_container {
+        min-height: calc(100vh - 200px);
+      }
+
+      @font-face {
+        font-family: "Xingcao";
+        src: url("/assets/font/Xingcao.ttf") format("truetype");
+      }
+
+      .xing-cao,
+      .xing-cao * {
+        font-family: "Xingcao", "DM Sans", sans-serif;
+      }
     </style>
   </head>
   <body>

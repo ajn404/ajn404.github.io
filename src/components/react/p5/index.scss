@@ -1,6 +1,6 @@
 .p5_container{
     div{
-        canvas+canvas{
+        &>*+canvas{
             display: none;
         }
     }

@@ -1,79 +1,138 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 let img;
 let bottleModel;
 let font;
+let canvas;
+let button: p5.Element;
+const colors = [
+  { background: "#FF5733", text: "#FFFFFF" }, // 背景：红色，字体：白色
+  { background: "#33FF57", text: "#000000" }, // 背景：绿色，字体：黑色
+  { background: "#3357FF", text: "#FFFFFF" }, // 背景：蓝色，字体：白色
+  { background: "#F1C40F", text: "#000000" }, // 背景：黄色，字体：黑色
+  { background: "#8E44AD", text: "#FFFFFF" }, // 背景：紫色，字体：白色
+  { background: "#E67E22", text: "#FFFFFF" }, // 背景：橙色，字体：白色
+  { background: "#2ECC71", text: "#FFFFFF" }, // 背景：亮绿色，字体：白色
+  { background: "#3498DB", text: "#FFFFFF" }, // 背景：亮蓝色，字体：白色
+  { background: "#9B59B6", text: "#FFFFFF" }, // 背景：淡紫色，字体：白色
+  { background: "#F39C12", text: "#FFFFFF" }, // 背景：金色，字体：白色
+];
 export default () => {
-    const container = useRef(null);
+  const container = useRef(null);
+  const fileInput = useRef(null);
 
-    const sketch = useCallback((p: p5) => {
-        const setup = () => {
-            let canvas = p.createCanvas(p.windowWidth, p.windowHeight - 200, p.WEBGL);
-            canvas.drop(gotFile);
-            p.textFont(font);
-        };
-        const preload = () => {
-            img = p.loadImage("/assets/bg/3.jpg");
-            font = p.loadFont("/assets/font/Xingcao.ttf")
-            bottleModel = p.loadModel(
-                "/assets/models/obj/up_glucose_bottle.obj",
-                true,
-                () => { },
-                () => { },
-                ".obj"
-            );
-        };
+  const sketch = useCallback((p: p5) => {
+    const setup = () => {
+      canvas = p.createCanvas(p.windowWidth, p.windowHeight - 200, p.WEBGL);
+      canvas.drop(gotFile);
+      p.textFont(font);
+      button = p
+        .createButton("切换背景颜色")
+        .position(20, 100)
+        .mousePressed(randomColor);
 
-        const gotFile = file => {
-            if (file.type === "image") {
-                img = p.createImg(file.data, "").hide();
-                img.elt.onload = () => {
-                    p.redraw();
-                };
-            }
-        };
-        const draw = () => {
-            p.textureMode(p.IMAGE);
-            p.background(200);
-            p.orbitControl();
-            p.push();
-            if (bottleModel) {
-                p.texture(img); // 应用贴图
-                p.model(bottleModel); // 绘制模型
-            } else {
-                console.error("Bottle model is not loaded");
-            }
-            p.pop();
-            p.push();
-            p.rotateY(p.frameCount * 0.01); // 根据帧数旋转
-            p.translate(100, 0, 0); // 将文字放置在模型旁边
-            p.fill(0);
-            p.text('ajn404的酒瓶', 0, 0);
+      fileInput.current.addEventListener(
+        "change",
+        e => {
+          let file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = event => {
+            const fileData = event.target.result;
+            gotFile({
+              type: "image",
+              data: fileData,
+            });
+          };
+          reader.onerror = error => {
+            console.error("读取文件时出错:", error);
+          };
+          reader.readAsDataURL(file);
+        },
+        false
+      );
+    };
 
-            p.pop();
+    function randomColor() {
+      let c = Math.floor(Math.random() * colors.length);
+      button.value(c);
+    }
 
-            p.push();
-            p.translate(100, 0, 0); // 将文字放置在模型旁边
-            p.fill(0);
-            p.rotateY(-p.frameCount * 0.01); // 根据帧数旋转
-            p.text('尝试拖动图片进canvas', 0, 0);
-            p.pop();
-        };
-        const resize = () => {
-            p.resizeCanvas(p.windowWidth, p.windowHeight - 200);
-            p.redraw();
-        };
-        p.setup = setup;
-        p.draw = draw;
-        p.preload = preload;
-        p.windowResized = resize;
-    }, []);
+    const preload = () => {
+      img = p.loadImage("/assets/bg/8.jpg");
+      font = p.loadFont("/assets/font/Xingcao.ttf");
+      bottleModel = p.loadModel(
+        "/assets/models/obj/up_glucose_bottle.obj",
+        true,
+        () => {},
+        () => {},
+        ".obj"
+      );
+    };
 
-    return (
-        <div ref={container} className="absolute inset-0 ">
-            <Basic sketch={sketch} showControls></Basic>
-        </div>
-    );
+    const gotFile = file => {
+      if (file.type === "image") {
+        img = p.createImg(file.data, "").hide();
+        img.elt.onload = () => {
+          randomColor();
+          p.redraw();
+        };
+      }
+    };
+
+    const draw = () => {
+      p.textureMode(p.IMAGE);
+      p.background(colors[(button.value() as number) || 0].background);
+      p.orbitControl();
+      p.push();
+      p.scale(3);
+      p.rotateZ(p.PI);
+      p.rotateY(-p.PI / 2);
+      if (bottleModel) {
+        p.texture(img); // 应用贴图
+        p.model(bottleModel); // 绘制模型
+      } else {
+        console.error("Bottle model is not loaded");
+      }
+      p.push();
+      p.translate(-100, 0, 0); // 将文字放置在模型旁边
+
+      p.rotateY(-p.PI / 2);
+      p.rotateX(-p.PI);
+
+      p.fill(colors[(button.value() as number) || 0].text);
+      p.text("尝试拖动图片进场景或者点击上传", 0, 0);
+      p.pop();
+    };
+    const resize = () => {
+      p.resizeCanvas(p.windowWidth, p.windowHeight - 200);
+      p.redraw();
+    };
+    p.setup = setup;
+    p.draw = draw;
+    p.preload = preload;
+    p.windowResized = resize;
+  }, []);
+
+  return (
+    <div ref={container} className="absolute inset-0 w-full h-full">
+      <Basic sketch={sketch}></Basic>
+      <input
+        type="file"
+        id="input"
+        accept="image/*"
+        className="hidden"
+        ref={fileInput}
+      />
+
+      <label
+        htmlFor="input"
+        className="block text-center self-center p-4 m-auto font-semibold text-2xl xing-cao"
+      >
+        点击上传材质
+      </label>
+    </div>
+  );
 };

@@ -81,8 +81,27 @@ A股市场目前允许一定程度的做空，但与成熟市场相比，机制�
 
 > 需求描述: 用p5js,提供一个酒瓶的3d模版,实现贴图和贴文字
 
-[bottom obj](/assets/models/obj/Bottle.obj)
-
 [page](/fantastic/bottle)
+
+## 2024-10-10 09:28:50
+
+`loadScript`
+
+```js
+const loadScript = (src, callback) => {
+  try {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = callback;
+    script.onerror = () => alert(`Failed to load script: ${src}`);
+    document.head.appendChild(script);
+  } catch (e) {
+    alert(e.message);
+  }
+};
+loadScript("https://cdn.jsdelivr.net/npm/eruda@3.4.0/eruda.min.js", () =>
+  eruda.init()
+);
+```
 
 ## 链接
