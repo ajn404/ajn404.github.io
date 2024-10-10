@@ -1,0 +1,2 @@
+(function(){try{var n=typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},e=new n.Error().stack;e&&(n._sentryDebugIds=n._sentryDebugIds||{},n._sentryDebugIds[e]="4b964bec-e8eb-4d90-99a3-5f615e1c71c9",n._sentryDebugIdIdentifier="sentry-dbid-4b964bec-e8eb-4d90-99a3-5f615e1c71c9")}catch{}})();addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("lineCanvas").getContext("2d");e.beginPath(),e.moveTo(50,50),e.lineTo(200,200),e.stroke()});
+//# sourceMappingURL=line.astro_astro_type_script_index_0_lang.CZWayVxT.js.map
