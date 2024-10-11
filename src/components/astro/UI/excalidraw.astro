@@ -1,5 +1,5 @@
 ---
-const { file, style,className } = Astro.props;
+const { file, style, className } = Astro.props;
 ---
 
 <style is:inline>
@@ -25,8 +25,8 @@ const { file, style,className } = Astro.props;
   }
 </style>
 
-<div class={"container "+className} style={style}>
-  <div id="app"></div>
+<div class={"container " + className + " " + file} style={style}>
+  <div id={"app"}></div>
   <div class="loading">加载中...</div>
 </div>
 
@@ -45,7 +45,7 @@ const { file, style,className } = Astro.props;
 
 <script is:inline defer define:vars={{ file }}>
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector(".loading").style.display = "none";
+    document.querySelector("." + file + " .loading").style.display = "none";
     let resFile = file || localStorage.getItem("excalidraw") || "ffmpeg";
 
     fetch(`/assets/excalidraw/${resFile}.json`).then(res => {
@@ -84,7 +84,12 @@ const { file, style,className } = Astro.props;
         );
       };
 
-      const excalidrawWrapper = document.getElementById("app");
+      const excalidrawWrapper = document.querySelector("." + file + " #app");
+
+      excalidrawWrapper.addEventListener("wheel", e => {
+        e.stopPropagation();
+      });
+
       const root = ReactDOM.createRoot(excalidrawWrapper);
       root.render(React.createElement(App));
     };

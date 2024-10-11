@@ -81,7 +81,7 @@ A股市场目前允许一定程度的做空，但与成熟市场相比，机制�
 
 ## 2024-10-09 15:41:29
 
-### 用p5js,提供一个酒瓶的3d模版,实现贴图和贴文字
+### 用`p5js`,提供一个酒瓶的3d模版,实现贴图和贴文字
 
 <details class="relative">
 <summary>[bottle](/fantastic/bottle)</summary>
@@ -473,10 +473,12 @@ AAB文件的主要优势在于它能够根据用户设备的特定需求生成�
 
 </details>
 
-##
+### 尝试将excalidraw组件模式化
 
-import ComponentName from "@components/astro/UI/excalidraw.astro";
+import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
-<ComponentName file="ffmpeg" className="w-1/2" client:visible />
+<Excalidraw file="triangle" className=" m-auto mt-10 h-[50vh]" client:load />
+
+<Excalidraw file="ffmpeg" className=" m-auto mt-10 h-[50vh]" client:load />
 
 ## 链接
