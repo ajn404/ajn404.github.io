@@ -451,9 +451,14 @@ function freeze<Type>(obj: Type): Readonly<Type>;
 
 ### 今日创意编程
 
+<details>
+<summary>鼠标点击黑色框框</summary>
+
 import Wobbly from "@components/react/p5/little/wobbly.tsx";
 
 <Wobbly client:visible />
+
+</details>
 
 ### 今日知识
 
@@ -467,5 +472,11 @@ AAB文件，即Android App Bundle，是一种Android应用程序的发布文件�
 AAB文件的主要优势在于它能够根据用户设备的特定需求生成优化的APK文件。这意味着，用户只会下载适合其设备的必要资源，从而节省存储空间。例如，如果用户的设备只支持Full HD分辨率，下载的APK将不会包含4K资源[2](https://www.browserstack.com/guide/test-aab-file-on-android-device)。此外，AAB文件还提高了应用的安全性，因为APK的签名将由Google而非开发者进行，这样可以减少应用被篡改的风险[1](https://www.nextpit.com/what-is-aab-file-android)[5](https://developer.android.com/guide/app-bundle/app-bundle-format)。
 
 </details>
+
+##
+
+import ComponentName from "@components/astro/UI/excalidraw.astro";
+
+<ComponentName file="ffmpeg" className="w-1/2" client:visible />
 
 ## 链接
