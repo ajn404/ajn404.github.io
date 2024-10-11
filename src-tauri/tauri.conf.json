@@ -3,7 +3,6 @@
   "identifier": "com.ajn404.app",
   "version": "0.1.0",
   "build": {
-    "beforeBuildCommand": "pnpm run build",
     "beforeDevCommand": "pnpm run dev",
     "devUrl": "http://localhost:3333",
     "frontendDist": "../dist"

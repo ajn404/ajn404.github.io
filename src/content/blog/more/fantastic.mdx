@@ -5,10 +5,243 @@ featured: false
 draft: false
 tags:
   - fantastic
-description: "设计和交互在前端开发中都扮演着至关重要的角色,它们直接影响着用户体验和产品的成功"
+  - p5js
+description: "有趣的内容"
 ---
 
-## cool
+## 目录
+
+## p5 art
+
+### flow field
+
+<details>
+<summary>flow field</summary>
+
+import FlowFieldA from "@components/react/p5/art/flowFieldA";
+
+<FlowFieldA client:visible />
+
+```tsx
+import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
+import { Slider } from "@shadcn/ui/slider";
+import { cn } from "@utils/utils";
+import { useDebounce } from "@uidotdev/usehooks";
+import { useCallback, useState } from "react";
+
+export default () => {
+  let [density, setDensity] = useState(30);
+  let debounceDensity = useDebounce(density, 200);
+  const sketch = useCallback(
+    (p: p5) => {
+      let points: p5.Vector[];
+      let mult: number;
+      const setup = () => {
+        points = [];
+        mult = 0.005;
+        p.createCanvas(p.windowHeight / 2, p.windowHeight / 2);
+        p.noiseDetail(1, 0.5);
+        // p.angleMode(p.DEGREES);
+        p.frameRate(120);
+        p.pixelDensity(3);
+        p.background(0);
+        let density = debounceDensity || 200;
+        let space = p.width / density;
+
+        for (let i = 0; i < p.width; i += space) {
+          for (let j = 0; j < p.height; j += space) {
+            let point = p.createVector(i, j);
+            points.push(point);
+          }
+        }
+      };
+      const draw = () => {
+        if (p.frameCount > 1200) {
+          p.noLoop();
+          return;
+        } else {
+          p.noStroke();
+          p.fill(255);
+          for (let i = 0; i < points.length; i++) {
+            let r = p.map(points[i].x, 0, p.width, 50, 255);
+            let g = p.map(points[i].y, 0, p.height, 255, 50);
+            let b = p.map(points[i].x, 0, p.width, 255, 50);
+            p.fill(r, g, b);
+            let noiseX = points[i].x * mult;
+            let noiseY = points[i].y * mult;
+            let angle = p.map(p.noise(noiseX, noiseY), 0, 1, 0, 720);
+            let walk = p.createVector(p.cos(angle) * 1, p.sin(angle) * 1);
+            points[i].add(walk);
+            p.ellipse(points[i].x, points[i].y, 1, 1);
+          }
+        }
+      };
+      const resize = setup;
+      p.setup = setup;
+      p.draw = draw;
+      p.windowResized = resize;
+    },
+    [debounceDensity]
+  );
+  return (
+    <>
+      密度{density}
+      <Slider
+        defaultValue={[30]}
+        max={40}
+        min={20}
+        step={1}
+        className={cn("w-[100%] m-4")}
+        onValueChange={value => {
+          setDensity(value[0]);
+        }}
+        value={[density]}
+      />
+      <Basic sketch={sketch}></Basic>
+    </>
+  );
+};
+```
+
+- after i changed walker angle
+
+import FlowFieldB from "@components/react/p5/art/flowFieldB";
+
+<FlowFieldB client:visible />
+
+error
+
+</details>
+
+### 质数螺旋
+
+<details>
+<summary>prime spiral points</summary>
+
+import PrimeSpiral from "@components/react/p5/art/primeSpiral";
+
+<PrimeSpiral client:visible />
+
+```tsx
+import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
+import { useCallback, useState } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { Slider } from "@shadcn/ui/slider";
+import { cn } from "@utils/utils";
+
+export default () => {
+  let [Num, setNum] = useState(5);
+  let debounceNum = useDebounce(Num, 200);
+
+  const sketch = useCallback(
+    (p: p5) => {
+      let points: p5.Vector[] = [];
+
+      const setup = () => {
+        p.createCanvas(p.windowWidth / 2, p.windowWidth / 2);
+        for (let i = 0; i < (p.windowWidth * debounceNum) / p.PI; i++) {
+          let vector = p.createVector(i, i);
+          points.push(vector);
+        }
+        p.background(255);
+        p.translate(p.windowWidth / 4, p.windowWidth / 4);
+        p.stroke(0);
+        p.fill(0);
+        p.line(0, p.height / 2, p.width, p.height / 2);
+        p.line(p.width / 2, 0, p.width / 2, p.height);
+        p.noStroke();
+        for (let i = 0; i < points.length; i++) {
+          let len = points[i].x;
+          let x1 = p.cos(len) * len;
+          let y1 = p.sin(len) * len;
+          x1 = Number(x1.toFixed(2));
+          y1 = Number(y1.toFixed(2));
+          p.ellipse(
+            x1 / debounceNum,
+            y1 / debounceNum,
+            debounceNum,
+            debounceNum
+          );
+        }
+      };
+      const draw = () => {};
+      const resize = () => {
+        p.resizeCanvas(p.windowWidth / 2, 240);
+      };
+      p.setup = setup;
+      p.draw = draw;
+      p.windowResized = resize;
+    },
+    [debounceNum]
+  );
+  return (
+    <>
+      数量{Num}
+      <Slider
+        defaultValue={[5]}
+        max={10}
+        min={1}
+        step={0.1}
+        className={cn("w-[100%] m-4")}
+        onValueChange={value => {
+          setNum(value[0]);
+        }}
+        value={[Num]}
+      />
+      <Basic sketch={sketch}></Basic>
+    </>
+  );
+};
+```
+
+</details>
+
+<details>
+<summary>prime spiral curve</summary>
+
+import PrimeSpiralCurve from "@components/react/p5/art/primeSpiralCurve";
+
+<PrimeSpiralCurve client:visible />
+
+</details>
+<details>
+<summary>prime spiral step</summary>
+
+import PrimeSpiralStep from "@components/react/p5/art/primeSpiralStep";
+
+<PrimeSpiralStep client:visible />
+
+</details>
+
+### 结合tone
+
+<details>
+<summary>tone demo</summary>
+
+import Tone from "@components/react/p5/little/tone.tsx";
+
+<Tone hideRandom client:visible />
+
+</details>
+
+### 可视化三角函数(todo)
+
+可参考
+
+[mathsisfun](https://www.mathsisfun.com/algebra/trigonometry.html)
+
+<details>
+<summary>Trigonometry(三角函数)</summary>
+
+import Trigonometry from "@components/react/p5/Oscillation/trigonometry.tsx";
+
+<Trigonometry client:visible />
+
+</details>
+
+## cool thing outside
 
 ### codepen 2023
 

@@ -14,7 +14,8 @@
     "format:check": "prettier --plugin-search-dir=. --check .",
     "format": "prettier --plugin-search-dir=. --write .",
     "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build"
+    "tauri:build": "tauri build",
+    "tauri:android-build": "pnpm run build && pnpm tauri android build"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.4",

@@ -278,7 +278,7 @@ loadScript("https://cdn.jsdelivr.net/npm/eruda@3.4.0/eruda.min.js", () =>
 
 ### 今日ts代码分析
 
-import TsCodeEqual from "@shadcn/demo/TsCodeEqual.tsx";
+import TsCodeEqual from "@shadcn/demo/codeEqual.tsx";
 
 <TsCodeEqual client:visible />
 
@@ -454,5 +454,18 @@ function freeze<Type>(obj: Type): Readonly<Type>;
 import Wobbly from "@components/react/p5/little/wobbly.tsx";
 
 <Wobbly client:visible />
+
+### 今日知识
+
+#### aab
+
+<details>
+<summary>Android App Bundle</summary>
+
+AAB文件，即Android App Bundle，是一种Android应用程序的发布文件格式。它包含了应用程序的所有编译代码和资源，开发者在完成应用开发后，将其以AAB格式上传到Google Play商店。用户在下载应用时，实际上是从Google Play获取一个根据其设备配置生成的APK文件，而不是直接下载AAB文件[1](https://www.nextpit.com/what-is-aab-file-android)[4](https://www.appflow.ai/blog/aab-file)。
+
+AAB文件的主要优势在于它能够根据用户设备的特定需求生成优化的APK文件。这意味着，用户只会下载适合其设备的必要资源，从而节省存储空间。例如，如果用户的设备只支持Full HD分辨率，下载的APK将不会包含4K资源[2](https://www.browserstack.com/guide/test-aab-file-on-android-device)。此外，AAB文件还提高了应用的安全性，因为APK的签名将由Google而非开发者进行，这样可以减少应用被篡改的风险[1](https://www.nextpit.com/what-is-aab-file-android)[5](https://developer.android.com/guide/app-bundle/app-bundle-format)。
+
+</details>
 
 ## 链接
