@@ -27,6 +27,7 @@ const cesiumSource = "node_modules/cesium/Build/Cesium";
 const cesiumBaseUrl = "cesiumStatic";
 
 const vite = {
+  clearScreen: false,
   optimizeDeps: {
     exclude: ["@resvg/resvg-js"],
   },
@@ -67,7 +68,9 @@ const vite = {
       sourceMap: "inline",
     },
   },
-  server: {},
+  server: {
+    strictPort: true,
+  },
 };
 if (import.meta.env.DEV) {
   vite.server = {

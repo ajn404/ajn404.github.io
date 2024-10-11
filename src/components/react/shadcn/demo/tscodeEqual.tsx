@@ -4,14 +4,9 @@ import Autoplay from "embla-carousel-autoplay";
 
 const AutoplayCarousel: React.FC = () => {
   const plugin: any = useMemo(
-    () => Autoplay({ delay: 4000, stopOnInteraction: true }),
+    () => Autoplay({ delay: 3000, stopOnInteraction: true }),
     []
   );
-
-  // Conditional logging for development environment
-  if (process.env.NODE_ENV === "development") {
-    console.log(plugin); // Debugging: Ensure plugin is initialized correctly
-  }
 
   return (
     <Carousel
@@ -24,12 +19,9 @@ const AutoplayCarousel: React.FC = () => {
           <CarouselItem key={index}>
             <img
               src={`/assets/code/Equal${index}.png`}
-              className="w-full h-full bg-white object-cover"
+              className="w-full object-contain"
               alt={`Carousel image ${index + 1}`}
               loading="lazy"
-              onError={e => {
-                (e.target as HTMLImageElement).src = "/assets/code/default.png";
-              }}
             />
           </CarouselItem>
         ))}
