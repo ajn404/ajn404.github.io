@@ -6,9 +6,7 @@ import {
   ExitFullScreenIcon,
   PlayIcon,
   StopIcon,
-  // ResumeIcon,
   ReloadIcon,
-  // ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
 import { DownloadIcon } from "lucide-react";
 
@@ -33,6 +31,8 @@ const defaultSketch: Sketch = (p: p5) => {
 interface Props {
   sketch: Sketch;
   showControls?: boolean; // defaults to false
+  className?: string; // Optional custom className
+  style?: React.CSSProperties; // Optional inline styles
 }
 
 const Button = ({
@@ -45,127 +45,177 @@ const Button = ({
   <button
     type="button"
     onClick={onClick}
-    className="inline-block text-skin-inverted rounded bg-skin-inverted px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal  shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
+    className="inline-block text-skin-inverted rounded bg-skin-inverted px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
   >
     {children}
   </button>
 );
-let doOnce = false;
 
-const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
-  const container = useRef<HTMLDivElement>(null);
-  const trueContainer = useRef<HTMLDivElement>(null);
-  let [p, setP] = useState<p5>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+const P5Canvas = memo(
+  ({ sketch, showControls = false, className = "", style = {} }: Props) => {
+    const container = useRef<HTMLDivElement>(null);
+    const trueContainer = useRef<HTMLDivElement>(null);
+    const [p, setP] = useState<p5 | null>(null);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const doOnceRef = useRef(false); // Manage doOnce locally
 
-  const start = async () => {
-    if (container.current) {
-      const p5 = await import("p5");
-      !p && setP(new p5.default(sketch || defaultSketch, container.current));
-    }
-  };
-  const remove = () => {
-    p && p.remove();
-    p && setP(null);
-  };
-  const stop = () => p && p.isLooping() && p.noLoop();
-  const begin = () => p && !p.isLooping() && p.loop();
-  const init = async () => {
-    setLoading(true);
-    remove();
-    await start();
-    setLoading(false);
-  };
-  const [loading, setLoading] = useState(false);
-
-  const clear = () => {
-    remove();
-    container.current && (container.current.innerHTML = "");
-  };
-
-  const toggleFullscreen = async () => {
-    if (trueContainer.current && !isFullscreen) {
-      if (trueContainer.current.requestFullscreen) {
-        await trueContainer.current.requestFullscreen();
-        trueContainer.current.style.backgroundColor = "black";
+    const start = async () => {
+      if (container.current) {
+        const p5Module = await import("p5");
+        if (!p) {
+          setP(
+            new p5Module.default(sketch || defaultSketch, container.current)
+          );
+        }
       }
-      setIsFullscreen(true);
-    } else {
-      if (document.exitFullscreen) {
-        await document.exitFullscreen();
+    };
+
+    const remove = () => {
+      if (p) {
+        p.remove();
+        setP(null);
       }
-      trueContainer.current.style.backgroundColor = "";
-      setIsFullscreen(false);
-    }
-  };
+    };
 
-  const download = () => {
-    if (!p) return;
-    p.saveGif("sketch", 5, { delay: 1 });
-  };
+    const stop = () => {
+      if (p && p.isLooping()) {
+        p.noLoop();
+      }
+    };
 
-  useEffect(() => {
-    if (p && isFullscreen) {
-      p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
-      p.windowResized = async () => {
-        await init();
+    const begin = () => {
+      if (p && !p.isLooping()) {
+        p.loop();
+      }
+    };
+
+    const init = async () => {
+      setLoading(true);
+      remove();
+      await start();
+      setLoading(false);
+    };
+
+    const clear = () => {
+      remove();
+      if (container.current) {
+        container.current.innerHTML = "";
+      }
+    };
+
+    const toggleFullscreen = async () => {
+      if (trueContainer.current && !isFullscreen) {
+        if (trueContainer.current.requestFullscreen) {
+          await trueContainer.current.requestFullscreen();
+          trueContainer.current.style.backgroundColor = "black";
+        }
+        setIsFullscreen(true);
+      } else {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
+        if (trueContainer.current) {
+          trueContainer.current.style.backgroundColor = "";
+        }
+        setIsFullscreen(false);
+      }
+    };
+
+    const download = () => {
+      if (!p) return;
+      p.saveGif("sketch", 5, { delay: 1 });
+    };
+
+    useEffect(() => {
+      if (p && isFullscreen) {
         p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
-        container.current.style.minHeight = p?.height + "px";
+        p.windowResized = async () => {
+          await init();
+          p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
+          if (container.current) {
+            container.current.style.minHeight = `${p.height}px`;
+          }
+        };
+      }
+
+      const obs = new IntersectionObserver(async ([entry]) => {
+        if (entry.isIntersecting) {
+          if (
+            !doOnceRef.current &&
+            container.current &&
+            !container.current.innerHTML
+          ) {
+            await init();
+            doOnceRef.current = true;
+          }
+          if (!showControls && p) {
+            begin(); // 自动启动
+          }
+        } else {
+          stop();
+        }
+      });
+
+      if (trueContainer.current) {
+        obs.observe(trueContainer.current);
+      }
+
+      return () => {
+        obs.disconnect();
+        remove();
       };
-    }
+    }, [isFullscreen, p, showControls]);
 
-    const obs = new IntersectionObserver(async ([entry]) => {
-      if (entry.isIntersecting) {
-        !doOnce && !container.current.innerHTML && (await init());
-        !doOnce && !showControls && begin(); //没有按钮自动启动
-        if (!doOnce && !container.current.innerHTML) doOnce = true;
-      } else stop();
-    });
-    obs.observe(trueContainer.current);
-    return () => {
-      obs.disconnect();
-      remove();
+    const handleFullscreenChange = () => {
+      setLoading(true);
+      setIsFullscreen(!!document.fullscreenElement);
+      setLoading(false);
     };
-  }, [isFullscreen, p]);
 
-  const handleFullscreenChange = () => {
-    setLoading(true);
-    setIsFullscreen(!!document.fullscreenElement);
-  };
+    useEffect(() => {
+      (async () => {
+        if (!container.current) return;
+        container.current.innerHTML = "";
+        await init();
+      })();
+      return () => {
+        if (!container.current) return;
+        remove();
+        container.current.innerHTML = "";
+      };
+    }, [sketch]);
 
-  useEffect(() => {
-    (async () => {
-      if (!container.current) return;
-      container.current.innerHTML = "";
-      await init();
-    })();
-    return () => {
-      if (!container.current) return;
-      remove();
-      container.current.innerHTML = "";
-    };
-  }, [sketch]);
+    useEffect(() => {
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
+      if (container.current && p) {
+        container.current.style.minHeight = `${p.height}px`;
+      }
+      if (trueContainer.current) {
+        trueContainer.current.style.backgroundColor = "";
+      }
+      return () => {
+        document.removeEventListener(
+          "fullscreenchange",
+          handleFullscreenChange
+        );
+        remove();
+      };
+    }, [p]);
 
-  useEffect(() => {
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    container.current.style.minHeight = p?.height + "px";
-    trueContainer.current.style.backgroundColor = "";
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      remove();
-    };
-  }, [p]);
-
-  return (
-    <>
-      <div ref={trueContainer} className="p5_container mt-4 relative">
+    return (
+      <div
+        ref={trueContainer}
+        className={`p5_container mt-4 relative ${className}`}
+        style={style}
+      >
         <div
           ref={container}
           className="flex w-full max-w-full justify-center"
         ></div>
         {loading && (
-          <div className="min-h-[200px] flex justify-center items-center text-2xl">
-            加载中...
+          <div className="absolute inset-o w-full h-full flex justify-center items-center text-2xl">
+            加载中p5...
           </div>
         )}
         {!loading && showControls && (
@@ -182,15 +232,10 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
               <PlayIcon />
             </Button>
             <Button onClick={download}>
-              <DownloadIcon></DownloadIcon>
+              <DownloadIcon />
             </Button>
-
-            {/* <Button onClick={init}>
-                            <ResumeIcon></ResumeIcon>
-                        </Button> */}
-
             <Button onClick={clear}>
-              <ReloadIcon></ReloadIcon>
+              <ReloadIcon />
             </Button>
             <Button onClick={toggleFullscreen}>
               {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
@@ -198,8 +243,8 @@ const P5Canvas = memo(({ sketch, showControls = false }: Props) => {
           </div>
         )}
       </div>
-    </>
-  );
-});
+    );
+  }
+);
 
 export default P5Canvas;

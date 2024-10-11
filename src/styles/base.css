@@ -7,36 +7,38 @@
   src: url("/assets/font/Xingcao.ttf") format("truetype");
 }
 
-.xing-cao,.xing-cao * {
+.xing-cao,
+.xing-cao * {
   font-family: "Xingcao", "DM Sans", sans-serif;
 }
 
 @font-face {
-  font-family: 'xkcd'; 
-  src: url('/assets/font/xkcd.woff') format('woff');
+  font-family: "xkcd";
+  src: url("/assets/font/xkcd.woff") format("woff");
 }
 
-.font-xkcd,.font-xkcd *{
-  font-family: "xkcd","Xingcao", "DM Sans", sans-serif;
-}
-
-@font-face {
-    font-family: 'Work Sans';
-    src: url('/assets/font/WorkSans-Regular.woff2') format('woff');
+.font-xkcd,
+.font-xkcd * {
+  font-family: "xkcd", "Xingcao", "DM Sans", sans-serif;
 }
 
 @font-face {
-    font-family: 'Whisper';
-    src: url('/assets/font/Whisper-400-latin3.woff2') format('woff');
+  font-family: "Work Sans";
+  src: url("/assets/font/WorkSans-Regular.woff2") format("woff");
 }
 
-.font-whisper,.font-whisper * {
-    font-family: "Whisper", "Work Sans", sans-serif;
+@font-face {
+  font-family: "Whisper";
+  src: url("/assets/font/Whisper-400-latin3.woff2") format("woff");
 }
 
+.font-whisper,
+.font-whisper * {
+  font-family: "Whisper", "Work Sans", sans-serif;
+}
 
 @layer base {
-  :root{
+  :root {
     --color-fill: 33, 39, 55;
     --color-text-base: 234, 237, 243;
     --color-accent: 255, 107, 1;
@@ -88,7 +90,9 @@
     @apply outline-2 outline-offset-1 outline-skin-fill 
     focus-visible:no-underline focus-visible:outline-dashed;
   }
-  #nav-menu svg ,.flex>svg,.small-svg{
+  #nav-menu svg,
+  .flex > svg,
+  .small-svg {
     @apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
   }
   .prose svg {
@@ -120,19 +124,49 @@
     color: #28a2b7 !important;
     background-color: transparent !important;
   }
-  .prose h1,.prose h2,.prose h3,.prose h4,.prose h5,.prose h6{
-    @apply my-4 brightness-150;
-  }
-  .prose p{
-    @apply my-auto;
-  }
-  .prose pre{
-    padding-right:1em;
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply !my-6 !font-extrabold tracking-tight shadow-md;
   }
 
-  .prose pre::-webkit-scrollbar{
+  .prose h1 {
+    @apply my-6 !font-extrabold  tracking-tight !text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  .prose h2 {
+    @apply my-5 !font-bold  tracking-tight !text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  .prose h3 {
+    @apply my-4 !font-bold  tracking-wide !text-xl md:text-2xl lg:text-3xl;
+  }
+
+  .prose h4 {
+    @apply my-3 !font-semibold  tracking-wide !text-lg md:text-xl;
+  }
+
+  .prose h5 {
+    @apply my-2 !font-semibold  tracking-wide !text-base;
+  }
+
+  .prose h6 {
+    @apply my-2 !font-medium  tracking-wide !text-sm;
+  }
+
+  .prose p {
+    @apply my-auto;
+  }
+  .prose pre {
+    padding-right: 1em;
+  }
+
+  .prose pre::-webkit-scrollbar {
     display: none;
-    height:0;
+    height: 0;
   }
   .prose a {
     @apply hover:!text-skin-accent;
@@ -146,10 +180,10 @@
     @apply mb-2;
   }
   .prose details {
-    @apply inline-block cursor-pointer  text-skin-base ;
+    @apply inline-block cursor-pointer  text-skin-base;
   }
-  .prose details[open]{
-     @apply text-skin-base highlight highlight-variant-1 after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)];
+  .prose details[open] {
+    @apply text-skin-base highlight highlight-variant-1 after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)];
   }
   .prose summary {
     @apply focus-outline;
@@ -202,12 +236,20 @@
     );
   }
 
-  .snow-again{
+  .morpheus-den{
+    background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+  }
+
+  .snow-again {
     background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
   }
 
   .color-spring-warmth {
-    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)!important;
+    background-image: linear-gradient(
+      to top,
+      #fad0c4 0%,
+      #ffd1ff 100%
+    ) !important;
   }
 
   .color-night-fade {
@@ -251,11 +293,11 @@ blockquote p {
 }
 
 blockquote::before {
-  content: " "!important;
+  content: " " !important;
 }
 
 blockquote::after {
-  content: " "!important;
+  content: " " !important;
 }
 
 blockquote footer cite {
@@ -283,17 +325,16 @@ blockquote footer cite::before {
 }
 
 @font-feature-values "Work Sans" {
-    @swash {
-        on: 1;
-        off: 0;
-    }
+  @swash {
+    on: 1;
+    off: 0;
+  }
 }
 
 /* 折叠 */
 details {
   @apply flex flex-col w-full px-4 mt-4 py-2 Midnight-Bloom;
 }
-
 
 details::-webkit-scrollbar {
   @apply w-0 h-0;
@@ -311,7 +352,6 @@ details::-webkit-scrollbar {
   }
 }
 
-
 @keyframes loadingcard {
   0% {
     transform: translate(0, 0) rotate(0deg);
@@ -320,43 +360,46 @@ details::-webkit-scrollbar {
     transform: translate(0, 15px) rotate(180deg);
   }
   100% {
-    transform: translate(0, 0) rotate(360deg)
+    transform: translate(0, 0) rotate(360deg);
   }
 }
 
-
 @media print {
-  #目录 + ul,#dev-overlay,#btn-back-to-top,header{
+  #目录 + ul,
+  #dev-overlay,
+  #btn-back-to-top,
+  header {
     display: none;
   }
-  *{
-    color:black;
+  * {
+    color: black;
     font-size: 12pt;
     background-color: white;
   }
 
-  h1, h2, h3 {
-    color:black!important;
+  h1,
+  h2,
+  h3 {
+    color: black !important;
   }
 }
 
-
-.codepen{
-    height: 500px; 
-    box-sizing: border-box; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    border: 2px solid; 
-    margin: 1em 0; 
-    padding: 1em;
+.codepen {
+  height: 500px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  margin: 1em 0;
+  padding: 1em;
 }
 
 @layer demo {
   .highlighted-text-shadow {
     background: #000;
     text-shadow:
-      0 .15ch 15px var(--shadow),
+      0 0.15ch 15px var(--shadow),
       0 -2px 0 var(--highlight);
   }
 }
@@ -364,26 +407,26 @@ details::-webkit-scrollbar {
 @layer demo.support {
   :root {
     --hue: 320; /* change me */
-    --shadow: oklch(25% .2 var(--hue));
-    --highlight: oklch(98% .05 var(--hue));
+    --shadow: oklch(25% 0.2 var(--hue));
+    --highlight: oklch(98% 0.05 var(--hue));
   }
 }
 
-iframe{
-    max-width:calc(100% - 2em);
+iframe {
+  max-width: calc(100% - 2em);
 }
 
-.loading{
-     position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: grid;
-        place-items: center;
-        font-size: 1em;
-        color: rosybrown;
+.loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: grid;
+  place-items: center;
+  font-size: 1em;
+  color: rosybrown;
 }
 
 .highlight-variant-1 {
@@ -460,8 +503,8 @@ iframe{
 
 .highlight-variant-20 {
   --tw-highlight-variant: url(/assets/svg/20.svg) !important;
-}   
+}
 
-.driver-popover{
-    max-width:80vw!important;
+.driver-popover {
+  max-width: 80vw !important;
 }

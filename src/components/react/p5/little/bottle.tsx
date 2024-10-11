@@ -82,7 +82,7 @@ export default () => {
         );
       };
 
-      const gotFile = file => {
+      const gotFile = (file: Pick<p5.File, "type" | "data">) => {
         if (file.type === "image") {
           img = p.createImg(file.data, "").hide();
           img.elt.onload = () => {
@@ -130,7 +130,10 @@ export default () => {
 
   return (
     <div ref={container} className="absolute inset-0 w-full h-full">
-      <Basic sketch={sketch}></Basic>
+      <Basic
+        sketch={sketch}
+        className="min-h-[80%] flex justify-center items-center"
+      ></Basic>
       <input
         type="file"
         id="input"

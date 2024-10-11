@@ -6,6 +6,8 @@ postSlug: 2024-10
 tags:
   - "2024"
   - "2024-10"
+  - "calender"
+  - "股票"
 description: 又是10月，写这份博客整整1年，1年
 ---
 
@@ -79,9 +81,177 @@ A股市场目前允许一定程度的做空，但与成熟市场相比，机制�
 
 ## 2024-10-09 15:41:29
 
-> 需求描述: 用p5js,提供一个酒瓶的3d模版,实现贴图和贴文字
+### 用p5js,提供一个酒瓶的3d模版,实现贴图和贴文字
 
-[page](/fantastic/bottle)
+<details class="relative">
+<summary>[bottle](/fantastic/bottle)</summary>
+
+[查看页面](/fantastic/bottle)
+
+```tsx
+import type p5 from "p5";
+import Basic from "@components/react/p5/index.tsx";
+import { useCallback, useRef, useState } from "react";
+
+let img;
+let bottleModel;
+let font;
+let canvas;
+let button: p5.Element;
+const colors = [
+  { background: "#FF5733", text: "#FFFFFF" }, // 背景：红色，字体：白色
+  { background: "#33FF57", text: "#000000" }, // 背景：绿色，字体：黑色
+  { background: "#3357FF", text: "#FFFFFF" }, // 背景：蓝色，字体：白色
+  { background: "#F1C40F", text: "#000000" }, // 背景：黄色，字体：黑色
+  { background: "#8E44AD", text: "#FFFFFF" }, // 背景：紫色，字体：白色
+  { background: "#E67E22", text: "#FFFFFF" }, // 背景：橙色，字体：白色
+  { background: "#2ECC71", text: "#FFFFFF" }, // 背景：亮绿色，字体：白色
+  { background: "#3498DB", text: "#FFFFFF" }, // 背景：亮蓝色，字体：白色
+  { background: "#9B59B6", text: "#FFFFFF" }, // 背景：淡紫色，字体：白色
+  { background: "#F39C12", text: "#FFFFFF" }, // 背景：金色，字体：白色
+];
+export default () => {
+  const container = useRef(null);
+  const fileInput = useRef(null);
+  const [imgUrl, setImgUrl] = useState(8);
+
+  const randomImg = () => {
+    let num = ((Math.random() * 11) % 11) + 1;
+    num = Number(num.toFixed(0));
+    setImgUrl(num);
+  };
+
+  const sketch = useCallback(
+    (p: p5) => {
+      const setup = () => {
+        canvas = p.createCanvas(p.windowWidth, p.windowHeight - 200, p.WEBGL);
+        canvas.drop(gotFile);
+        p.textFont(font);
+        button = p
+          .createButton("切换背景颜色")
+          .position(20, 100)
+          .mousePressed(randomColor);
+
+        fileInput.current.addEventListener(
+          "change",
+          e => {
+            let file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = event => {
+              const fileData = event.target.result;
+              gotFile({
+                type: "image",
+                data: fileData,
+              });
+            };
+            reader.onerror = error => {
+              console.error("读取文件时出错:", error);
+            };
+            reader.readAsDataURL(file);
+          },
+          false
+        );
+      };
+
+      function randomColor() {
+        let c = Math.floor(Math.random() * colors.length);
+        button.value(c);
+      }
+
+      const preload = () => {
+        img = p.loadImage(
+          `/assets/bg/${imgUrl}${Math.random() > 0.5 ? ".jpg" : ".png"}`
+        );
+        font = p.loadFont("/assets/font/Xingcao.ttf");
+        bottleModel = p.loadModel(
+          "/assets/models/obj/up_glucose_bottle.obj",
+          true,
+          () => {},
+          () => {},
+          ".obj"
+        );
+      };
+
+      const gotFile = (file: Pick<p5.File, "type" | "data">) => {
+        if (file.type === "image") {
+          img = p.createImg(file.data, "").hide();
+          img.elt.onload = () => {
+            randomColor();
+            p.redraw();
+          };
+        }
+      };
+
+      const draw = () => {
+        p.textureMode(p.IMAGE);
+        p.background(colors[(button.value() as number) || 0].background);
+        p.orbitControl();
+        p.push();
+        p.scale(2);
+        p.rotateZ(p.PI);
+        p.rotateY(-p.PI / 2);
+        if (bottleModel) {
+          p.texture(img); // 应用贴图
+          p.model(bottleModel); // 绘制模型
+        } else {
+          console.error("Bottle model is not loaded");
+        }
+        p.push();
+        p.translate(-100, 0, 0); // 将文字放置在模型旁边
+
+        p.rotateY(-p.PI / 2);
+        p.rotateX(-p.PI);
+
+        p.fill(colors[(button.value() as number) || 0].text);
+        p.text("尝试拖动图片进场景或者点击上传", 0, 0);
+        p.pop();
+      };
+      const resize = () => {
+        p.resizeCanvas(p.windowWidth, p.windowHeight - 200);
+        p.redraw();
+      };
+      p.setup = setup;
+      p.draw = draw;
+      p.preload = preload;
+      p.windowResized = resize;
+    },
+    [imgUrl]
+  );
+
+  return (
+    <div ref={container} className="absolute inset-0 w-full h-full">
+      <Basic
+        sketch={sketch}
+        className="min-h-[80%] flex justify-center items-center"
+      ></Basic>
+      <input
+        type="file"
+        id="input"
+        accept="image/*"
+        className="hidden"
+        ref={fileInput}
+      />
+
+      <label
+        htmlFor="input"
+        className="block cursor-pointer text-center self-center p-4 m-auto font-semibold text-2xl xing-cao"
+      >
+        点击上传材质
+      </label>
+
+      <p
+        onClick={randomImg}
+        className="block cursor-pointer text-center self-center p-4 m-auto font-semibold text-2xl xing-cao"
+      >
+        或者点击使用随机图片
+      </p>
+    </div>
+  );
+};
+```
+
+</details>
 
 ## 2024-10-10 09:28:50
 
@@ -106,11 +276,11 @@ loadScript("https://cdn.jsdelivr.net/npm/eruda@3.4.0/eruda.min.js", () =>
 
 ## 2024-10-10 15:51:33
 
-### 今日ts 代码分析
+### 今日ts代码分析
 
-import TscodeEqual from "@components/react/shadcn/demo/tscodeEqual.tsx";
+import TsCodeEqual from "@components/react/shadcn/demo/tsCodeEqual.tsx";
 
-<TscodeEqual client:visible />
+<TsCodeEqual client:visible />
 
 ### calendar汇总
 
@@ -133,5 +303,156 @@ import ScheduleX from "@components/react/little/scheduleX.tsx";
 <ScheduleX client:visible />
 
 </details>
+
+## 2024-10-11 09:34:21
+
+### 今日类型体操
+
+#### 实现`Pick<T, K extends keyof T>`
+
+```ts
+type MyPick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+```
+
+使用示例
+
+```ts
+type Person = {
+  name: string;
+  age: number;
+  email: string;
+};
+
+// 使用 MyPick 从 Person 中选择 name 和 email 属性
+type PickedPerson = MyPick<Person, "name" | "email">;
+
+// PickedPerson 的类型为 { name: string; email: string; }
+```
+
+#### 实现`Readonly<T>`
+
+```ts
+type MyReadonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+```
+
+`MyReadonly<T>` 只会对第一层属性生效。如果对象的属性本身是一个对象，嵌套的属性仍然是可写的。
+
+```ts
+type User = {
+  name: string;
+  address: {
+    city: string;
+    country: string;
+  };
+};
+
+type ReadonlyUser = MyReadonly<User>;
+
+const user: ReadonlyUser = {
+  name: "Alice",
+  address: {
+    city: "New York",
+    country: "USA",
+  },
+};
+
+// 下面的操作会导致编译错误
+user.name = "Bob"; // 错误: Cannot assign to 'name' because it is a read-only property.
+
+// 但是可以修改嵌套对象的属性
+user.address.city = "Los Angeles"; // 这是允许的
+```
+
+[ts文档](https://www.typescriptlang.org/docs/handbook/utility-types.html#readonlytype)中推荐使用`Object.freeze`
+
+```ts
+function freeze<Type>(obj: Type): Readonly<Type>;
+```
+
+### 今日金融小知识
+
+<details>
+<summary>股票市场是否要跟涨杀跌</summary>
+
+在股票市场中，"跟涨杀跌" 是一种常见的投资策略，指的是在市场上涨时跟随买入，而在市场下跌时则选择卖出或回避。这种策略的核心思想是顺应市场趋势，利用市场情绪来获取收益。以下是一些关于这一策略的分析：
+
+### 1. 趋势跟随
+
+跟涨杀跌的策略基于趋势跟随的原则。许多投资者相信，市场在短期内会持续其趋势，因此在上涨时买入，能够在价格进一步上涨时获利。这种策略在牛市中尤其有效，因为市场普遍情绪乐观，投资者更愿意买入。
+
+### 2. 风险管理
+
+尽管跟涨杀跌可以在某些情况下带来收益，但它也伴随着风险。在市场下跌时，盲目跟随可能导致更大的损失。投资者需要有良好的风险管理策略，例如设置止损点，以限制潜在的损失。
+
+### 3. 市场情绪
+
+股票市场受到投资者情绪的影响，跟涨杀跌策略往往依赖于市场情绪的变化。在市场情绪高涨时，投资者可能会过度乐观，导致价格泡沫；而在市场恐慌时，投资者可能会过度悲观，导致价格下跌。因此，理解市场情绪变化对于成功实施这一策略至关重要。
+
+### 4. 基本面分析
+
+虽然跟涨杀跌是一种短期策略，但长期投资者通常会结合基本面分析来做出决策。即使市场在上涨，投资者也应该关注公司的基本面，以确保其股票的价值是合理的。
+
+### 5. 适合的投资者
+
+跟涨杀跌策略适合那些能够快速反应市场变化的投资者，尤其是短线交易者。然而，对于那些更倾向于长期投资的投资者，可能更适合采用价值投资或定投策略。
+
+### 总结
+
+跟涨杀跌是一种基于市场趋势的投资策略，能够在特定市场环境下带来收益。然而，投资者需要谨慎对待，结合风险管理和基本面分析，以避免因市场波动而造成的损失。了解市场情绪和趋势变化是成功实施这一策略的关键。
+
+</details>
+
+<details>
+<summary>有关交易费用</summary>
+
+股票市场的交易费用通常由多个部分组成，具体计算方式可能因不同的券商和交易类型而异。以下是一些主要的交易费用组成部分：
+
+### 1. **佣金费**
+
+这是券商收取的主要费用，通常以交易金额的一定比例或固定金额的形式收取。佣金费的计算方式有几种：
+
+- **固定佣金**：无论交易金额大小，佣金都是固定的，例如每笔交易收取20元。
+- **比例佣金**：根据交易金额的一定比例收取，例如0.1%。
+- **混合佣金**：有些券商可能会结合固定佣金和比例佣金，例如最低收取50元或交易金额的2%，以较高者为准。
+
+### 2. **交易所费用**
+
+在某些市场，交易所会收取额外的费用，这些费用通常是基于交易的数量或金额。例如，证券交易所可能会收取每笔交易的交易费。
+
+### 3. **印花税**
+
+在许多国家，股票交易还需支付印花税。这是一种政府征收的税费，通常在股票买卖时按交易金额的一定比例收取。例如，在中国，股票买卖的印花税通常为成交金额的0.1%。
+
+### 4. **其他费用**
+
+- **监管费用**：例如，证券交易委员会（SEC）可能会收取的费用。
+- **结算费用**：在某些情况下，结算和交割过程可能会产生额外费用。
+- **账户维护费**：一些券商可能会收取账户维护费，尤其是对于低活跃度的账户。
+
+### 计算示例
+
+假设你通过某券商买入价值10,000元的股票，佣金为0.1%，印花税为0.1%，交易所费用为10元，计算如下：
+
+- **佣金费**：10,000元 \* 0.1% = 10元
+- **印花税**：10,000元 \* 0.1% = 10元
+- **交易所费用**：10元
+
+总交易费用 = 佣金费 + 印花税 + 交易所费用 = 10元 + 10元 + 10元 = 30元。
+
+### 总结
+
+股票市场的交易费用由佣金、交易所费用、印花税及其他相关费用组成。具体费用的计算方式可能因券商和市场而异，因此在交易前了解清楚相关费用是非常重要的。
+
+</details>
+
+### 今日创意编程
+
+import Wobbly from "@components/react/p5/little/wobbly.tsx";
+
+<Wobbly client:visible />
 
 ## 链接
