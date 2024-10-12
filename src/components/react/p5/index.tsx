@@ -1,13 +1,7 @@
 import "./index.scss";
 import type p5 from "p5";
 import { useEffect, useRef, memo, useState } from "react";
-import {
-  EnterFullScreenIcon,
-  ExitFullScreenIcon,
-  PlayIcon,
-  StopIcon,
-  ReloadIcon,
-} from "@radix-ui/react-icons";
+import { PlayIcon, StopIcon } from "@radix-ui/react-icons";
 import { DownloadIcon } from "lucide-react";
 
 type Sketch = (p: p5) => void;
@@ -56,22 +50,17 @@ const P5Canvas = memo(
     const container = useRef<HTMLDivElement>(null);
     const trueContainer = useRef<HTMLDivElement>(null);
     const [p, setP] = useState<p5 | null>(null);
-    const [isFullscreen, setIsFullscreen] = useState(false);
     const [loading, setLoading] = useState(false);
     const doOnceRef = useRef(false); // Manage doOnce locally
 
     const start = async () => {
       if (container.current) {
         const p5Module = await import("p5");
-        if (!p) {
-          setP(
-            new p5Module.default(sketch || defaultSketch, container.current)
-          );
-        }
+        setP(new p5Module.default(sketch || defaultSketch, container.current));
       }
     };
 
-    const remove = () => {
+    const remove = async () => {
       if (p) {
         p.remove();
         setP(null);
@@ -79,66 +68,21 @@ const P5Canvas = memo(
     };
 
     const stop = () => {
-      if (p && p.isLooping()) {
-        p.noLoop();
-      }
+      if (p && p.isLooping()) p.noLoop();
     };
 
-    const begin = () => {
-      if (p && !p.isLooping()) {
-        p.loop();
-      }
+    const begin = async () => {
+      if (p && !p.isLooping()) p.loop();
     };
 
     const init = async () => {
       setLoading(true);
-      remove();
       await start();
       setLoading(false);
     };
-
-    const clear = () => {
-      remove();
-      if (container.current) {
-        container.current.innerHTML = "";
-      }
-    };
-
-    const toggleFullscreen = async () => {
-      if (trueContainer.current && !isFullscreen) {
-        if (trueContainer.current.requestFullscreen) {
-          await trueContainer.current.requestFullscreen();
-          trueContainer.current.style.backgroundColor = "black";
-        }
-        setIsFullscreen(true);
-      } else {
-        if (document.exitFullscreen) {
-          await document.exitFullscreen();
-        }
-        if (trueContainer.current) {
-          trueContainer.current.style.backgroundColor = "";
-        }
-        setIsFullscreen(false);
-      }
-    };
-
-    const download = () => {
-      if (!p) return;
-      p.saveGif("sketch", 5, { delay: 1 });
-    };
+    const download = async () => p.saveGif("sketch", 5, { delay: 1 });
 
     useEffect(() => {
-      if (p && isFullscreen) {
-        p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
-        p.windowResized = async () => {
-          await init();
-          p.resizeCanvas(window.innerWidth, window.innerHeight - 90);
-          if (container.current) {
-            container.current.style.minHeight = `${p.height}px`;
-          }
-        };
-      }
-
       const obs = new IntersectionObserver(async ([entry]) => {
         if (entry.isIntersecting) {
           if (
@@ -149,59 +93,24 @@ const P5Canvas = memo(
             await init();
             doOnceRef.current = true;
           }
-          if (!showControls && p) {
-            begin(); // 自动启动
-          }
+          begin(); // 自动启动
         } else {
           stop();
         }
       });
 
-      if (trueContainer.current) {
-        obs.observe(trueContainer.current);
-      }
+      if (trueContainer.current) obs.observe(trueContainer.current);
 
       return () => {
         obs.disconnect();
         remove();
       };
-    }, [isFullscreen, p, showControls]);
-
-    const handleFullscreenChange = () => {
-      setLoading(true);
-      setIsFullscreen(!!document.fullscreenElement);
-      setLoading(false);
-    };
+    });
 
     useEffect(() => {
-      (async () => {
-        if (!container.current) return;
-        container.current.innerHTML = "";
-        await init();
-      })();
-      return () => {
-        if (!container.current) return;
-        remove();
-        container.current.innerHTML = "";
-      };
+      console.log("sketch");
+      init();
     }, [sketch]);
-
-    useEffect(() => {
-      document.addEventListener("fullscreenchange", handleFullscreenChange);
-      if (container.current && p) {
-        container.current.style.minHeight = `${p.height}px`;
-      }
-      if (trueContainer.current) {
-        trueContainer.current.style.backgroundColor = "";
-      }
-      return () => {
-        document.removeEventListener(
-          "fullscreenchange",
-          handleFullscreenChange
-        );
-        remove();
-      };
-    }, [p]);
 
     return (
       <div
@@ -219,12 +128,7 @@ const P5Canvas = memo(
           </div>
         )}
         {!loading && showControls && (
-          <div
-            className={
-              "flex pt-4 select-none justify-around" +
-              (isFullscreen ? " fixed mb-10 pb-4 left-0 w-full" : "")
-            }
-          >
+          <div className={"flex pt-4 select-none justify-around"}>
             <Button onClick={stop}>
               <StopIcon />
             </Button>
@@ -233,12 +137,6 @@ const P5Canvas = memo(
             </Button>
             <Button onClick={download}>
               <DownloadIcon />
-            </Button>
-            <Button onClick={clear}>
-              <ReloadIcon />
-            </Button>
-            <Button onClick={toggleFullscreen}>
-              {isFullscreen ? <ExitFullScreenIcon /> : <EnterFullScreenIcon />}
             </Button>
           </div>
         )}

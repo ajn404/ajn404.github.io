@@ -1046,9 +1046,9 @@ export default () => {
 
 其中,
 
-- \( F \) 表示作用在物体上的力（单位是牛顿）,
-- \( m \) 表示物体的质量（单位是千克）,
-- \( a \) 表示物体的加速度（单位是米/秒^2）.
+- $ F $ 表示作用在物体上的力（单位是牛顿）,
+- $ m $ 表示物体的质量（单位是千克）,
+- $ a $ 表示物体的加速度（单位是米/秒^2）.
 
 这个定律说明,当一个力作用于一个物体时,它会产生该物体的加速度,且这个加速度的大小与作用力成正比,与物体的质量成反比.换句话说,较大的力会导致较大的加速度,而较大的质量会导致较小的加速度.
 
@@ -1747,7 +1747,7 @@ import OscillatorV1 from "@components/react/p5/Oscillation/practice/oscillatorV1
 
 </details>
 
-<details open>
+<details>
 <summary>Exercise 3.8</summary>
 
 > Exercise 3.8 Try initializing each Oscillator object with velocities and amplitudes that aren’t random to create some sort of regular pattern. Can you make the oscillators appear to be the legs of an insect-like creature?
@@ -1757,6 +1757,54 @@ import InsectLikeOscillatorV0 from "@components/react/p5/Oscillation/practice/In
 <InsectLikeOscillatorV0 client:visible />
 
 😑strange 我做了啥，为啥会变成这样
+
+</details>
+
+#### waves
+
+<details>
+
+<summary>waves</summary>
+
+import WaveCircle from "@components/react/p5/Oscillation/waveCircle.tsx";
+
+<WaveCircle client:visible />
+
+- use perlin noise
+
+import WaveCircleNoise from "@components/react/p5/Oscillation/waveCircleNoise.tsx";
+
+<WaveCircleNoise client:visible />
+
+</details>
+
+#### spring forces 弹簧
+
+<details open> 
+<summary>胡克定律</summary>
+
+胡克定律（Hooke's Law）描述了弹簧的力与其伸长或压缩的距离之间的关系。其数学表达式为：
+
+$$F_{\text{spring}} = -kx $$
+
+### 公式解析
+
+- **$ F\_{\text{spring}} $**：弹簧施加的恢复力，单位通常为牛顿（N）。
+- **$ k $**：弹簧常数，表示弹簧的刚度，单位为牛顿每米（N/m）。弹簧常数越大，弹簧越硬。
+- **$ x $**：弹簧的位移，即弹簧被拉伸或压缩的距离，单位为米（m）。正值表示拉伸，负值表示压缩。
+- **负号（-）**：表示弹簧的力是恢复力，方向与位移相反。也就是说，弹簧会试图将物体拉回到其平衡位置。
+
+### 物理意义
+
+胡克定律表明，弹簧的恢复力与其变形量成正比。这个定律适用于小范围内的弹性变形，超出这个范围后，弹簧可能会发生永久变形或断裂。
+
+### 应用示例
+
+假设有一个弹簧常数为 $ k = 200 \, \text{N/m} $ 的弹簧，如果它被拉伸了 $ x = 0.1 \, \text{m} $，那么弹簧施加的恢复力为：
+
+$$ F\_{\text{spring}} = -200 \times 0.1 = -20 \, \text{N} $$
+
+这个结果表明，弹簧会施加一个20牛顿的力，方向与拉伸方向相反。
 
 </details>
 
