@@ -9,7 +9,6 @@ const { file, style, className } = Astro.props;
     height: 100vh;
     margin: 0;
     padding: 0;
-    position: static;
   }
   .loading {
     position: absolute;
@@ -45,7 +44,7 @@ const { file, style, className } = Astro.props;
 
 <script is:inline defer define:vars={{ file }}>
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector("." + file + " .loading").style.display = "none";
+    const loading = document.querySelector("." + file + " .loading")
     let resFile = file || localStorage.getItem("excalidraw") || "ffmpeg";
 
     fetch(`/assets/excalidraw/${resFile}.json`).then(res => {
@@ -56,8 +55,8 @@ const { file, style, className } = Astro.props;
         const elements = convertToExcalidrawElements(
           data.elements.filter(item => !item.isDeleted)
         );
-
         initApp(elements, Excalidraw, data);
+        loading.style.display = "none";
       });
     });
 
