@@ -477,9 +477,9 @@ AAB文件的主要优势在于它能够根据用户设备的特定需求生成�
 
 import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
-<Excalidraw file="triangle" className="m-auto mt-10 h-[50vh]" />
+<Excalidraw file="triangle" className="m-auto mt-10" />
 
-<Excalidraw file="ffmpeg" className="m-auto mt-10 h-[50vh]" />
+<Excalidraw file="ffmpeg" className="m-auto mt-10" />
 
 ## 2024-10-12 11:16:19
 
@@ -526,5 +526,72 @@ type DeepReadonly<T> = T extends Builtin
                   ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
                   : Readonly<T>;
 ```
+
+## 2024-10-14 10:50:00
+
+### 今日ui
+
+import FloatingDock from "@components/react/aceternity/demo/floating-dock.tsx";
+
+<FloatingDock client:load />
+
+### 今日类型体操 - 元祖转集合
+
+```ts
+type TupleToUnion<T> = T extends Array<infer ITEM> ? ITEM : never;
+```
+
+<details>
+<summary>explain it</summary>
+
+当然可以！让我们来逐行解析这段 TypeScript 代码，看看它是如何工作的。
+
+```typescript
+type TupleToUnion<T> = T extends Array<infer ITEM> ? ITEM : never;
+```
+
+### 代码解析
+
+1. **`type TupleToUnion<T>`**:
+
+   - 这里我们定义了一个类型别名 `TupleToUnion`，它接受一个类型参数 `T`。这个类型参数通常是一个元组（Tuple）或数组（Array）。
+
+2. **`T extends Array<infer ITEM>`**:
+
+   - 这一部分是一个条件类型（conditional type）。它的意思是：如果 `T` 是一个数组类型（即 `Array`），那么我们就可以从这个数组中提取出它的元素类型。
+   - `infer ITEM` 是 TypeScript 的一种推断机制，它会自动推断出数组中元素的类型，并将其命名为 `ITEM`。
+
+3. **`? ITEM : never`**:
+   - 这是条件类型的结果部分。如果 `T` 是一个数组类型，那么 `TupleToUnion<T>` 的结果就是 `ITEM`（即数组中的元素类型）。
+   - 如果 `T` 不是数组类型，那么 `TupleToUnion<T>` 的结果就是 `never`，表示没有有效的类型。
+
+### 整体功能
+
+- **目标**: `TupleToUnion` 类型的主要目标是将一个元组或数组类型转换为其元素类型的联合类型（Union Type）。如果传入的类型是一个数组，返回数组元素的类型；如果不是数组，返回 `never`。
+
+### 示例
+
+让我们通过一些示例来更好地理解这个类型的作用：
+
+```typescript
+type A = TupleToUnion<[1, 2, 3]>; // A 的类型是 1 | 2 | 3
+type B = TupleToUnion<["a", "b", "c"]>; // B 的类型是 'a' | 'b' | 'c'
+type C = TupleToUnion<number[]>; // C 的类型是 number
+type D = TupleToUnion<number>; // D 的类型是 never
+```
+
+- 在这些示例中，`A` 和 `B` 是元组类型，因此 `TupleToUnion` 返回了它们的元素类型的联合类型。
+- `C` 是一个数组类型，返回了 `number`，表示数组中的元素类型。
+- 而 `D` 不是数组类型，所以 `TupleToUnion` 返回了 `never`，表示没有有效的类型。
+
+### 总结
+
+这段代码的核心在于利用 TypeScript 的条件类型和类型推断功能，帮助我们在处理类型时更加灵活和高效。通过 `TupleToUnion` 类型，我们可以轻松地将元组或数组的元素类型转换为联合类型，简化类型定义的复杂性。
+
+希望这个解释能让你对这段代码有更深入的理解！如果还有其他问题，随时问我哦！😄
+
+</details>
+
+主要还是`infer`的作用
 
 ## 链接

@@ -299,3 +299,9 @@ More info: https://sass-lang.com/d/legacy-js-api
 如果你暂时不想迁移，也可以通过设置 `silenceDeprecations` 选项来暂时抑制警告 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/)。但这只是权宜之计，最终仍然需要迁移到现代 API。 例如，使用 `sass.renderSync({ silenceDeprecations: ['legacy-js-api'], ... })` 可以暂时关闭警告 [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/). 记住，这只是临时的解决方案，Dart Sass 2.0.0 将完全移除旧版 API [3](https://sass-lang.com/documentation/breaking-changes/legacy-js-api/) [6](https://sass-lang.com/documentation/breaking-changes/).
 
 迁移到现代 API 是必要的，因为它提高了代码的可维护性和长期兼容性。 尽早迁移可以避免将来因为旧版 API 被移除而导致的项目中断。
+
+## agp版本问题
+
+```gradle
+The project is using an incompatible version (AGP 8.5.1) of the Android Gradle plugin. Latest supported version is AGP 8.2.0
+```
