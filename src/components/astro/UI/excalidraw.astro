@@ -5,16 +5,15 @@ const { file, style, className } = Astro.props;
 <style is:inline>
   .container {
     max-width: 100%;
+    max-height: 50vh;
     height: 100vh;
-    max-height: 100vh;
     margin: 0;
     padding: 0;
-    position: relative;
   }
   .loading {
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 50vh;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.8);
@@ -45,7 +44,7 @@ const { file, style, className } = Astro.props;
 
 <script is:inline defer define:vars={{ file }}>
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector("." + file + " .loading").style.display = "none";
+    const loading = document.querySelector("." + file + " .loading")
     let resFile = file || localStorage.getItem("excalidraw") || "ffmpeg";
 
     fetch(`/assets/excalidraw/${resFile}.json`).then(res => {
@@ -56,8 +55,8 @@ const { file, style, className } = Astro.props;
         const elements = convertToExcalidrawElements(
           data.elements.filter(item => !item.isDeleted)
         );
-
         initApp(elements, Excalidraw, data);
+        loading.style.display = "none";
       });
     });
 
@@ -69,7 +68,7 @@ const { file, style, className } = Astro.props;
           React.createElement(
             "div",
             {
-              style: { height: "100vh" },
+              style: { height: "50vh" },
             },
             React.createElement(Excalidraw, {
               initialData: {
