@@ -131,7 +131,8 @@
   .prose h4,
   .prose h5,
   .prose h6 {
-    @apply !my-6 !font-extrabold tracking-tight shadow-md;
+    @apply !my-6 !font-extrabold tracking-tight;
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.5);
   }
 
   .prose h1 {

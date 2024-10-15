@@ -16,6 +16,13 @@ export interface Props {
 
 const { pageNum, totalPages, posts } = Astro.props;
 
+console.log(
+  posts.map(item => ({
+    title: item.data.title,
+    path: `/posts/${slugify(item.data)}`,
+  }))
+);
+
 const prev = pageNum > 1 ? "" : "disabled";
 const next = pageNum < totalPages ? "" : "disabled";
 ---

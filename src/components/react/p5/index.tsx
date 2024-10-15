@@ -108,7 +108,6 @@ const P5Canvas = memo(
     });
 
     useEffect(() => {
-      console.log("sketch");
       init();
     }, [sketch]);
 
