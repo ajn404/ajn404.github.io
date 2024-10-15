@@ -69,6 +69,7 @@
     font-variant-ligatures: no-contextual;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    interpolate-size: allow-keywords;
   }
   #sun-svg,
   html[data-theme="dark"] #moon-svg {
