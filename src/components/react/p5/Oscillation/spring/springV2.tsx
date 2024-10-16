@@ -10,7 +10,7 @@ import { cn } from "@utils/utils";
 export default () => {
   const [k, setK] = useState(0.2); // Elastic coefficient
   const debounceK = useDebounce(k, 500);
-  const [num, setNum] = useState(20);
+  const [num, setNum] = useState(10);
   const debounceNum = useDebounce(num, 500);
 
   // Using refs to persist bobs and springs across renders
@@ -24,6 +24,8 @@ export default () => {
         p.frameRate(120);
 
         // Initialize bobs
+        bobsRef.current = [];
+        springsRef.current = [];
         new Array(debounceNum).fill(p.random(5, 20)).forEach(_ => {
           const bob = new BobBob(p, p.random(p.width), p.random(p.height), _);
           bobsRef.current.push(bob);
@@ -124,15 +126,15 @@ export default () => {
         />
         <label>小球数量：{debounceNum}</label>
         <Slider
-          defaultValue={[20]}
-          max={100}
+          defaultValue={[10]}
+          max={20}
           min={2}
-          step={20}
+          step={1}
           className={cn("w-[100%] m-4")}
           onValueChange={value => {
             setNum(value[0]);
           }}
-          value={[k]}
+          value={[num]}
         />
       </div>
     </div>
