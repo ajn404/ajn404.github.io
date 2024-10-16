@@ -70,6 +70,9 @@ const vite = {
   },
   server: {
     strictPort: true,
+    watch: {
+      ignored: ["**/src-tauri"],
+    },
   },
 };
 if (import.meta.env.DEV) {

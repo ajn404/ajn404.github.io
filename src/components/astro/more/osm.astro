@@ -1,0 +1,65 @@
+---
+
+---
+
+<script src="/cdn/OSMBuildings.js" async></script>
+
+<div id="osm-map"></div>
+
+<button id="open-osm-map">打开地图</button>
+
+<style is:inline>
+  #osm-map {
+    width: 80vw;
+    height: 50vh;
+    margin: 0 auto;
+    display: none;
+  }
+</style>
+
+<script async>
+  document.addEventListener("DOMContentLoaded", () => {
+    let mapBtn = document.getElementById("open-osm-map");
+    let map = document.getElementById("osm-map");
+    mapBtn.addEventListener("click", e => {
+      if (!map) return;
+      map.style.display = "block";
+      console.log(map.style);
+      init();
+    });
+
+    map.addEventListener("wheel", e => {
+      e.stopPropagation();
+    });
+  });
+
+  const init = () => {
+    if (!OSMBuildings) return;
+    const map = new OSMBuildings({
+      container: "osm-map",
+      position: { latitude: 52.52128, longitude: 13.40894 },
+      zoom: 16,
+      minZoom: 15,
+      maxZoom: 20,
+      tilt: 40,
+      rotation: 300,
+      attribution: "",
+      effects: ["shadows"],
+    });
+
+    map.addMapTiles("https://tile-a.openstreetmap.fr/hot/{z}/{x}/{y}.png");
+    map.addGeoJSONTiles(
+      "https://{s}.data.osmbuildings.org/0.2/59fcc2e8/tile/{z}/{x}/{y}.json"
+    );
+
+    // let rotation = 0;
+
+    // function rotate() {
+    //   map.setRotation(rotation);
+    //   rotation = (rotation + 1) % 360;
+    //   requestAnimationFrame(rotate);
+    // }
+
+    // rotate(); // uncomment to start rotation
+  };
+</script>

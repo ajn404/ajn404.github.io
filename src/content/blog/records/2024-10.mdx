@@ -702,4 +702,102 @@ import ScrollSelect from "@components/react/little/scrollSelect.tsx";
 
 <ScrollSelect client:visible />
 
+## 2024-10-16 10:39:07
+
+### 今日探索
+
+#### osm buildings
+
+<details>
+<summary>城市建筑2.5</summary>
+
+import Osm from "@components/astro/more/osm.astro";
+
+<Osm client:visible />
+
+</details>
+
+### 今日类型体操 - 可串联构造器
+
+```ts
+type Chainable<T = {}> = {
+  option: <K extends string, V>(
+    key: K extends keyof T ? never : K,
+    value: V
+  ) => Chainable<Omit<T, K> & Record<K, V>>;
+  get: () => T;
+};
+```
+
+<details>
+<summary>explain</summary>
+
+这段代码定义了一个 TypeScript 的类型 `Chainable`，它用于实现链式调用的接口。下面是对这段代码的逐步解释：
+
+### 1. 类型定义
+
+```typescript
+type Chainable<T = {}> = { ... }
+```
+
+- `Chainable` 是一个泛型类型，默认参数 `T` 是一个空对象 `{}`。这个类型用于表示一个可以链式调用的方法。
+
+### 2. `option` 方法
+
+```typescript
+option: <K extends string, V>(key: K extends keyof T ? never : K, value: V) =>
+  Chainable<Omit<T, K> & Record<K, V>>;
+```
+
+- `option` 是 `Chainable` 类型的一个方法。
+- `<K extends string, V>` 是一个泛型参数，`K` 是一个字符串类型，`V` 是任意类型。
+- `key` 参数的类型是 `K extends keyof T ? never : K`：
+  - 这意味着如果 `K` 已经是 `T` 的一个键，则 `key` 的类型为 `never`，即不允许使用已经存在的键。这确保了在链式调用中，不能重复定义相同的键。
+  - 如果 `K` 不是 `T` 的键，则 `key` 的类型为 `K`。
+- `value` 的类型是 `V`，表示可以传入任意类型的值。
+- 返回值是 `Chainable<Omit<T, K> & Record<K, V>>`：
+  - `Omit<T, K>` 会从 `T` 中移除键 `K`，确保在链式调用中不会重复定义。
+  - `Record<K, V>` 创建一个新的对象类型，其中包含键 `K` 和对应的值 `V`。
+  - 最终返回一个新的 `Chainable` 类型，包含了更新后的属性。
+
+> Typescript类型语法规则：
+
+TypeScript 有两个“顶层类型”（`any`和`unknown`），但是“底层类型”只有`never`唯一一个。
+`never`类型可以赋值给其他任意类型，但是其他类型不能复制给`never`
+当K在T存在，返回`never`类型，此时其他类型传入就会报错
+`key: K extends keyof T ? never : K`
+
+### 3. `get` 方法
+
+```typescript
+get: () => T;
+```
+
+- `get` 是 `Chainable` 类型的另一个方法。
+- 返回值类型是 `T`，表示获取当前链式调用的结果。
+
+### 总结
+
+这个 `Chainable` 类型允许你通过 `option` 方法链式地添加属性，同时确保不会重复添加相同的属性。最终，通过 `get` 方法可以获取到一个包含所有添加属性的对象。
+
+### 示例
+
+以下是如何使用这个 `Chainable` 类型的示例：
+
+```typescript
+declare const config: Chainable;
+
+const result = config
+  .option("foo", 123)
+  .option("name", "type-challenges")
+  .option("bar", { value: "Hello World" })
+  .get();
+
+// result 的类型为 { foo: number, name: string, bar: { value: string } }
+```
+
+在这个示例中，`result` 将会是一个包含所有通过 `option` 方法添加的属性的对象。
+
+</details>
+
 ## 链接
