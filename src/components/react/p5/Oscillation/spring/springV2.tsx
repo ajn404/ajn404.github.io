@@ -125,7 +125,7 @@ export default () => {
         <label>弹性系数：{debounceK}</label>
         <Slider
           defaultValue={[0.2]}
-          max={1}
+          max={0.7}
           min={0.1}
           step={0.01}
           className={cn("w-[100%] m-4")}
@@ -145,6 +145,32 @@ export default () => {
             setNum(value[0]);
           }}
           value={[num]}
+        />
+
+        <label>canvas width：{canvasConfig.width}</label>
+        <Slider
+          defaultValue={[500]}
+          max={1000}
+          min={100}
+          step={20}
+          className={cn("w-[100%] m-4")}
+          onValueChange={value => {
+            setCanvasConfig({ width: value[0], height: canvasConfig.height });
+          }}
+          value={[canvasConfig.width]}
+        />
+
+        <label>canvas height:{canvasConfig.height}</label>
+        <Slider
+          defaultValue={[500]}
+          max={1000}
+          min={100}
+          step={20}
+          className={cn("w-[100%] m-4")}
+          onValueChange={value => {
+            setCanvasConfig({ width: canvasConfig.width, height: value[0] });
+          }}
+          value={[canvasConfig.height]}
         />
       </div>
     </div>
