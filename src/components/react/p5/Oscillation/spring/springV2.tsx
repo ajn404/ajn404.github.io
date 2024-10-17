@@ -2,16 +2,28 @@ import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 import { useCallback, useState, useRef, useEffect } from "react";
 import { BobBob } from "./Bob";
-import { BobSpring, Spring } from "./Spring";
+import { BobSpring } from "./Spring";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Slider } from "@shadcn/ui/slider";
 import { cn } from "@utils/utils";
 
+interface CanvasConfig {
+  width: number;
+  height: number;
+}
+
 export default () => {
-  const [k, setK] = useState(0.2); // Elastic coefficient
+  const [k, setK] = useState(0.2);
   const debounceK = useDebounce(k, 500);
   const [num, setNum] = useState(10);
   const debounceNum = useDebounce(num, 500);
+
+  const [canvasConfig, setCanvasConfig] = useState<CanvasConfig>({
+    width: 500,
+    height: 500,
+  });
+
+  const debounceCanvasConfig = useDebounce(canvasConfig, 500);
 
   // Using refs to persist bobs and springs across renders
   const bobsRef = useRef<BobBob[]>([]);
@@ -20,7 +32,7 @@ export default () => {
   const sketch = useCallback(
     (p: p5) => {
       const setup = () => {
-        p.createCanvas(p.windowWidth / 2, 240);
+        p.createCanvas(debounceCanvasConfig.width, debounceCanvasConfig.height);
         p.frameRate(120);
 
         // Initialize bobs
@@ -49,9 +61,7 @@ export default () => {
 
       const draw = () => {
         p.background(255);
-        let gravity = p.createVector(0, 0.2);
         bobsRef.current.forEach(bob => {
-          // bob.applyForce(gravity);
           bob.update();
           bob.handleDrag(p.mouseX, p.mouseY);
         });
@@ -92,14 +102,14 @@ export default () => {
       };
 
       const resize = () => {
-        p.resizeCanvas(p.windowWidth / 2, 240);
+        p.resizeCanvas(debounceCanvasConfig.width, debounceCanvasConfig.height);
       };
 
       p.setup = setup;
       p.draw = draw;
       p.windowResized = resize;
     },
-    [debounceK, debounceNum]
+    [debounceK, debounceNum, debounceCanvasConfig]
   );
 
   useEffect(() => {
@@ -111,7 +121,7 @@ export default () => {
   return (
     <div className="flex items-center shadow justify-around ">
       <Basic sketch={sketch} showControls />
-      <div className="w-1/5">
+      <div className="w-1/5 toolbox">
         <label>弹性系数：{debounceK}</label>
         <Slider
           defaultValue={[0.2]}
