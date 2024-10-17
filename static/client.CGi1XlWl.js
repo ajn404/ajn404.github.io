@@ -1,0 +1,2 @@
+import"./_sentry-release-injection-file.D-PFEXYZ.js";import{r as o}from"./index.CxMtizK6.js";(function(){try{var e=typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},t=new e.Error().stack;t&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[t]="871ce075-64f3-441f-95e7-5bfd4cd85234",e._sentryDebugIdIdentifier="sentry-dbid-871ce075-64f3-441f-95e7-5bfd4cd85234")}catch{}})();var d,f,r=o;f=r.createRoot,d=r.hydrateRoot;export{f as c,d as h};
+//# sourceMappingURL=client.CGi1XlWl.js.map
