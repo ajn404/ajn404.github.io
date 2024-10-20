@@ -7,6 +7,8 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 // import NavToc from "./NavToc.astro";
 import Code from "./Code.astro";
+import Image from "./Image.astro";
+
 import OpenDetails from "@components/astro/dom/openDetails.astro";
 import Lenis from "@components/astro/more/lenis.astro";
 import LocalStorage from "@components/react/util/localStorage.tsx";
@@ -84,7 +86,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
             />
           )
         }
-        <Content components={{ pre: Code }} />
+        <Content components={{ pre: Code, img: Image }} />
       </article>
     </div>
     <ul class="tags-container">
