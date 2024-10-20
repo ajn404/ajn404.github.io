@@ -32,4 +32,10 @@ export const SOCIALS: SocialObjects = [
     linkTitle: `discord`,
     active: true,
   },
+  {
+    name: "APK",
+    href: "https://github.com/ajn404/ajn404.github.io/releases/download/v1.0.3/app-universal-release.apk",
+    linkTitle: "下载APK",
+    active: true,
+  },
 ];

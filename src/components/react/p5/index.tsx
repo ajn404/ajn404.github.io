@@ -123,7 +123,7 @@ const P5Canvas = memo(
         ></div>
         {loading && (
           <div className="absolute inset-o w-full h-full flex justify-center items-center text-2xl">
-            加载中p5...
+            加载p5.js中...
           </div>
         )}
         {!loading && showControls && (

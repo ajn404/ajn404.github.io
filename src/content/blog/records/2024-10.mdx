@@ -13,14 +13,22 @@ tags:
 description: 又是10月，写这份博客整整1年，1年，人生有几个1年
 ---
 
+import Text from "@components/react/UI/Text.tsx";
+
 <blockquote>
-但是太阳，它每时每刻都是夕阳也都是旭日。当它熄灭着走下山去收尽苍凉残照之际，正是它在另一面燃烧着爬上山巅布散烈烈朝晖之时。
 
-那一天，我也将沉静着走下山去，扶着我的拐杖。有一天，在某一处山洼里，势必会跑上来一个欢蹦的孩子，抱着他的玩具。
+<Text client:visible>
+  但是太阳，它每时每刻都是夕阳也都是旭日。当它熄灭着走下山去收尽苍凉残照之际，正是它在另一面燃烧着爬上山巅布散烈烈朝晖之时。
+</Text>
 
-当然，那不是我。
+<Text client:visible>
+  那一天，我也将沉静着走下山去，扶着我的拐杖。有一天，在某一处山洼里，势必会跑上来一个欢蹦的孩子，抱着
+  他的玩具。
+</Text>
 
-但是，那不是我吗？
+<Text client:visible>当然，那不是我。</Text>
+
+<Text client:visible>但是，那不是我吗？</Text>
 
 <cite class="text-right w-full">《我与地坛》</cite>
 </blockquote>
@@ -264,6 +272,10 @@ export default () => {
   );
 };
 ```
+
+- 2024-10-20 15:08:39
+
+优化了一下，使用库`colorthief`实现，随机图片获取主题颜色
 
 </details>
 
@@ -809,5 +821,21 @@ type HelloWorld = string; // expected to be a string
 ```
 
 ok,今天的体操就到这里吧，太忙了
+
+## 2024-10-20 14:17:33
+
+### 今日类型体操 - 数组的最后一个元素的类型
+
+```ts
+type Last<T extends any[]> = T extends [...infer rest, infer A] ? A : never;
+```
+
+耶，终于会用一点`infer`了
+
+同理可完成第16题
+
+```ts
+type Pop<T extends any[]> = T extends [...infer rest, infer A] ? rest : [];
+```
 
 ## 链接

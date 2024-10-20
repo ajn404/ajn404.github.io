@@ -32,7 +32,10 @@ export default () => {
   const sketch = useCallback(
     (p: p5) => {
       const setup = () => {
-        p.createCanvas(debounceCanvasConfig.width, debounceCanvasConfig.height);
+        p.createCanvas(
+          Math.max(debounceCanvasConfig.width, p.windowWidth / 2),
+          debounceCanvasConfig.height
+        );
         p.frameRate(120);
 
         // Initialize bobs
@@ -102,7 +105,10 @@ export default () => {
       };
 
       const resize = () => {
-        p.resizeCanvas(debounceCanvasConfig.width, debounceCanvasConfig.height);
+        p.resizeCanvas(
+          Math.max(debounceCanvasConfig.width, p.windowWidth / 2),
+          debounceCanvasConfig.height
+        );
       };
 
       p.setup = setup;

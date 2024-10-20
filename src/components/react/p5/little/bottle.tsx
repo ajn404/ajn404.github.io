@@ -1,6 +1,7 @@
 import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 import { useCallback, useRef, useState } from "react";
+import ColorThief from "colorthief/dist/color-thief.mjs";
 
 let img;
 let bottleModel;
@@ -23,6 +24,8 @@ export default () => {
   const container = useRef(null);
   const fileInput = useRef(null);
   const [imgUrl, setImgUrl] = useState(8);
+  const imgRef = useRef(null);
+  let color = null;
 
   const randomImg = () => {
     let num = ((Math.random() * 11) % 11) + 1;
@@ -40,7 +43,6 @@ export default () => {
           .createButton("切换背景颜色")
           .position(20, 100)
           .mousePressed(randomColor);
-
         fileInput.current.addEventListener(
           "change",
           e => {
@@ -65,13 +67,32 @@ export default () => {
 
       function randomColor() {
         let c = Math.floor(Math.random() * colors.length);
+        color = null;
         button.value(c);
       }
 
+      const getImgColor = url => {
+        const colorThief = new ColorThief();
+        imgRef.current.src = url;
+
+        if (imgRef.current.complete) {
+          let c = colorThief.getColor(imgRef.current);
+          let [r, g, b] = c;
+          color = `rgb(${r},${g},${b})`;
+        } else {
+          imgRef.current.addEventListener("load", function () {
+            let c = colorThief.getColor(imgRef.current);
+            let [r, g, b] = c;
+            color = `rgb(${r},${g},${b})`;
+          });
+        }
+      };
+
       const preload = () => {
-        img = p.loadImage(
-          `/assets/bg/${imgUrl}${Math.random() > 0.5 ? ".jpg" : ".png"}`
-        );
+        let url = `/assets/bg/${imgUrl}${Math.random() > 0.5 ? ".jpg" : ".png"}`;
+        img = p.loadImage(url);
+        if (button) getImgColor(url);
+
         font = p.loadFont("/assets/font/Xingcao.ttf");
         bottleModel = p.loadModel(
           "/assets/models/obj/up_glucose_bottle.obj",
@@ -94,7 +115,9 @@ export default () => {
 
       const draw = () => {
         p.textureMode(p.IMAGE);
-        p.background(colors[(button.value() as number) || 0].background);
+        p.background(
+          color || colors[(button.value() as number) || 0].background
+        );
         p.orbitControl();
         p.push();
         p.scale(2);
@@ -112,7 +135,7 @@ export default () => {
         p.rotateY(-p.PI / 2);
         p.rotateX(-p.PI);
 
-        p.fill(colors[(button.value() as number) || 0].text);
+        p.fill(color || colors[(button.value() as number) || 0].text);
         p.text("尝试拖动图片进场景或者点击上传", 0, 0);
         p.pop();
       };
@@ -141,6 +164,8 @@ export default () => {
         className="hidden"
         ref={fileInput}
       />
+
+      <img ref={imgRef} className="hidden" />
 
       <label
         htmlFor="input"

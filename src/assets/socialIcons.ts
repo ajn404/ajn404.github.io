@@ -1,6 +1,29 @@
 import type { SocialIcons } from "../types";
 
 const socialIcons: SocialIcons = {
+  APK: `<svg
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  stroke-width="0"
+  class="icon-tabler"
+>
+  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+  <g
+    id="SVGRepo_tracerCarrier"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  ></g>
+  <g id="SVGRepo_iconCarrier">
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M17.948 4.42a.647.647 0 0 0 .07-.23.647.647 0 1 0-.124-.505.647.647 0 0 0-.07.23l-.127.28C16.24 2.88 14.238 2 12 2c-2.238 0-4.24.88-5.697 2.195l-.127-.28a.647.647 0 0 0-.07-.23.647.647 0 1 0-.124.506.647.647 0 0 0 .07.229l.127.28A9.26 9.26 0 0 0 2 11.5v6.981C2 19.882 2.616 21 4 21h16c1.384 0 2-1.118 2-2.519V11.5a9.26 9.26 0 0 0-3.978-7.08l.127-.279ZM10 6.5a.75.75 0 0 1-1.5 0 .75.75 0 0 1 1.5 0Zm6.5.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM6 12.25c0-1.242.818-2.25 1.75-2.25S9.5 11.008 9.5 12.25v4c0 1.242-.818 2.25-1.75 2.25S6 17.492 6 16.25v-4Zm9.5 0c0-1.242.818-2.25 1.75-2.25s1.75 1.008 1.75 2.25v4c0 1.242-.818 2.25-1.75 2.25s-1.75-1.008-1.75-2.25v-4Z"
+      fill="#000000"
+    ></path>
+  </g>
+</svg>
+`,
   Github: `<svg
     xmlns="http://www.w3.org/2000/svg"
     class="icon-tabler"

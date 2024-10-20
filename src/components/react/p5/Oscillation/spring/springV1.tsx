@@ -2,7 +2,7 @@ import type p5 from "p5";
 import Basic from "@components/react/p5/index.tsx";
 import { useCallback, useState, useRef, useEffect } from "react";
 import { BobBob } from "./Bob";
-import { BobSpring, Spring } from "./Spring";
+import { BobSpring } from "./Spring";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Slider } from "@shadcn/ui/slider";
 import { cn } from "@utils/utils";
@@ -37,7 +37,6 @@ export default () => {
 
       const draw = () => {
         p.background(255);
-        let gravity = p.createVector(0, 0.2);
         bobsRef.current.forEach(bob => {
           // bob.applyForce(gravity);
           bob.update();

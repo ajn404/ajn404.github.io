@@ -97,6 +97,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
     "codemirror": "^6.0.1",
+    "colorthief": "^2.6.0",
     "concurrently": "^8.2.2",
     "css-doodle": "^0.38.3",
     "cytoscape": "^3.28.1",
