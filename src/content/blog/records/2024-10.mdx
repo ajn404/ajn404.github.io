@@ -851,4 +851,414 @@ type Pop<T extends any[]> = T extends [...infer rest, infer A] ? rest : [];
 
 </details>
 
+## 2024-10-23 11:43:07
+
+### 今日cesium
+
+- 新增目录`src/components/react/cesium/reference`练习练习[cesium reference](https://cesium.com/learn/cesiumjs/ref-doc/index.html)
+
+- template
+
+import Template from "@components/react/cesium/template.tsx";
+
+<Template client:load />
+
+- 在useEffect中初始化Viewer后，创建一个**BillboardCollection**并添加多个**Billboard**
+
+import Billboard from "@components/react/cesium/reference/Billboard/index.tsx";
+
+<Billboard client:load />
+
+```TS
+// 创建一个BillboardCollection
+const billboards = new BillboardCollection();
+viewer.scene.primitives.add(billboards);
+
+// 添加几个Billboard
+billboards.add({
+    position: Cartesian3.fromDegrees(-75.59777, 40.03883, 0), // 经度, 纬度, 高度
+    image: '/assets/bg/1.jpg', // 替换为你的图片URL
+    width: 100,
+    height: 100,
+});
+```
+
+### 今日金融
+
+<details>
+<summary>涨停板委托买入股票什么时候完成交易</summary>
+
+涨停板委托买入股票的交易完成时间取决于几个因素：
+
+1. **涨停板的定义**：涨停板是指股票在交易日内价格上涨到交易所规定的最高限价，通常是前一交易日收盘价的某个百分比（例如10%）。一旦股票价格达到涨停，买入委托单只能在涨停价或更低的价格成交。
+
+2. **委托单的类型**：如果你使用的是限价单（例如以涨停价买入），那么只有当市场价格达到或低于你设定的限价时，委托单才会被执行。如果市场价格没有回落到你的限价，委托单可能不会成交。
+
+3. **市场流动性**：在涨停板情况下，通常会有大量买入委托，这可能导致成交速度较慢，甚至可能出现排队现象。如果买入需求非常强烈，可能会迅速成交；但如果买入需求不足，可能会导致你的委托单无法及时成交。
+
+4. **交易时间**：交易所的交易时间也会影响成交情况。一般来说，股票交易在交易日的特定时间段内进行（例如，A股市场的交易时间为每个交易日的9:30-11:30和13:00-15:00）。
+
+总结来说，涨停板委托买入股票的交易完成时间取决于你设置的委托单类型、市场流动性以及交易时间。如果市场价格在涨停价下方，你的委托单有可能在交易时间内完成交易，但如果价格未能回落到你的限价，委托单可能会一直挂单。
+
+</details>
+
+<details>
+<summary>分析指标</summary>
+
+> CHATGPT以为红色是亏损绿色是增长
+
+![2024-10-23 13:28:39截图海能达](/assets/webp/hnd1.webp)
+
+根据你提供的图表和财务数据，以下是海能达（Hytera Communications）2024年中报的详细中文分析：
+
+`1. **股票价格（当前股价）**：当前价格为¥15.92，下降了10.02%。这个股价表明该公司在最近的交易中表现不佳，可能受市场情绪或其他因素影响。`
+
+2. **市盈率（PE Ratio）**：**89.13**，即动态市盈率。这意味着投资者愿意为该公司每赚取一元利润支付约89元。这是一个相对较高的市盈率，可能表明市场对该公司的未来盈利预期较高，但也可能意味着公司被高估。
+
+3. **市净率（PB Ratio）**：**4.81**，市净率反映了公司每股净资产（即账面价值）相对于市场价格的比例。这个值表明该公司股票价格是其净资产的4.81倍，表明市场对其资产的估值较高。
+
+4. **每股收益（EPS）**：每股收益为**¥0.0893**，表示公司每一股在报告期内产生的净利润。这一指标用于衡量公司的盈利能力。
+
+5. **每股净资产**：每股净资产为**¥3.3096**，反映公司每股股票拥有的净资产价值。这通常用于评估公司股票的内在价值。
+
+6. **营业总收入**：公司报告期内的总收入为**27.38亿元**（人民币），表明公司在报告期内的营业表现。
+
+7. **营业收入同比增长率**：**21.28%**，相比去年同期，公司的营业收入增长了21.28%，表明公司业务在扩展。
+
+8. **归母净利润**：归母净利润为**1.624亿元**，这指的是公司扣除所有费用、税费后，归属于母公司的净利润。
+
+9. **归母净利润同比增长率**：**109.79%**，与去年同期相比，公司的归母净利润增长了109.79%，显示出公司在控制成本或提升利润率方面的显著改善。
+
+10. **毛利率**：**45.83%**，表示公司在扣除销售成本后的毛利润占收入的百分比，反映了公司的盈利能力。
+
+11. **净利率**：**5.20%**，即公司在扣除所有成本和费用后的净利润占总收入的百分比，表明公司最终能够将多少收入转化为净利润。
+
+12. **净资产收益率（ROE）**：**2.73%**，表示公司使用股东投入的资金所能获得的回报率。这个值较低，意味着公司的盈利能力相对一般。
+
+13. **负债率**：**46.54%**，公司资产中有46.54%由负债融资。这一数据表明公司的债务负担较重，需警惕债务偿还的风险。
+
+14. **总股本**：**18.18亿**，表示公司目前发行的总股数。
+
+15. **总市值**：**289.5亿元**，即公司的市场资本总值，是指公司股票在市场上的总估值。这是一个重要的指标，反映了市场对公司的整体估值。
+
+16. **流通A股**：**12.82亿**，表示公司在市场上流通的A股数量。
+
+17. **流通A股市值**：**204.1亿元**，表示公司可在市场上自由交易的A股部分的市值。
+
+18. **质押比例**：**19.89%**，表示公司大约有19.89%的股票被用作抵押，这通常反映公司或者大股东的融资需求，但质押比例过高也可能存在一定风险。
+
+19. **商誉规模**：**5621万元**，即公司在收购或兼并其他企业时所形成的无形资产。商誉较高时需要警惕未来可能的减值风险。
+
+### 总结：
+
+海能达的总市值为**289.5亿元**，归母净利润为**1.624亿元**，显示公司在今年实现了强劲的利润增长（同比增长109.79%）。虽然收入增长迅速，但高市盈率（89.13倍）和较高的负债率（46.54%）意味着该公司在盈利增长和债务管理方面面临一定挑战。投资者应关注公司的盈利持续性以及其在债务偿还方面的风险。
+
+</details>
+
+### 更多知识
+
+#### websocket心跳机制
+
+<details>
+<summary>Click to expand</summary>
+
+WebSocket心跳机制是确保客户端和服务器之间连接保持活跃和响应的一个重要手段。它的主要目的是：
+
+1. **确认双方活跃性**：通过定期发送心跳消息，双方可以确认对方仍然在线。
+2. **检测网络连接**：心跳机制可以帮助浏览器及时检查当前网络连接的可用性，以确保消息的及时传递。
+
+### WebSocket心跳机制的实现
+
+在WebSocket协议中，通常使用**PING/PONG**消息来实现心跳机制。具体来说：
+
+- **PING**：由一方（通常是服务器）发送，询问另一方是否仍然活跃。
+- **PONG**：接收方（通常是客户端）必须在收到PING后立即回复PONG，以表示其仍然在线。
+
+根据RFC 6455的规定，接收PING消息的端点必须发送PONG响应，除非它已经接收到关闭帧（CLOSE frame）[1](https://stackoverflow.com/questions/46111656/must-websockets-have-heartbeats)。
+
+### 实现示例
+
+以下是一个简单的WebSocket心跳机制的实现示例：
+
+```javascript
+const socket = new WebSocket("ws://your-websocket-url");
+
+// 发送心跳
+function sendHeartbeat() {
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send("heartbeat");
+  }
+}
+
+// 每隔30秒发送一次心跳
+setInterval(sendHeartbeat, 30000);
+
+// 处理服务器的PONG响应
+socket.onmessage = function (event) {
+  if (event.data === "pong") {
+    console.log("Received PONG from server");
+  }
+};
+
+// 处理连接关闭
+socket.onclose = function (event) {
+  console.log("WebSocket closed:", event);
+};
+```
+
+### 注意事项
+
+- **心跳频率**：心跳的发送频率应根据实际需求进行调整，过于频繁可能导致不必要的网络负担。
+- **应用层心跳**：在浏览器中，WebSocket并不提供直接的PING/PONG机制，因此如果需要检测连接状态，可能需要在应用层实现心跳机制[2](https://medium.com/@kxming/why-does-websocket-require-frontend-heartbeat-detection-and-is-there-a-native-detection-mechanism-42f30a6b466b)。
+
+通过实现心跳机制，可以有效地保持WebSocket连接的稳定性，确保实时通信的可靠性。
+
+</details>
+
+#### 分析一个我抄的组件(shadcn)
+
+<details>
+<summary>analysis</summary>
+
+```tsx
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+
+import { cn } from "@utils/utils";
+
+const Slider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <SliderPrimitive.Root
+    ref={ref}
+    className={cn(
+      "relative flex w-full touch-none select-none items-center",
+      className
+    )}
+    {...props}
+  >
+    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+      <SliderPrimitive.Range className="absolute h-full bg-primary" />
+    </SliderPrimitive.Track>
+    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+  </SliderPrimitive.Root>
+));
+Slider.displayName = SliderPrimitive.Root.displayName;
+
+export { Slider };
+```
+
+这个组件是一个自定义的滑块组件，基于 Radix UI 的 `@radix-ui/react-slider` 库构建。下面是对这个组件的逐步分析：
+
+### 1. 导入模块
+
+```javascript
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+import { cn } from "@utils/utils";
+```
+
+- `React`: 引入 React 库。
+- `SliderPrimitive`: 引入 Radix UI 的滑块组件。
+- `cn`: 一个工具函数，通常用于合并 CSS 类名。
+
+### 2. 创建滑块组件
+
+```javascript
+const Slider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <SliderPrimitive.Root
+    ref={ref}
+    className={cn(
+      "relative flex w-full touch-none select-none items-center",
+      className
+    )}
+    {...props}
+  >
+```
+
+- 使用 `React.forwardRef` 创建一个可以转发 `ref` 的组件。
+- 组件的类型定义使用 TypeScript，确保 `ref` 和 `props` 的类型与 `SliderPrimitive.Root` 一致。
+- `className` 属性用于自定义样式，结合 `cn` 函数来合并默认样式和传入的样式。
+
+### 3. 滑块的结构
+
+```javascript
+<SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+  <SliderPrimitive.Range className="absolute h-full bg-primary" />
+</SliderPrimitive.Track>
+<SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+```
+
+- **Track**: 这是滑块的轨道部分，使用了 `relative` 和 `rounded-full` 来创建一个圆角的背景。
+  - `h-2` 和 `w-full` 设置了高度和宽度。
+  - `bg-secondary` 是背景颜色。
+- **Range**: 这是滑块的范围部分，表示当前选中的值。
+
+  - 使用 `absolute` 定位，确保它在轨道内。
+
+- **Thumb**: 这是滑块的滑动手柄。
+  - `h-5` 和 `w-5` 设置了手柄的大小。
+  - `rounded-full` 使手柄呈现圆形。
+  - `border-2` 和 `border-primary` 设置了边框样式。
+  - `transition-colors` 使手柄在状态变化时有平滑的颜色过渡。
+  - `focus-visible` 和 `disabled` 状态的样式处理，确保可访问性和用户体验。
+
+### 4. 组件的显示名称
+
+```javascript
+Slider.displayName = SliderPrimitive.Root.displayName;
+```
+
+- 设置组件的显示名称，便于调试和开发工具识别。
+
+### 5. 导出组件
+
+```javascript
+export { Slider };
+```
+
+- 导出自定义的 `Slider` 组件，以便在其他地方使用。
+
+### 总结
+
+这个滑块组件结合了 Radix UI 的基础功能和自定义样式，提供了一个灵活且可访问的滑块实现。通过使用 `forwardRef`，它可以与父组件的 `ref` 进行交互，增强了组件的可用性。整体结构清晰，样式可定制，适合在现代前端应用中使用。
+
+</details>
+
+#### 关于`ForwardedRef`
+
+<details>
+<summary>Click to expand</summary>
+
+```tsx
+import React from "react";
+
+// 定义输入框的 props 类型
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  // 你可以在这里添加其他自定义的 props
+}
+
+// 定义一个输入框组件
+const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  return (
+    <input
+      ref={ref} // 将 ref 传递给 input 元素
+      {...props} // 传递其他 props
+      className="border p-2 rounded"
+    />
+  );
+});
+
+// 使用 Input 组件的父组件
+const App = () => {
+  const inputRef = React.useRef(null); // 创建一个 ref
+
+  const focusInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus(); // 使用 ref 聚焦输入框
+    }
+  };
+
+  return (
+    <div>
+      <Input ref={inputRef} placeholder="请输入内容" />
+      <button onClick={focusInput}>聚焦输入框</button>
+    </div>
+  );
+};
+
+export default App;
+```
+
+在 TypeScript 中使用 `React.forwardRef` 时，可以通过添加泛型参数来确保类型安全。泛型参数允许你定义组件的 `props` 和 `ref` 的类型，从而提供更好的类型推导和检查。
+
+### 使用步骤
+
+1. **定义泛型参数**：在 `React.forwardRef` 中定义泛型参数，通常包括 `T`（表示 `ref` 的类型）和 `P`（表示组件 `props` 的类型）。
+2. **使用泛型参数**：在组件的 `render` 函数中使用这些泛型参数，以确保 `props` 和 `ref` 的类型正确。
+
+### 示例代码
+
+下面是一个使用 TypeScript 和泛型参数的输入框组件示例：
+
+```typescript
+import React, { ForwardedRef } from 'react';
+
+// 定义输入框的 props 类型
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  // 你可以在这里添加其他自定义的 props
+}
+
+// 定义一个输入框组件，使用泛型参数
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (props, ref: ForwardedRef<HTMLInputElement>) => {
+    return (
+      <input
+        ref={ref} // 将 ref 传递给 input 元素
+        {...props} // 传递其他 props
+        className="border p-2 rounded"
+      />
+    );
+  }
+);
+
+// 使用 Input 组件的父组件
+const App: React.FC = () => {
+  const inputRef = React.useRef<HTMLInputElement | null>(null); // 创建一个 ref
+
+  const focusInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus(); // 使用 ref 聚焦输入框
+    }
+  };
+
+  return (
+    <div>
+      <Input ref={inputRef} placeholder="请输入内容" />
+      <button onClick={focusInput}>聚焦输入框</button>
+    </div>
+  );
+};
+
+export default App;
+```
+
+### 代码解析
+
+1. **InputProps 接口**：
+
+   - 定义了输入框的 props 类型，扩展了 `React.InputHTMLAttributes<HTMLInputElement>`，这使得输入框可以接受所有标准的输入属性。
+
+2. **Input 组件**：
+
+   - 使用 `React.forwardRef` 定义组件，泛型参数 `<HTMLInputElement, InputProps>` 指定了 `ref` 的类型为 `HTMLInputElement`，`props` 的类型为 `InputProps`。
+   - 在 `render` 函数中，`ref` 被传递给 `<input>` 元素。
+
+3. **App 组件**：
+   - 创建一个 `inputRef`，用于引用 `Input` 组件。
+   - 定义 `focusInput` 函数，通过 `inputRef` 聚焦输入框。
+   - 渲染 `Input` 组件，并将 `inputRef` 传递给它。
+
+### 总结
+
+通过在 `React.forwardRef` 中使用泛型参数，可以确保组件的 `props` 和 `ref` 类型安全。这种方式不仅提高了代码的可读性，还能在开发过程中提供更好的类型检查和自动补全。
+
+</details>
+
+#### 添加code-snippets
+
+```code-snippets
+
+```
+
+#### 想添加toolbox
+
+类似于
+
+![](/assets/webp/toolbox.webp)
+
 ## 链接

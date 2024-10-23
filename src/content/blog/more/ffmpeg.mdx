@@ -1049,11 +1049,18 @@ dvbsub                  libmp3lame              pcm_alaw                rpza    
 
 ### 3.1 ffmpeg常用命令
 
-- 文件转换(dav=>mp4)
+- 视频文件转换(dav=>mp4)
 
 ```bash
 ┌─(~/Documents/ajn404.github.io)─────────────────────────────────────────(ninghuiyue@ninghuiyuedeMac-mini:s002)─┐
 └─(17:34:32 on main ✹)──> ffmpeg -i input.dav -c:v libx264 -c:a aac output.mp4                      ──(一, 819)─┘
+```
+
+- 图片文件转换(jpg=>webp)
+
+```bash
+┌─(...99dc29eb19741386f9343c8/Image)───(ninghuiyue@ninghuiyuedeMac-mini:s005)─┐
+└─(13:31:29)──> ffmpeg -i hnd_1.pic.jpg 1.webp                    ──(三,1023)─┘
 ```
 
 ## 链接

@@ -1,7 +1,13 @@
 {
   "extends": "astro/tsconfigs/base",
   "exclude": ["snippets/**/*"],
-  "include": ["**/*.ts", "**/*.tsx", "**/*.vue", "**/*.astro"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.vue",
+    "**/*.astro",
+    "src/@types/global.d.ts"
+  ],
 
   "compilerOptions": {
     "baseUrl": "./src",
