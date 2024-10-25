@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Demo</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>人员坐标实时推送</h1>
+    <button id="sendLocation">发送位置</button>
+    <ul id="peopleList"></ul>
+
+    <script>
+        const socket = io('http://localhost:3000');
+
+        socket.on('locationUpdate', (people) => {
+            const peopleList = document.getElementById('peopleList');
+            peopleList.innerHTML = '';
+            people.forEach(person => {
+                const li = document.createElement('li');
+                li.textContent = `${person.name}: ${person.latitude}, ${person.longitude}`;
+                peopleList.appendChild(li);
+            });
+        });
+
+        document.getElementById('sendLocation').addEventListener('click', () => {
+            const person = {
+                id: '1',
+                name: '张三',
+                latitude: Math.random() * 90,
+                longitude: Math.random() * 180,
+            };
+            socket.emit('updateLocation', person);
+        });
+    </script>
+</body>
+</html>
