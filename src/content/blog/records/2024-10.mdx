@@ -864,7 +864,7 @@ type Pop<T extends any[]> = T extends [...infer rest, infer A] ? rest : [];
 
 import Template from "@components/react/cesium/template.tsx";
 
-<Template client:load />
+<Template client:visible />
 
 </details>
 
@@ -875,7 +875,7 @@ import Template from "@components/react/cesium/template.tsx";
 
 import Billboard from "@components/react/cesium/reference/Billboard/index.tsx";
 
-<Billboard client:load />
+<Billboard client:visible />
 
 </details>
 
@@ -1423,6 +1423,106 @@ HDR（高动态范围）文件是一种用于存储高动态范围图像的文�
 6. **期货市场**：期货合约的交易情况也会影响现货市场的开盘价。如果期货市场表现强劲，现货市场可能会高开；如果期货市场疲软，现货市场可能会低开。
 
 这些因素共同作用，导致了高开或低开的现象。了解这些原因可以帮助投资者更好地把握市场动态。
+
+</details>
+
+### 今日策略
+
+<details open>
+<summary>Click to expand</summary>
+
+长虹 < -5% ||
+贝岭 < 1% ||
+海能达 < 5% else
+ST华微
+
+</details>
+
+### 今日知识
+
+<details open>
+<summary>mac mqtt mosquitto</summary>
+
+在 macOS 上使用 Mosquitto MQTT 代理的指南如下：
+
+### 1. 安装 Homebrew
+
+如果你还没有安装 Homebrew，可以通过以下命令安装：
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### 2. 安装 Mosquitto
+
+使用 Homebrew 安装 Mosquitto：
+
+```bash
+brew install mosquitto
+```
+
+### 3. 启动 Mosquitto
+
+安装完成后，可以使用以下命令启动 Mosquitto：
+
+```bash
+brew services start mosquitto
+```
+
+这将使 Mosquitto 在系统启动时自动启动。
+
+### 4. 配置 Mosquitto
+
+Mosquitto 的配置文件通常位于 `/usr/local/etc/mosquitto/mosquitto.conf`。你可以使用文本编辑器打开并编辑这个文件：
+
+```bash
+nano /usr/local/etc/mosquitto/mosquitto.conf
+```
+
+在配置文件中，你可以设置监听端口、启用 WebSocket 等选项。
+
+### 5. 测试 Mosquitto
+
+你可以使用 Mosquitto 提供的客户端工具来测试代理。打开一个终端窗口，订阅一个主题：
+
+```bash
+mosquitto_sub -t test/topic
+```
+
+在另一个终端窗口中，发布消息到该主题：
+
+```bash
+mosquitto_pub -t test/topic -m "Hello, MQTT!"
+```
+
+你应该能在订阅的终端窗口中看到 "Hello, MQTT!" 的消息。
+
+### 6. 设置用户认证（可选）
+
+为了提高安全性，你可以设置用户认证。首先，创建一个密码文件：
+
+```bash
+mosquitto_passwd -c /usr/local/etc/mosquitto/passwd username
+```
+
+然后在配置文件中添加以下行：
+
+```plaintext
+allow_anonymous false
+password_file /usr/local/etc/mosquitto/passwd
+```
+
+重启 Mosquitto 以应用更改：
+
+```bash
+brew services restart mosquitto
+```
+
+### 7. 其他配置（可选）
+
+你可以根据需要进一步配置 Mosquitto，例如启用 TLS、设置 QoS 等。具体配置可以参考官方文档或相关教程。
+
+这样，你就可以在 macOS 上成功使用 Mosquitto MQTT 代理了！如果需要更详细的配置或使用示例，可以参考相关的在线资源和文档。
 
 </details>
 
