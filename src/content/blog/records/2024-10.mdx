@@ -859,15 +859,25 @@ type Pop<T extends any[]> = T extends [...infer rest, infer A] ? rest : [];
 
 - template
 
+<details>
+<summary>Click to expand</summary>
+
 import Template from "@components/react/cesium/template.tsx";
 
 <Template client:load />
 
+</details>
+
 - 在useEffect中初始化Viewer后，创建一个**BillboardCollection**并添加多个**Billboard**
+
+<details>
+<summary>Click to expand</summary>
 
 import Billboard from "@components/react/cesium/reference/Billboard/index.tsx";
 
 <Billboard client:load />
+
+</details>
 
 ```TS
 // 创建一个BillboardCollection
@@ -1252,13 +1262,168 @@ export default App;
 #### 添加code-snippets
 
 ```code-snippets
-
+"ToolBox Component": {
+    "prefix": "toolbox",
+    "body": [
+        "import React from \"react\";",
+        "",
+        "const ToolBox = React.forwardRef<HTMLDivElement, DivProps>((props, ref) => {",
+        "  return (",
+        "    <div",
+        "      ref={ref} // 将 ref 传递给 input 元素",
+        "      {...props} // 传递其他 props",
+        "      className=\"border p-2 rounded\"",
+        "    />",
+        "  );",
+        "});",
+        "",
+        "export default ToolBox;"
+    ],
+    "description": "创建一个组件"
+}
 ```
 
-#### 想添加toolbox
+#### 想添加个toolbox
 
 类似于
 
 ![](/assets/webp/toolbox.webp)
+
+## 2024-10-24 09:43:31
+
+### 今日感慨
+
+<details>
+<summary>Click to expand</summary>
+
+海能达又是涨停板，这
+
+</details>
+
+### 今日知识
+
+#### HDR文件
+
+<details>
+<summary>Click to expand</summary>
+
+HDR（高动态范围）文件是一种用于存储高动态范围图像的文件格式。这种格式能够捕捉和存储比传统图像格式更广泛的亮度范围，使得图像在明亮和阴暗区域都能保留更多的细节。HDR 文件通常用于摄影、计算机图形和视觉效果等领域。
+
+### 常见的 HDR 文件格式：
+
+1. **Radiance HDR (.hdr)**：一种常见的 HDR 文件格式，支持高动态范围图像的存储，通常用于渲染和计算机图形中。
+2. **OpenEXR (.exr)**：由皮克斯动画公司开发的高动态范围图像格式，广泛用于视觉效果和动画制作。
+3. **Photoshop HDR (.psb)**：Adobe Photoshop 支持的 HDR 文件格式，适合图像编辑和处理。
+
+### HDR 文件的特点：
+
+- **高亮度范围**：HDR 文件能够表示比普通图像更高的亮度范围，使得图像更加真实。
+- **色彩深度**：HDR 图像通常具有更高的色彩深度，能够显示更多的颜色细节。
+- **后期处理**：HDR 图像在后期处理时提供了更多的灵活性，允许用户调整曝光和色彩而不会损失细节。
+
+### 使用 HDR 文件的注意事项：
+
+- **兼容性**：并非所有图像查看器和编辑软件都支持 HDR 文件格式，因此在使用时需要确保软件的兼容性。
+- **存储空间**：HDR 文件通常比普通图像文件大，因此需要更多的存储空间。
+
+如果你需要进一步了解 HDR 文件的具体格式或使用方法，可以参考相关文档和资源，例如 [HDR 文件格式文档](https://docs.fileformat.com/image/hdr/) 和 [Radiance HDR 文件格式](https://paulbourke.net/dataformats/pic/)。
+
+</details>
+
+#### `window.open`高阶用法
+
+<details >
+<summary>Click to expand</summary>
+
+`window.open` 的高级用法主要体现在对新窗口的控制上，包括：
+
+1. **精准控制窗口特性:** `windowFeatures` 参数不仅仅是设置窗口大小和位置，还能控制菜单栏、工具栏、滚动条、状态栏等等。想创建一个极简的弹出窗口？没问题！
+
+   ```javascript
+   const windowFeatures =
+     "menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=no,width=300,height=200";
+   window.open("https://www.example.com", "_blank", windowFeatures);
+   ```
+
+   这样打开的窗口就只有内容区域，没有任何多余的 UI 元素。[1](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) 更多 `windowFeatures` 的选项，可以参考 MDN 文档。
+
+2. **跨域传递数据 (同域更简单):** 如果父子窗口同域，直接操作新窗口对象的属性即可：
+
+   ```javascript
+   const newWindow = window.open(
+     "https://www.example.com/child.html",
+     "_blank"
+   );
+   if (newWindow) {
+     // 检查弹窗是否被拦截
+     newWindow.myData = { message: "来自父窗口的问候！", value: 123 };
+   }
+   // 子窗口 child.html 中：
+   console.log(window.myData); // { message: '来自父窗口的问候！', value: 123 }
+   ```
+
+   如果是跨域，就需要用一些技巧，比如利用 `postMessage` 进行跨文档通信，或者使用 URL 的 hash 部分传递少量数据。[2](https://stackoverflow.com/questions/1830347/quickest-way-to-pass-data-to-a-popup-window-i-created-using-window-open)
+
+3. **noopener 和 noreferrer 安全属性:** 为了安全起见，在新窗口打开外部链接时，最好加上 `noopener` 和 `noreferrer`，防止新窗口通过 `window.opener` 访问父窗口，造成安全漏洞。
+
+   ```javascript
+   window.open(
+     "https://www.external-site.com",
+     "_blank",
+     "noopener,noreferrer"
+   );
+   ```
+
+   [1](https://developer.mozilla.org/en-US/docs/Web/API/Window/open)
+
+4. **处理弹窗拦截:** 现在浏览器对弹窗拦截很严格，`window.open` 必须在用户交互事件（比如点击事件）的处理函数中调用才不会被拦截。[1](https://developer.mozilla.org/en-US/docs/Web/API/Window/open)[3](https://bito.ai/resources/javascript-window-open-javascript-explained/) 可以考虑将打开新窗口的操作绑定到用户的点击操作上。
+
+5. **复用窗口:** 为了避免频繁创建新窗口，可以复用已有的窗口，通过修改窗口的 `location.href` 来加载不同的页面。[3](https://bito.ai/resources/javascript-window-open-javascript-explained/)
+
+希望这些技巧能帮助你更好地驾驭 `window.open`，做出更酷炫的大屏应用！如果你还有其他问题，尽管问我！
+
+</details>
+
+## 2024-10-25 09:11:44
+
+### 今日金融
+
+<details >
+<summary>股票以st开头说明什么</summary>
+
+在中国股市中，以“ST”开头的股票表示该股票属于“特别处理”股票。这通常是因为该公司在最近的财务报告中出现了负面情况，例如连续两年亏损。具体来说，ST股票的含义包括：
+
+1. **财务状况不佳**：ST股票的公司在最近两个会计年度内净利润为负，显示出财务健康状况不佳。
+
+2. **风险警示**：ST股票被视为高风险投资，投资者在购买此类股票时需要格外谨慎。
+
+3. **交易限制**：ST股票在交易时可能会有一些限制，例如涨跌幅限制通常为5%，而非普通股票的10%[1](https://bochk.etnet.com.hk/content/bochkweb/asharecontent/eng/ashare_education_ashare.php)。
+
+4. **后续处理**：如果ST股票的公司在接下来的年度中仍未能改善财务状况，可能会被进一步处理，例如被标记为“\*ST”，这表示公司在连续三年亏损的情况下，面临更严重的风险警示。
+
+因此，投资者在考虑投资ST股票时，应充分了解相关风险和公司的财务状况。
+
+</details>
+
+<details >
+<summary>高开/低开</summary>
+
+高开和低开是指股票或其他金融工具在交易日开始时的开盘价相对于前一交易日的收盘价的变化。以下是一些可能导致高开或低开的原因：
+
+1. **市场情绪**：如果投资者对某个股票或市场整体持乐观态度，可能会在开盘前大量买入，导致开盘价高于前一日收盘价，形成高开。相反，如果市场情绪悲观，可能会导致低开。
+
+2. **重大新闻**：公司发布财报、并购消息、产品发布或其他重大新闻可能会影响投资者的预期。例如，正面的财报可能导致高开，而负面的消息则可能导致低开。
+
+3. **经济数据**：宏观经济数据的发布（如就业报告、GDP增长率等）也会影响市场情绪，进而影响开盘价。
+
+4. **全球市场影响**：国际市场的波动（如美股、欧洲股市的表现）也会影响本地市场的开盘情况。如果国际市场表现良好，可能会导致高开；反之，则可能导致低开。
+
+5. **技术因素**：技术分析中的支撑和阻力位、趋势线等也可能影响开盘价。如果价格接近支撑位，可能会出现低开；如果接近阻力位，可能会出现高开。
+
+6. **期货市场**：期货合约的交易情况也会影响现货市场的开盘价。如果期货市场表现强劲，现货市场可能会高开；如果期货市场疲软，现货市场可能会低开。
+
+这些因素共同作用，导致了高开或低开的现象。了解这些原因可以帮助投资者更好地把握市场动态。
+
+</details>
 
 ## 链接

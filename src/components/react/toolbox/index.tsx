@@ -1,6 +1,5 @@
 import React from "react";
 
-// 定义一个输入框组件
 const ToolBox = React.forwardRef<HTMLDivElement, DivProps>((props, ref) => {
   return (
     <div

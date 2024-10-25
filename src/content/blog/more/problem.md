@@ -305,3 +305,7 @@ More info: https://sass-lang.com/d/legacy-js-api
 ```gradle
 The project is using an incompatible version (AGP 8.5.1) of the Android Gradle plugin. Latest supported version is AGP 8.2.0
 ```
+
+## 页面滚动卡顿问题
+
+自从加了cesium组件后，相应的页面在加载了这些个组件后滚动会变得卡顿
