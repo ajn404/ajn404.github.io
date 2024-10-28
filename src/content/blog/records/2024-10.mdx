@@ -501,11 +501,16 @@ AAB文件的主要优势在于它能够根据用户设备的特定需求生成�
 
 ### 尝试将excalidraw组件模式化
 
+<details>
+<summary>Click to expand</summary>
+
 import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
-<Excalidraw file="triangle" className="w-[80vw] m-auto mt-10" />
+<Excalidraw client:visible file="triangle" className="w-[80vw] m-auto mt-10" />
 
-<Excalidraw file="ffmpeg" className="w-[80vw] m-auto mt-10" />
+<Excalidraw client:visible file="ffmpeg" className="w-[80vw] m-auto mt-10" />
+
+</details>
 
 ## 2024-10-12 11:16:19
 
@@ -1523,6 +1528,110 @@ brew services restart mosquitto
 你可以根据需要进一步配置 Mosquitto，例如启用 TLS、设置 QoS 等。具体配置可以参考官方文档或相关教程。
 
 这样，你就可以在 macOS 上成功使用 Mosquitto MQTT 代理了！如果需要更详细的配置或使用示例，可以参考相关的在线资源和文档。
+
+</details>
+
+## 2024-10-28 13:28:44
+
+## 今日探索
+
+lit结合vizzu
+
+import { MyChartComponent } from "@components/lit/chart/demo.ts";
+
+<MyChartComponent client:only="lit" />
+
+## 今日知识
+
+### signal
+
+<details open>
+<summary>Click to expand</summary>
+前端的 Signal 机制是一种用于管理状态和实现响应式编程的模式，近年来在多个现代框架和库中得到了广泛应用，如 React、Vue 和 SolidJS 等。Signal 机制的核心思想是通过信号（Signals）来追踪状态的变化，并自动更新依赖于这些状态的部分。下面是对前端 Signal 机制的详细解析：
+
+### 1. **基本概念**
+
+- **信号（Signal）**: 信号是一个可以存储状态的对象。当信号的值发生变化时，它会通知所有依赖于该信号的部分进行更新。
+- **订阅（Subscription）**: 组件或函数可以订阅信号，以便在信号的值变化时自动重新计算或重新渲染。
+- **反应（Reactivity）**: 当信号的值变化时，所有依赖于该信号的部分会自动响应，更新其状态或视图。
+
+### 2. **工作原理**
+
+Signal 机制通常涉及以下几个步骤：
+
+1. **创建信号**: 开发者创建一个信号并为其赋初始值。
+2. **订阅信号**: 组件或函数在使用信号的值时，会自动订阅该信号。
+3. **更新信号**: 当信号的值被更新时，信号会通知所有订阅者。
+4. **重新渲染**: 订阅者会根据新的信号值重新计算或重新渲染。
+
+### 3. **实现示例**
+
+以下是一个简单的 Signal 机制实现示例，使用 JavaScript 来演示其基本概念：
+
+```javascript
+class Signal {
+  constructor(initialValue) {
+    this.value = initialValue;
+    this.subscribers = new Set();
+  }
+
+  get() {
+    // 订阅者在访问信号值时自动注册
+    if (currentSubscriber) {
+      this.subscribers.add(currentSubscriber);
+    }
+    return this.value;
+  }
+
+  set(newValue) {
+    this.value = newValue;
+    // 通知所有订阅者
+    this.subscribers.forEach(subscriber => subscriber());
+  }
+}
+
+// 当前订阅者
+let currentSubscriber = null;
+
+// 创建一个信号
+const countSignal = new Signal(0);
+
+// 订阅信号
+function render() {
+  console.log(`Count: ${countSignal.get()}`);
+}
+
+// 设置当前订阅者为 render 函数
+currentSubscriber = render;
+
+// 初始渲染
+render();
+
+// 更新信号
+countSignal.set(1); // 输出: Count: 1
+countSignal.set(2); // 输出: Count: 2
+```
+
+### 4. **优点**
+
+- **简化状态管理**: Signal 机制使得状态管理更加简单和直观，开发者可以专注于状态变化而不是手动更新视图。
+- **提高性能**: 通过精确追踪依赖关系，Signal 机制可以减少不必要的渲染，提高应用的性能。
+- **增强可维护性**: 代码的可读性和可维护性提高，因为状态变化和视图更新之间的关系更加明确。
+
+### 5. **应用场景**
+
+- **响应式 UI**: 在构建响应式用户界面时，Signal 机制可以帮助自动更新视图。
+- **状态管理**: 在复杂应用中，Signal 机制可以作为状态管理的基础，简化数据流。
+- **数据流动**: 在需要频繁更新的应用中，Signal 机制可以有效管理数据流动和状态变化。
+
+### 6. **与其他机制的比较**
+
+- **与 Redux**: Redux 是一种集中式状态管理方案，通常需要手动触发更新，而 Signal 机制则是自动响应的，减少了样板代码。
+- **与 MobX**: MobX 也使用响应式编程，但 Signal 机制通常更轻量，适合小型应用或组件。
+
+### 总结
+
+前端的 Signal 机制是一种强大而灵活的状态管理和响应式编程模式。通过信号的使用，开发者可以更轻松地管理状态变化，提高应用的性能和可维护性。如果你有其他问题或需要进一步的帮助，请告诉我！
 
 </details>
 

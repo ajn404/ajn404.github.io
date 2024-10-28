@@ -159,6 +159,7 @@
     "uuid-by-string": "^4.0.0",
     "vaul": "^0.8.9",
     "vite-plugin-istanbul": "^5.0.0",
+    "vizzu": "^0.14.0",
     "vue": "^3.4.7",
     "waveform-data": "^4.4.0",
     "wouter": "^2.12.1",
