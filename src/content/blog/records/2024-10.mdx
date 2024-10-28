@@ -506,9 +506,9 @@ AAB文件的主要优势在于它能够根据用户设备的特定需求生成�
 
 import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
-<Excalidraw client:visible file="triangle" className="w-[80vw] m-auto mt-10" />
+<Excalidraw file="triangle" className="w-[80vw] m-auto mt-10" />
 
-<Excalidraw client:visible file="ffmpeg" className="w-[80vw] m-auto mt-10" />
+<Excalidraw file="ffmpeg" className="w-[80vw] m-auto mt-10" />
 
 </details>
 
@@ -884,17 +884,17 @@ import Billboard from "@components/react/cesium/reference/Billboard/index.tsx";
 
 </details>
 
-```TS
+```ts
 // 创建一个BillboardCollection
 const billboards = new BillboardCollection();
 viewer.scene.primitives.add(billboards);
 
 // 添加几个Billboard
 billboards.add({
-    position: Cartesian3.fromDegrees(-75.59777, 40.03883, 0), // 经度, 纬度, 高度
-    image: '/assets/bg/1.jpg', // 替换为你的图片URL
-    width: 100,
-    height: 100,
+  position: Cartesian3.fromDegrees(-75.59777, 40.03883, 0), // 经度, 纬度, 高度
+  image: "/assets/bg/1.jpg", // 替换为你的图片URL
+  width: 100,
+  height: 100,
 });
 ```
 
@@ -1540,6 +1540,85 @@ lit结合vizzu
 import { MyChartComponent } from "@components/lit/chart/demo.ts";
 
 <MyChartComponent client:only="lit" />
+
+<details>
+<summary>show me the code</summary>
+
+```ts
+import { LitElement, html, css } from "lit";
+import { customElement } from "lit/decorators.js";
+import Vizzu from "vizzu";
+import VizzuModule from "vizzu/cvizzu.wasm?url";
+
+@customElement("my-chart-component")
+export class MyChartComponent extends LitElement {
+  static styles = css`
+    #chart {
+      width: 80%;
+      height: 400px;
+      margin: 0 auto;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  `;
+
+  private chart: any; // 用于存储图表实例
+
+  constructor() {
+    super();
+    Vizzu.options({
+      wasmUrl: VizzuModule,
+    });
+  }
+
+  firstUpdated() {
+    this.renderChart();
+  }
+
+  async renderChart() {
+    // 确保在浏览器环境中运行
+    if (typeof window !== "undefined") {
+      await Vizzu.initialize();
+      const { data } = await import(
+        "https://lib.vizzuhq.com/0.14/assets/data/chart_types_eu.js" as any
+      );
+      const element = this.renderRoot.querySelector("#chart");
+      if (!element) return;
+
+      this.chart = new Vizzu(element as HTMLElement);
+      this.chart.animate({
+        data,
+      });
+    }
+  }
+
+  private handleButtonClick() {
+    if (this.chart) {
+      this.chart.animate({
+        config: Vizzu.presets.percentageArea({
+          x: "Year",
+          y: "Value 2 (+)",
+          stackedBy: "Country",
+          title: "Percentage Area Chart",
+        }),
+      });
+    }
+  }
+
+  override render() {
+    return html`
+      <div id="chart"></div>
+      <button @click="${this.handleButtonClick}">显示区域图</button>
+    `;
+  }
+}
+```
+
+</details>
 
 ## 今日知识
 
