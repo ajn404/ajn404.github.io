@@ -506,9 +506,19 @@ AAB文件的主要优势在于它能够根据用户设备的特定需求生成�
 
 import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
-<Excalidraw file="triangle" className="w-[80vw] m-auto mt-10" />
+<Excalidraw
+  viewModeEnabled="true"
+  file="triangle"
+  className="w-[80vw] m-auto mt-10"
+/>
 
-<Excalidraw file="ffmpeg" className="w-[80vw] m-auto mt-10" />
+- 甚至可以控制是否只读
+
+<Excalidraw
+  viewModeEnabled="false"
+  file="ffmpeg"
+  className="w-[80vw] m-auto mt-10"
+/>
 
 </details>
 
@@ -1433,7 +1443,7 @@ HDR（高动态范围）文件是一种用于存储高动态范围图像的文�
 
 ### 今日策略
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 
 长虹 < -5% ||
@@ -1445,7 +1455,7 @@ ST华微
 
 ### 今日知识
 
-<details open>
+<details >
 <summary>mac mqtt mosquitto</summary>
 
 在 macOS 上使用 Mosquitto MQTT 代理的指南如下：
@@ -1533,7 +1543,7 @@ brew services restart mosquitto
 
 ## 2024-10-28 13:28:44
 
-## 今日探索
+### 今日探索
 
 lit结合vizzu
 
@@ -1624,11 +1634,11 @@ import { AnimateElement } from "@components/lit/chart/demo.ts";
 
 <AnimateElement client:only="lit" />
 
-## 今日知识
+### 今日知识
 
-### signal
+#### signal
 
-<details open>
+<details >
 <summary>Click to expand</summary>
 前端的 Signal 机制是一种用于管理状态和实现响应式编程的模式，近年来在多个现代框架和库中得到了广泛应用，如 React、Vue 和 SolidJS 等。Signal 机制的核心思想是通过信号（Signals）来追踪状态的变化，并自动更新依赖于这些状态的部分。下面是对前端 Signal 机制的详细解析：
 
@@ -1715,6 +1725,70 @@ countSignal.set(2); // 输出: Count: 2
 ### 总结
 
 前端的 Signal 机制是一种强大而灵活的状态管理和响应式编程模式。通过信号的使用，开发者可以更轻松地管理状态变化，提高应用的性能和可维护性。如果你有其他问题或需要进一步的帮助，请告诉我！
+
+</details>
+
+## 2024-10-29 11:02:57
+
+### [继续昨日lit的探索](https://lit.dev/playground/#sample=examples)
+
+- hello world
+
+import { SimpleGreeting } from "@components/lit/practice/simpleGreeting.ts";
+
+<SimpleGreeting client:only="lit" />
+
+<details>
+<summary>show me the code</summary>
+
+```ts
+import { LitElement, html } from "lit";
+import { customElement } from "lit/decorators.js";
+
+@customElement("simple-greeting")
+export class SimpleGreeting extends LitElement {
+  render() {
+    return html`<p class="white">Hello, World!</p>`;
+  }
+
+  // 使用原生渲染
+  createRenderRoot() {
+    return this;
+  }
+}
+```
+
+如果使用shadow dom渲染，tailwind的样式将失效，需要使用原生渲染(light dom),或者继续使用shadow dom，但是需要一大堆的配置，尝试使用
+
+```ts
+ static styles = css`
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;`;
+```
+
+没作用
+
+</details>
+
+- full component
+
+import { FullComponent } from "@components/lit/practice/fullComponent.ts";
+
+<FullComponent client:only="lit" />
+
+### 今日类型体操
+
+<details >
+<summary>00020-medium-promise-all</summary>
+
+```ts
+declare function PromiseAll<T extends any[]>(
+  values: readonly [...T]
+): Promise<{
+  [key in keyof T]: Awaited<T[key]>;
+}>;
+```
 
 </details>
 

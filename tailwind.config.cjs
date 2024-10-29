@@ -24,16 +24,18 @@ function addVariablesForColors({ addBase, theme }: any) {
   });
 }
 
+const content = [
+            "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+            "./node_modules/tw-elements/dist/js/**/*.js"
+        ]
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     important: true,
-    // 根据您实际使用的类动态生成样式
-    mod:"jit",
-    content:
-        [
-            "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-            "./node_modules/tw-elements/dist/js/**/*.js"
-        ],
+    mod: "jit",
+    // 根据实际使用的类动态生成样式
+    purge:content,
+    content,
     prefix: "",
     theme: {
         container: {

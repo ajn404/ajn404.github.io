@@ -28,6 +28,7 @@
       "@aceternity/*": ["components/react/aceternity/*"]
     },
     "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
   }
 }

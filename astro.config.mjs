@@ -91,7 +91,7 @@ if (import.meta.env.DEV) {
         rewrite: path => path.replace(/^\/RPC2/, ""),
       },
       "/RPC_Loadfile": {
-        arget: `http://192.168.200.2/RPC_Loadfile`,
+        target: `http://192.168.200.2/RPC_Loadfile`,
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/RPC_Loadfile/, ""),

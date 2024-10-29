@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { LitElement, html, css } from "lit";
 import Vizzu from "vizzu";
 import { customElement } from "lit/decorators.js";
@@ -37,28 +36,26 @@ export class MyChartComponent extends LitElement {
     // 确保在浏览器环境中运行
     if (typeof window !== "undefined") {
       await Vizzu.initialize();
-      const { data } = await import("/assets/cdn/chart_types_eu.js?url");
-      const element = this.renderRoot.querySelector("#chart");
-      if (!element) return;
-
-      this.chart = new Vizzu(element as HTMLElement);
-      this.chart.animate({
-        data,
-      });
     }
   }
 
-  handleButtonClick() {
-    if (this.chart) {
-      this.chart.animate({
-        config: Vizzu.presets.percentageArea({
-          x: "Year",
-          y: "Value 2 (+)",
-          stackedBy: "Country",
-          title: "Percentage Area Chart",
-        }),
-      });
-    }
+  async handleButtonClick() {
+    const { data }: any = await import("/assets/cdn/chart_types_eu.js?url");
+    const element = this.renderRoot.querySelector("#chart");
+    if (!element) return;
+
+    if (!this.chart) this.chart = new Vizzu(element as HTMLElement);
+    this.chart.animate({
+      data,
+    });
+    this.chart.animate({
+      config: (Vizzu.presets as any).percentageArea({
+        x: "Year",
+        y: "Value 2 (+)",
+        stackedBy: "Country",
+        title: "Percentage Area Chart",
+      }),
+    });
   }
 
   override render() {
@@ -72,8 +69,13 @@ export class MyChartComponent extends LitElement {
 @customElement("animate-element")
 export class AnimateElement extends MyChartComponent {
   render() {
-    return html` ${super.render()} `;
+    return html`
+      <div id="chart"></div>
+      <button @click="${this.handleButtonClick}">加载动画</button>
+    `;
   }
+
+  public data_8: any;
   async renderChart() {
     // 确保在浏览器环境中运行
     if (typeof window !== "undefined") {
@@ -81,17 +83,17 @@ export class AnimateElement extends MyChartComponent {
       const { data_8 } = await import(
         "/assets/cdn/chart_types_eu.js?url" as any
       );
-      const element = this.renderRoot.querySelector("#chart");
-      if (!element) return;
-
-      this.chart = new Vizzu(element as HTMLElement);
-      this.chart.animate({
-        data: data_8,
-      });
+      this.data_8 = data_8;
     }
   }
 
-  handleButtonClick() {
+  async handleButtonClick() {
+    const element = this.renderRoot.querySelector("#chart");
+    if (!element) return;
+    if (!this.chart) this.chart = new Vizzu(element as HTMLElement);
+    this.chart.animate({
+      data: this.data_8,
+    });
     this.chart.animate({
       config: {
         channels: {
@@ -117,7 +119,5 @@ export class AnimateElement extends MyChartComponent {
         },
       },
     });
-
-    this.chart.feature("tooltip", true);
   }
 }
