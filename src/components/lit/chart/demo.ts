@@ -40,7 +40,9 @@ export class MyChartComponent extends LitElement {
   }
 
   async handleButtonClick() {
-    const { data }: any = await import("/assets/cdn/chart_types_eu.js?url");
+    const { data }: any = await import(
+      "https://lib.vizzuhq.com/0.15/assets/data/chart_types_eu.js" as any
+    );
     const element = this.renderRoot.querySelector("#chart");
     if (!element) return;
 
@@ -81,7 +83,7 @@ export class AnimateElement extends MyChartComponent {
     if (typeof window !== "undefined") {
       await Vizzu.initialize();
       const { data_8 } = await import(
-        "/assets/cdn/chart_types_eu.js?url" as any
+        "https://lib.vizzuhq.com/0.15/assets/data/chart_types_eu.js" as any
       );
       this.data_8 = data_8;
     }
