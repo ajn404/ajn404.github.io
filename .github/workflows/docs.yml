@@ -43,11 +43,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Install Playwright
-        run: pnpm install -D @playwright/test@latest
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps 
-
       - name: Build site
         run: pnpm run build
         env:

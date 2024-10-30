@@ -62,11 +62,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Install Playwright
-        run: pnpm install -D @playwright/test@latest
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
       - name: install dependencies (ubuntu only)
         if: matrix.settings.platform == 'ubuntu-20.04'
         run: |
