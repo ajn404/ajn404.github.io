@@ -65,7 +65,7 @@ jobs:
       - name: Install Playwright
         run: pnpm install -D @playwright/test@latest
       - name: Install Playwright Browsers
-        run: pnpm dlx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: install dependencies (ubuntu only)
         if: matrix.settings.platform == 'ubuntu-20.04'

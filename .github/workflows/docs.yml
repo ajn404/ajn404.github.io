@@ -46,7 +46,7 @@ jobs:
       - name: Install Playwright
         run: pnpm install -D @playwright/test@latest
       - name: Install Playwright Browsers
-        run: pnpm dlx playwright install --with-deps chromium
+        run: npx playwright install --with-deps 
 
       - name: Build site
         run: pnpm run build
