@@ -21,6 +21,7 @@ import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import lit from "@astrojs/lit";
 
+import remarkMermaid from "remark-mermaidjs";
 import rehypeMermaid from "rehype-mermaid";
 
 import expressiveCode from "astro-expressive-code";
@@ -163,6 +164,7 @@ export default defineConfig({
       ],
       remarkMath,
       remarkReadingTime,
+      remarkMermaid,
     ],
     rehypePlugins: [rehypeKatex, rehypeAutolinkHeadings, rehypeMermaid],
     shikiConfig: {
