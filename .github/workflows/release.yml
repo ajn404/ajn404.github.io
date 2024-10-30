@@ -45,11 +45,6 @@ jobs:
         with:
           version: 8.9.2
           run_install: false
-          
-      - name: Install Playwright
-        run: pnpm install -D @playwright/test@latest
-      - name: Install Playwright Browsers
-        run: pnpm dlx playwright install --with-deps
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -66,6 +61,11 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+
+      - name: Install Playwright
+        run: pnpm install -D @playwright/test@latest
+      - name: Install Playwright Browsers
+        run: pnpm dlx playwright install --with-deps chromium
 
       - name: install dependencies (ubuntu only)
         if: matrix.settings.platform == 'ubuntu-20.04'
