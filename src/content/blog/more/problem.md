@@ -309,3 +309,97 @@ The project is using an incompatible version (AGP 8.5.1) of the Android Gradle p
 ## 页面滚动卡顿问题
 
 自从加了cesium组件后，相应的页面在加载了这些个组件后滚动会变得卡顿
+
+## playwright问题
+
+<details>
+<summary>问题</summary>
+
+Run pnpm run build
+
+> ajn404-github-io@0.0.0 build /home/runner/work/ajn404.github.io/ajn404.github.io
+> cross-env NODE_OPTIONS=--max-old-space-size=8192 astro build
+
+9:04:41 AM [vite] Error when evaluating SSR module /home/runner/work/ajn404.github.io/ajn404.github.io/astro.config.mjs: failed to import "remark-mermaidjs"
+|- TypeError: (intermediate value).resolve is not a function
+at file:///home/runner/work/ajn404.github.io/ajn404.github.io/node_modules/.pnpm/mermaid-isomorphic@3.0.0_playwright@1.48.2/node_modules/mermaid-isomorphic/dist/mermaid-isomorphic.js:2:26
+at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+
+[astro] Unable to load your Astro config
+
+(intermediate value).resolve is not a function
+Stack trace:
+at file:///home/runner/work/ajn404.github.io/ajn404.github.io/node_modules/.pnpm/mermaid-isomorphic@3.0.0_playwright@1.48.2/node_modules/mermaid-isomorphic/dist/mermaid-isomorphic.js:2:26
+ ELIFECYCLE  Command failed with exit code 1.
+
+</details>
+
+<details>
+<summary>Click to expand</summary>
+
+```yml
+name: Docs
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Build Astro Doc
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.18.0
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8.9.2
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install Playwright
+        run: pnpm install -D @playwright/test@latest
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Build site
+        run: pnpm run build
+        env:
+          PUBLIC_GITHUB_TOKEN: ${{ secrets.PUBLIC_GITHUB_TOKEN }}
+
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: docs
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+</details>
