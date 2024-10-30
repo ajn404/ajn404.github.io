@@ -238,7 +238,7 @@
     );
   }
 
-  .morpheus-den{
+  .morpheus-den {
     background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
   }
 
@@ -509,4 +509,8 @@ iframe {
 
 .driver-popover {
   max-width: 80vw !important;
+}
+
+.flowchart p {
+  color: black!important;
 }

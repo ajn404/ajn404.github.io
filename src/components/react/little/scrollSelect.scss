@@ -37,20 +37,18 @@
       box-sizing: border-box;
       padding-inline: 20px;
       border-radius: inherit;
+      background: linear-gradient(to right, rgb(242 194 66), rgb(235 122 51));
+      box-shadow: 0 0 4px rgb(235 122 51);
+      font: 16pt / var(--itemHeight) "poppins";
+      color: white;
+      scroll-snap-align: center;
+
       &:first-of-type {
         margin-block-start: var(--topBit);
       }
       &:last-of-type {
         margin-block-end: var(--topBit);
       }
-      /* paint and font */
-      background: linear-gradient(to right, rgb(242 194 66), rgb(235 122 51));
-      box-shadow: 0 0 4px rgb(235 122 51);
-      font: 16pt / var(--itemHeight) "poppins";
-      color: white;
-
-      scroll-snap-align: center;
-
       input {
         appearance: none;
       }

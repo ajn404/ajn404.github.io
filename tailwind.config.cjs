@@ -34,7 +34,6 @@ module.exports = {
     important: true,
     mod: "jit",
     // 根据实际使用的类动态生成样式
-    purge:content,
     content,
     prefix: "",
     theme: {

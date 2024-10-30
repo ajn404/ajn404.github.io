@@ -19,7 +19,10 @@ import myIntegration from "./plugin/devtool/my-integration";
 
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
-  import lit from "@astrojs/lit";
+import lit from "@astrojs/lit";
+  
+import remarkMermaid from "remark-mermaidjs";
+import expressiveCode from "astro-expressive-code";
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
 
@@ -117,13 +120,7 @@ export default defineConfig({
     clientPrerender: true,
   },
   integrations: [
-    mdx({
-      syntaxHighlight: "shiki",
-      shikiConfig: {
-        theme: "material-theme-palenight",
-        wrap: true,
-      },
-    }),
+    lit(),
     sitemap(),
     react({
       include: ["**/react/*"],
@@ -139,7 +136,14 @@ export default defineConfig({
     myIntegration,
     sentry(),
     spotlightjs(),
-    lit(),
+    expressiveCode(),
+    mdx({
+      syntaxHighlight: "shiki",
+      shikiConfig: {
+        theme: "material-theme-palenight",
+        wrap: true,
+      },
+    }),
   ],
   markdown: {
     remarkPlugins: [
@@ -158,6 +162,7 @@ export default defineConfig({
       ],
       remarkMath,
       remarkReadingTime,
+      remarkMermaid,
     ],
     rehypePlugins: [rehypeKatex, rehypeAutolinkHeadings],
     shikiConfig: {

@@ -6,10 +6,11 @@ postSlug: 2024-10
 tags:
   - "2024"
   - "2024-10"
-  - "calender"
+  - calender
   - "股票"
   - ts challenge
   - ts
+  - lit
 description: 又是10月，写这份博客整整1年，1年，人生有几个1年
 ---
 
@@ -1276,7 +1277,7 @@ export default App;
 
 #### 添加code-snippets
 
-```code-snippets
+```json
 "ToolBox Component": {
     "prefix": "toolbox",
     "body": [
@@ -1791,5 +1792,166 @@ declare function PromiseAll<T extends any[]>(
 ```
 
 </details>
+
+## 2024-10-30 10:13:11
+
+### 今日lit
+
+- Basic properties
+
+import { NameTag } from "@components/lit/practice/basicProperties.ts";
+
+<NameTag />
+
+突然看到[这个](https://github.com/withastro/astro/pull/11680)，算了不在这个博客折腾lit了
+
+### 今日类型体操
+
+- exclude
+
+```ts
+type MyExclude<T, U> = T extends U ? never : T;
+```
+
+- union to intersection
+
+<details>
+<summary>Click to expand</summary>
+
+````ts
+
+在 TypeScript 中，将联合类型转换为交叉类型可以通过使用条件类型和函数参数的逆变特性来实现。以下是一个简单的实现示例：
+
+```typescript
+type UnionToIntersection<U> =
+  (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never;
+````
+
+### 解释：
+
+1. **条件类型**：`U extends any` 会将联合类型 `U` 中的每个成员都传递给函数类型 `(x: U) => void`。
+2. **逆变**：通过将 `U` 放入函数参数中，TypeScript 会将其视为逆变位置，这样可以推导出一个交叉类型。
+3. **推导**：`infer I` 用于推导出最终的交叉类型。
+
+### 示例：
+
+假设我们有一个联合类型：
+
+```typescript
+type A = { a: string };
+type B = { b: number };
+type C = UnionToIntersection<A | B>; // 结果是 { a: string } & { b: number }
+```
+
+在这个例子中，`C` 将会是一个包含 `a` 和 `b` 属性的交叉类型。
+
+这种方法在处理需要将多个类型合并为一个类型时非常有用，尤其是在类型系统中需要更复杂的类型组合时。
+
+如果你想了解更多细节，可以参考相关的 TypeScript 文档或社区讨论，例如 [oida.dev](https://oida.dev/typescript-union-to-intersection/) 和 [Stack Overflow](https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type)。
+
+</details>
+
+### 今日知识
+
+#### 全称命题
+
+<details open>
+<summary>如何区分一个全称命题结论的错误是源于前提错误，还是源于推理过程的逻辑谬误</summary>
+
+区分一个全称命题结论的错误是源于前提错误，还是源于推理过程的逻辑谬误，可以通过以下几个步骤进行分析：
+
+1. **检查前提的真实性**：
+
+   - 首先，验证前提是否真实。如果前提是错误的，那么结论可能是错误的，但这并不一定意味着推理过程有误。
+   - 例如，前提“所有鸟都会飞”是错误的（因为有些鸟不会飞），但如果结论是“这只鸟不会飞”，则结论的真实性与前提的错误无关。
+
+2. **分析推理过程**：
+
+   - 检查推理的逻辑结构是否有效。有效的推理意味着如果前提为真，结论也必然为真。
+   - 例如，考虑以下推理：
+     - 前提1：所有人都是哺乳动物。
+     - 前提2：所有哺乳动物都是温血动物。
+     - 结论：所有人都是温血动物。
+   - 在这个例子中，推理是有效的，即使前提1是错误的（因为并不是所有人都是哺乳动物），结论依然是正确的。
+
+3. **使用逻辑图示**：
+
+   - 使用维恩图或其他逻辑图示工具来可视化前提和结论之间的关系。这可以帮助识别是否存在逻辑谬误。
+   - 例如，绘制两个类的交集，看看结论是否符合前提所描述的关系。
+
+4. **识别常见的逻辑谬误**：
+
+   - 学习并识别常见的逻辑谬误，如“非此即彼”（false dichotomy）、“诉诸无知”（appeal to ignorance）等。这些谬误可能导致错误的推理过程。
+   - 例如，如果推理过程中使用了“如果A不成立，那么B一定成立”的逻辑，这可能是一个逻辑谬误。
+
+5. **进行反例测试**：
+   - 尝试寻找反例来测试推理的有效性。如果能够找到一个反例，说明推理过程存在逻辑谬误。
+   - 例如，如果前提是“所有A都是B”，而你找到了一个A但不是B的例子，那么这个推理就是错误的。
+
+通过以上步骤，可以更清晰地判断一个全称命题结论的错误是源于前提错误，还是源于推理过程的逻辑谬误。
+
+</details>
+
+#### tileset.json中的transform
+
+<details>
+<summary>Click to expand</summary>
+
+```json
+[
+  -0.8480809042061861, -0.5298667567613746, 0.0, 0.0, 0.3490294610878544,
+  -0.5586408605122046, 0.752395390907537, 0.0, -0.39866930558238334,
+  0.6380921634414309, 0.6587117546705042, 0.0, -2546467.965211091,
+  4075762.117382445, 4179301.6995004173, 1.0
+]
+```
+
+在这个`transform`矩阵中，我们可以看到这是一个4x4矩阵，将局部坐标系转换到地理坐标系，尤其是在全球坐标 (ECEF - Earth-Centered Earth-Fixed) 系中，通常以米为单位。
+
+矩阵中的最后一列 `[-2546467.965211091, 4075762.117382445, 4179301.6995004173, 1.0]` 表示平移部分，可以看作是该模型在ECEF坐标系中的位置。因此：
+
+- $ x = -2546467.965211091 $
+- $ y = 4075762.117382445 $
+- $ z = 4179301.6995004173 $
+
+### 将ECEF坐标转换为经纬度和高度
+
+可以将这些ECEF坐标转换为更常用的地理坐标 (经度、纬度、高程)，其公式如下：
+
+1. 计算经度 ($ \lambda $)：
+
+   $$
+   \lambda = \arctan\left(\frac{y}{x}\right)
+   $$
+
+2. 计算平面距离 $ p $：
+
+   $$
+   p = \sqrt{x^2 + y^2}
+   $$
+
+3. 计算纬度 ($ \phi $) 和高程 ($ h $)：
+
+   - 使用WGS84椭球参数：
+     - $ a = 6378137.0 $（地球的半长轴）
+     - $ e^2 = 6.69437999014 \times 10^{-3} $（椭球偏心率的平方）
+
+   迭代计算得到纬度和高度，或者直接用编程来实现这些公式的转换。
+
+</details>
+
+### 今日探索
+
+添加mermaid
+
+````md title="Flowchart example using MermaidJS text"
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+````
 
 ## 链接
