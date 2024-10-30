@@ -125,7 +125,7 @@ export default () => {
   }, [debounceK]);
 
   return (
-    <div className="flex items-center shadow justify-around ">
+    <div className="max-w-[90vw] overflow-auto flex items-center shadow justify-around ">
       <Basic sketch={sketch} showControls />
       <div className="w-1/5 toolbox">
         <label>弹性系数：{debounceK}</label>
