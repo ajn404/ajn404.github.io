@@ -1,0 +1,478 @@
+---
+
+---
+
+<div class="keyboard-frame">
+  <button id="toggleListener" class="toggle-btn">开始监听键盘</button>
+  <div class="keyboard">
+    <div class="key-row">
+      <div class="key">Esc</div>
+      <div class="key">F1</div>
+      <div class="key">F2</div>
+      <div class="key">F3</div>
+      <div class="key">F4</div>
+      <div class="key">F5</div>
+      <div class="key">F6</div>
+      <div class="key">F7</div>
+      <div class="key">F8</div>
+      <div class="key">F9</div>
+      <div class="key">F10</div>
+      <div class="key">F11</div>
+      <div class="key">F12</div>
+      <div class="key key-small">←</div>
+      <!-- Added backspace key -->
+      <div class="key key-small">Del</div>
+    </div>
+    <div class="key-row">
+      <div class="key key-wide">Tab</div>
+      <div class="key">Q</div>
+      <div class="key">W</div>
+      <div class="key">E</div>
+      <div class="key">R</div>
+      <div class="key">T</div>
+      <div class="key">Y</div>
+      <div class="key">U</div>
+      <div class="key">I</div>
+      <div class="key">O</div>
+      <div class="key">P</div>
+      <div class="key">[</div>
+      <div class="key">]</div>
+      <div class="key key-small">|</div>
+      <div class="key key-small">Ins</div>
+    </div>
+    <div class="key-row">
+      <div class="key key-wide">Caps</div>
+      <div class="key">A</div>
+      <div class="key">S</div>
+      <div class="key">D</div>
+      <div class="key">F</div>
+      <div class="key">G</div>
+      <div class="key">H</div>
+      <div class="key">J</div>
+      <div class="key">K</div>
+      <div class="key">L</div>
+      <div class="key">;</div>
+      <div class="key">'</div>
+      <div class="key key-wide">Enter</div>
+      <div class="key key-small">PgUp</div>
+    </div>
+    <div class="key-row">
+      <div class="key key-extra-wide">Shift</div>
+      <div class="key">Z</div>
+      <div class="key">X</div>
+      <div class="key">C</div>
+      <div class="key">V</div>
+      <div class="key">B</div>
+      <div class="key">N</div>
+      <div class="key">M</div>
+      <div class="key">,</div>
+      <div class="key">.</div>
+      <div class="key">/</div>
+      <div class="key key-wide">Shift</div>
+      <div class="key key-small">↑</div>
+      <div class="key key-small">PgDn</div>
+    </div>
+    <div class="key-row">
+      <div class="key key-medium">Ctrl</div>
+      <div class="key key-medium">Win</div>
+      <div class="key key-medium">Alt</div>
+      <div class="key key-space"></div>
+      <div class="key key-medium">Alt</div>
+      <div class="key key-medium">Fn</div>
+      <div class="key key-medium">Ctrl</div>
+      <div class="key key-small">←</div>
+      <div class="key key-small">↓</div>
+      <div class="key key-small">→</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .keyboard-frame {
+    background: #fff0db; /* Soft vintage color */
+    padding: 45px 25px 25px 25px; /* Space around the keyboard for the RGB glow */
+    border-radius: 30px; /* Extra rounded corners */
+    box-shadow:
+      0 0 5px rgba(255, 255, 255, 0.7),
+      /* Soft outer glow */ 0 5px 15px rgba(255, 255, 255, 0.5),
+      /* Bright jelly effect */ 0 10px 25px rgba(0, 0, 0, 0.5); /* Subtle depth shadow */
+    position: relative;
+    transform: translateY(-5px); /* Lift the frame slightly */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .keyboard-frame::before {
+    content: "";
+    position: absolute;
+    top: 3%; /* Adjusted for the inner glossy effect */
+    left: 1%; /* Adjusted for the inner glossy effect */
+    right: 1%; /* Adjusted for the inner glossy effect */
+    bottom: 3%; /* Adjusted for the inner glossy effect */
+    border-radius: 20px; /* Match frame shape */
+    background: rgba(255, 255, 255, 0.3); /* Higher opacity for gloss */
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Keyboard Base */
+  .keyboard {
+    background: rgba(255, 230, 180, 0.9); /* Slightly darker color for keys */
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    position: relative;
+    max-width: 850px;
+    overflow: hidden;
+  }
+
+  /* Unified RGB Glow */
+  .keyboard::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 200, 0, 0.6),
+      rgba(0, 230, 100, 0.6),
+      rgba(0, 180, 255, 0.6),
+      rgba(130, 30, 200, 0.6),
+      rgba(255, 90, 150, 0.6)
+    ); /* Adjusted for a darker tone */
+    filter: blur(2px);
+  }
+
+  /* Key Row Styling */
+  .key-row {
+    display: flex;
+    gap: 0px;
+    justify-content: space-between;
+  }
+
+  /* Key Styling */
+  .key {
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 12px;
+    font-weight: bold; /* Ensure the font is bold */
+    background: #eed9c4; /* Slightly darker color for keys */
+    color: #000; /* Change key text color to black */
+    width: 55px;
+    height: 50px;
+    border-radius: 3px; /* Round shape for Cherry keycaps */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: none; /* No shadow for clarity */
+    position: relative;
+    z-index: 1;
+    transform: rotateX(10deg); /* 3D perspective for each key */
+    box-shadow:
+      inset 0px 1px 2px rgba(255, 255, 255, 1),
+      /* Top inner highlight */ inset 0px -4px 6px rgba(0, 0, 0, 0.4),
+      /* Darker bottom shadow for depth */ 0px 6px 10px rgba(0, 0, 0, 0.4); /* Drop shadow below */
+  }
+
+  /* Glossy Overlay Effect for Keys */
+  .key::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 20%;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    ); /* Jelly effect using a lighter background */
+    border-radius: 5px; /* Match the key shape */
+    z-index: 0;
+  }
+
+  /* Add glossy effect to the key itself */
+  .key::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px; /* Match the key shape */
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    ); /* Glossy effect */
+    z-index: 3; /* Above other layers */
+    pointer-events: none; /* Allow clicks through the glossy layer */
+  }
+
+  /* Specific Bottom Shadow Colors with Softer Baby Tones */
+  .key:nth-child(1) {
+    box-shadow:
+      0 4px 10px rgba(255, 210, 150, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Orange shadow */
+  .key:nth-child(2) {
+    box-shadow:
+      0 4px 10px rgba(255, 250, 200, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Yellow shadow */
+  .key:nth-child(3) {
+    box-shadow:
+      0 4px 10px rgba(200, 255, 200, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Green shadow */
+  .key:nth-child(4) {
+    box-shadow:
+      0 4px 10px rgba(180, 180, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Purple shadow */
+  .key:nth-child(5) {
+    box-shadow:
+      0 4px 10px rgba(255, 220, 230, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Pink shadow */
+  .key:nth-child(6) {
+    box-shadow:
+      0 4px 10px rgba(200, 255, 200, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Green shadow */
+  .key:nth-child(7) {
+    box-shadow:
+      0 4px 10px rgba(180, 220, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Cyan shadow */
+  .key:nth-child(8) {
+    box-shadow:
+      0 4px 10px rgba(180, 220, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Cyan shadow */
+  .key:nth-child(9) {
+    box-shadow:
+      0 4px 10px rgba(180, 220, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Cyan shadow */
+  .key:nth-child(10) {
+    box-shadow:
+      0 4px 10px rgba(180, 150, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Purple shadow */
+  .key:nth-child(11) {
+    box-shadow:
+      0 4px 10px rgba(180, 150, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Purple shadow */
+  .key:nth-child(12) {
+    box-shadow:
+      0 4px 10px rgba(180, 150, 255, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Purple shadow */
+  .key:nth-child(13) {
+    box-shadow:
+      0 4px 10px rgba(255, 220, 240, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Pink shadow */
+  .key:nth-child(14) {
+    box-shadow:
+      0 4px 10px rgba(255, 220, 240, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Pink shadow */
+  .key:nth-child(15) {
+    box-shadow:
+      0 4px 10px rgba(255, 220, 240, 0.5),
+      inset 0 0 0 rgba(0, 0, 0, 0.3);
+  } /* Very Soft Light Pink shadow */
+
+  /* Key Sizes for Justification */
+  .key-wide {
+    width: 75px;
+    border-radius: 10px; /* Match Cherry key shape */
+  }
+
+  .key-extra-wide {
+    width: 95px;
+    border-radius: 5px; /* Match Cherry key shape */
+  }
+
+  .key-medium {
+    width: 58px;
+    border-radius: 5px; /* Match Cherry key shape */
+  }
+
+  .key-large {
+    width: 350px;
+    border-radius: 5px; /* Match Cherry key shape */
+  }
+
+  .key-small {
+    width: 42px;
+    border-radius: 5px; /* Match Cherry key shape */
+  }
+
+  .key-tall {
+    height: 90px;
+    border-radius: 5px; /* Match Cherry key shape */
+  }
+
+  .key-space {
+    width: 350px; /* Adjust width to match standard size */
+    height: 50px; /* Same height as other keys */
+    background: #eed9c4; /* Key color */
+    border-radius: 3px; /* Match Cherry key shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    transform: rotateX(10deg); /* 3D perspective for each key */
+    box-shadow:
+      inset 0px 1px 2px rgba(255, 255, 255, 0.6),
+      /* Top inner highlight */ inset 0px -4px 6px rgba(0, 0, 0, 0.3),
+      /* Darker bottom shadow for depth */ 0px 6px 10px rgba(0, 0, 0, 0.4); /* Drop shadow below */
+  }
+
+  /* Glossy Overlay Effect for Space Key */
+  .key-space::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 2%;
+    right: 2%;
+    bottom: 20%;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    ); /* Jelly effect using a lighter background */
+    border-radius: 5px; /* Match the key shape */
+    z-index: 2;
+  }
+
+  /* 添加按钮样式 */
+  .toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    padding: 8px 16px;
+    background: #eed9c4;
+    border: none;
+    border-radius: 5px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .toggle-btn:hover {
+    background: #e6c5a5;
+  }
+
+  /* 添加高亮效果的样式 */
+  .key-active {
+    background: #ffb380 !important;
+    transform: rotateX(10deg) translateY(2px) !important;
+    box-shadow:
+      inset 0px 1px 2px rgba(255, 255, 255, 1),
+      inset 0px -2px 4px rgba(0, 0, 0, 0.4),
+      0px 4px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+</style>
+
+<script>
+  let isListening = false;
+  const toggleBtn = document.getElementById("toggleListener");
+
+  // 键盘映射表
+  const keyMap = {
+    Escape: "Esc",
+    F1: "F1",
+    F2: "F2",
+    // ... 其他功能键
+    Tab: "Tab",
+    CapsLock: "Caps",
+    Shift: "Shift",
+    Control: "Ctrl",
+    Meta: "Win",
+    Alt: "Alt",
+    " ": "key-space",
+    ArrowLeft: "←",
+    ArrowRight: "→",
+    ArrowUp: "↑",
+    ArrowDown: "↓",
+  };
+
+  function handleKeyPress(event) {
+    // 防止按键默认行为
+    event.preventDefault();
+
+    // 获取按键值
+    let keyValue = event.key;
+
+    // 移除所有现有的高亮
+    document.querySelectorAll(".key-active").forEach(el => {
+      el.classList.remove("key-active");
+    });
+
+    // 查找并高亮对应的按键
+    const keys = document.querySelectorAll(".key, .key-space");
+    keys.forEach(key => {
+      const keyText = key.textContent;
+      if (keyText === keyMap[keyValue] || keyText === keyValue.toUpperCase()) {
+        key.classList.add("key-active");
+      }
+    });
+  }
+
+  // 添加点击处理函数
+  function handleKeyClick(event) {
+    const clickedKey = event.currentTarget;
+
+    // 移除所有现有的高亮
+    document.querySelectorAll(".key-active").forEach(el => {
+      el.classList.remove("key-active");
+    });
+
+    // 添加高亮效果
+    clickedKey.classList.add("key-active");
+
+    // 300ms 后移除高亮效果
+    setTimeout(() => {
+      clickedKey.classList.remove("key-active");
+    }, 300);
+  }
+
+  // 为所有按键添加点击事件监听器
+  document
+    .querySelectorAll(".key, .key-space")
+    .forEach((key: HTMLDivElement) => {
+      key.addEventListener("click", handleKeyClick);
+      // 添加鼠标样式
+      key.style.cursor = "pointer";
+    });
+
+  toggleBtn.addEventListener("click", () => {
+    isListening = !isListening;
+    if (isListening) {
+      document.addEventListener("keydown", handleKeyPress);
+      toggleBtn.textContent = "停止监听";
+      toggleBtn.style.background = "#ffb380";
+    } else {
+      document.removeEventListener("keydown", handleKeyPress);
+      toggleBtn.textContent = "开始监听键盘";
+      toggleBtn.style.background = "#eed9c4";
+      // 移除所有高亮
+      document.querySelectorAll(".key-active").forEach(el => {
+        el.classList.remove("key-active");
+      });
+    }
+  });
+</script>
