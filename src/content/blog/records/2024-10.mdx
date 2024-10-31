@@ -1818,14 +1818,15 @@ type MyExclude<T, U> = T extends U ? never : T;
 <details>
 <summary>Click to expand</summary>
 
-````ts
-
 在 TypeScript 中，将联合类型转换为交叉类型可以通过使用条件类型和函数参数的逆变特性来实现。以下是一个简单的实现示例：
 
-```typescript
-type UnionToIntersection<U> =
-  (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never;
-````
+```ts
+type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (
+  x: infer I
+) => void
+  ? I
+  : never;
+```
 
 ### 解释：
 
@@ -2012,4 +2013,53 @@ import Keyboard from "@components/astro/more/keyboard.astro";
 
 <Keyboard />
 
+### 今日金融
+
+<details>
+<summary>国债逆回购</summary>
+
+国债逆回购是一种短期融资工具，主要用于金融市场中的流动性管理。它是指投资者（通常是银行或其他金融机构）将国债等证券出售给中央银行或其他金融机构，并约定在未来某个时间以约定价格买回这些证券的交易。具体来说，国债逆回购的过程如下：
+
+### 逆回购的基本流程
+
+1. **出售国债**：投资者将持有的国债等证券出售给中央银行或其他金融机构。
+2. **获得资金**：通过出售国债，投资者获得相应的现金流，这部分资金可以用于其他投资或流动性需求。
+3. **约定回购**：在交易时，双方约定一个未来的回购日期和回购价格。回购价格通常高于出售价格，差额部分即为投资者的收益。
+4. **回购交易**：在约定的回购日期，投资者将资金偿还给买方，并重新购回国债。
+
+### 逆回购的特点
+
+- **短期性**：国债逆回购通常是短期交易，期限一般为1天到几个月不等。
+- **流动性管理**：金融机构可以通过逆回购操作来调节流动性，满足短期资金需求。
+- **安全性**：由于国债是由国家信用背书的，逆回购交易相对安全，风险较低。
+
+### 逆回购的用途
+
+- **资金周转**：金融机构可以利用逆回购获得短期资金，进行其他投资或满足流动性需求。
+- **利率调控**：中央银行通过逆回购操作调节市场流动性，从而影响短期利率，达到货币政策的目标。
+- **投资工具**：对于投资者来说，逆回购是一种低风险的投资方式，可以获得相对稳定的收益。
+
+### 总结
+
+国债逆回购是一种灵活的融资工具，适用于金融市场中的流动性管理和短期资金需求。通过逆回购，投资者可以在保持资金流动性的同时，获得相对安全的收益。
+
+</details>
+
+### 今日类型体操
+
+### 今日探索
+
+#### html plus
+
+- 横屏api
+
+```js
+plus.nativeUI.toast("该页面需要横屏查看");
+plus.screen.lockOrientation("landscape-primary");
+plus.screen.unlockOrientation();
+plus.screen.lockOrientation("portrait-primary");
+```
+
 ## 链接
+
+- [uniapp js api](https://www.alibabacloud.com/help/zh/superapp/latest/jsapi-uni-app-1)

@@ -387,7 +387,7 @@
   }
 </style>
 
-<script>
+<script async>
   let isListening = false;
   const toggleBtn = document.getElementById("toggleListener");
 
@@ -451,13 +451,11 @@
   }
 
   // 为所有按键添加点击事件监听器
-  document
-    .querySelectorAll(".key, .key-space")
-    .forEach((key: HTMLDivElement) => {
-      key.addEventListener("click", handleKeyClick);
-      // 添加鼠标样式
-      key.style.cursor = "pointer";
-    });
+  document.querySelectorAll(".key, .key-space").forEach(key => {
+    key.addEventListener("click", handleKeyClick);
+    // 添加鼠标样式
+    key.style.cursor = "pointer";
+  });
 
   toggleBtn.addEventListener("click", () => {
     isListening = !isListening;

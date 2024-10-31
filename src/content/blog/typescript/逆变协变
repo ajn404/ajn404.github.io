@@ -1,0 +1,58 @@
+
+
+
+由
+```ts
+type UnionToIntersection<U> =
+  (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never;
+```
+衍生出来的对逆变/协变的探索
+
+
+在 TypeScript 中，逆变（Contravariance）和协变（Covariance）是与泛型类型参数相关的概念，主要用于描述类型之间的赋值关系。下面是这两个概念的详细解释：
+
+### 协变（Covariance）
+
+协变指的是，如果类型 `A` 是类型 `B` 的子类型，那么 `F<A>` 也可以被视为 `F<B>` 的子类型。换句话说，协变保持了类型的赋值方向。
+
+**示例：**
+```typescript
+class Animal {}
+class Dog extends Animal {}
+
+type Getter<T> = () => T; // 协变
+
+const getDog: Getter<Dog> = () => new Dog();
+const getAnimal: Getter<Animal> = getDog; // 这是合法的，因为 Getter 是协变的
+```
+
+在这个例子中，`Getter<Dog>` 可以被赋值给 `Getter<Animal>`，因为 `Dog` 是 `Animal` 的子类型。
+
+### 逆变（Contravariance）
+
+逆变则是相反的概念。如果类型 `A` 是类型 `B` 的子类型，那么 `F<B>` 可以被视为 `F<A>` 的子类型。逆变改变了类型的赋值方向。
+
+**示例：**
+```typescript
+class Animal {}
+class Dog extends Animal {}
+
+type Setter<T> = (value: T) => void; // 逆变
+
+const setAnimal: Setter<Animal> = (animal) => {};
+const setDog: Setter<Dog> = setAnimal; // 这是合法的，因为 Setter 是逆变的
+```
+
+在这个例子中，`Setter<Animal>` 可以被赋值给 `Setter<Dog>`，因为 `Setter` 是逆变的。
+
+### 总结
+
+- **协变**：适用于返回类型，允许将子类型的返回值赋给父类型的返回值。
+- **逆变**：适用于参数类型，允许将父类型的参数赋给子类型的参数。
+
+理解这些概念有助于在使用 TypeScript 时更好地处理类型系统，尤其是在处理泛型和函数类型时。希望这些解释对你有帮助！如果你有更多问题，欢迎继续讨论。
+
+
+## 阅读文章
+
+- https://github.com/sl1673495/blogs/issues/54
