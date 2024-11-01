@@ -514,3 +514,8 @@ iframe {
 .flowchart p {
   color: black!important;
 }
+
+.medium-zoom-image {
+  cursor: zoom-in;
+  transition: all 300ms;
+}

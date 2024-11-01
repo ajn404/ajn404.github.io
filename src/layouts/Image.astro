@@ -3,4 +3,11 @@
 const { src, alt } = Astro.props;
 ---
 
-<img src={src} alt={alt} style="width: 60%; height: auto;" />
+<img
+  src={src}
+  alt={alt}
+  data-zoom-src={src}
+  data-zoomable
+  class="medium-zoom-image"
+  style="width: 60%; height: auto;"
+/>

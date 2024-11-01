@@ -5,6 +5,8 @@ import Tag from "@components/astro/UI/Tag.astro";
 import Datetime from "@components/react/UI/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
+import "medium-zoom/dist/style.css";
+
 // import NavToc from "./NavToc.astro";
 import Code from "./Code.astro";
 import Image from "./Image.astro";
@@ -161,6 +163,7 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
   }
 </style>
 <script>
+  import mediumZoom from "medium-zoom";
   // Get the button
   const topButton = document.getElementById("btn-back-to-top");
   const bottomButton = document.getElementById("btn-back-to-bottom");
@@ -195,4 +198,8 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
     bottomButton.addEventListener("click", backToBottom);
     window.addEventListener("scroll", scrollFunction);
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    mediumZoom("[data-zoomable]");
+  });
 </script>

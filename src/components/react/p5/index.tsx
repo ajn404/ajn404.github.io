@@ -119,7 +119,7 @@ const P5Canvas = memo(
       >
         <div
           ref={container}
-          className="flex w-full max-w-full justify-center"
+          className="w-full max-w-full min-h-[240px]  grid items-center justify-center"
         ></div>
         {loading && (
           <div className="absolute inset-o w-full h-full flex justify-center items-center text-2xl">
