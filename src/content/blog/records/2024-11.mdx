@@ -37,13 +37,17 @@ npx depcruise --init
 
 [生成了一张svg](/assets/svg/dependency-graph.svg)
 
-### 今日金融
-
-### 今日类型体操
-
-### 今日ui
-
 ## 2024-11-03 12:37:48
+
+### 今日探索
+
+#### d3 animate
+
+import Animate from "@components/react/d3/practice/animate.tsx";
+
+<Animate client:visible />
+
+## 2024-11-04 10:34:21
 
 ### 今日探索
 
@@ -53,14 +57,157 @@ import CameraControl from "@components/react/cesium/reference/camera/control.tsx
 
 <CameraControl client:visible />
 
-#### d3 animate
+<details open class='highlight-variant-20 after:bg-gradient-to-tr after:from-[rgb(51,38,106)]  after:to-[rgba(34,84,92,0.99)]'>
+<summary>补充知识-Cartesian</summary>
+在Cesium中，`Cartesian3`是一个用于表示三维空间中点的类，包含x、y和z三个坐标分量。它在3D图形和地理空间应用中非常常用。以下是一些关于`Cartesian3`的基本信息和常用方法：
 
-import Animate from "@components/react/d3/practice/animate.tsx";
+### 创建Cartesian3实例
 
-<Animate client:visible />
+你可以通过以下方式创建一个`Cartesian3`实例：
 
-### 今日金融
+```javascript
+const point = new Cesium.Cartesian3(x, y, z);
+```
+
+### 常用方法
+
+1. **克隆**：
+
+   ```javascript
+   const clonePoint = Cesium.Cartesian3.clone(point);
+   ```
+
+2. **相等比较**：
+
+   ```javascript
+   const isEqual = Cesium.Cartesian3.equals(point1, point2);
+   ```
+
+3. **计算距离**：
+
+   ```javascript
+   const distance = Cesium.Cartesian3.distance(point1, point2);
+   ```
+
+4. **向量加法**：
+
+   ```javascript
+   const result = new Cesium.Cartesian3();
+   Cesium.Cartesian3.add(point1, point2, result);
+   ```
+
+5. **从经纬度转换**：
+   如果你需要将经纬度转换为`Cartesian3`，可以使用：
+   ```javascript
+   const cartesian = Cesium.Cartesian3.fromDegrees(longitude, latitude, height);
+   ```
+
+### 示例代码
+
+以下是一个简单的示例，展示如何创建`Cartesian3`点并进行一些基本操作：
+
+```javascript
+const pointA = new Cesium.Cartesian3(1.0, 2.0, 3.0);
+const pointB = new Cesium.Cartesian3(4.0, 5.0, 6.0);
+
+// 计算距离
+const distance = Cesium.Cartesian3.distance(pointA, pointB);
+console.log("Distance:", distance);
+
+// 克隆点
+const clonedPoint = Cesium.Cartesian3.clone(pointA);
+console.log("Cloned Point:", clonedPoint);
+```
+
+通过这些方法和示例，你可以在Cesium中有效地使用`Cartesian3`进行三维空间的操作。如果你有更具体的需求或问题，欢迎继续提问！
+
+</details>
 
 ### 今日类型体操
 
-### 今日ui
+```ts
+type GetRequired<T> = {
+  [k in keyof T as T[k] extends Required<T>[k] ? k : never]: T[k];
+};
+```
+
+<details open>
+<summary>Click to expand</summary>
+
+这段 TypeScript 代码定义了一个类型 `GetRequired<T>`，用于提取泛型 `T` 中所有必填的（非可选的）键，并形成一个只包含这些键的新类型。以下是关键字和代码的详细解析：
+
+### 代码结构
+
+```typescript
+type GetRequired<T> = {
+  [K in keyof T as T[K] extends Required<T>[K] ? K : never]: T[K];
+};
+```
+
+### 关键词解析
+
+#### `keyof`
+
+`keyof T` 获取类型 `T` 的所有键（属性名），返回的是联合类型。比如：
+
+```typescript
+type Person = { name: string; age?: number };
+type PersonKeys = keyof Person; // "name" | "age"
+```
+
+#### `T[K]`
+
+`T[K]` 是访问类型中的某个属性的语法。比如 `T['name']` 获取 `T` 类型中 `name` 属性的类型。
+
+#### `Required<T>`
+
+`Required<T>` 是 TypeScript 的内置类型，它会将 `T` 中所有可选属性变成必填属性。它的实现原理是通过映射类型将每个属性都标记为必填。
+
+```typescript
+type Required<T> = { [K in keyof T]-?: T[K] };
+```
+
+例如：
+
+```typescript
+type Person = { name: string; age?: number };
+type RequiredPerson = Required<Person>; // { name: string; age: number }
+```
+
+#### `extends`
+
+`extends` 在这里用于条件类型判断。`T[K] extends Required<T>[K]` 判断 `T[K]` 是否与 `Required<T>[K]` 匹配，也就是判断 `T` 中的属性是否为必填属性。
+
+#### `as`
+
+`as` 在此处用于重映射键。通过 `[K in keyof T as ...]`，我们可以根据条件决定哪些键应该被包含到最终类型中。`T[K] extends Required<T>[K] ? K : never` 的意思是，如果 `T[K]` 是必填的，则保留键 `K`；否则，返回 `never`，从而将可选键排除。
+
+### 代码解析
+
+综合起来，这段代码的逻辑如下：
+
+1. 遍历类型 `T` 的所有键 `K`。
+2. 对每个键进行判断：如果 `T[K]` 是必填的（即 `T[K] extends Required<T>[K]` 为 `true`），则保留键 `K`；否则，将其排除（返回 `never`）。
+3. 最终得到的新类型 `GetRequired<T>` 只包含 `T` 中所有必填的属性。
+
+### 示例
+
+假设我们有一个类型：
+
+```typescript
+type Person = {
+  name: string;
+  age?: number;
+  gender: string;
+};
+```
+
+使用 `GetRequired<Person>`：
+
+```typescript
+type RequiredProps = GetRequired<Person>; // { name: string; gender: string }
+```
+
+在这个例子中，`name` 和 `gender` 是必填的，而 `age` 是可选的，所以 `GetRequired<Person>` 得到的类型只包含 `name` 和 `gender`。
+
+</details>
