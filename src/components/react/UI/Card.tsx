@@ -20,7 +20,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
   };
   return (
     <a className="focus:underline " href={href} ref={ref} data-astro-prefetch>
-      <div className="card__content pt-4 ">
+      <div className="card__content border rounded-lg border-cyan-200 py-1 px-10 my-4 ">
         {secHeading ? (
           <h2 {...headerProps}>{title}</h2>
         ) : (

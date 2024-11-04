@@ -33,6 +33,101 @@ description: "css很灵活,一万个前端有一万种css,争取写好自己的�
 }
 ```
 
+## 陌生的css属性
+
+### repeating-conic-gradient
+
+<div class="flex gap-4">
+  <div
+    class="w-[100px] h-[100px]"
+    style="background-image: repeating-conic-gradient(#000 0 0.675%, #fff 0 12.5%)"
+  ></div>
+  <div
+    class="w-[100px] h-[100px]"
+    style="background-image: repeating-conic-gradient(#000 0 12.5%, #fff 0 25%)"
+  ></div>
+  <div
+    class="w-[100px] h-[100px]"
+    style="background-image: repeating-conic-gradient(#000 0 25%, #fff 0 50%)"
+  ></div>
+</div>
+
+<details open class='hv20'>
+<summary>Click to expand</summary>
+
+`repeating-conic-gradient` 是 CSS 中用于创建重复的圆锥渐变的函数。它允许你定义一个围绕中心点旋转的渐变，并且这个渐变会在指定的角度范围内重复。这个功能非常适合用于创建像星爆效果这样的图案。
+
+### 语法
+
+```css
+repeating-conic-gradient(
+  from <angle> at <position>,
+  <color-stop> [<color-stop> ...]
+)
+- **from <angle>**: 定义渐变的起始角度，顺时针方向。
+- **at <position>**: 定义渐变的中心位置，默认为元素的中心。
+- **<color-stop>**: 定义颜色停靠点，可以指定颜色和角度。
+```
+
+### 示例
+
+以下是一个简单的示例，创建一个蓝色和黄色的重复圆锥渐变：
+
+```css
+background: repeating-conic-gradient(
+  from 0deg,
+  blue 0deg 90deg,
+  yellow 90deg 180deg
+);
+```
+
+<div
+  class="w-[100px] h-[100px]"
+  style="background: repeating-conic-gradient(from 0deg,blue 0deg 90deg,yellow 90deg 180deg)"
+></div>
+
+### 使用场景
+
+- **图案背景**: 可以用于创建复杂的背景图案。
+- **按钮效果**: 可以为按钮或其他 UI 元素添加动态的视觉效果。
+- **装饰性元素**: 在网页设计中，使用这种渐变可以增加视觉吸引力。
+
+### 注意事项
+
+- 确保浏览器支持 `repeating-conic-gradient`，目前大多数现代浏览器都已支持。
+- 该渐变的尺寸会根据应用的元素的尺寸而变化。
+
+你可以在实际项目中尝试不同的颜色和角度组合，以实现你想要的效果！如果需要更详细的示例或特定的应用场景，随时告诉我！
+
+</details>
+
+- 优化博客headings的css
+
+```scss
+@use "sass:list";
+
+@mixin heading-styles($level) {
+  --s: 3px; /* the thickness */
+  --w: 100px; /* the width */
+  --g: 10px; /* the gap */
+
+  // 直接在 border-image 中使用 nth 函数获取颜色
+  border-image: linear-gradient(
+      #0000 calc(50% - var(--s) / 2),
+      list.nth([DarkMagenta blue green orange purple pink], $level) 0
+        calc(50% + var(--s) / 2),
+      #0000 0
+    )
+    0 1/0 var(--w) / 0 calc(var(--w) + var(--g));
+}
+
+@for $i from 1 through 6 {
+  .prose h#{$i} {
+    @include heading-styles($i); // 直接传递数字
+  }
+}
+```
+
 ## 单位
 
 ## 链接

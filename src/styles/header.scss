@@ -1,0 +1,24 @@
+@use "sass:list";
+
+@mixin heading-styles($level) {
+  --s: 3px; /* the thickness */
+  --w: 100px; /* the width */
+  --g: 10px; /* the gap */
+
+  // 直接在 border-image 中使用 nth 函数获取颜色
+  border-image: linear-gradient(
+      #0000 calc(50% - var(--s) / 2),
+      list.nth([DarkMagenta blue green orange purple pink], $level) 0
+        calc(50% + var(--s) / 2),
+      #0000 0
+    )
+    0 1/0 var(--w) / 0 calc(var(--w) + var(--g));
+  width: fit-content;
+  margin: 20px auto;
+}
+
+@for $i from 1 through 6 {
+  .prose h#{$i} {
+    @include heading-styles($i); // 直接传递数字
+  }
+}

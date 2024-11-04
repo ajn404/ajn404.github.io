@@ -186,6 +186,21 @@
   }
   .prose details[open] {
     @apply text-skin-base highlight highlight-variant-1 after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)];
+    &.hv2 {
+      @apply highlight-variant-2;
+    }
+    &.hv3 {
+      @apply highlight-variant-3;
+    }
+    &.hv4 {
+      @apply highlight-variant-4;
+    }
+    &.hv5 {
+      @apply highlight-variant-5;
+    }
+    &.hv20 {
+      @apply highlight-variant-20;
+    }
   }
   .prose summary {
     @apply focus-outline;
@@ -512,7 +527,7 @@ iframe {
 }
 
 .flowchart p {
-  color: black!important;
+  color: black !important;
 }
 
 .medium-zoom-image {
