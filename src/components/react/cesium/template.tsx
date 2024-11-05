@@ -1,5 +1,5 @@
 import { useEffect, useRef, useReducer } from "react";
-import { Viewer, Ion } from "cesium";
+import { Viewer, Ion, IonWorldImageryStyle, ImageryLayer } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg";
@@ -54,6 +54,7 @@ export default function Control() {
         animation: false,
         timeline: false,
         fullscreenButton: false,
+        baseLayer: ImageryLayer.fromWorldImagery({}),
       });
 
       //@ts-ignore
@@ -77,8 +78,6 @@ export default function Control() {
       return () => {
         viewer.destroy();
         dispatch({ type: "DESTROY_VIEWER" });
-        document.removeEventListener("keydown", () => {});
-        document.removeEventListener("keyup", () => {});
       };
     }
   }, []);
