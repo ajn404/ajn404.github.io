@@ -1,69 +1,103 @@
-import { useEffect, useRef } from "react";
-import { Viewer, Entity, Cartesian3, Color } from "cesium";
-import { Ion } from "cesium";
+import { useEffect, useRef, useReducer } from "react";
+import { Viewer, Ion } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
-
-// Make sure to set your Cesium ion access token
 Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwOWRkMzFlYS0yMDVhLTRkNzYtYWJmMC1hMmE1NjljN2MyNjMiLCJpZCI6NzMzNDQsImlhdCI6MTYzNjgxNDEzNX0.Q2MfD_lkQgsJ-R3NPfYjS9QA9q_j4Py8DktYKsPmZNg";
 
-export default function template() {
-  const cesiumContainer = useRef(null);
-  const viewerRef = useRef(null);
+// 定义状态类型
+type State = {
+  viewer: Viewer | null;
+  scene: any | null;
+};
+
+// 定义action类型
+type Action =
+  | { type: "INIT_VIEWER"; payload: { viewer: Viewer; scene: any } }
+  | { type: "DESTROY_VIEWER" };
+
+// 创建reducer函数
+function cesiumReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "INIT_VIEWER":
+      return {
+        ...state,
+        viewer: action.payload.viewer,
+        scene: action.payload.scene,
+      };
+    case "DESTROY_VIEWER":
+      return {
+        ...state,
+        viewer: null,
+        scene: null,
+      };
+    default:
+      return state;
+  }
+}
+
+export default function Control() {
+  const cesiumRef = useRef(null);
+  const [state, dispatch] = useReducer(cesiumReducer, {
+    viewer: null,
+    scene: null,
+  });
 
   useEffect(() => {
-    let viewer;
+    if (cesiumRef.current && !state.viewer) {
+      const viewer = new Viewer(cesiumRef.current, {
+        terrainProvider: undefined,
+        baseLayerPicker: false,
+        geocoder: false,
+        homeButton: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        animation: false,
+        timeline: false,
+        fullscreenButton: false,
+      });
 
-    const init = () => {
-      if (cesiumContainer.current && !viewerRef.current) {
-        viewerRef.current = new Viewer(cesiumContainer.current, {
-          terrainProvider: undefined, // We'll use the default ellipsoid
-          baseLayerPicker: false,
-          geocoder: false,
-          homeButton: false,
-          sceneModePicker: false,
-          navigationHelpButton: false,
-          animation: false,
-          timeline: false,
-          fullscreenButton: false,
-        });
-        viewer = viewerRef.current;
+      //@ts-ignore
+      viewer._cesiumWidget._creditContainer.parentNode.removeChild(
         //@ts-ignore
-        viewer._cesiumWidget._creditContainer.parentNode.removeChild(
-          //@ts-ignore
-          viewer._cesiumWidget._creditContainer
-        );
-      }
-    };
+        viewer._cesiumWidget._creditContainer
+      );
 
-    const handleWheel = event => {
-      //阻止冒泡
-      event.stopPropagation();
-    };
+      const scene = viewer.scene;
+      const canvas = viewer.canvas;
+      canvas.setAttribute("tabindex", "0");
+      canvas.onclick = () => canvas.focus();
 
-    init();
+      dispatch({ type: "INIT_VIEWER", payload: { viewer, scene } });
 
-    const containerElement = cesiumContainer.current;
-    containerElement.addEventListener("wheel", handleWheel);
+      const handleWheel = (event: WheelEvent) => {
+        event.stopPropagation();
+      };
+      cesiumRef.current.addEventListener("wheel", handleWheel);
 
-    return () => {
-      if (viewerRef.current) {
-        viewerRef.current.destroy();
-        viewer = null;
-      }
-    };
+      return () => {
+        viewer.destroy();
+        dispatch({ type: "DESTROY_VIEWER" });
+        document.removeEventListener("keydown", () => {});
+        document.removeEventListener("keyup", () => {});
+      };
+    }
   }, []);
 
   return (
-    <div
-      onDoubleClick={() => {
-        if (cesiumContainer) {
-          if (document.fullscreenElement) document.exitFullscreen();
-          else cesiumContainer.current.requestFullscreen();
-        }
-      }}
-      ref={cesiumContainer}
-      style={{ width: "100%", height: "500px", userSelect: "none" }}
-    />
+    <div>
+      <div
+        onDoubleClick={() => {
+          if (cesiumRef.current) {
+            if (document.fullscreenElement) {
+              document.exitFullscreen();
+            } else {
+              cesiumRef.current.requestFullscreen();
+            }
+          }
+        }}
+        ref={cesiumRef}
+        style={{ width: "100%", height: "500px", userSelect: "none" }}
+      />
+    </div>
   );
 }

@@ -8,7 +8,7 @@
   // 直接在 border-image 中使用 nth 函数获取颜色
   border-image: linear-gradient(
       #0000 calc(50% - var(--s) / 2),
-      list.nth([DarkMagenta blue green orange purple pink], $level) 0
+      list.nth([DarkMagenta DodgerBlue LimeGreen Coral MediumOrchid HotPink], $level) 0
         calc(50% + var(--s) / 2),
       #0000 0
     )
