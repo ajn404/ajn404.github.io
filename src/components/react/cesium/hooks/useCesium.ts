@@ -14,15 +14,15 @@ export const useCesium = () => {
     if (cesiumContainerRef.current && !viewerRef.current) {
       // 初始化 Cesium Viewer
       const cesiumViewer = new Viewer(cesiumContainerRef.current, {
-        terrainProvider: undefined,
-        baseLayerPicker: false,
-        geocoder: false,
-        homeButton: false,
-        sceneModePicker: false,
-        navigationHelpButton: false,
-        animation: false,
-        timeline: false,
-        fullscreenButton: false,
+        terrainProvider: undefined, // 不使用地形提供者
+        baseLayerPicker: false, // 禁用基础图层选择器
+        geocoder: false, // 禁用地理编码器
+        homeButton: false, // 禁用主页按钮
+        sceneModePicker: false, // 禁用场景模式选择器
+        navigationHelpButton: false, // 禁用导航帮助按钮
+        animation: false, // 禁用动画控件
+        timeline: false, // 禁用时间轴
+        fullscreenButton: false, // 禁用全屏按钮
       });
 
       // 移除 Cesium 的版权信息
@@ -48,5 +48,5 @@ export const useCesium = () => {
     }
   }, []); // 依赖项为空数组，确保只初始化一次
 
-  return { cesiumContainerRef, viewer: viewerRef.current };
+  return { cesiumContainerRef, viewer: viewerRef };
 };

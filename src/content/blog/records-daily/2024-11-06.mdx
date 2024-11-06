@@ -1,0 +1,84 @@
+---
+author: ajn404
+pubDatetime: 2024-11-06T09:04:25.000Z
+title: 2024-11-06 常规日常记录
+featured: false
+draft: false
+tags:
+  - cesium
+description: 2024-11-06 常规日常记录
+---
+
+## 目录
+
+## 今日探索/今日阅读
+
+- [The most effective ways to improve Core Web Vitals ](https://web.dev/articles/top-cwv)
+
+<details open>
+<summary>最有效提升核心网页关键指标的方法 </summary>
+
+</details>
+
+## 今日金融
+
+## 今日类型体操
+
+> 题目描述
+
+```ts
+type Result = RequiredKeys<{ foo: number; bar?: string }>;
+// expected to be “foo”
+```
+
+> 答案
+
+```ts
+type RequiredKeys<T> = keyof {
+  [k in keyof T as T[k] extends Required<T>[k] ? k : never]: k;
+};
+```
+
+<details>
+<summary>explain</summary>
+
+这个 `RequiredKeys<T>` 类型的定义是用来获取类型 `T` 中所有必需属性的键。我们来逐步分析一下这个类型的构造。
+
+1. **`keyof T`**: 这部分会返回类型 `T` 中所有属性的键。
+
+2. **`[k in keyof T as T[k] extends Required<T>[k] ? k : never]`**: 这是一个映射类型，它会遍历 `T` 的所有键 `k`。对于每个键 `k`，它会检查 `T[k]` 是否是 `Required<T>[k]` 的子类型。如果是，则保留这个键 `k`，否则返回 `never`。`Required<T>` 会将 `T` 中的所有属性变为必需属性。
+
+3. **`keyof {...}`**: 最后，外层的 `keyof` 会提取出这个映射类型的所有键，实际上就是 `T` 中所有必需属性的键。
+
+因此，`RequiredKeys<T>` 的最终结果是一个联合类型，包含了 `T` 中所有必需属性的键。
+
+### 示例
+
+假设我们有以下类型：
+
+```typescript
+type Person = {
+  name: string;
+  age?: number;
+  address?: string;
+  email: string;
+};
+
+type RequiredKeysOfPerson = RequiredKeys<Person>; // "name" | "email"
+```
+
+在这个例子中，`RequiredKeys<Person>` 将返回 `"name" | "email"`，因为这两个属性是必需的。
+
+### 总结
+
+这个类型定义非常有用，尤其是在处理复杂类型时，可以帮助我们快速获取必需属性的键，以便进行类型安全的操作。你可以在 TypeScript 中使用这个类型来增强你的类型系统的灵活性和可读性。
+
+</details>
+
+## 今日ui
+
+> timeline
+
+import TimelineDemo from "@aceternity/demo/timeline.tsx";
+
+<TimelineDemo client:load />

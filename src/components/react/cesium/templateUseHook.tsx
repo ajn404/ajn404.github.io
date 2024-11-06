@@ -5,8 +5,11 @@ import { useEffect } from "react";
 export default () => {
   const { cesiumContainerRef, viewer } = useCesium();
   useEffect(() => {
-    console.log(viewer, "111");
-  }, []);
+    if (viewer.current)
+      viewer.current.camera.flyTo({
+        destination: Cartesian3.fromDegrees(-117.16, 32.71, 15000.0),
+      });
+  }, [viewer]);
   return (
     <>
       <div
