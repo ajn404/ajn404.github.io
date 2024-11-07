@@ -45,3 +45,84 @@ merge，rebase的区别
 8.react了解吗，或者lit,angular,web component,astro,next
 
 9.webgl,webgis,webgpu,websocket,随便一样讲讲你的了解
+
+<details open>
+<summary>chatgpt</summary>
+
+这个问题涵盖了前端开发的关键概念和技术。这里是各部分简要回答和分析：
+
+### 1. JavaScript 排序算法
+
+- **简单实现**：例如实现一个冒泡排序
+  ```javascript
+  function bubbleSort(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+      for (let j = 0; j < arr.length - 1 - i; j++) {
+        if (arr[j] > arr[j + 1]) {
+          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        }
+      }
+    }
+    return arr;
+  }
+  ```
+- **时间复杂度**：冒泡排序最坏和平均情况的时间复杂度是 O(n²)。
+- **优化方案**：
+  - 使用更高效的算法，比如快速排序 (平均 O(n log n)) 或归并排序。
+- **自上而下 vs 自下而上**：
+  - **归并排序**可以自上而下地递归分解数据，或自下而上地合并排序好的子数组。
+
+### 2. CSS 盒模型
+
+- **标准盒模型**：宽度和高度只包括内容，不包括 padding 和 border。
+- **IE盒模型**：宽度和高度包括内容、padding 和 border。
+- **垂直水平居中**（不用 flex 或 grid）：
+  - 使用 `margin: auto` 和 `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);`。
+  - 使用 `line-height` 结合 `text-align` 或者利用 `table-cell` 技术。
+- **元素坍塌**：
+  - 可能由父元素的 `float` 导致父级元素高度为零，或 `overflow: hidden` 修复坍塌。
+
+### 3. HTML DOM 查询
+
+- **querySelector**：支持更灵活的 CSS 选择器，返回第一个匹配的元素。
+- **getElementsByClassName**：返回实时更新的 HTMLCollection，只能基于类名进行查询。
+- **原始和拷贝**：在回答引用数据类型时，可以提及 `Object.assign()` 和结构复制。
+- **引用数据类型 vs 原始数据类型**：
+  - **原始数据类型**：`Number`、`String`、`Boolean`、`Undefined`、`Null`、`Symbol`、`BigInt`。
+  - **引用数据类型**：`Object`、`Array`、`Function` 等，存储在堆中，而引用保存在栈中。
+
+### 4. 闭包 / 柯里化
+
+- **闭包**：函数能够访问其词法作用域中的变量。
+- **柯里化**：将多参数函数转化为一系列单参数函数，便于函数复用。
+
+### 5. 事件循环机制
+
+- **描述**：JavaScript 是单线程，事件循环负责处理异步回调。包括宏任务（如 `setTimeout`、`setInterval`）和微任务（如 `Promise`）。
+
+### 6. Vue 组件设计
+
+- **复杂组件设计**：强调可维护性，分离关注点。
+- **Vue 生命周期**：`created`、`mounted`、`updated`、`destroyed` 等。
+- **父子组件**：实现松耦合可通过 `props` 和事件传递，单一职责保持组件简单。
+- **优化**：如使用 `shallowRef` 处理复杂对象，提升性能。
+
+### 7. Git
+
+- **cherry-pick**：选择性地将提交记录应用到其他分支。
+- **merge vs rebase**：
+  - **merge**：保留历史，产生一个新的合并提交。
+  - **rebase**：整合分支历史，更干净的提交记录。
+
+### 8. 前端框架了解
+
+- **React**：基于组件的声明式 UI 库，Hooks 和虚拟 DOM。
+- **Lit、Angular**：高效的 Web 组件和全面的框架。
+- **Astro、Next.js**：静态和动态站点生成、服务端渲染。
+
+### 9. Web 技术
+
+- **WebGL**：JavaScript API，用于在浏览器中渲染 3D 图形。
+- **WebSocket**：实时双向通信，适合实时应用，如聊天、游戏。
+
+</details>

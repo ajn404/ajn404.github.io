@@ -24,7 +24,7 @@ const defaultSketch: Sketch = (p: p5) => {
 
 interface Props {
   sketch: Sketch;
-  showControls?: boolean; // defaults to false
+  showControls?: Boolean; // defaults to false
   className?: string; // Optional custom className
   style?: React.CSSProperties; // Optional inline styles
 }
