@@ -17,7 +17,9 @@ const Doodle: React.FunctionComponent<Props> = ({
   download,
   grid,
 }) => {
-  let value = (children as ReactElement).props.value;
+  let value =
+    (children as ReactElement).props.value ||
+    (children as ReactElement).props.children;
   let doodle = useRef<any>(null);
   let [show, setShow] = useState(false);
 
@@ -37,7 +39,7 @@ const Doodle: React.FunctionComponent<Props> = ({
     <div>
       {show && (
         <css-doodle
-          style={{ cursor: "none" }}
+          style={{ cursor: "none", background: "#fff" }}
           ref={doodle}
           grid={grid?.toString()}
           click-to-update

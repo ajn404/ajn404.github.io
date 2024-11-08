@@ -110,7 +110,7 @@ export default () => {
       let cannon: Cannon;
       let cannonballList: Cannonball[] = [];
       const setup = () => {
-        let canvas = p.createCanvas(p.windowWidth - 100, 240);
+        let canvas = p.createCanvas(p.windowWidth / 2, 240);
         canvas.drop(gotFile);
         p.background(255);
         cannon = new Cannon(p, 50, p.height - 20);
@@ -136,7 +136,7 @@ export default () => {
         }
       };
       const resize = () => {
-        p.resizeCanvas(p.windowWidth - 100, 240);
+        p.resizeCanvas(p.windowWidth / 2, 240);
       };
 
       p.mousePressed = () => {
@@ -164,7 +164,7 @@ export default () => {
   );
   return (
     <>
-      <Basic sketch={sketch} showControls></Basic>
+      <Basic sketch={sketch}></Basic>
       <Label
         htmlFor="openCheckEdges"
         className="text-center m-4 p-10 select-none"

@@ -35,11 +35,11 @@ const springV2: React.FC<SpringV2> = ({ showControl }) => {
 
   const sketch = useCallback(
     (p: p5) => {
+      const width = !showControl
+        ? p.windowWidth / 2
+        : Math.max(debounceCanvasConfig.width, p.windowWidth / 2);
       const setup = () => {
-        p.createCanvas(
-          Math.max(debounceCanvasConfig.width, p.windowWidth / 2),
-          debounceCanvasConfig.height
-        );
+        p.createCanvas(width, debounceCanvasConfig.height);
         p.frameRate(120);
 
         // Initialize bobs

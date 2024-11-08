@@ -121,7 +121,7 @@ export default () => {
         }}
         value={[num]}
       />
-      <Basic sketch={sketch} showControls></Basic>
+      <Basic sketch={sketch}></Basic>
     </>
   );
 };
