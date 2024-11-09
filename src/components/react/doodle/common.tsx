@@ -39,7 +39,7 @@ const Doodle: React.FunctionComponent<Props> = ({
     <div>
       {show && (
         <css-doodle
-          style={{ cursor: "none", background: "#fff" }}
+          style={{ background: "#fff" }}
           ref={doodle}
           grid={grid?.toString()}
           click-to-update

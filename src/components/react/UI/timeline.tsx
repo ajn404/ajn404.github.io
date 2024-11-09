@@ -31,6 +31,15 @@ export default function TimelineDemo() {
               #413B4E, #98AEC7, #979DA4 ), transparent 25% ) );
             </p>
           </Common>
+          <Common>
+            <p>
+              @grid: 2x2 / 100% 600px; background-color: #000;
+              background-repeat: no-repeat; background-blend-mode: difference;
+              background-position: @r(100%) @r(100%); background-size:
+              @m20(@r(100%) @lr); background-image: @m20(linear-gradient(#fff,
+              #fff));
+            </p>
+          </Common>
         </div>
       ),
     },
@@ -61,10 +70,18 @@ export default function TimelineDemo() {
       ),
     },
     {
-      title: " 2023 8月",
+      title: "css查漏补缺",
       content: (
         <div>
-          <a href="/posts/good-first-blog">第一篇博客</a>
+          <a href="/posts/css">css查漏补缺</a>
+
+          <div
+            style={{
+              background:
+                "repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #073AFF00 100%),radial-gradient(99% 99% at 21% 78%, #7B00FFFF 0%, #073AFF00 100%),radial-gradient(160% 154% at 711px -303px, #2000FFFF 0%, #073AFFFF 100%);",
+            }}
+            className="m-5 w-[100px] h-[100px]"
+          />
         </div>
       ),
     },

@@ -36,7 +36,7 @@ const springV2: React.FC<SpringV2> = ({ showControl }) => {
   const sketch = useCallback(
     (p: p5) => {
       const width = !showControl
-        ? p.windowWidth / 2
+        ? p.windowWidth / 3
         : Math.max(debounceCanvasConfig.width, p.windowWidth / 2);
       const setup = () => {
         p.createCanvas(width, debounceCanvasConfig.height);
