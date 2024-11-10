@@ -43,9 +43,7 @@ const ModelViewer: React.FC = () => {
 
     // Materials and Textures
     const textureLoader = new THREE.TextureLoader();
-    const bakedTexture = textureLoader.load(
-      "https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/baked.jpg"
-    );
+    const bakedTexture = textureLoader.load("/assets/texture/baked.jpg");
     bakedTexture.flipY = false;
     bakedTexture.encoding = THREE.sRGBEncoding;
     const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
@@ -53,7 +51,7 @@ const ModelViewer: React.FC = () => {
     // Model Loading
     const loader = new GLTFLoader();
     loader.load(
-      "https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/model.glb",
+      "/assets/models/gltf/model.glb",
       gltf => {
         const model = gltf.scene;
         model.traverse(child => {
