@@ -144,10 +144,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </div>
     </section>
 
-    <Header home={true} />
-      <h2>时间线</h2>
+    <section class="pb-6 pt-12">
+      <Header home={true} />
+      <h2 class="text-2xl font-semibold tracking-wide">时间线</h2>
 
-    <TimeLine client:load />
+      <TimeLine client:load />
+    </section>
   </main>
   <blockquote
     class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900 w-full text-center my-10 font-bold italic text-white"
