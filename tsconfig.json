@@ -25,7 +25,8 @@
       "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
       "@shadcn/*": ["components/react/shadcn/*"],
-      "@aceternity/*": ["components/react/aceternity/*"]
+      "@aceternity/*": ["components/react/aceternity/*"],
+      "three/*": ["node_modules/three/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,

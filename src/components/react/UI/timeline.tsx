@@ -5,6 +5,8 @@ import Text from "@components/react/UI/Text.tsx";
 import PerlinCurve from "@components/react/p5/Randomness/PerlinCurve.tsx";
 import Cannon from "@components/react/p5/Oscillation/cannon.tsx";
 import Common from "@components/react/doodle/common.tsx";
+import Gpu from "@components/react/observablehq/ajn404/gpu.tsx";
+import Diorama from "@components/react/little/three_demo.tsx";
 
 export default function TimelineDemo() {
   const data = [
@@ -86,10 +88,14 @@ export default function TimelineDemo() {
       ),
     },
     {
-      title: " 2023 8月",
+      title: "webgl",
       content: (
         <div>
-          <a href="/posts/good-first-blog">第一篇博客</a>
+          <a href="/posts/webgl">webgl</a>
+
+          <Gpu />
+          <p>threejs</p>
+          <Diorama />
         </div>
       ),
     },
