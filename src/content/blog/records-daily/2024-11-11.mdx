@@ -1,0 +1,197 @@
+---
+author: ajn404
+pubDatetime: 2024-11-11T12:57:50.000Z
+modDatetime:
+title: "2024-11-11"
+featured: false
+draft: false
+tags:
+  - "2024"
+  - js
+description: 双11我在干嘛
+---
+
+### 今日阅读
+
+- [https://jrsinclair.com/articles/2022/why-would-anyone-need-javascript-generator-functions/](https://jrsinclair.com/articles/2022/why-would-anyone-need-javascript-generator-functions/)
+
+今天主要去回顾生成器，确实在工作中没怎么用过
+
+```js
+function* culturalAchievements() {
+    yield 'Amazing coffee';
+    yield 'The Sydney Opera House';
+    yield 'The invention of Wi-Fi';
+}
+
+for (achievement of culturalAchievements()) {
+    console.log(`Australia is known for: ${achievement}`);
+}
+VM1525:8 Australia is known for: Amazing coffee
+VM1525:8 Australia is known for: The Sydney Opera House
+VM1525:8 Australia is known for: The invention of Wi-Fi
+undefined
+```
+
+- flow
+
+```js
+const flow =
+  (...fns) =>
+  x0 =>
+    fns.reduce((x, f) => f(x), x0);
+```
+
+- map
+
+```js
+const map = f =>
+  function* (iterable) {
+    for (let x of iterable) yield f(x);
+  };
+```
+
+- infinite yield
+
+```js
+function* allTheOnes() {
+  while (true) {
+    yield 1;
+  }
+}
+```
+
+```js
+const take = n =>
+  function* (iterable) {
+    let i = 0;
+    for (let x of iterable) {
+      if (i >= n) return;
+      yield x;
+      i++;
+    }
+  };
+
+function* genNat() {
+  for (let i = 0; true; i++) yield i;
+}
+
+function* filter(p, xs) {
+  for (const x of xs) if (p(x)) yield x;
+}
+
+const pop = iterator => {
+  const result = iterator.next();
+  if (result.done) return;
+  return [result.value, iterator];
+};
+
+function* sieve(nums) {
+  const result = pop(nums);
+  if (!result) return;
+  const [n, rest] = result;
+  yield n;
+  yield* sieve(filter(x => x % n !== 0, rest));
+}
+
+function* drop(n, iterable) {
+  let i = 0;
+  for (const val of iterable) {
+    if (i >= n) yield val;
+    else i++;
+  }
+}
+
+const primes = () => sieve(drop(2, genNat()));
+console.log([...take(9)(primes())]);
+```
+
+<details open>
+<summary>explain</summary>
+
+这段代码实现了一个生成器函数，用于生成素数，并提供了一些辅助函数来处理迭代器。让我们逐步分析一下这些函数的作用：
+
+1. **`take(n)`**: 这个函数返回一个生成器函数，它接受一个可迭代对象（如数组或其他生成器），并生成前 `n` 个元素。它使用 `yield` 关键字逐个返回元素，直到达到指定的数量。
+
+   ```javascript
+   const take = n =>
+     function* (iterable) {
+       let i = 0;
+       for (let x of iterable) {
+         if (i >= n) return;
+         yield x;
+         i++;
+       }
+     };
+   ```
+
+2. **`genNat()`**: 这个生成器函数无限生成自然数（从0开始）。它使用 `yield` 关键字逐个返回自然数。
+
+   ```javascript
+   function* genNat() {
+     for (let i = 0; true; i++) yield i;
+   }
+   ```
+
+3. **`filter(p, xs)`**: 这个生成器函数接受一个谓词函数 `p` 和一个可迭代对象 `xs`，并返回满足谓词条件的元素。它通过遍历 `xs`，对每个元素应用谓词 `p`，如果满足条件，则使用 `yield` 返回该元素。
+
+   ```javascript
+   function* filter(p, xs) {
+     for (const x of xs) if (p(x)) yield x;
+   }
+   ```
+
+4. **`pop(iterator)`**: 这个函数从迭代器中获取下一个值。如果迭代器已经完成（`done` 为 `true`），则返回 `undefined`。否则，它返回一个包含当前值和迭代器的数组。
+
+   ```javascript
+   const pop = iterator => {
+     const result = iterator.next();
+     if (result.done) return;
+     return [result.value, iterator];
+   };
+   ```
+
+5. **`sieve(nums)`**: 这个生成器函数实现了埃拉托斯特尼筛法（Sieve of Eratosthenes），用于生成素数。它从给定的数字序列中提取第一个素数，并过滤掉所有倍数，递归调用自身以处理剩余的数字。
+
+   ```javascript
+   function* sieve(nums) {
+     const result = pop(nums);
+     if (!result) return;
+     const [n, rest] = result;
+     yield n;
+     yield* sieve(filter(x => x % n !== 0, rest));
+   }
+   ```
+
+6. **`drop(n, iterable)`**: 这个生成器函数跳过前 `n` 个元素，并返回剩余的元素。它通过遍历可迭代对象，使用计数器 `i` 来决定何时开始 `yield` 元素。
+
+   ```javascript
+   function* drop(n, iterable) {
+     let i = 0;
+     for (const val of iterable) {
+       if (i >= n) yield val;
+       else i++;
+     }
+   }
+   ```
+
+7. **`primes()`**: 这个函数组合了上述所有功能，生成素数序列。它首先调用 `genNat()` 生成自然数，然后使用 `drop(2, ...)` 跳过前两个自然数（0和1），最后通过 `sieve(...)` 生成素数。
+
+   ```javascript
+   const primes = () => sieve(drop(2, genNat()));
+   ```
+
+8. **输出结果**: 最后，使用 `console.log([...take(9)(primes())])` 打印前9个素数。
+
+   ```javascript
+   console.log([...take(9)(primes())]); // 输出: [2, 3, 5, 7, 11, 13, 17, 19, 23]
+   ```
+
+这段代码展示了如何使用生成器函数和迭代器来高效地生成和处理数据流，特别是在生成素数的场景中。
+
+</details>
+
+### 今日交易策略
+
+9:30=>10.00 卖出
+14.30=>15.00 买入

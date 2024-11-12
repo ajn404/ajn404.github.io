@@ -101,7 +101,7 @@ const ModelViewer: React.FC = () => {
 
   return (
     <>
-      <canvas ref={canvasRef} className="webgl" />
+      <canvas ref={canvasRef} className="webgl w-full h-[200px]" />
       <div id="loader" ref={loadingRef}>
         <h1>Loading</h1>
       </div>

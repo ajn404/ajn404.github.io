@@ -50,16 +50,20 @@ export default function TimelineDemo() {
       content: (
         <div>
           <a href="/posts/nature-of-code">nature of code</a>
-          <SpringV2 showControl={false} />
-          <InteractiveMotionBall />
-          <p className="text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            柏林噪声
-          </p>
-          <PerlinCurve hideRandom={true} />
-          <Text>
-            <p>开炮!</p>
-          </Text>
-          <Cannon />
+          <div className="grid grid-cols-subgrid gap-4">
+            <div>
+              <SpringV2 showControl={false} />
+            </div>
+            <div>
+              <InteractiveMotionBall />
+            </div>
+            <div>
+              <PerlinCurve hideRandom={true} />
+            </div>
+            <div>
+              <Cannon />
+            </div>
+          </div>
         </div>
       ),
     },
@@ -68,6 +72,12 @@ export default function TimelineDemo() {
       content: (
         <div>
           <a href="/posts/2024-10#实现pickt-k-extends-keyof-t">实现Pick</a>
+          <a href="/posts/2024-09#今日类型体操">实现Get Return Type</a>
+          <a href="/posts/2024-11-06-优化任务调度#今日类型体操">
+            实现RequiredKeys
+          </a>
+          <a href="/posts/2024-11-05cesium的hook#类型体操">实现LookUp</a>
+          <a href="/posts/2024-11#今日类型体操">实现GetRequired</a>
         </div>
       ),
     },
@@ -80,7 +90,7 @@ export default function TimelineDemo() {
           <div
             style={{
               background:
-                "repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #073AFF00 100%),radial-gradient(99% 99% at 21% 78%, #7B00FFFF 0%, #073AFF00 100%),radial-gradient(160% 154% at 711px -303px, #2000FFFF 0%, #073AFFFF 100%);",
+                "repeating-linear-gradient(315deg, #00FFFF2E 92%, #073AFF00 100%),repeating-radial-gradient(75% 75% at 238% 218%, #00FFFF12 30%, #073AFF14 39%),radial-gradient(99% 99% at 109% 2%, #00C9FFFF 0%, #073AFF00 100%),radial-gradient(99% 99% at 21% 78%, #7B00FFFF 0%, #073AFF00 100%),radial-gradient(160% 154% at 711px -303px, #2000FFFF 0%, #073AFFFF 100%)",
             }}
             className="m-5 w-[100px] h-[100px]"
           />
