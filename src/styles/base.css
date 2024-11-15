@@ -88,7 +88,6 @@
     @apply mx-auto max-w-[100vw] px-4;
   }
   a {
-    @apply focus-visible:no-underline focus-visible:outline-dashed;
     background: linear-gradient(rgb(var(--color-text-base)) 0 0) var(--p, 0)
       100% / var(--p, 0) 0.1em no-repeat;
     transition:
@@ -544,4 +543,8 @@ iframe {
 .medium-zoom-image {
   cursor: zoom-in;
   transition: all 300ms;
+}
+
+:where(:focus-visible) {
+  outline: 2px solid currentColor;
 }

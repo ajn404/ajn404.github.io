@@ -3,6 +3,7 @@ import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
 import Text from "@components/react/UI/Text";
 import { useRef } from "react";
+import "@styles/card.scss";
 
 export interface Props {
   href?: string;
@@ -18,7 +19,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
     className: "text-lg card__heading pt-4 font-medium ",
   };
   return (
-    <a href={href} ref={ref} data-astro-prefetch>
+    <a href={href} className="card__item" ref={ref} data-astro-prefetch>
       <div className="card__content border rounded-lg border-cyan-200 py-1 px-10 my-4 ">
         {secHeading ? (
           <h2 {...headerProps}>{title}</h2>

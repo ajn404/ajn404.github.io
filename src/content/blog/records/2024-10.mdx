@@ -1953,58 +1953,6 @@ graph TD;
     C-->D;
 ```
 
-- 命令行就可以看action状态
-
-<details>
-<summary>Click to expand</summary>
-
-在命令行中查看 GitHub Actions 的状态可以通过以下几种方法进行：
-
-### 方法 1：使用 GitHub CLI
-
-GitHub CLI (`gh`) 提供了查看 GitHub Actions 状态的功能。首先确保你已安装并登录了 GitHub CLI：
-
-```bash
-gh auth login
-```
-
-然后可以使用以下命令来查看最近一次 GitHub Actions 的状态：
-
-```bash
-gh run list
-```
-
-这会列出当前仓库的最近运行的 GitHub Actions 工作流。你可以进一步查看特定工作流的详细信息：
-
-```bash
-gh run view <run_id>
-```
-
-替换 `<run_id>` 为 `gh run list` 返回的工作流 ID，以获取该特定运行的详细信息和状态。
-
-### 方法 2：使用 GitHub API
-
-你可以通过 GitHub API 获取 Actions 状态。在终端中可以使用 `curl` 命令：
-
-```bash
-curl -H "Authorization: token YOUR_GITHUB_TOKEN" \
-https://api.github.com/repos/USERNAME/REPOSITORY/actions/runs
-```
-
-这将返回仓库中最近运行的工作流的状态。替换 `YOUR_GITHUB_TOKEN`、`USERNAME` 和 `REPOSITORY` 为你的 GitHub Token、用户名和仓库名。
-
-### 方法 3：通过浏览器打开最新 Actions
-
-如果想快速在浏览器中打开当前仓库的 Actions 页面，可以直接运行：
-
-```bash
-gh repo view --web
-```
-
-然后在仓库页面中点击 **Actions** 标签来查看。
-
-</details>
-
 ## 2024-10-31 09:11:54
 
 ### 今日ui
