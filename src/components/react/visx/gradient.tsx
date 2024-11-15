@@ -4,6 +4,7 @@ import { useDrag } from "@visx/drag";
 import { curveBasis } from "@visx/curve";
 import { LinearGradient } from "@visx/gradient";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import baseLine from "./line.json";
 type Line = { x: number; y: number }[];
 type Lines = Line[];
 
@@ -14,7 +15,7 @@ export type DragIIProps = {
 };
 
 const Example = ({ data = [], width, height }: DragIIProps) => {
-  const [lines, setLines] = useState<Lines>(data);
+  const [lines, setLines] = useState<Lines>(baseLine);
   const onDragStart = useCallback(
     currDrag => {
       // add the new line with the starting point
@@ -56,7 +57,7 @@ const Example = ({ data = [], width, height }: DragIIProps) => {
   return width < 10 ? null : (
     <div className="DragII" style={{ touchAction: "none" }}>
       <svg width={width} height={height}>
-        <LinearGradient id="stroke" from="#ff614e" to="#ffdc64" />
+        <LinearGradient id="stroke" from="#ffffff" to="#ffdc64" />
         <rect fill="#04002b" width={width} height={height} rx={14} />
         {lines.map((line, i) => (
           <LinePath
@@ -117,15 +118,6 @@ const Example = ({ data = [], width, height }: DragIIProps) => {
           />
         </g>
       </svg>
-      <div className="deets">
-        <div>
-          Based on Mike Bostock's{" "}
-          <a href="https://bl.ocks.org/mbostock/f705fc55e6f26df29354">
-            Line Drawing
-          </a>
-        </div>
-      </div>
-
       <style>{`
         .DragII {
           display: flex;
@@ -154,9 +146,7 @@ const Example = ({ data = [], width, height }: DragIIProps) => {
 export default () => {
   return (
     <>
-      <ParentSize>
-        {({ width, height }) => <Example width={width} height={200} />}
-      </ParentSize>
+      <Example width={innerWidth - 100} height={400} />
     </>
   );
 };
