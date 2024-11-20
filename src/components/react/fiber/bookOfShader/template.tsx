@@ -1,35 +1,16 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ShaderMaterial } from "three";
 import * as THREE from "three";
 
-const vertexShader = `
-  uniform vec2 u_resolution;
-  varying vec2 v_uv;
-
-  void main() {
-    v_uv = (position.xy + 1.0) / 2.0; // 将坐标转换到 [0, 1] 范围
-    gl_Position = vec4(position, 1.0);
-  }
-`;
-
-const fragmentShader = `
-  uniform float u_time;
-  uniform vec2 u_resolution;
-  uniform vec2 u_mouse;
-  varying vec2 v_uv;
-
-  void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution; // 将片段坐标转换到 [0, 1] 范围
-    vec3 color = 0.5 + 0.5 * cos(u_time + st.xyx + vec3(0, 2, 4)); // 使用时间和坐标生成颜色
-    gl_FragColor = vec4(color, 1.0);
-  }
-`;
-
-const CustomShaderCube: React.FC<{ mouse: { x: number; y: number } }> = ({
-  mouse,
-}) => {
+const CustomShaderCube: React.FC<{
+  mouse: { x: number; y: number };
+  vertexShader: string;
+  fragmentShader: string;
+}> = ({ mouse, vertexShader, fragmentShader }) => {
   const meshRef = useRef<THREE.Mesh>(null);
+  const { size } = useThree(); // 获取 Canvas 的真实宽高
+
   const [material] = useState(
     () =>
       new ShaderMaterial({
@@ -37,9 +18,7 @@ const CustomShaderCube: React.FC<{ mouse: { x: number; y: number } }> = ({
         fragmentShader,
         uniforms: {
           u_time: { value: 0 },
-          u_resolution: {
-            value: new THREE.Vector2(window.innerWidth, window.innerHeight),
-          },
+          u_resolution: { value: new THREE.Vector2(size.width, size.height) },
           u_mouse: { value: new THREE.Vector2(0, 0) },
         },
       })
@@ -57,25 +36,70 @@ const CustomShaderCube: React.FC<{ mouse: { x: number; y: number } }> = ({
   );
 };
 
-const App: React.FC = () => {
+const App: React.FC<{
+  vertexShader?: string;
+  fragmentShader?: string;
+}> = ({
+  vertexShader = `
+    uniform vec2 u_resolution;
+    varying vec2 v_uv;
+
+    void main() {
+      v_uv = (position.xy + 1.0) / 2.0; // 将坐标转换到 [0, 1] 范围
+      gl_Position = vec4(position, 1.0);
+    }
+  `,
+  fragmentShader = `
+    #ifdef GL_ES
+    precision mediump float;
+    #endif
+
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform float u_time;
+
+    float plot(vec2 st) {
+      return smoothstep(0.02, 0.0, abs(st.y - st.x));
+    }
+
+    void main() {
+      vec2 st = gl_FragCoord.xy / u_resolution;
+      float y = st.x;
+      vec3 color = vec3(y);
+      float pct = plot(st);
+      color = (1.0 - pct) * color + pct * vec3(1.000, 0.895, 0.688);
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `,
+}) => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMouse({ x: event.clientX, y: event.clientY });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (canvas.current) {
+      canvas.current.addEventListener("mousemove", handleMouseMove);
+    }
+
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      if (canvas.current) {
+        canvas.current.removeEventListener("mousemove", handleMouseMove);
+      }
     };
   }, []);
 
   return (
-    <Canvas>
+    <Canvas className="w-full h-[500px]" ref={canvas}>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <CustomShaderCube mouse={mouse} />
+      <CustomShaderCube
+        mouse={mouse}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+      />
     </Canvas>
   );
 };
