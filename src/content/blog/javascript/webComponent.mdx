@@ -37,7 +37,7 @@ suggests that there is a problem with how your Vue application is trying to regi
 use a custom component named custom-text.
 ```
 
-## learn bt webcomponents.guide
+## learn by webcomponents.guide
 
 ### 1.introduction
 
@@ -494,26 +494,27 @@ target.removeEventListener('start', logger.log.bind(logger))
 
 <details>
 <summary>Click to expand</summary>
+
 ```js
 const controller = new AbortController();
 const signal = controller.signal;
 
 // 设置 fetch 请求的 signal 选项
-fetch('https://www.google.com', { signal })
-.then(response => response)
-.then(data => console.log(data))
-.catch(error => {
-if (error.name === 'AbortError') {
-console.log('Fetch aborted');
-} else {
-console.error('Error during fetch:', error);
-}
-});
+fetch("https://www.google.com", { signal })
+  .then(response => response)
+  .then(data => console.log(data))
+  .catch(error => {
+    if (error.name === "AbortError") {
+      console.log("Fetch aborted");
+    } else {
+      console.error("Error during fetch:", error);
+    }
+  });
 
 // 在需要的时候中断请求
 setTimeout(() => controller.abort(), 100);
+```
 
-````
 ```js
 const target = new EventTarget()
 
@@ -541,7 +542,7 @@ target.addEventListener(
 // Remove all events that were given `controller.signal`:
 
 controller.abort()
-````
+```
 
 </details>
 
@@ -552,3 +553,4 @@ controller.abort()
 - [web component learn](https://webcomponents.guide/learn/)
 - [community](https://mastodon.online/tags/WebComponents)
 - [codepen tram-lite](https://codepen.io/JRJurman/pen/BaboYKM?editors=1000)
+- [action table](https://github.com/colinaut/action-table)

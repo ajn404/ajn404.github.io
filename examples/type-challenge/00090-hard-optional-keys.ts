@@ -11,5 +11,7 @@ type cases = [
 
 // ============= Your Code Here =============
 type OptionalKeys<T> = {
-    [K in keyof T]-?: undefined extends T[K] ? K : never
-}[keyof T];
+    [P in keyof T]-?: {} extends Pick<T, P> ? P : never }[keyof T];
+
+// type OptionalKeys<T> = {
+//     [P in keyof T]-?: {} extends Pick<T, P> ? P : never }[keyof T]

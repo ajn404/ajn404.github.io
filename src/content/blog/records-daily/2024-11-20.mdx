@@ -1,0 +1,261 @@
+---
+author: ajn404
+pubDatetime: 2024-11-20T08:49:41.000Z
+modDatetime:
+title: 2024-11-20 类型体操和日常记录
+featured: false
+draft: false
+tags:
+  - typescript
+description: 改变自己的行为模式，修正日常形象
+---
+
+## 目录
+
+### 类型体操
+
+#### `TrimLeft<S>`
+
+```ts
+type Space = ` ` | `\t` | `\n`;
+type TrimLeft<S extends string> = S extends `${Space}${infer R}`
+  ? TrimLeft<R>
+  : S;
+```
+
+#### `Trim`
+
+```ts
+type Space = ` ` | `\t` | "\n";
+
+type Trim<S extends string> = S extends
+  | `${Space}${infer R}`
+  | `${infer R}${Space}`
+  ? Trim<R>
+  : S;
+```
+
+#### `MyCapitalize`
+
+```ts
+type MyCapitalize<S extends string> = S extends `${infer x}${infer R}`
+  ? `${Uppercase<x>}${R}`
+  : S;
+```
+
+#### `CapitalizeWords`
+
+```ts
+type CapitalizeWords<
+  S extends string,
+  W extends string = "",
+  // 用于累积已经处理的单词，默认为空字符串。
+> = S extends `${infer A}${infer B}`
+  ? //将字符串 S 分解为两个部分 A 和 B，其中 A 是当前处理的字符，B 是剩余的字符串。
+    Uppercase<A> extends Lowercase<A>
+    ? //检查 A 是否是一个字母（即是否是大写字母）。如果是大写字母，则表示它不是单词的一部分。
+      `${Capitalize<`${W}${A}`>}${CapitalizeWords<B>}`
+    : //如果 A 是一个单词的一部分，则将其与累积的单词 W 连接并首字母大写。
+      CapitalizeWords<B, `${W}${A}`>
+  : //递归处理剩余的字符串 B，并将当前字符 A 添加到累积的单词 W 中
+    Capitalize<W>;
+//当字符串 S 被完全处理后，返回 Capitalize<W>，将最终的累积单词首字母大写。
+```
+
+这个类型是真TM复杂
+
+### 今日阅读
+
+- [book of shader](https://thebookofshaders.com/01/?lan=ch)
+
+<details open>
+<summary>code life code</summary>
+
+- hello world
+
+```glsl
+#version 150
+
+uniform float time;
+uniform vec2 resolution;
+uniform vec2 mouse;
+uniform vec3 spectrum;
+
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+uniform sampler2D texture3;
+uniform sampler2D prevFrame;
+uniform sampler2D prevPass;
+
+in VertexData
+{
+    vec4 v_position;
+    vec3 v_normal;
+    vec2 v_texcoord;
+} inData;
+
+out vec4 fragColor;
+
+void main(void)
+{
+    fragColor = vec4(1.0,0.,1.0,1.0);
+}
+```
+
+- use fragCoord
+
+```glsl
+
+void main(void)
+{
+
+    vec2 st = gl_FragCoord.xy/resolution;
+    fragColor = vec4(st.x,st.y,0.0,1.0);
+}
+```
+
+在之前的shader模板上写吧
+
+import ComponentName from "@components/react/fiber/shader.tsx";
+
+<ComponentName client:visible />
+
+添加模板
+
+import ShaderTemplate from "@components/react/fiber/bookOfShader/index.tsx";
+
+<ShaderTemplate client:only="react" />
+
+time,resolution,mouse
+
+import ShaderTemplateAdd from "@components/react/fiber/bookOfShader/template.tsx";
+
+<ShaderTemplateAdd client:only="react" />
+
+- 代码如下
+
+<details open>
+<summary>Click to expand</summary>
+
+```tsx
+import React, { useRef, useEffect, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { ShaderMaterial } from "three";
+import * as THREE from "three";
+
+const vertexShader = `
+  uniform vec2 u_resolution;
+  varying vec2 v_uv;
+
+  void main() {
+    v_uv = (position.xy + 1.0) / 2.0; // 将坐标转换到 [0, 1] 范围
+    gl_Position = vec4(position, 1.0);
+  }
+`;
+
+const fragmentShader = `
+  uniform float u_time;
+  uniform vec2 u_resolution;
+  uniform vec2 u_mouse;
+  varying vec2 v_uv;
+
+  void main() {
+    vec2 st = gl_FragCoord.xy / u_resolution; // 将片段坐标转换到 [0, 1] 范围
+    vec3 color = 0.5 + 0.5 * cos(u_time + st.xyx + vec3(0, 2, 4)); // 使用时间和坐标生成颜色
+    gl_FragColor = vec4(color, 1.0);
+  }
+`;
+
+const CustomShaderCube: React.FC<{ mouse: { x: number; y: number } }> = ({
+  mouse,
+}) => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const [material] = useState(
+    () =>
+      new ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms: {
+          u_time: { value: 0 },
+          u_resolution: {
+            value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+          },
+          u_mouse: { value: new THREE.Vector2(0, 0) },
+        },
+      })
+  );
+
+  useFrame(({ clock }) => {
+    material.uniforms.u_time.value = clock.getElapsedTime();
+    material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+  });
+
+  return (
+    <mesh ref={meshRef} material={material}>
+      <boxGeometry args={[1, 1, 1]} />
+    </mesh>
+  );
+};
+
+const App: React.FC = () => {
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setMouse({ x: event.clientX, y: event.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <Canvas>
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <CustomShaderCube mouse={mouse} />
+    </Canvas>
+  );
+};
+
+export default App;
+```
+
+</details>
+
+- 当然也可以用p5
+
+import P5Shader from "@components/react/p5/shader/index.tsx";
+
+<P5Shader client:visible />
+
+例如
+
+```mdx
+<P5Shader
+  fragmentShader=" 
+precision highp float;
+void main() {
+  gl_FragColor = vec4(1.0, 0.1, 0.0, 1.0);
+}"
+  client:visible
+/>
+```
+
+<P5Shader
+  fragmentShader=" 
+precision highp float;
+void main() {
+  gl_FragColor = vec4(1.0, 0.1, 0.0, 1.0);
+}"
+  client:visible
+/>
+
+</details>
+
+## 链接
+
+- [p5 shader](https://p5js.org/reference/p5/shader/)

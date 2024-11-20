@@ -1,5 +1,5 @@
 ---
-title: typescript(旧版)
+title: typescript
 pubDatetime: 2023-09-18 03:36:30
 postSlug: ts_old
 featured: true
@@ -451,6 +451,21 @@ const person = {
   // 如果这里添加了其他属性,TypeScript 也会允许
 } satisfies Person; // 确保 person 符合 Person 接口
 ```
+
+## 类型体操
+
+### Optional keys
+
+<details open>
+<summary>Click to expand</summary>
+
+```ts
+type OptionalKeys<T> = {
+  [P in keyof T]-?: {} extends Pick<T, P> ? P : never;
+}[keyof T];
+```
+
+</details>
 
 ## 链接
 
