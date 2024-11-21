@@ -1,7 +1,8 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ShaderMaterial } from "three";
 import * as THREE from "three";
+// import { OrbitControls } from "@react-three/drei";
 
 const CustomShaderCube: React.FC<{
   mouse: { x: number; y: number };
@@ -9,36 +10,43 @@ const CustomShaderCube: React.FC<{
   fragmentShader: string;
 }> = ({ mouse, vertexShader, fragmentShader }) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const { size } = useThree(); // 获取 Canvas 的真实宽高
+  const { size, gl } = useThree(); // 获取 Canvas 的真实宽高
 
-  const [material] = useState(
-    () =>
-      new ShaderMaterial({
-        vertexShader,
-        fragmentShader,
-        uniforms: {
-          u_time: { value: 0 },
-          u_resolution: { value: new THREE.Vector2(size.width, size.height) },
-          u_mouse: { value: new THREE.Vector2(0, 0) },
-        },
-      })
-  );
+  const material = useMemo(() => {
+    return new ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        u_time: { value: 0 },
+        u_resolution: { value: new THREE.Vector2(size.width, size.height) },
+        u_mouse: { value: new THREE.Vector2(mouse.x, mouse.y) },
+      },
+    });
+  }, [vertexShader, fragmentShader, size]);
+
+  useEffect(() => {
+    gl.setPixelRatio(window.devicePixelRatio || 2);
+    gl.setSize(size.width, size.height);
+    material.uniforms.u_resolution.value.set(size.width, size.height); // 更新分辨率
+  }, [size]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+    material.uniforms.u_resolution.value.set(size.width, size.height); // 每帧更新分辨率
   });
-
   return (
     <mesh ref={meshRef} material={material}>
-      <boxGeometry args={[1, 1, 1]} />
+      <planeGeometry args={[size.width, size.height, 1]} />
     </mesh>
   );
 };
-
+type NumericString = `${number}`;
 const App: React.FC<{
   vertexShader?: string;
   fragmentShader?: string;
+  width?: NumericString;
+  height?: NumericString;
 }> = ({
   vertexShader = `
     uniform vec2 u_resolution;
@@ -71,30 +79,32 @@ const App: React.FC<{
       gl_FragColor = vec4(color, 1.0);
     }
   `,
+  width = 45,
+  height = 45,
 }) => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const canvas = useRef<HTMLCanvasElement>(null);
-
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMouse({ x: event.clientX, y: event.clientY });
     };
-
     if (canvas.current) {
       canvas.current.addEventListener("mousemove", handleMouseMove);
     }
-
     return () => {
       if (canvas.current) {
         canvas.current.removeEventListener("mousemove", handleMouseMove);
       }
     };
   }, []);
-
   return (
-    <Canvas className="w-full h-[500px]" ref={canvas}>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
+    <Canvas
+      dpr={[1, 2]}
+      className="m-auto"
+      style={{ width: `${width}vw`, height: `${height}vw` }}
+      ref={canvas}
+    >
+      <color attach="background" args={["black"]} />
       <CustomShaderCube
         mouse={mouse}
         vertexShader={vertexShader}

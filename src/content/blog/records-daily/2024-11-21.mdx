@@ -1,0 +1,387 @@
+---
+author: ajn404
+pubDatetime: 2024-11-21T00:46:00Z
+modDatetime:
+title: 2024-11-21 继续glsl的hello world
+featured: false
+draft: false
+tags:
+  - typescript
+  - glsl
+description: 在无数个hello world中精通这门语言
+---
+
+## 目录
+
+## 今日glsl
+
+import ShaderTemplateAdd from "@components/react/fiber/bookOfShader/template.tsx";
+
+<ShaderTemplateAdd client:load />
+
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+//在OpenGL ES环境中设置浮点数的精度为中等
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+float plot(vec2 st) {
+  return smoothstep(0.02, 0.0, abs(st.y - st.x));
+}
+
+//这个函数用于绘制一条对角线。smoothstep函数会在给定的范围内平滑地插值，创建一个渐变效果。abs(st.y - st.x)计算当前片段坐标与对角线的距离。
+
+void main() {
+  vec2 st = gl_FragCoord.xy / u_resolution;
+  //将当前片段的坐标归一化到[0, 1]范围。
+  float y = st.x;
+  //取归一化坐标的x分量
+  vec3 color = vec3(y);
+  //根据x分量设置颜色的RGB值
+  float pct = plot(st);
+  //调用plot函数计算当前片段与对角线的距离。
+  color = (1.0 - pct) * color + pct * vec3(1.000, 0.895, 0.688);
+  //根据距离调整颜色，形成渐变效果。
+  gl_FragColor = vec4(color, 1.0);
+  //将最终颜色输出到屏幕。
+}
+```
+
+这段片段着色器的数学模型主要涉及到坐标变换、距离计算和颜色插值。我们可以将其分解为几个关键的数学公式：
+
+1. **归一化坐标**：
+
+$$
+\text{st} = \left( \frac{\text{gl\_FragCoord}.x}{u\_resolution.x}, \frac{\text{gl\_FragCoord}.y}{u\_resolution.y} \right)
+$$
+
+这里，`gl_FragCoord`是当前片段的窗口坐标，`u_resolution`是屏幕的分辨率。归一化后，`st`的值范围在[0, 1]之间。
+
+2. **对角线距离计算**：
+
+$$
+d = |st.y - st.x|
+$$
+
+这个公式计算了当前片段坐标`st`与对角线（y = x）的距离。
+
+3. **平滑插值**：
+
+$$
+\text{pct} = \text{smoothstep}(0.02, 0.0, d)
+$$
+
+`smoothstep`函数用于在给定的范围内平滑地插值。这里的范围是[0.02, 0.0]，当`d`在这个范围内时，`pct`的值会在0到1之间平滑变化。
+
+4. **颜色插值**：
+
+$$
+\text{color} = (1.0 - \text{pct}) \cdot \text{color\_base} + \text{pct} \cdot \text{color\_target}
+$$
+
+其中：
+
+- $\text{color\_base} = (y, y, y)$，即根据`st.x`的值设置的颜色。
+- $\text{color\_target} = (1.000, 0.895, 0.688)$，目标颜色。
+
+这个公式根据`pct`的值在基础颜色和目标颜色之间进行插值。
+
+5. **最终输出颜色**：
+
+$$
+\text{gl\_FragColor} = (\text{color}, 1.0)
+$$
+
+最终的颜色输出，包含RGB值和透明度（alpha）值。
+
+### 总结
+
+整个着色器的数学模型可以概括为：
+
+- 通过归一化坐标将片段位置映射到[0, 1]范围。
+- 计算当前片段与对角线的距离。
+- 使用平滑插值函数生成一个平滑的过渡值。
+- 根据过渡值在基础颜色和目标颜色之间插值，生成最终的输出颜色。
+
+<ShaderTemplateAdd
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.01, pct, st.y) - smoothstep( pct, pct+0.01, st.y);
+}
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    float y = pow(st.x,5.0);
+    vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    gl_FragColor = vec4(color,1.0);
+}
+"
+  client:load
+/>
+
+```glsl
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.01, pct, st.y) - smoothstep( pct, pct+0.01, st.y);
+}
+```
+
+这段代码定义了一个名为 `plot` 的函数，用于在片段着色器中生成一个平滑的阈值函数。让我们逐步分析这个函数的工作原理和数学模型。
+
+### 函数定义
+
+```glsl
+float plot(vec2 st, float pct) {
+    return smoothstep(pct - 0.01, pct, st.y) - smoothstep(pct, pct + 0.01, st.y);
+}
+```
+
+### 参数说明
+
+- `vec2 st`：这是一个二维向量，通常表示当前片段的归一化坐标（范围在[0, 1]之间）。
+- `float pct`：这是一个浮动值，表示阈值的中心位置。
+
+### 函数逻辑
+
+1. **平滑插值**：
+
+   - `smoothstep(edge0, edge1, x)` 是一个平滑插值函数，用于在 `edge0` 和 `edge1` 之间生成一个平滑的过渡值。它的输出在 `edge0` 和 `edge1` 之间是从0到1的平滑变化，超出这个范围则为0或1。
+
+2. **计算过程**：
+
+   - `smoothstep(pct - 0.01, pct, st.y)`：这个调用会在 `st.y` 等于 `pct` 时返回1，当 `st.y` 小于 `pct - 0.01` 时返回0，形成一个从0到1的平滑过渡。
+   - `smoothstep(pct, pct + 0.01, st.y)`：这个调用会在 `st.y` 等于 `pct` 时返回0，当 `st.y` 大于 `pct + 0.01` 时返回1，形成一个从1到0的平滑过渡。
+
+3. **结果计算**：
+   - 通过相减，`plot` 函数的结果在 `st.y` 等于 `pct` 时为1，在 `st.y` 小于 `pct - 0.01` 或大于 `pct + 0.01` 时为0。这样就形成了一个在 `pct` 位置的平滑“脊”。
+
+### 数学模型
+
+这个函数可以用以下数学模型来描述：
+
+- 当 $ st.y < pct - 0.01 $ 时：
+
+  $$
+  \text{plot}(st, pct) = 0
+  $$
+
+- 当 $ pct - 0.01 \leq st.y < pct $ 时：
+
+  $$
+  \text{plot}(st, pct) = \frac{st.y - (pct - 0.01)}{0.01} \quad \text{(线性插值)}
+  $$
+
+- 当 $ pct \leq st.y < pct + 0.01 $ 时：
+
+  $$
+  \text{plot}(st, pct) = 1 - \frac{(st.y - pct)}{0.01} \quad \text{(线性插值)}
+  $$
+
+- 当 $ st.y \geq pct + 0.01 $ 时：
+  $$
+  \text{plot}(st, pct) = 0
+  $$
+
+### 总结
+
+这个 `plot` 函数在给定的 `pct` 位置生成一个平滑的脊，适用于需要在片段着色器中创建平滑过渡效果的场景。你可以使用这个函数来绘制图形、创建边界效果或实现其他视觉效果。
+
+<ShaderTemplateAdd
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.01, pct, st.y) - smoothstep( pct, pct+0.01, st.y);
+}
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    float y = sqrt(st.x);
+    vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    gl_FragColor = vec4(color,1.0);
+}
+"
+  client:load
+  width="50"
+  height="50"
+/>
+
+<ShaderTemplateAdd
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.01, pct, st.y) - smoothstep( pct, pct+0.01, st.y);
+}
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    float y = 2.*pow(st.x,2.)-st.x+1.;
+    vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    gl_FragColor = vec4(color,1.0);
+}
+"
+  client:load
+  width="80"
+  height="45"
+/>
+
+- step vs smoothstep
+
+<ShaderTemplateAdd
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) - smoothstep( pct, pct+0.02, st.y);
+}
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    float y = step((cos(u_time)+1.)/2.,st.x);
+  //  float y = step(0.5,st.x);
+    vec3 color = vec3(y);
+    float pct = plot(st,y);
+    //color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    color = (1.0-pct)*color+pct*vec3(0.0,1.0,0.0);
+    gl_FragColor = vec4(color,1.0);
+}
+"
+  client:load
+  width="80"
+  height="45"
+/>
+
+import P5Shader from "@components/react/p5/shader/index.tsx";
+
+### step
+
+<P5Shader
+  fragmentShader=" 
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) - smoothstep( pct, pct+0.02, st.y);
+}
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution;
+    float y = step((cos(u_time)+1.)/2.,st.x);
+  //  float y = step(0.5,st.x);
+    vec3 color = vec3(y);
+    float pct = plot(st,y);
+    //color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    color = (1.0-pct)*color+pct*vec3(0.0,1.0,0.0);
+    gl_FragColor = vec4(color,1.0);
+}"
+  client:load
+/>
+
+### smoothstep
+
+<P5Shader
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) - smoothstep( pct, pct+0.02, st.y);
+}
+void main() {
+      vec2 st = gl_FragCoord.xy/u_resolution;
+      float y = smoothstep((cos(u_time)+1.)/10.,0.5,st.x) - smoothstep(0.5,0.8,st.x);
+       vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    gl_FragColor = vec4(color,1.0);
+    }
+"
+  client:load
+/>{" "}
+
+<P5Shader
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) - smoothstep( pct, pct+0.02, st.y);
+}
+void main() {
+      vec2 st = gl_FragCoord.xy/u_resolution;
+      float y = smoothstep((cos(u_time)+1.)/10.,0.8,st.x) - smoothstep(0.8,1.8,st.x);
+       vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    gl_FragColor = vec4(color,1.0);
+    }
+"
+  client:load
+/>{" "}
+
+### use file
+
+<ShaderTemplateAdd
+  fragmentShader="
+#ifdef GL_ES
+precision mediump float;
+#endif
+#define PI 3.14159265359
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+float plot(vec2 st, float pct){
+  return  smoothstep( pct-0.02, pct, st.y) - smoothstep( pct, pct+0.02, st.y);
+}
+void main() {
+      vec2 st = gl_FragCoord.xy/u_resolution;
+      float y = smoothstep((cos(u_time)+1.)/10.,0.5,st.x) - smoothstep(0.5,0.8,st.x);
+       vec3 color = vec3(y);
+    float pct = plot(st,y);
+    color = (1.0-pct)*color+pct*vec3((cos(u_time)+1.)/2.,(sin(u_time)+1.)/2.,0.5);
+    gl_FragColor = vec4(color,1.0);
+    }
+"
+  client:load
+  width="80"
+  height="45"
+/>
