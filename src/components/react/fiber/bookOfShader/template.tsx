@@ -101,6 +101,8 @@ const App: React.FC<{
     <Canvas
       dpr={[1, 2]}
       className="m-auto"
+      gl={{ antialias: false }}
+      camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }}
       style={{ width: `${width}vw`, height: `${height}vw` }}
       ref={canvas}
     >

@@ -1,0 +1,91 @@
+---
+author: ajn404
+pubDatetime: 2024-11-22T03:36:40Z
+modDatetime:
+title: 2024-11-21 死磕glsl
+featured: false
+draft: false
+tags:
+  - glsl
+description: glsl
+---
+
+import ShaderTemplateAdd from "@components/react/fiber/bookOfShader/template.tsx";
+
+<ShaderTemplateAdd client:load />
+
+$f_6(x, t) = -3 - \sqrt{5^2 - x^2} \left( \frac{1}{4} + \frac{\left(0.5 + 0.5 \sin(2 \pi t)\right)^6}{10} \right)$
+
+<ShaderTemplateAdd
+  vertexShader="
+    uniform vec2 u_resolution;
+    varying vec2 v_uv;
+    void main() {
+      v_uv = position.xy*5.0;
+      gl_Position = vec4(position, 1.0);
+    }
+  "
+  fragmentShader="
+    uniform float u_time; // 时间变量 t
+    uniform vec2 u_resolution; // 画布分辨率
+    varying vec2 v_uv; // 传递的纹理坐标
+    float plot(vec2 st) {
+        return smoothstep(0., 1.0, abs(st.x));
+    }
+    void main() {
+      vec2 st = v_uv;
+      float x = v_uv.x;
+      float t = u_time;
+      float f6 = -3.0 - sqrt(pow(5.0,2.0)-pow(x,2.0))*(1.0/4.0+pow(0.5+0.5*sin(2.0*3.14159265359*t),6.0)/10.0);
+      float pct = plot(st);
+      vec3 color = vec3(f6); 
+      color = (1.0 - pct) * color + pct * vec3(1.000, 0.895, 0.688);
+      gl_FragColor = vec4(color, 1.0); // 输出颜色
+    }
+  "
+  client:load
+/>
+
+呃呃
+
+<ShaderTemplateAdd
+  fragmentShader="
+    #define PI 3.141592653589793238462643383
+    uniform float u_time; // 时间变量 t
+    uniform vec2 u_resolution; // 画布分辨率
+    varying vec2 v_uv; // 传递的纹理坐标
+    vec3 colorA = vec3(0.149,0.141,0.912);
+    vec3 colorB = vec3(1.000,0.833,0.224);
+    float plot (vec2 st, float pct){
+  return  smoothstep( pct-0.01, pct, st.y) -
+          smoothstep( pct, pct+0.01, st.y);
+}
+    void main() {
+      vec2 st = v_uv;
+    vec3 color = vec3(0.0);
+    vec3 pct = vec3(st.x);
+    pct.r = smoothstep(0.0,1.0, st.x);
+    pct.g = sin(st.x*PI);
+    pct.b = pow(st.x,0.5);
+    color = mix(colorA, colorB, pct);
+    color = mix(color,vec3(1.0,0.0,0.0),plot(st,pct.r));
+    color = mix(color,vec3(0.0,1.0,0.0),plot(st,pct.g));
+    color = mix(color,vec3(0.0,0.0,1.0),plot(st,pct.b));
+    gl_FragColor = vec4(color,1.0);
+    }
+  "
+  client:load
+/>
+
+- yep use v_uv
+
+<ShaderTemplateAdd
+  fragmentShader="
+   varying vec2 v_uv;
+void main() {
+  vec3 color = vec3(v_uv.x, v_uv.y, 0.0);
+  gl_FragColor = vec4(color, 1.0);
+}
+  "
+  client:load
+/>
