@@ -29,17 +29,18 @@ $f_6(x, t) = -3 - \sqrt{5^2 - x^2} \left( \frac{1}{4} + \frac{\left(0.5 + 0.5 \s
     uniform float u_time; // 时间变量 t
     uniform vec2 u_resolution; // 画布分辨率
     varying vec2 v_uv; // 传递的纹理坐标
-    float plot(vec2 st) {
-        return smoothstep(0., 1.0, abs(st.x));
-    }
+    float plot (vec2 st, float pct){
+  return  smoothstep( pct-0.01, pct, st.y) -
+          smoothstep( pct, pct+0.01, st.y);
+}
     void main() {
       vec2 st = v_uv;
       float x = v_uv.x;
       float t = u_time;
       float f6 = -3.0 - sqrt(pow(5.0,2.0)-pow(x,2.0))*(1.0/4.0+pow(0.5+0.5*sin(2.0*3.14159265359*t),6.0)/10.0);
-      float pct = plot(st);
+      float pct = plot(st,pct.x);
       vec3 color = vec3(f6); 
-      color = (1.0 - pct) * color + pct * vec3(1.000, 0.895, 0.688);
+      color = (1.0 - pct) * color + pct * vec3(1.0, 1.0, 0.688);
       gl_FragColor = vec4(color, 1.0); // 输出颜色
     }
   "
@@ -49,6 +50,14 @@ $f_6(x, t) = -3 - \sqrt{5^2 - x^2} \left( \frac{1}{4} + \frac{\left(0.5 + 0.5 \s
 呃呃
 
 <ShaderTemplateAdd
+  vertexShader="
+    uniform vec2 u_resolution;
+    varying vec2 v_uv;
+    void main() {
+      v_uv = position.xy*5.0;
+      gl_Position = vec4(position, 1.0);
+    }
+  "
   fragmentShader="
     #define PI 3.141592653589793238462643383
     uniform float u_time; // 时间变量 t
