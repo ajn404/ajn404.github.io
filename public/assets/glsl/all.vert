@@ -1,5 +1,5 @@
-varying vec2 vUv;
+    varying vec2 v_uv;
     void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      v_uv = (position.xy+1.0)/2.0;
+      gl_Position = vec4(position, 1.0);
     }

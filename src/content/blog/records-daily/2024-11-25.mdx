@@ -1,0 +1,126 @@
+---
+author: ajn404
+pubDatetime: 2024-11-25T00:59:28Z
+modDatetime:
+title: 2024-11-25 死磕glsl(3)
+featured: false
+draft: false
+tags:
+  - glsl
+description: glsl其3
+---
+
+import ShaderTemplateAdd from "@components/react/fiber/bookOfShader/template.tsx";
+
+<ShaderTemplateAdd
+  fragmentShader="
+varying vec2 v_uv;
+void main() {
+  vec3 color = vec3(v_uv.x, v_uv.y, 0.0);
+  gl_FragColor = vec4(color, 1.0);
+}
+  "
+  client:load
+/>
+
+[easings](https://easings.net/)
+
+import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
+
+<div class="grid grid-cols-3 gap-4">
+- linear
+<ShaderTemplateUrl  width="20" height="10" client:load />
+```glsl
+uniform float u_time;
+float linear(float t) {
+  return t;
+}
+void main() {
+    vec3 colorA = vec3(0.149,0.141,0.912);
+    vec3 colorB = vec3(1.000,0.833,0.224);
+    float t = u_time*0.5;
+    float pct = linear( abs(fract(t)*2.0-1.) );
+    gl_FragColor = vec4(vec3(mix(colorA, colorB, pct)),1.0);
+}
+```
+- cubicIn
+<ShaderTemplateUrl width="20" height="10" fragmentShaderPath="/assets/glsl/draft/2.frag"  client:load />
+```glsl
+uniform float u_time;
+float cubicIn(float t) {
+  return t * t * t;
+}
+void main() {
+    vec3 colorA = vec3(0.149,0.141,0.912);
+    vec3 colorB = vec3(1.000,0.833,0.224);
+    float t = u_time*0.5;
+    float pct = cubicIn( abs(fract(t)*2.0-1.) );
+    gl_FragColor = vec4(vec3(mix(colorA, colorB, pct)),1.0);
+}
+```
+</div>
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/draft/3.frag"
+  client:load
+/>
+
+![](/assets/webp/turner.webp)
+
+<div class="flex justify-center">
+  <p class="flex-1 text-right">海平线=></p>
+  <ShaderTemplateUrl
+    width="50"
+    height="50"
+    fragmentShaderPath="/assets/glsl/draft/4.frag"
+    client:load
+  />
+</div>
+
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main() {
+    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    vec3 color = vec3(0.0);
+
+    // 根据时间计算太阳位置
+    float sunAngle = u_time * 0.1; // 控制太阳移动速度
+    vec2 sunPos = vec2(cos(sunAngle) * 0.5 + 0.5, sin(sunAngle) * 0.3 + 0.7); // 太阳在椭圆形轨迹上移动
+
+    // 从底部到顶部创建垂直渐变，并根据太阳位置调整颜色
+    float y = st.y;
+    vec3 baseColor = mix(vec3(0.1, 0.0, 0.2), // 夜晚的深蓝色/紫色
+                       vec3(1.0, 0.6, 0.1), // 正午的橙色/金色
+                       smoothstep(0.0, 1.0, sin(sunAngle) * 0.5 + 0.5)); // 根据太阳高度调整颜色
+
+    color = mix(vec3(0.5, 0.0, 0.1), // 深红色
+                baseColor,
+                smoothstep(0.0, 0.5, y));
+
+    color = mix(color,
+                vec3(0.8, 0.2, 0.4), // 紫色/粉红色
+                smoothstep(0.5, 1.0, y));
+
+    // 添加太阳光晕效果
+    float dist = distance(st, sunPos);
+    color += vec3(1.0, 0.8, 0.4) * smoothstep(0.2, 0.0, dist);
+
+    // 应用颜色
+    gl_FragColor = vec4(color, 1.0);
+}
+```
+
+<ShaderTemplateUrl
+  width="50"
+  height="50"
+  fragmentShaderPath="/assets/glsl/draft/5.frag"
+  client:load
+/>

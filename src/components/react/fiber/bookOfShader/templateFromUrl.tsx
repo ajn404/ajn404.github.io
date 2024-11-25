@@ -2,27 +2,14 @@ import React, { useRef, useEffect, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ShaderMaterial } from "three";
 import * as THREE from "three";
-// import { OrbitControls } from "@react-three/drei";
 
-/**
- * CustomShaderCube is a React functional component that renders a 3D plane using a custom shader material.
- *
- * @param mouse - An object containing the current x and y coordinates of the mouse.
- * @param vertexShader - A string representing the GLSL code for the vertex shader.
- * @param fragmentShader - A string representing the GLSL code for the fragment shader.
- *
- * The component uses the @react-three/fiber library to manage WebGL rendering, and it relies on the `useThree`
- * hook to access the rendering context's size and WebGL instance. It creates a ShaderMaterial with the provided
- * vertex and fragment shaders, and it passes the time, resolution, and mouse position as uniforms to the shaders.
- * The component updates the shader uniforms on each animation frame using the `useFrame` hook.
- */
 const CustomShaderCube: React.FC<{
   mouse: { x: number; y: number };
   vertexShader: string;
   fragmentShader: string;
 }> = ({ mouse, vertexShader, fragmentShader }) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const { size, gl } = useThree(); // 获取 Canvas 的真实宽高
+  const { size, gl } = useThree();
 
   const material = useMemo(() => {
     return new ShaderMaterial({
@@ -39,76 +26,76 @@ const CustomShaderCube: React.FC<{
   useEffect(() => {
     gl.setPixelRatio(window.devicePixelRatio || 2);
     gl.setSize(size.width, size.height);
-    material.uniforms.u_resolution.value.set(size.width, size.height); // 更新分辨率
+    material.uniforms.u_resolution.value.set(size.width, size.height);
   }, [size]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
-    material.uniforms.u_resolution.value.set(size.width, size.height); // 每帧更新分辨率
+    material.uniforms.u_resolution.value.set(size.width, size.height);
   });
+
   return (
     <mesh ref={meshRef} material={material}>
       <planeGeometry args={[size.width, size.height, 1]} />
     </mesh>
   );
 };
+
 type NumericString = `${number}`;
+
 const App: React.FC<{
-  vertexShader?: string;
-  fragmentShader?: string;
+  vertexShaderPath?: string;
+  fragmentShaderPath?: string;
   width?: NumericString;
   height?: NumericString;
 }> = ({
-  vertexShader = `
-    uniform vec2 u_resolution;
-    varying vec2 v_uv;
-
-    void main() {
-      v_uv = (position.xy + 1.0) / 2.0; // 将坐标转换到 [0, 1] 范围
-      gl_Position = vec4(position, 1.0);
-    }
-  `,
-  fragmentShader = `
-    #ifdef GL_ES
-    precision mediump float;
-    #endif
-
-    uniform vec2 u_resolution;
-    uniform vec2 u_mouse;
-    uniform float u_time;
-
-    float plot(vec2 st) {
-      return smoothstep(0.02, 0.0, abs(st.y - st.x));
-    }
-
-    void main() {
-      vec2 st = gl_FragCoord.xy / u_resolution;
-      float y = st.x;
-      vec3 color = vec3(y);
-      float pct = plot(st);
-      color = (1.0 - pct) * color + pct * vec3(1.000, 0.895, 0.688);
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `,
+  vertexShaderPath = "/assets/glsl/all.vert",
+  fragmentShaderPath = "/assets/glsl/draft/1.frag",
   width = 45,
   height = 45,
 }) => {
+  const [vertexShader, setVertexShader] = useState("");
+  const [fragmentShader, setFragmentShader] = useState("");
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const canvas = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const loadShaders = async () => {
+      try {
+        const vertexShaderRes = await fetch(vertexShaderPath);
+        const fragmentShaderRes = await fetch(fragmentShaderPath);
+
+        if (vertexShaderRes.ok && fragmentShaderRes.ok) {
+          setVertexShader(await vertexShaderRes.text());
+          setFragmentShader(await fragmentShaderRes.text());
+        } else {
+          console.error("Failed to load shader files.");
+        }
+      } catch (error) {
+        console.error("Error fetching shader files:", error);
+      }
+    };
+
+    loadShaders();
+  }, [vertexShaderPath, fragmentShaderPath]);
+
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMouse({ x: event.clientX, y: event.clientY });
     };
+
     if (canvas.current) {
       canvas.current.addEventListener("mousemove", handleMouseMove);
     }
+
     return () => {
       if (canvas.current) {
         canvas.current.removeEventListener("mousemove", handleMouseMove);
       }
     };
   }, []);
+
   return (
     <Canvas
       dpr={[1, 2]}
@@ -119,11 +106,13 @@ const App: React.FC<{
       ref={canvas}
     >
       <color attach="background" args={["black"]} />
-      <CustomShaderCube
-        mouse={mouse}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-      />
+      {vertexShader && fragmentShader && (
+        <CustomShaderCube
+          mouse={mouse}
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+        />
+      )}
     </Canvas>
   );
 };

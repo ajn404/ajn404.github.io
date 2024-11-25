@@ -552,3 +552,7 @@ iframe {
 canvas{
   image-rendering: pixelated;
 }
+
+pre{
+    overflow: auto;
+}

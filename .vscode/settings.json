@@ -6,5 +6,6 @@
   "files.associations": {
     "*.mdx": "markdown"
 },
-"Codegeex.GenerationPreference": "line by line"
+"Codegeex.GenerationPreference": "line by line",
+"Codegeex.RepoIndex": true
 }
