@@ -1,0 +1,83 @@
+---
+author: ajn404
+pubDatetime: 2024-11-26T08:55:57.000Z
+modDatetime:
+title: 2024-11-26冲
+featured: false
+draft: false
+tags:
+  - "2024-11-26"
+  - "2024"
+  - "records"
+description: "2024-11-26"
+---
+
+## 目录
+
+## 昨日又熬夜了
+
+## glsl
+
+import ShaderTemplate from "@components/react/fiber/bookOfShader/template.tsx";
+
+import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
+
+<ShaderTemplateUrl
+  width="50"
+  height="50"
+  fragmentShaderPath="/assets/glsl/draft/5.frag"
+  client:load
+/>
+
+- blending
+
+<ShaderTemplate
+  fragmentShader="
+varying vec2 v_uv;
+void main() {
+vec2 st = v_uv;
+vec3 color = vec3(0.);
+float left = step(0.1,st.x);
+float right = step(0.1,st.y);
+color = vec3(left*right);
+gl_FragColor = vec4(color, 1.0);
+}
+  "
+  client:load
+/>
+
+```glsl
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform float u_time;
+
+varying vec2 v_uv;
+
+void main(){
+    vec2 st = v_uv;
+    vec3 color = vec3(0.0);
+
+    vec2 bl = step(vec2(0.1),st);
+    float pct = bl.x * bl.y;
+
+    // top-right
+    vec2 tr = step(vec2(0.1),1.0-st);
+    pct *= tr.x * tr.y;
+
+    color = vec3(pct);
+
+    gl_FragColor = vec4(color,1.0);
+}
+
+```
+
+<ShaderTemplateUrl
+  width="50"
+  height="50"
+  fragmentShaderPath="/assets/glsl/bookOfShader/07/1.frag"
+  client:load
+/>

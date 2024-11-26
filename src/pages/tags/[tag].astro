@@ -19,11 +19,12 @@ export async function getStaticPaths() {
   const posts = await getCollection("blog");
 
   const tags = getUniqueTags(posts);
+  console.log(tags);
 
   return tags.map(tag => {
     return {
-      params: { tag },
-      props: { tag },
+      params: { tag: tag.name },
+      props: { tag: tag.name },
     };
   });
 }
@@ -38,18 +39,20 @@ const sortTagsPost = getSortedPosts(tagPosts);
 ---
 
 <Layout activeNav="tags" title={`Tag:${tag} | ${SITE.title}`}>
-  <Main
-    pageTitle={`Tag:${tag}`}
-    pageDesc={`所有标签为 "${tag}" 的文章`}
-  >
-     <section class="hero-section">
-        <div class="card-grid">
-      {
-        sortTagsPost.map(({ data }) => (
-          <Card client:load client:only="react" href={`/posts/${slugify(data)}/`} frontmatter={data} />
-        ))
-      }
-        </div>
+  <Main pageTitle={`Tag:${tag}`} pageDesc={`所有标签为 "${tag}" 的文章`}>
+    <section class="hero-section">
+      <div class="card-grid">
+        {
+          sortTagsPost.map(({ data }) => (
+            <Card
+              client:load
+              client:only="react"
+              href={`/posts/${slugify(data)}/`}
+              frontmatter={data}
+            />
+          ))
+        }
+      </div>
     </section>
   </Main>
   <Footer />
