@@ -16,7 +16,7 @@ void main(){
     vec2 tr = step(vec2(w),1.0-st);
 
     float pct = bl.x * bl.y* tr.x * tr.y;
-    color = vec3(pct,abs(sin(u_time)),pct);
+    color = vec3(1.0-pct,abs(sin(u_time))/10.,1.0-pct);
 
     gl_FragColor = vec4(color,1.0);
 }
