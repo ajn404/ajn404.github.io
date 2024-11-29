@@ -8,6 +8,7 @@ draft: false
 tags:
   - "2024"
   - "glsl"
+  - "book of shader"
 description: "book of shader"
 ---
 
@@ -85,3 +86,66 @@ import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFrom
 import Demo1 from "@components/react/fiber/bookOfShader/specific/demo1.tsx";
 
 <Demo1 client:load />
+
+- 极坐标系下的图形
+
+<ShaderTemplateUrl
+  width="50"
+  height="50"
+  fragmentShaderPath="/assets/glsl/bookOfShader/07/10.frag"
+  client:load
+/>
+
+- 嘿，动起来！
+
+<ShaderTemplateUrl
+  width="50"
+  height="50"
+  fragmentShaderPath="/assets/glsl/bookOfShader/07/11.frag"
+  client:load
+/>
+
+```glsl
+uniform vec2 u_resolution;
+uniform float u_time;
+
+varying vec2 v_uv;
+
+void main(){
+    vec2 uv  = v_uv;
+    vec3 color = vec3(0.0);
+
+    vec2 pos= vec2(0.5)- uv;
+
+    float d = length(pos);
+    float r = d*2.0;
+
+    float a = atan(pos.y,pos.x);
+    float f = cos(a*3.0+u_time*0.5);
+    color = vec3(1.0 - smoothstep(f, f+0.01, r));
+
+    gl_FragColor = vec4(color, 1.0);
+}
+```
+
+<details open>
+<summary>Click to expand</summary>
+vec2 uv = v_uv;: 将 v_uv 赋值给 uv，方便后续使用。
+
+vec3 color = vec3(0.0);: 初始化颜色向量为黑色。
+
+vec2 pos = vec2(0.5) - uv;: 计算片段相对于屏幕中心的坐标。vec2(0.5) 代表屏幕中心，减去 uv 得到片段的偏移量。
+
+float d = length(pos);: 计算片段到屏幕中心的距离。
+
+float r = d \* 2.0;: 将距离缩放两倍。这影响了图案的半径。
+
+float a = atan(pos.y, pos.x);: 计算片段相对于x轴的角度。
+
+float f = cos(a _ 3.0 + u_time _ 0.5);: 这是核心部分，它计算了一个基于角度和时间的波浪函数。a _ 3.0 决定了花瓣的数量 (3瓣)，u_time _ 0.5 使图案随时间旋转。cos 函数产生波浪效果。
+
+color = vec3(1.0 - smoothstep(f, f + 0.01, r));: 这是图案生成的最终步骤。smoothstep 函数是一个平滑的步进函数，它根据 r (距离) 和 f (波浪函数) 的值生成一个平滑过渡的颜色。1.0 - smoothstep(...) 反转了颜色，使图案看起来更清晰。
+
+gl_FragColor = vec4(color, 1.0);: 将计算出的颜色赋值给 gl_FragColor，这是片段着色器的输出，表示片段最终的颜色和alpha值 (alpha值为1.0，完全不透明)。
+
+</details>

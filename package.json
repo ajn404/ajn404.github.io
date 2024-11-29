@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "hide:toolbar": "astro preferences disable devToolbar",
-    "cz": "git add .&&cz&&git push",
+    "cz": "git add . && cz && git push",
     "prepare": "husky install",
     "format:check": "prettier --plugin-search-dir=. --check .",
     "format": "prettier --plugin-search-dir=. --write .",
