@@ -18,7 +18,7 @@ export default function TimelineDemo() {
           <br />
           <a href="/posts/2024-11#今日类型体操">实现GetRequired</a>
           <br />
-          ......
+          <a href="/search?q=类型体操">......</a>
           <br />
         </div>
       ),
@@ -29,6 +29,11 @@ export default function TimelineDemo() {
         <div>
           <a href="/posts/fantastic#flow-field">flow field</a>
           <br />
+          <a href="/posts/fantastic#图形融合">sdf图形融合</a>
+          <br />
+          <a href="/posts/nature-of-code">the nature of code</a>
+          <br />
+          <a href="/search?q=p5">......</a>
           <br />
         </div>
       ),

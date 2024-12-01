@@ -1,0 +1,23 @@
+---
+
+---
+
+<link rel="stylesheet" href="/cdn/glslEditor.css" /> 
+
+<div id="glsl_editor"></div>
+<script defer src="/cdn/glslEditor.js"
+></script>
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (!GlslEditor) return;
+    new GlslEditor("#glsl_editor", {
+      canvas_size: 500,
+      canvas_draggable: true,
+      theme: "monokai",
+      multipleBuffers: true,
+      watchHash: true,
+      fileDrops: true,
+      menu: true,
+    });
+  });
+</script>

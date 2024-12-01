@@ -24,7 +24,12 @@
         overflow: hidden;
       }
       body {
-        padding: 10px;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
         min-width: 1280px;
         width: 100%;
         height: 100%;
@@ -79,15 +84,15 @@
         font-size: 14px;
       }
       .h5-play-wrap {
-        width: 500px;
-        height: 300px;
+        width: 90vw;
+        height: 90vh;
         background-color: #000;
         border: 1px solid #333;
         position: relative;
         overflow: hidden;
       }
       .h5-fieldset-wrap {
-        width: 520px;
+        width: 90vw;
         padding: 10px;
         border: 1px solid #333;
       }
@@ -544,7 +549,7 @@
           />
         </div>
       </fieldset>
-      <fieldset class="h5-fieldset-wrap" style="width: 600px;">
+      <fieldset class="h5-fieldset-wrap">
         <legend>录像回放</legend>
         <div class="h5-form-item">
           <label>开始时间</label>
