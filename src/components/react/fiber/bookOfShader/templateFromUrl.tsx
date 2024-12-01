@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useState, useMemo } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ShaderMaterial } from "three";
 import * as THREE from "three";
@@ -11,23 +17,26 @@ const CustomShaderCube: React.FC<{
   const meshRef = useRef<THREE.Mesh>(null);
   const { size, gl } = useThree();
 
-  const material = useMemo(() => {
+  const material = useMemo<ShaderMaterial>(() => {
     return new ShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: {
         u_time: { value: 0 },
-        u_resolution: { value: new THREE.Vector2(size.width, size.height) },
-        u_mouse: { value: new THREE.Vector2(mouse.x, mouse.y) },
+        u_resolution: { value: new THREE.Vector2() },
+        u_mouse: { value: new THREE.Vector2() },
       },
     });
-  }, [vertexShader, fragmentShader, size]);
+  }, [vertexShader, fragmentShader]);
 
   useEffect(() => {
-    gl.setPixelRatio(window.devicePixelRatio || 2);
-    gl.setSize(size.width, size.height);
-    material.uniforms.u_resolution.value.set(size.width, size.height);
-  }, [size]);
+    const updateSize = () => {
+      gl.setPixelRatio(window.devicePixelRatio || 2);
+      gl.setSize(size.width, size.height);
+      material.uniforms.u_resolution.value.set(size.width, size.height);
+    };
+    updateSize();
+  }, [size, gl, material]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
@@ -52,49 +61,53 @@ const App: React.FC<{
 }> = ({
   vertexShaderPath = "/assets/glsl/all.vert",
   fragmentShaderPath = "/assets/glsl/draft/1.frag",
-  width = 45,
-  height = 45,
+  width = "45",
+  height = "45",
 }) => {
   const [vertexShader, setVertexShader] = useState("");
   const [fragmentShader, setFragmentShader] = useState("");
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const canvas = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    const loadShaders = async () => {
-      try {
-        const vertexShaderRes = await fetch(vertexShaderPath);
-        const fragmentShaderRes = await fetch(fragmentShaderPath);
+  const handleMouseMove = useCallback((event: MouseEvent) => {
+    setMouse({ x: event.clientX, y: event.clientY });
+  }, []);
 
-        if (vertexShaderRes.ok && fragmentShaderRes.ok) {
-          setVertexShader(await vertexShaderRes.text());
-          setFragmentShader(await fragmentShaderRes.text());
-        } else {
-          console.error("Failed to load shader files.");
+  useEffect(() => {
+    const canvasElement = canvas.current;
+    if (canvasElement) {
+      canvasElement.addEventListener("mousemove", handleMouseMove);
+      return () =>
+        canvasElement.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, [handleMouseMove]);
+
+  const loadShaders = useMemo(
+    () => async () => {
+      try {
+        const [vertexRes, fragmentRes] = await Promise.all([
+          fetch(vertexShaderPath),
+          fetch(fragmentShaderPath),
+        ]);
+
+        if (vertexRes.ok && fragmentRes.ok) {
+          const [vertexText, fragmentText] = await Promise.all([
+            vertexRes.text(),
+            fragmentRes.text(),
+          ]);
+          setVertexShader(vertexText);
+          setFragmentShader(fragmentText);
         }
       } catch (error) {
         console.error("Error fetching shader files:", error);
       }
-    };
-
-    loadShaders();
-  }, [vertexShaderPath, fragmentShaderPath]);
+    },
+    [vertexShaderPath, fragmentShaderPath]
+  );
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setMouse({ x: event.clientX, y: event.clientY });
-    };
-
-    if (canvas.current) {
-      canvas.current.addEventListener("mousemove", handleMouseMove);
-    }
-
-    return () => {
-      if (canvas.current) {
-        canvas.current.removeEventListener("mousemove", handleMouseMove);
-      }
-    };
-  }, []);
+    loadShaders();
+  }, [loadShaders]);
 
   return (
     <Canvas

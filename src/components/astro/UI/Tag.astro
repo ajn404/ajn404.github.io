@@ -6,16 +6,15 @@ export interface Props {
 
 const { name, className } = Astro.props;
 
-// 生成随机颜色
+// 优化颜色生成函数，增加饱和度和亮度控制
 const generateRandomColor = () => {
-  const rgbList = Array.from({ length: 3 }, () =>
-    Math.floor(Math.random() * 256)
-  );
-  const colorList = rgbList.map(num => 255 - num);
-
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = 70 + Math.random() * 20; // 70-90%
+  const lightness = 60 + Math.random() * 20;  // 60-80%
+  
   return {
-    randomColor: `rgba(${rgbList.join(",")}, 0.4)`,
-    fontColor: `rgb(${colorList.join(",")})`,
+    randomColor: `hsla(${hue}, ${saturation}%, ${lightness}%, 0.2)`,
+    fontColor: `hsl(${hue}, ${saturation}%, 80%)`, // 固定较深的字体颜色
   };
 };
 
@@ -24,7 +23,7 @@ const { randomColor, fontColor } = generateRandomColor();
 
 <li
   class={`tag inline-block my-1 mx-1 underline-offset-4 overflow-hidden max-w-full box-border ${className}`}
-  style={`background-color: ${randomColor}; color: ${fontColor}`}
+  style={`--tag-bg: ${randomColor}; --tag-color: ${fontColor}`}
 >
   <a
     href={`/tags/${name.toLowerCase()}/`}
@@ -43,52 +42,32 @@ const { randomColor, fontColor } = generateRandomColor();
 
 <style lang="scss" is:inline>
   :root {
-    --tag-padding: 0 10px 0 20px;
+    --tag-padding: 0 0.625rem 0 1.25rem;
     --hover-filter: brightness(120%);
-    --tag-background: rgba(255, 255, 255, 0.8); // 默认背景色
-    --hover-background: rgba(255, 255, 255, 0.6); // hover 背景色
-    --transition-speed: 0.3s; // 过渡速度
+    --transition-speed: 0.3s;
+    --tag-clip-path: polygon(1.25rem 0, 100% 0, 100% 100%, 1.25rem 100%, 0 50%);
   }
 
   .tag {
-    clip-path: polygon(20px 0, 100% 0, 100% 100%, 20px 100%, 0 50%);
+    clip-path: var(--tag-clip-path);
     padding: var(--tag-padding);
-    transition:
-      background-color var(--transition-speed),
-      filter var(--transition-speed); // 添加过渡效果
-
-    a,
-    svg {
-      filter: var(--hover-filter);
-      transition: filter var(--transition-speed); // 添加过渡效果
-    }
-
-    span {
-      white-space: nowrap;
-    }
+    background-color: var(--tag-bg);
+    color: var(--tag-color);
+    transition: all var(--transition-speed) ease-in-out;
 
     &:hover {
-      background-color: var(--hover-background); // hover 背景色
       filter: invert(100%);
-
-      a,
-      svg {
-        filter: var(--hover-filter);
-      }
+      transform: translateY(-2px);
     }
-  }
 
-  a {
-    @apply relative focus-visible:p-1;
-  }
-
-  a svg {
-    @apply -mr-5 h-6 w-6 scale-95 group-hover:fill-skin-accent;
-    transition: transform var(--transition-speed); // 添加缩放过渡效果
-
-    /* 添加 hover 效果 */
-    .tag:hover & {
-      transform: scale(1.1); // hover 时放大
+    a svg {
+      @apply -mr-5 h-6 w-6 scale-95;
+      transition: transform var(--transition-speed) ease-out;
+      will-change: transform;
+      
+      .tag:hover & {
+        transform: scale(1.1) rotate(-5deg);
+      }
     }
   }
 </style>

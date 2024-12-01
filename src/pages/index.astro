@@ -13,10 +13,12 @@ import TextAnimation from "@components/react/d3/textAnimation.tsx";
 import Header from "@components/astro/UI/Header.astro";
 import TimeLine from "@components/react/UI/timeline.tsx";
 import { TypewriterEffectSmooth } from "@aceternity/ui/typewriter-effect";
-const posts = await getCollection("blog");
+const [posts, socialCount] = await Promise.all([
+  getCollection("blog"),
+  SOCIALS.filter(social => social.active).length,
+]);
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
 <Layout>
@@ -32,7 +34,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
               text: "今日方知我为",
             },
             {
-              className: "skew-x-12 xing-cao text-skin-gray-light ml-[-10px]",
+              className: "xing-cao -skew-x-12 text-skin-blue -ml-[30px]",
               text: "我",
             },
           ]}
@@ -100,9 +102,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       featuredPosts.length > 0 && (
         <>
           <section id="featured">
-            <h2 >
-              feature
-            </h2>
+            <h2>feature</h2>
             <section class="hero-section">
               <div class="card-grid">
                 {featuredPosts.map(({ data }) => (
