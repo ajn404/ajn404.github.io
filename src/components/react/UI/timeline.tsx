@@ -38,6 +38,25 @@ export default function TimelineDemo() {
         </div>
       ),
     },
+    {
+      title: "日出东方",
+      content: (
+        <div>
+          <a href="https://ajn404.github.io/mono_notes/">astro雏形</a>
+          <br />
+          <a href="https://ajn404.github.io/vue3_tauri_fun">vue3玩具</a>
+          <br />
+          <a href="https://ajn404.github.io/note">rust/p5</a>
+          <br />
+          <a href="https://ajn404.github.io/ngm.github.io/vue_still_learn/#目录">
+            出生-前端
+          </a>
+          <br />
+          <a href="https://ajn404.github.io/log.github.io/">学校-记录</a>
+          <br />
+        </div>
+      ),
+    },
   ];
   return (
     <div className="w-full pb-8">

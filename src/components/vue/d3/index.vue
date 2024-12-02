@@ -367,7 +367,7 @@ const redo = () => {
 // Save shapes to local storage
 const saveShapes = () => {
     if (points.value.length < 3 || !polygonName.value) {
-        JE.message('请至少绘制三个点并输入多边形名称！');
+        alert('请至少绘制三个点并输入多边形名称！');
         return;
     }
 
@@ -394,7 +394,7 @@ const saveShapes = () => {
     // 重新绘制
     drawChart();
 
-    JE.message('图形已保存!');
+    alert('图形已保存!');
 };
 
 // Clear all shapes and reset

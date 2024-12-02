@@ -10,7 +10,7 @@ void main(){
     float d = length(pos);
     float r = d*2.0;
     float a = atan(pos.y,pos.x);
-    float f = cos(a*3.0+u_time*0.5);
+    float f = cos(a*4.0+u_time);
     color = vec3(1.0 - smoothstep(f, f+0.01, r));
     gl_FragColor = vec4(color, 1.0);
 }

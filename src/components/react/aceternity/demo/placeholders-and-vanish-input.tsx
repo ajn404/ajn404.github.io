@@ -17,7 +17,7 @@ export default () => {
     console.log("submitted");
   };
   return (
-    <div className="w-1/2 m-auto flex flex-col justify-center  items-center px-4">
+    <div className="m-auto flex flex-col justify-center  items-center px-4">
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
