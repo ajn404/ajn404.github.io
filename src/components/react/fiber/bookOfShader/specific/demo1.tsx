@@ -60,8 +60,8 @@ const App: React.FC<{
       gl_Position = vec4(position, 1.0);
     }
   `,
-  width = "90",
-  height = "90",
+  width = "40",
+  height = "40",
 }) => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -120,7 +120,7 @@ const App: React.FC<{
         max={100}
         min={5}
         step={1}
-        className={cn("w-[100%] m-4")}
+        className={cn("w-[50%] m-4")}
         onValueChange={value => setDensity(value[0])}
         value={[density]}
       />
