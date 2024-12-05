@@ -1,5 +1,3 @@
-// Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
-
 #ifdef GL_ES
 precision mediump float;
 #endif

@@ -10,8 +10,6 @@ uniform vec2 u_mouse;
 uniform float u_time;
 varying vec2 v_uv;
 
-// Reference to
-// http://thndl.com/square-shaped-shaders.html
 
 // 输入：
 // pos: 归一化的坐标点 (-1 到 1 的范围)

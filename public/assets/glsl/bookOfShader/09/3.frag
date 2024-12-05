@@ -27,13 +27,13 @@ float box(vec2 _st, vec2 _size, float _smoothEdges) {
 
 void main(void) {
     vec2 st = v_uv;
+
     vec3 color = vec3(0.0);
 
     st = tile(st, 4.);
-
-    st = rotate2D(st, PI * 0.25);
-    color = vec3(box(st, vec2(0.7), 0.01));
-    // color = vec3(st,0.0);
+    st = rotate2D(st, PI * 0.75);
+    color += vec3(box(st, vec2(abs(sin(u_time * 0.5)), abs(cos(u_time * 0.5)) / 2.0), 0.1));
+    color += vec3(st, 0.0);
 
     gl_FragColor = vec4(color, 1.0);
 }
