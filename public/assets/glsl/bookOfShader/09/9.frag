@@ -4,17 +4,20 @@ varying vec2 v_uv;
 
 vec2 brickTile(vec2 _st, float _zoom) {
     _st *= _zoom;
+    bool upDown = mod(u_time, 2.0) > 1.0;
 
-    // 奇偶行对角线方向偏移
-    float isOddRow = step(0.5, mod(floor(_st.x + _st.y), 2.0));
-
-    // 对角线偏移（奇偶交替相反方向）
-    _st += vec2(1.0, 1.0) * isOddRow * u_time;       // 奇数行向右上移动
-    _st += vec2(-1.0, -1.0) * (1.0 - isOddRow) * u_time; // 偶数行向左下移动
-
+    if(upDown) {
+        // 奇数行随时间向右移动
+        _st.y += step(0.5, mod(floor(_st.x), 2.0)) * u_time * 1.;
+    // 偶数行随时间向右移动（改为反向移动以更明显区分）
+        _st.y += step(0.5, mod(floor(_st.x) + 1.0, 2.0)) * -u_time * 1.;
+    } else {
+        _st.x += step(0.5, mod(floor(_st.y), 2.0)) * u_time * 1.;
+    // 偶数行随时间向右移动（改为反向移动以更明显区分）
+        _st.x += step(0.5, mod(floor(_st.y) + 1.0, 2.0)) * -u_time * 1.;
+    }
     return fract(_st);
 }
-
 
 // 片段着色器
 void main() {
