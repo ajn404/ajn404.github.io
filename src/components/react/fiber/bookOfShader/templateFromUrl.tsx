@@ -14,6 +14,7 @@ const CustomShaderCube: React.FC<{
   vertexShader: string;
   fragmentShader: string;
 }> = ({ mouse, vertexShader, fragmentShader }) => {
+  const geometry = useMemo(() => new THREE.PlaneGeometry(2, 2), []);
   const meshRef = useRef<THREE.Mesh>(null);
   const { size, gl } = useThree();
 
@@ -31,27 +32,55 @@ const CustomShaderCube: React.FC<{
 
   useEffect(() => {
     return () => {
-      material.dispose(); // 释放材质资源
-      meshRef.current?.geometry.dispose(); // 释放几何体资源
+      material.dispose();
+      geometry.dispose();
     };
-  }, [material]);
+  }, [material, geometry]);
 
   useEffect(() => {
-    gl.setPixelRatio(window.devicePixelRatio || 2);
+    const pixelRatio = window.devicePixelRatio || 2;
+    gl.setPixelRatio(pixelRatio);
     gl.setSize(size.width, size.height);
     material.uniforms.u_resolution.value.set(size.width, size.height);
-  }, [size, gl, material]);
+  }, [size.width, size.height, gl, material]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
   });
 
-  return (
-    <mesh ref={meshRef} material={material}>
-      <planeGeometry args={[size.width, size.height, 1]} />
-    </mesh>
-  );
+  useEffect(() => {
+    const canvas = gl.domElement;
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      console.log("WebGL context lost. Attempting to restore...");
+    };
+
+    const handleContextRestored = () => {
+      console.log("WebGL context restored");
+      // 重新初始化必要的 WebGL 资源
+      gl.setPixelRatio(window.devicePixelRatio || 2);
+      gl.setSize(size.width, size.height);
+      material.uniforms.u_resolution.value.set(size.width, size.height);
+    };
+
+    canvas.addEventListener("webglcontextlost", handleContextLost);
+    canvas.addEventListener("webglcontextrestored", handleContextRestored);
+
+    return () => {
+      canvas.removeEventListener("webglcontextlost", handleContextLost);
+      canvas.removeEventListener("webglcontextrestored", handleContextRestored);
+    };
+  }, [gl, size, material]);
+
+  useEffect(() => {
+    if (meshRef.current) {
+      meshRef.current.position.z = 0;
+    }
+  }, []);
+
+  return <mesh ref={meshRef} material={material} geometry={geometry}></mesh>;
 };
 
 type NumericString = `${number}`;
@@ -74,38 +103,43 @@ const App: React.FC<{
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
-    setMouse({ x: event.clientX, y: event.clientY });
+    const { clientX, clientY } = event;
+    setMouse({ x: clientX, y: clientY });
   }, []);
 
   useEffect(() => {
-    const loadShaders = async () => {
-      try {
-        const [vertexRes, fragmentRes] = await Promise.all([
-          fetch(vertexShaderPath),
-          fetch(fragmentShaderPath),
-        ]);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [handleMouseMove]);
 
-        if (vertexRes.ok && fragmentRes.ok) {
-          const [vertexText, fragmentText] = await Promise.all([
-            vertexRes.text(),
-            fragmentRes.text(),
-          ]);
-          setVertexShader(vertexText);
-          setFragmentShader(fragmentText);
-        } else {
-          console.error(
-            "Failed to load shaders:",
-            vertexRes.status,
-            fragmentRes.status
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching shader files:", error);
+  const loadShaders = useCallback(async () => {
+    try {
+      const [vertexRes, fragmentRes] = await Promise.all([
+        fetch(vertexShaderPath),
+        fetch(fragmentShaderPath),
+      ]);
+
+      if (!vertexRes.ok || !fragmentRes.ok) {
+        throw new Error(
+          `Failed to load shaders: ${vertexRes.status}, ${fragmentRes.status}`
+        );
       }
-    };
 
-    loadShaders();
+      const [vertexText, fragmentText] = await Promise.all([
+        vertexRes.text(),
+        fragmentRes.text(),
+      ]);
+
+      setVertexShader(vertexText);
+      setFragmentShader(fragmentText);
+    } catch (error) {
+      console.error("Error fetching shader files:", error);
+    }
   }, [vertexShaderPath, fragmentShaderPath]);
+
+  useEffect(() => {
+    loadShaders();
+  }, [loadShaders]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -140,9 +174,22 @@ const App: React.FC<{
       {isVisible && vertexShader && fragmentShader && (
         <Canvas
           dpr={[1, 2]}
-          gl={{ antialias: false }}
-          camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }}
-          onCreated={({ gl }) => gl.setClearColor("black")}
+          camera={{
+            position: [0, 0, 1],
+            fov: 45,
+            near: 0.1,
+            far: 1000,
+          }}
+          gl={{
+            antialias: false,
+            powerPreference: "high-performance",
+            preserveDrawingBuffer: true,
+            alpha: false,
+            stencil: false,
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor("black");
+          }}
         >
           <CustomShaderCube
             mouse={mouse}
