@@ -36,12 +36,12 @@ export default ({ password }: SecretContentProps) => {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
+    <div className="space-y-4 m-auto">
+      <div className="flex items-center justify-center gap-2">
         <Input
           type="password"
           placeholder="请输入密码查看内容"
-          className="w-1/2 m-4 text-skin-purple"
+          className="w-1/2 m-4 p-4 text-skin-purple"
           value={inputPassword}
           onChange={e => setInputPassword(e.target.value)}
           onKeyDown={e => e.key === "Enter" && handleUnlock()}
