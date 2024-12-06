@@ -30,18 +30,21 @@ const CustomShaderCube: React.FC<{
   }, [vertexShader, fragmentShader]);
 
   useEffect(() => {
-    const updateSize = () => {
-      gl.setPixelRatio(window.devicePixelRatio || 2);
-      gl.setSize(size.width, size.height);
-      material.uniforms.u_resolution.value.set(size.width, size.height);
+    return () => {
+      material.dispose(); // 释放材质资源
+      meshRef.current?.geometry.dispose(); // 释放几何体资源
     };
-    updateSize();
+  }, [material]);
+
+  useEffect(() => {
+    gl.setPixelRatio(window.devicePixelRatio || 2);
+    gl.setSize(size.width, size.height);
+    material.uniforms.u_resolution.value.set(size.width, size.height);
   }, [size, gl, material]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
-    material.uniforms.u_resolution.value.set(size.width, size.height);
   });
 
   return (
@@ -67,23 +70,15 @@ const App: React.FC<{
   const [vertexShader, setVertexShader] = useState("");
   const [fragmentShader, setFragmentShader] = useState("");
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
-  const canvas = useRef<HTMLCanvasElement>(null);
+  const [isVisible, setIsVisible] = useState(false); // 控制可视状态
+  const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
     setMouse({ x: event.clientX, y: event.clientY });
   }, []);
 
   useEffect(() => {
-    const canvasElement = canvas.current;
-    if (canvasElement) {
-      canvasElement.addEventListener("mousemove", handleMouseMove);
-      return () =>
-        canvasElement.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, [handleMouseMove]);
-
-  const loadShaders = useMemo(
-    () => async () => {
+    const loadShaders = async () => {
       try {
         const [vertexRes, fragmentRes] = await Promise.all([
           fetch(vertexShaderPath),
@@ -97,36 +92,66 @@ const App: React.FC<{
           ]);
           setVertexShader(vertexText);
           setFragmentShader(fragmentText);
+        } else {
+          console.error(
+            "Failed to load shaders:",
+            vertexRes.status,
+            fragmentRes.status
+          );
         }
       } catch (error) {
         console.error("Error fetching shader files:", error);
       }
-    },
-    [vertexShaderPath, fragmentShaderPath]
-  );
+    };
+
+    loadShaders();
+  }, [vertexShaderPath, fragmentShaderPath]);
 
   useEffect(() => {
-    loadShaders();
-  }, [loadShaders]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // 控制在 10% 可见时触发
+    );
+
+    if (canvasRef.current) {
+      observer.observe(canvasRef.current);
+    }
+
+    return () => {
+      if (canvasRef.current) {
+        observer.unobserve(canvasRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <Canvas
-      dpr={[1, 2]}
-      className="m-auto my-2 border-blue-500 border-solid border-4"
-      gl={{ antialias: false }}
-      camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }}
-      style={{ width: `${width}vw`, height: `${height}vw` }}
-      ref={canvas}
+    <div
+      ref={canvasRef}
+      style={{
+        width: `${width}vw`,
+        height: `${height}vw`,
+        border: "4px solid blue",
+        margin: "auto",
+        marginTop: "2rem",
+      }}
     >
-      <color attach="background" args={["black"]} />
-      {vertexShader && fragmentShader && (
-        <CustomShaderCube
-          mouse={mouse}
-          vertexShader={vertexShader}
-          fragmentShader={fragmentShader}
-        />
+      {isVisible && vertexShader && fragmentShader && (
+        <Canvas
+          dpr={[1, 2]}
+          gl={{ antialias: false }}
+          camera={{ position: [0, 0, 15], fov: 17.5, near: 1, far: 20 }}
+          onCreated={({ gl }) => gl.setClearColor("black")}
+        >
+          <CustomShaderCube
+            mouse={mouse}
+            vertexShader={vertexShader}
+            fragmentShader={fragmentShader}
+          />
+        </Canvas>
       )}
-    </Canvas>
+    </div>
   );
 };
 
