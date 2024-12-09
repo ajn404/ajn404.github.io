@@ -11,37 +11,73 @@ const CustomShaderCube: React.FC<{
   vertexShader: string;
   fragmentShader: string;
 }> = ({ mouse, vertexShader, fragmentShader }) => {
+  const geometry = useMemo(() => new THREE.PlaneGeometry(2, 2), []);
   const meshRef = useRef<THREE.Mesh>(null);
   const { size, gl } = useThree();
 
-  const material = useMemo(() => {
+  const material = useMemo<ShaderMaterial>(() => {
     return new ShaderMaterial({
       vertexShader,
       fragmentShader,
       uniforms: {
         u_time: { value: 0 },
-        u_resolution: { value: new THREE.Vector2(size.width, size.height) },
-        u_mouse: { value: new THREE.Vector2(mouse.x, mouse.y) },
+        u_resolution: { value: new THREE.Vector2() },
+        u_mouse: { value: new THREE.Vector2() },
       },
     });
   }, [vertexShader, fragmentShader]);
 
   useEffect(() => {
-    gl.setPixelRatio(window.devicePixelRatio || 2);
+    return () => {
+      material.dispose();
+      geometry.dispose();
+    };
+  }, [material, geometry]);
+
+  useEffect(() => {
+    const pixelRatio = window.devicePixelRatio || 2;
+    gl.setPixelRatio(pixelRatio);
     gl.setSize(size.width, size.height);
     material.uniforms.u_resolution.value.set(size.width, size.height);
-  }, [size]);
+  }, [size.width, size.height, gl, material]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
   });
 
-  return (
-    <mesh ref={meshRef} material={material}>
-      <planeGeometry args={[size.width, size.height, 1]} />
-    </mesh>
-  );
+  useEffect(() => {
+    const canvas = gl.domElement;
+
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      console.log("WebGL context lost. Attempting to restore...");
+    };
+
+    const handleContextRestored = () => {
+      console.log("WebGL context restored");
+      // 重新初始化必要的 WebGL 资源
+      gl.setPixelRatio(window.devicePixelRatio || 2);
+      gl.setSize(size.width, size.height);
+      material.uniforms.u_resolution.value.set(size.width, size.height);
+    };
+
+    canvas.addEventListener("webglcontextlost", handleContextLost);
+    canvas.addEventListener("webglcontextrestored", handleContextRestored);
+
+    return () => {
+      canvas.removeEventListener("webglcontextlost", handleContextLost);
+      canvas.removeEventListener("webglcontextrestored", handleContextRestored);
+    };
+  }, [gl, size, material]);
+
+  useEffect(() => {
+    if (meshRef.current) {
+      meshRef.current.position.z = 0;
+    }
+  }, []);
+
+  return <mesh ref={meshRef} material={material} geometry={geometry}></mesh>;
 };
 
 type NumericString = `${number}`;
@@ -60,8 +96,8 @@ const App: React.FC<{
       gl_Position = vec4(position, 1.0);
     }
   `,
-  width = "40",
-  height = "40",
+  width = "20",
+  height = "20",
 }) => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -98,7 +134,7 @@ const App: React.FC<{
   }, [debouncedDensity]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center my-4">
       <Canvas
         dpr={[1, 2]}
         className="m-auto"
