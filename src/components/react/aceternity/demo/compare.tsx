@@ -11,6 +11,14 @@ export default () => {
         className=" w-full "
         slideMode="drag"
       />
+      <Compare
+        firstImage="/assets/texture/1.jpg"
+        secondImage="/assets/texture/2.jpg"
+        firstImageClassName="object-cover object-center"
+        secondImageClassname="object-cover object-center"
+        className=" w-full "
+        slideMode="drag"
+      />
     </div>
   );
 };
