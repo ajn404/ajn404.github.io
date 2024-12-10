@@ -73,32 +73,31 @@ const App: React.FC<{
   const handleMouseMove = useCallback((event: MouseEvent) => {
     setMouse({ x: event.clientX, y: event.clientY });
   }, []);
+  const loadShaders = async () => {
+    try {
+      console.log(vertexShaderPath, fragmentShaderPath);
+      const [vertexRes, fragmentRes] = await Promise.all([
+        fetch(vertexShaderPath),
+        fetch(fragmentShaderPath),
+      ]);
 
-  useEffect(() => {
-    const loadShaders = async () => {
-      try {
-        const [vertexRes, fragmentRes] = await Promise.all([
-          fetch(vertexShaderPath),
-          fetch(fragmentShaderPath),
-        ]);
-
-        if (!vertexRes.ok || !fragmentRes.ok) {
-          throw new Error(
-            `Failed to load shaders: ${vertexRes.status}, ${fragmentRes.status}`
-          );
-        }
-
-        const [vertexShader, fragmentShader] = await Promise.all([
-          vertexRes.text(),
-          fragmentRes.text(),
-        ]);
-
-        setShaders({ vertexShader, fragmentShader });
-      } catch (error) {
-        console.error("Error fetching shader files:", error);
+      if (!vertexRes.ok || !fragmentRes.ok) {
+        throw new Error(
+          `Failed to load shaders: ${vertexRes.status}, ${fragmentRes.status}`
+        );
       }
-    };
 
+      const [vertexShader, fragmentShader] = await Promise.all([
+        vertexRes.text(),
+        fragmentRes.text(),
+      ]);
+
+      setShaders({ vertexShader, fragmentShader });
+    } catch (error) {
+      console.error("Error fetching shader files:", error);
+    }
+  };
+  useEffect(() => {
     loadShaders();
   }, [vertexShaderPath, fragmentShaderPath]);
 
@@ -120,20 +119,9 @@ const App: React.FC<{
     };
   }, []);
 
-  const handleFullscreen = useCallback(async () => {
-    if (canvasRef.current) {
-      try {
-        await canvasRef.current.requestFullscreen();
-      } catch (err) {
-        console.error("Failed to enter fullscreen:", err);
-      }
-    }
-  }, []);
-
   return (
     <div
       ref={canvasRef}
-      onClick={handleFullscreen}
       style={{
         width: `${width}vw`,
         height: `${height}vw`,
@@ -160,6 +148,7 @@ const App: React.FC<{
             stencil: false,
           }}
           onCreated={({ gl }) => gl.setClearColor("black")}
+          className="inline margin-auto"
         >
           <CustomShaderCube
             mouse={mouse}
