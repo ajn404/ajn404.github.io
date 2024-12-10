@@ -125,7 +125,6 @@ const App: React.FC<{
       style={{
         width: `${width}vw`,
         height: `${height}vw`,
-        border: "4px solid blue",
         margin: "auto",
         marginTop: "2rem",
         cursor: "pointer",
