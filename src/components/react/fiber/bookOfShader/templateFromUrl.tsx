@@ -126,6 +126,7 @@ const App: React.FC<{
         width: `${width}vw`,
         height: `${height}vw`,
         margin: "auto",
+        boxShadow: "rgba(200, 211, 211, 0.2) 0px 7px 29px 0px",
         marginTop: "2rem",
         cursor: "pointer",
       }}

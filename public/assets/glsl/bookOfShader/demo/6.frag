@@ -3,6 +3,7 @@ varying vec2 v_uv;
 uniform float u_time;
 uniform vec2 u_mouse;
 
+
 float circle(in vec2 _st, in float _radius, in vec2 _center) {
     vec2 dist = _st - _center;
     return 1.0 - step(_radius, length(dist)); // 0 代表在圆外，1 代表在圆内
@@ -19,11 +20,13 @@ void main() {
     vec2 st = v_uv;
     // st = tile(st, abs(sin(u_time)*5.)+2.);
     st = tile(st, 5.);
-    float circle1 = circle(st, 0.5, vec2(0.5));
-    float circle2 = circle(st, 0.5, vec2(0.0, 0.0));
-    float circle3 = circle(st, 0.5, vec2(1.0, 0.0));
-    float circle4 = circle(st, 0.5, vec2(1.0, 1.0));
-    float circle5 = circle(st, 0.5, vec2(0.0, 1.0));
+    float radius = smoothstep( -1.,1. , sin(u_time*3.))+0.5;
+
+    float circle1 = circle(st, radius, vec2(0.5));
+    float circle2 = circle(st, radius, vec2(0.0, 0.0));
+    float circle3 = circle(st, radius, vec2(1.0, 0.0));
+    float circle4 = circle(st, radius, vec2(1.0, 1.0));
+    float circle5 = circle(st, radius, vec2(0.0, 1.0));
 
 
     float combinedCircle = 0.;
