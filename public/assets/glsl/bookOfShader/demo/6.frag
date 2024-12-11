@@ -20,7 +20,7 @@ void main() {
     vec2 st = v_uv;
     // st = tile(st, abs(sin(u_time)*5.)+2.);
     st = tile(st, 5.);
-    float radius = smoothstep( -1.,1. , sin(u_time*3.))+0.5;
+    float radius = smoothstep( -1.,1. , sin(u_time*5.))+0.5;
 
     float circle1 = circle(st, radius, vec2(0.5));
     float circle2 = circle(st, radius, vec2(0.0, 0.0));
@@ -33,9 +33,8 @@ void main() {
     if(max(circle2, max(circle3, max(circle4, circle5))) == 1.0 && circle1 == 1.0) {
         combinedCircle = 1.0;
     }
-    
 
-    combinedCircle = 1.0 - combinedCircle;
+    combinedCircle = abs(sin(combinedCircle));
 
     vec3 color = vec3(combinedCircle);
 

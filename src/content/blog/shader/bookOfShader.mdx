@@ -563,14 +563,61 @@ float random(vec2 coord) {
 }
 ```
 
+<div class="flex flex-wrap gap-4">
+
 <ShaderTemplateUrl
-  width="60"
-  height="20"
+  width="10"
+  height="10"
   fragmentShaderPath="/assets/glsl/bookOfShader/10/random.frag"
   client:only="react"
 />
 
+<ShaderTemplateUrl
+  width="10"
+  height="10"
+  fragmentShaderPath="/assets/glsl/bookOfShader/10/random_param.frag"
+  client:only="react"
+/>
+
+<ShaderTemplateUrl
+  width="10"
+  height="10"
+  fragmentShaderPath="/assets/glsl/bookOfShader/10/random_rect.frag"
+  client:only="react"
+/>
+
+</div>
+
+- 靴微应用一下
+
+```glsl
+varying vec2 v_uv;
+uniform float u_time;
+
+float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) *
+        43758.5453123);
+}
+
+void main() {
+    vec2 st = v_uv * 10.0; // 调整 10.0 来控制纹理的分辨率
+    float x = v_uv.x * 10.0; // 调整 10.0 来控制 x 轴的范围
+    float y = fract(sin(x) * min(u_time, 100000.));
+    st  = st /2.;
+    gl_FragColor = vec4(random(st)*st.x, y*st.x, random(st)*st.x, 1.0); // 使用 y 值作为灰度颜色
+}
+```
+
+<ShaderTemplateUrl
+  width="60"
+  height="20"
+  fragmentShaderPath="/assets/glsl/bookOfShader/10/func.frag"
+  client:only="react"
+/>
+
 ## 本页面主要使用的组件源码
+
+[src/components/react/fiber/bookOfShader/templateFromUrl.tsx](https://github.com/ajn404/ajn404.github.io/blob/main/src/components/react/fiber/bookOfShader/templateFromUrl.tsx)
 
 <details >
 <summary>Click to expand</summary>
@@ -928,3 +975,7 @@ export default App;
 ## 感慨
 
 有时自己也不知道会写出来什么东西
+
+## 链接
+
+- [Book of Shaders](https://thebookofshaders.com/)

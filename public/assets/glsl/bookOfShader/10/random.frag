@@ -9,7 +9,7 @@ float random(vec2 coord) {
 
 void main() {
     float num = 0.00000001;
-    num += (u_mouse.x * u_mouse.y + u_time) / 100000000.;
+    num += (u_mouse.x * u_mouse.y + u_time*20.) / 100000000.;
     float y = random(v_uv*(abs(sin(num))));
     gl_FragColor = vec4(y, y, y, 1.0); // 使用 y 值作为灰度颜色
 }

@@ -75,7 +75,6 @@ const App: React.FC<{
   }, []);
   const loadShaders = async () => {
     try {
-      console.log(vertexShaderPath, fragmentShaderPath);
       const [vertexRes, fragmentRes] = await Promise.all([
         fetch(vertexShaderPath),
         fetch(fragmentShaderPath),
