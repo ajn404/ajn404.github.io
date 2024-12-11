@@ -127,6 +127,10 @@
     prose-td:border-skin-line prose-img:mx-auto break-all
     prose-img:!mt-2 prose-hr:!border-skin-line;
   }
+
+  .prose .prose-flex {
+    @apply flex flex-wrap gap-4;
+  }
   .prose code {
     color: #28a2b7 !important;
     background-color: transparent !important;
@@ -207,7 +211,7 @@
     &.hv20 {
       @apply highlight-variant-20;
     }
-    summary{
+    summary {
       @apply text-skin-blue;
     }
   }
@@ -552,10 +556,10 @@ iframe {
   outline: 2px solid currentColor;
 }
 
-canvas{
+canvas {
   image-rendering: pixelated;
 }
 
-pre{
-    overflow: auto;
+pre {
+  overflow: auto;
 }
