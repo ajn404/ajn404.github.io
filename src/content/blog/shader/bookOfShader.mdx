@@ -16,6 +16,8 @@ import ShaderTemplate from "@components/react/fiber/bookOfShader/template.tsx";
 
 import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
 
+import Text from "@components/react/UI/Text.tsx";
+
 ## 目录
 
 ## [editor](/fantastic/glslEditor)
@@ -669,7 +671,7 @@ void main() {
 
 ### demo
 
-<div class="prose-flex">
+<div class="prose-flex gap-0 items-center text-lg">
 
 <ShaderTemplateUrl
   width="30"
@@ -678,7 +680,12 @@ void main() {
   client:only="react"
 />
 
-<center>colorful=></center>
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/9.frag"
+  client:only="react"
+/>
 
 <ShaderTemplateUrl
   width="30"
