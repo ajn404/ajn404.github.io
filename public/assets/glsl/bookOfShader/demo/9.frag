@@ -51,9 +51,9 @@ void main() {
     vec2 offset = vec2(0.1, 0.);
 
     vec3 color = vec3(0.);
-    color.r = pattern(st + offset, vel, 0.5 )*random(u_time*0.00001);
-    color.g = pattern(st, vel, 0.5 ) * random(st.y);
-    color.b = pattern(st - offset, vel, 0.5 )* random(st.x);
+    color.r = pattern(st + offset, vel, 0.5) * abs(cos(u_time * 0.0000001));
+    color.g = pattern(st, vel, 0.5) * abs(sin(st.x * 0.001));
+    color.b = pattern(st - offset, vel, 0.5) * abs(cos(st.y* 0.01));
 
     // Margins
     color *= step(0.2, fpos.y);
