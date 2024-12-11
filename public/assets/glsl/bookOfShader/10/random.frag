@@ -1,9 +1,15 @@
 
 varying vec2 v_uv;
 uniform float u_time;
+uniform vec2 u_mouse;
+
+float random(vec2 coord) {
+    return fract(sin(dot(coord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+}
 
 void main() {
-    float x = v_uv.x * 10.0; // 调整 10.0 来控制 x 轴的范围
-    float y = fract(sin(x) * min(u_time,100000.));
+    float num = 0.00000001;
+    num += (u_mouse.x * u_mouse.y + u_time) / 100000000.;
+    float y = random(v_uv*(abs(sin(num))));
     gl_FragColor = vec4(y, y, y, 1.0); // 使用 y 值作为灰度颜色
 }
