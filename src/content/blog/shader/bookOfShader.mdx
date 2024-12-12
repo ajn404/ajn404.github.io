@@ -99,7 +99,7 @@ import Text from "@components/react/UI/Text.tsx";
 
 import Demo1 from "@components/react/fiber/bookOfShader/specific/demo1.tsx";
 
-<Demo1 client:visible />
+<Demo1 client:load />
 
 </details>
 
@@ -767,6 +767,7 @@ float n = noise(pos);float c = circle(st, n * 0.5);
 <ShaderTemplateUrl
   width="60"
   height="30"
+  imgPaths="/assets/webp/2.webp"
   fragmentShaderPath="/assets/glsl/bookOfShader/11/noise_rect_art_v2.frag"
   client:only="react"
 />
@@ -865,7 +866,6 @@ float n = noise(pos);float c = circle(st, n * 0.5);
 <ShaderTemplateUrl
   width="30"
   height="30"
-  imgPaths="/assets/webp/2.webp"
   fragmentShaderPath="/assets/glsl/bookOfShader/11/gradient_noise_rect.frag"
   client:only="react"
 />

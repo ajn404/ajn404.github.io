@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 uniform float u_time;
 uniform sampler2D u_texture0;

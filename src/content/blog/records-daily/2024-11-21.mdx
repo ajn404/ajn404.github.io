@@ -22,7 +22,7 @@ import ShaderTemplateAdd from "@components/react/fiber/bookOfShader/template.tsx
 
 ```glsl
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 //在OpenGL ES环境中设置浮点数的精度为中等
 
@@ -111,7 +111,7 @@ $$
 <ShaderTemplateAdd
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -201,7 +201,7 @@ float plot(vec2 st, float pct) {
 <ShaderTemplateAdd
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -227,7 +227,7 @@ void main() {
 <ShaderTemplateAdd
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -255,7 +255,7 @@ void main() {
 <ShaderTemplateAdd
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -287,7 +287,7 @@ import P5Shader from "@components/react/p5/shader/index.tsx";
 <P5Shader
   fragmentShader=" 
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -314,7 +314,7 @@ void main() {
 <P5Shader
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -338,7 +338,7 @@ void main() {
 <P5Shader
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;
@@ -364,7 +364,7 @@ void main() {
 <ShaderTemplateAdd
   fragmentShader="
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 #define PI 3.14159265359
 uniform vec2 u_resolution;

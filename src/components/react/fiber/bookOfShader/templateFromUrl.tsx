@@ -44,16 +44,17 @@ const CustomShaderCube: React.FC<{
     material.uniforms.u_resolution.value.set(size.width, size.height);
 
     // Load all textures
-    const textureLoader = new TextureLoader();
-    texturePaths.forEach((path, index) => {
-      textureLoader.load(path, texture => {
-        //禁止重复 repeat
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-        material.uniforms[`u_texture${index}`].value = texture;
+    if (texturePaths.length > 0) {
+      const textureLoader = new TextureLoader();
+      texturePaths.forEach((path, index) => {
+        textureLoader.load(path, texture => {
+          //禁止重复 repeat
+          texture.wrapS = THREE.ClampToEdgeWrapping;
+          texture.wrapT = THREE.ClampToEdgeWrapping;
+          material.uniforms[`u_texture${index}`].value = texture;
+        });
       });
-    });
-
+    }
     return () => {
       material.dispose();
       geometry.dispose();
@@ -130,7 +131,7 @@ const App: React.FC<{
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.01 }
+      { threshold: 0.9 }
     );
 
     if (canvasRef.current) observer.observe(canvasRef.current);
@@ -164,13 +165,16 @@ const App: React.FC<{
             far: 1000,
           }}
           gl={{
-            antialias: false,
+            antialias: true,
             powerPreference: "high-performance",
             preserveDrawingBuffer: true,
             alpha: false,
             stencil: false,
           }}
-          onCreated={({ gl }) => gl.setClearColor("black")}
+          onCreated={({ gl }) => {
+            const pixelRatio = window.devicePixelRatio || 2;
+            gl.setPixelRatio(pixelRatio);
+          }}
           className="inline margin-auto"
         >
           <CustomShaderCube

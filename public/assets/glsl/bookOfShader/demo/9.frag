@@ -2,7 +2,7 @@
 // Title: Ikeda Data Stream
 
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 
 // Copyright (c) Patricio Gonzalez Vivo, 2015 - http://patriciogonzalezvivo.com/
