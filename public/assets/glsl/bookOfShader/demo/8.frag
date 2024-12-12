@@ -5,6 +5,8 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
+varying vec2 v_uv;
+
 
 float random(in float x) {
     return fract(sin(x) * 1e4);
@@ -20,7 +22,8 @@ float pattern(vec2 st, vec2 v, float t) {
 }
 
 void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = v_uv;
+    
     st.x *= u_resolution.x / u_resolution.y;
 
     vec2 grid = vec2(100.0, 50.); // 可以通过 uniform 动态调整

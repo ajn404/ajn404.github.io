@@ -5,6 +5,8 @@ precision mediump float;
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
+varying vec2 v_uv;
+
 
 float random(vec2 st) {
     return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) *
@@ -12,7 +14,7 @@ float random(vec2 st) {
 }
 
 void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = v_uv;
 
     st *= 2.0; 
     vec2 ipos = floor(st); 

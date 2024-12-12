@@ -11,6 +11,9 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
+varying vec2 v_uv;
+
+
 float random(in vec2 _st) {
     return fract(sin(dot(_st.xy, vec2(12.9898, 78.233))) *
         43758.5453123);
@@ -29,7 +32,7 @@ vec2 truchetPattern(in vec2 _st, in float _index) {
 }
 
 void main() {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = v_uv;
     st *= 10.0;
     // st = (st-vec2(5.0))*(abs(sin(u_time*0.2))*5.);
     // st.x += u_time*3.0;

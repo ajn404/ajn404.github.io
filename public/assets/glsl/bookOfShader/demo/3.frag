@@ -25,7 +25,7 @@ float diamondPattern(vec2 st) {
 // 主函数
 void main() {
     // vec2 st = v_uv; // 标准化坐标
-    vec2 st = gl_FragCoord.xy / u_resolution.xy; // 将纹理坐标映射到[-1, 1]范围
+    vec2 st = v_uv; // 将纹理坐标映射到[-1, 1]范围
 
     // 调整坐标比例
     st.x *= u_resolution.x / u_resolution.y;

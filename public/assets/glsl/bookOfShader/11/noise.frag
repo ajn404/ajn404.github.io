@@ -1,0 +1,8 @@
+uniform vec2 u_resolution;
+uniform float u_time; // 时间变量
+varying vec2 v_uv;
+
+void main() {
+    
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); // 设置颜色为红色
+}

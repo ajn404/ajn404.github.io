@@ -2,6 +2,9 @@
 
 uniform vec2 u_resolution;
 uniform float u_time;
+varying vec2 v_uv;
+
+
 
 vec2 rotate2D(vec2 _st, float _angle) {
     _st -= 0.5;
@@ -35,7 +38,7 @@ vec2 rotateTilePattern(vec2 _st) {
 }
 
 void main(void) {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = v_uv;
 
     st = tile(st, 3.0);
     st = rotateTilePattern(st);

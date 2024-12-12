@@ -65,7 +65,7 @@ float borderRect(vec2 uv, vec2 size, float borderWidth) {
 }
 
 void main(void) {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
+    vec2 st = v_uv;
 
 
     vec2 u_size = vec2(1., 1.); // Constant rectangle size (80% width, 60% height)

@@ -1,121 +1,132 @@
 {
-  "Frontmatter": {
-    "scope": "markdown",    
-    "prefix": "frontmatter",
-    "body": [
-      "---",
-      "author: ajn404 $1",
-      "pubDatetime: $CURRENT_YEAR-$CURRENT_MONTH-${CURRENT_DATE}T$CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND.000Z",
-      "title: $4",
-      "featured: ${5|false,true|}",
-      "draft: ${6|false,true|}",
-      "tags:",
-      "  - $7",
-      "description: $8",
-      "---",
-    ],
-    "description": "Adds the frontmatter block for the AstroPaper Blog post"
-  },
-  
-  "Blog Template": {
-    "scope": "markdown",    
-    "prefix": "template",
-    "body": [
-      "${1:frontmatter}",
-      "",
-      "${2: Introductory Sentence}",
-      "",
-      "## 目录",
-      "",
-      "## ${3: heading 1}",
-    ],
-    "description": "Adds the template for the AstroPaper Blog post. You will need to trigger the snippet modal on the 'frontmatter' line to insert the other snipper."
-  },
-  "details Template": {
-    "scope": "markdown",    
-    "prefix": "details",
-    "body": [
-      "<details open>",
-      "<summary>${1:Click to expand}</summary>",
-      "$2",
-      "</details>"
-    ],
-    "description": "details tag in mdx"
-  },
-  "details Template not open": {
-    "scope": "markdown",
-    "prefix": "details_not_open",
-    "body": [
-        "<details>",
-        "<summary>${1:Click to expand}</summary>",
-        "$2",
-        "</details>"
-    ],
-    "description": "details not open tag in mdx"
-},
-"details Template show code": {
-    "scope": "markdown",
-    "prefix": "details_show_code",
-    "body": [
-        "<details>",
-        "<summary>${1:show code}</summary>",
-        "",
-        "```$2",
-        "$3",
-        "```",
-        "",
-        "${4:import}",
-        "",
-        "</details>"
-    ],
-    "description": "details show code"
-},
-"details Template show anwser": {
-    "scope": "markdown",
-    "prefix": "details_show_anwser",
-    "body": [
-        "<details>",
-        "<summary>${1:如何理解}</summary>",
-        "$2",
-        "</details>"
-    ],
-    "description": "details not open tag in mdx"
-},
-  "blockquote Template": {
-    "scope": "markdown",    
-    "prefix": "blockquote",
-    "body": [
-      "<blockquote>",
-      "${1:details}",
-      "</blockquote>"
-    ],
-    "description": "details tag in mdx"
-  },
-  "mdx Import Component": {
-    "scope": "markdown",    
-    "prefix": "import",
-    "body": [
-      "import ${1:ComponentName} from '${2:ComponentPath}';",
-      "",
-      "<${1:ComponentName} client:visible />"
-    ],
-    "description": "details tag in mdx"
-  },
-
-"title for today": {
-    "scope": "markdown",
-    "prefix": "t",
-    "body": [
-        "## $CURRENT_YEAR-$CURRENT_MONTH-${CURRENT_DATE} $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
-        "",
-        "### 今日探索",
-        "",
-        "### 今日金融",
-        "",
-        "### 今日类型体操",
-        "",
-        "### 今日ui"
-    ],
-    "description": " today topic"
-},
+    "Frontmatter": {
+        "scope": "markdown",
+        "prefix": "frontmatter",
+        "body": [
+            "---",
+            "author: ajn404 $1",
+            "pubDatetime: $CURRENT_YEAR-$CURRENT_MONTH-${CURRENT_DATE}T$CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND.000Z",
+            "title: $4",
+            "featured: ${5|false,true|}",
+            "draft: ${6|false,true|}",
+            "tags:",
+            "  - $7",
+            "description: $8",
+            "---"
+        ],
+        "description": "Adds the frontmatter block for the AstroPaper Blog post"
+    },
+    "Blog Template": {
+        "scope": "markdown",
+        "prefix": "template",
+        "body": [
+            "${1:frontmatter}",
+            "",
+            "${2: Introductory Sentence}",
+            "",
+            "## 目录",
+            "",
+            "## ${3: heading 1}"
+        ],
+        "description": "Adds the template for the AstroPaper Blog post. You will need to trigger the snippet modal on the 'frontmatter' line to insert the other snipper."
+    },
+    "details Template": {
+        "scope": "markdown",
+        "prefix": "details",
+        "body": [
+            "<details open>",
+            "<summary>${1:Click to expand}</summary>",
+            "$2",
+            "</details>"
+        ],
+        "description": "details tag in mdx"
+    },
+    "details Template not open": {
+        "scope": "markdown",
+        "prefix": "details_not_open",
+        "body": [
+            "<details>",
+            "<summary>${1:Click to expand}</summary>",
+            "$2",
+            "</details>"
+        ],
+        "description": "details not open tag in mdx"
+    },
+    "details Template show code": {
+        "scope": "markdown",
+        "prefix": "details_show_code",
+        "body": [
+            "<details>",
+            "<summary>${1:show code}</summary>",
+            "",
+            "```$2",
+            "$3",
+            "```",
+            "",
+            "${4:import}",
+            "",
+            "</details>"
+        ],
+        "description": "details show code"
+    },
+    "details Template show anwser": {
+        "scope": "markdown",
+        "prefix": "details_show_anwser",
+        "body": [
+            "<details>",
+            "<summary>${1:如何理解}</summary>",
+            "$2",
+            "</details>"
+        ],
+        "description": "details not open tag in mdx"
+    },
+    "blockquote Template": {
+        "scope": "markdown",
+        "prefix": "blockquote",
+        "body": [
+            "<blockquote>",
+            "${1:details}",
+            "</blockquote>"
+        ],
+        "description": "details tag in mdx"
+    },
+    "mdx Import Component": {
+        "scope": "markdown",
+        "prefix": "import",
+        "body": [
+            "import ${1:ComponentName} from '${2:ComponentPath}';",
+            "",
+            "<${1:ComponentName} client:visible />"
+        ],
+        "description": "details tag in mdx"
+    },
+    "title for today": {
+        "scope": "markdown",
+        "prefix": "t",
+        "body": [
+            "## $CURRENT_YEAR-$CURRENT_MONTH-${CURRENT_DATE} $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
+            "",
+            "### 今日探索",
+            "",
+            "### 今日金融",
+            "",
+            "### 今日类型体操",
+            "",
+            "### 今日ui"
+        ],
+        "description": " today topic"
+    },
+    "frag": {
+        "prefix": "frag",
+        "scope": "glsl",
+        "body": [
+            "uniform vec2 u_resolution;",
+            "uniform float u_time; // 时间变量",
+            "varying vec2 v_uv;",
+            "void main() {",
+            "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); // 设置颜色为红色",
+            "}"
+        ],
+        "description": "template for fragment shader"
+    }
 }
