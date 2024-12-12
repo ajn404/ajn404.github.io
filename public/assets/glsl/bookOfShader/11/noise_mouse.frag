@@ -30,7 +30,7 @@ float noise(in vec2 st) {
 
 void main() {
     vec2 st = v_uv;
-    vec2 pos = vec2(st * 5.0 + u_time * 1.); 
+    vec2 pos = vec2(st * (u_mouse.x/10.+5.) + u_time * 1.); 
     //把空间大小变成五倍（第 45 行）以便看清栅格间的插值
 
     float n = noise(pos);

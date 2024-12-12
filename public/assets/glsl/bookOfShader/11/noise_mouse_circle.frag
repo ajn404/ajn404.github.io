@@ -28,11 +28,17 @@ float noise(in vec2 st) {
         (d - b) * u.x * u.y;
 }
 
+float circle(in vec2 st, in float radius) {
+    return smoothstep(radius, radius + 0.01, length(st - 0.5));
+}
+
 void main() {
     vec2 st = v_uv;
-    vec2 pos = vec2(st * 5.0 + u_time * 1.); 
-    //把空间大小变成五倍（第 45 行）以便看清栅格间的插值
+    // st*=5.;
+    vec2 pos = vec2(st * 5. + u_time * 1.); 
 
     float n = noise(pos);
-    gl_FragColor = vec4(vec3(n), 1.0);
+    float c = circle(st, n * 0.5);
+
+    gl_FragColor = vec4(vec3(c), 1.0);
 }

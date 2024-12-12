@@ -698,7 +698,7 @@ void main() {
 
 ## 11 噪声
 
-<div class="prose-flex gap-4">
+<div class="prose-flex gap-4 items-center">
 
 <ShaderTemplateUrl
   width="40"
@@ -707,13 +707,69 @@ void main() {
   client:only="react"
 />
 
+结合u_mouse
+
+<ShaderTemplateUrl
+  width="40"
+  height="40"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/noise_mouse.frag"
+  client:only="react"
+/>
+
 </div>
 
 就像在[这篇文章](/posts/nature-of-code#perlincurve)中尝试的柏林噪声一样
 
+<details>
+<summary>Click to expand</summary>
+
 import PerlinCurve from "@components/react/p5/Randomness/PerlinCurve.tsx";
 
-<PerlinCurve hideRandom client:load />
+<PerlinCurve hideRandom client:visible />
+
+</details>
+
+距离场
+
+<div class="prose-flex gap-4 items-center">
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/circle.frag"
+  client:only="react"
+/>
+
+```glsl
+float n = noise(pos);float c = circle(st, n * 0.5);
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/noise_mouse_circle.frag"
+  client:only="react"
+/>
+
+看着似乎和前面的一样，实际这个是rectangle
+
+<ShaderTemplateUrl
+  width="60"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/noise_rect.frag"
+  client:only="react"
+/>
+
+</div>
+
+乘风破浪,虽然很怪
+
+<ShaderTemplateUrl
+  width="60"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/noise_rect_art_v2.frag"
+  client:only="react"
+/>
 
 ## 本页面主要使用的组件源码
 
