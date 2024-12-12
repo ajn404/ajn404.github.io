@@ -26,7 +26,7 @@ void main() {
     
     st.x *= u_resolution.x / u_resolution.y;
 
-    vec2 grid = vec2(100.0, 50.); // 可以通过 uniform 动态调整
+    vec2 grid = vec2(10.0, 30.); // 可以通过 uniform 动态调整
     st *= grid;
 
     vec2 ipos = floor(st); // 整数部分
