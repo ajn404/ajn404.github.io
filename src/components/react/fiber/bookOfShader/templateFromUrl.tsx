@@ -81,7 +81,7 @@ const App: React.FC<{
   fragmentShaderPath = "/assets/glsl/draft/1.frag",
   width = "45",
   height = "45",
-  imgPaths = "/assets/webp/2.webp",
+  imgPaths = "",
 }) => {
   const [shaders, setShaders] = useState({
     vertexShader: "",
@@ -130,7 +130,7 @@ const App: React.FC<{
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.1 }
+      { threshold: 0.01 }
     );
 
     if (canvasRef.current) observer.observe(canvasRef.current);
@@ -146,6 +146,8 @@ const App: React.FC<{
       style={{
         width: `${width}vw`,
         height: `${height}vw`,
+        minWidth: `${width}vw`,
+        minHeight: `${height}vw`,
         margin: "auto",
         boxShadow: "rgba(200, 211, 211, 0.2) 0px 7px 29px 0px",
         marginTop: "2rem",
