@@ -1,9 +1,9 @@
 uniform vec2 u_resolution;
 uniform float u_time;
+varying vec2 v_uv;
 
 #define PI 3.14159265358979323846
 
-varying vec2 v_uv;
 
 vec2 rotate2D(vec2 _st, float _angle) {
     _st -= 0.5;
