@@ -771,6 +771,115 @@ float n = noise(pos);float c = circle(st, n * 0.5);
   client:only="react"
 />
 
+<details>
+<summary>value noise && gradient noise</summary>
+**Value Noise** 和 **Gradient Noise** 是计算机图形学中两种常见的噪声生成方法。它们在数学构造、视觉效果和实现方式上有所不同。以下是两者的主要区别：
+
+---
+
+### **1. 定义和原理**
+
+#### **Value Noise**
+
+- **核心思想**：在网格的每个顶点生成随机的标量值（单个值），然后通过插值函数在网格内部平滑过渡。
+- **构造方式**：
+  1. 在一个规则网格上分配随机值（标量）。
+  2. 在网格内插值（例如使用线性插值或三次插值）。
+  3. 平滑后的噪声值呈现连续变化，但梯度不连续。
+- **视觉效果**：
+  - 看起来像柔和的云朵或模糊的纹理。
+  - 具有柔和过渡，但整体没有显著的方向性。
+
+---
+
+#### **Gradient Noise**
+
+- **核心思想**：在网格的每个顶点生成随机的梯度向量，而不是标量值。噪声值是根据梯度的影响计算的。
+- **构造方式**：
+  1. 在网格顶点分配随机的梯度向量。
+  2. 在网格内部，通过将顶点梯度点积插值点的向量来计算噪声值。
+  3. 插值结果更光滑，梯度连续。
+- **代表方法**：
+  - Perlin Noise 是 Gradient Noise 的典型例子。
+- **视觉效果**：
+  - 更自然的变化，常用于模拟地形、云层、水面等。
+
+---
+
+### **2. 数学插值**
+
+- **Value Noise**：
+  - 插值仅基于网格顶点的标量值。
+  - 通常使用线性插值、双线性插值或三次插值函数。
+  - 梯度不连续，可能出现视觉上的硬边。
+- **Gradient Noise**：
+  - 插值基于网格顶点的梯度（方向信息）和与插值点的矢量的点积。
+  - 通常使用三次插值（例如 Hermite 插值）。
+  - 梯度连续，视觉上更平滑。
+
+---
+
+### **3. 性能**
+
+- **Value Noise**：
+  - 实现简单，计算量较小。
+  - 适合生成快速的噪声效果，但缺乏真实感。
+- **Gradient Noise**：
+  - 实现较复杂，需要额外的梯度计算。
+  - 性能稍慢，但结果更加自然，适合高质量需求。
+
+---
+
+### **4. 视觉效果**
+
+| 特性     | **Value Noise**    | **Gradient Noise**             |
+| -------- | ------------------ | ------------------------------ |
+| 平滑程度 | 平滑，但可能有硬边 | 更加平滑，自然                 |
+| 方向性   | 无方向性，变化均匀 | 有方向性，表现更真实           |
+| 用途     | 纹理生成、简单噪声 | 地形、云层、水面模拟等自然现象 |
+
+---
+
+### **5. 应用场景**
+
+- **Value Noise**：
+  - 适合快速生成柔和的噪声效果。
+  - 用于简单的背景、粗糙的噪声纹理。
+- **Gradient Noise**：
+  - 更适合模拟自然现象，如地形生成、云层、水面、烟雾等。
+  - 被广泛用于图形学、游戏开发和程序化内容生成。
+
+---
+
+### **总结**
+
+- **Value Noise** 简单高效，适合对质量要求不高的场景。
+- **Gradient Noise** 提供更真实、更平滑的结果，但计算更复杂，适合需要高质量自然模拟的场景。
+
+  </details>
+
+- gradient noise
+
+<div class="items-center prose-flex">
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/gradient_noise_rect.frag"
+  client:only="react"
+/>
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/gradient_noise_rect_art_v2.frag"
+  client:only="react"
+/>
+
+！🤯竟然有浪纹
+
+</div>
+
 ## 本页面主要使用的组件源码
 
 [src/components/react/fiber/bookOfShader/templateFromUrl.tsx](https://github.com/ajn404/ajn404.github.io/blob/main/src/components/react/fiber/bookOfShader/templateFromUrl.tsx)

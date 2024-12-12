@@ -18,29 +18,18 @@ float smoothBorderRect(vec2 uv, vec2 size, float borderWidth) {
     return smoothstep(borderWidth - borderWidth * 0.5, borderWidth + borderWidth * 0.5, d);
 }
 
-float random(in vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+vec2 random2(vec2 st) {
+    st = vec2(dot(st, vec2(127.1, 311.7)), dot(st, vec2(269.5, 183.3)));
+    return -1.0 + 2.0 * fract(sin(st) * 43758.5453123);
 }
 
-float noise(in vec2 st) {
-
-    //把空间分成更小的单元
+float noise(vec2 st) {
     vec2 i = floor(st);
     vec2 f = fract(st);
 
-    //计算整数位置的顶点的坐标，并给每个顶点生成一个随机值
-    float a = random(i);
-    float b = random(i + vec2(1.0, 0.0));
-    float c = random(i + vec2(0.0, 1.0));
-    float d = random(i + vec2(1.0, 1.0));
-
     vec2 u = f * f * (3.0 - 2.0 * f);
-    u = smoothstep(0., 1., f);
 
-    //用我们之前储存的小数位置的值，在四个顶点的随机值之间插值
-    return mix(a, b, u.x) +
-        (c - a) * u.y * (1.0 - u.x) +
-        (d - b) * u.x * u.y + 0.5;
+    return mix(mix(dot(random2(i + vec2(0.0, 0.0)), f - vec2(0.0, 0.0)), dot(random2(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0)), u.x), mix(dot(random2(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0)), dot(random2(i + vec2(1.0, 1.0)), f - vec2(1.0, 1.0)), u.x), u.y)*1.+1.;
 }
 
 void main() {
