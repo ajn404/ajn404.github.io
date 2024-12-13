@@ -978,11 +978,16 @@ float snoise(vec2 v) {
 
 import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
+<details>
+<summary>流程图</summary>
+
 <Excalidraw
   viewModeEnabled="true"
   file="perlin_noise"
-  className="w-[60vw] h-full"
+  className="w-full h-full"
 />
+
+</details>
 
 <ShaderTemplateUrl
   width="30"
@@ -992,6 +997,15 @@ import Excalidraw from "@components/astro/UI/excalidraw.astro";
 />
 
 </div>
+
+### demo
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/pang.frag"
+  client:only="react"
+/>
 
 ## 本页面主要使用的组件源码
 
@@ -1358,3 +1372,5 @@ export default App;
 
 - [Book of Shaders](https://thebookofshaders.com/)
 - [ryojiikeda](https://www.ryojiikeda.com/)
+- [code demo](https://glslsandbox.com/)
+- [glsl tool](https://fordhurley.com/glsl-grapher/)
