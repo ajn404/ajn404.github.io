@@ -97,6 +97,10 @@ const App: React.FC<{
   const handleMouseMove = useCallback((event: MouseEvent) => {
     setMouse({ x: event.clientX, y: event.clientY });
   }, []);
+  const handleTouchMove = useCallback((event: TouchEvent) => {
+    const touch = event.touches[0];
+    setMouse({ x: touch.clientX, y: touch.clientY });
+  }, []);
   const loadShaders = async () => {
     setIsLoading(true);
     try {
@@ -129,8 +133,12 @@ const App: React.FC<{
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [handleMouseMove]);
+    window.addEventListener("touchmove", handleTouchMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [handleMouseMove, handleTouchMove]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -159,43 +167,39 @@ const App: React.FC<{
         cursor: "pointer",
       }}
     >
-      {isLoading ? (
+      {isLoading || !isVisible ? (
         <div className="flex justify-center items-center h-full">
           Loading...
         </div>
       ) : (
-        isVisible &&
-        shaders.vertexShader &&
-        shaders.fragmentShader && (
-          <Canvas
-            dpr={[1, 2]}
-            camera={{
-              position: [0, 0, 1],
-              fov: 45,
-              near: 0.1,
-              far: 1000,
-            }}
-            gl={{
-              antialias: true,
-              powerPreference: "high-performance",
-              preserveDrawingBuffer: true,
-              alpha: false,
-              stencil: false,
-            }}
-            onCreated={({ gl }) => {
-              const pixelRatio = window.devicePixelRatio || 2;
-              gl.setPixelRatio(pixelRatio);
-            }}
-            className="inline margin-auto"
-          >
-            <CustomShaderCube
-              mouse={mouse}
-              vertexShader={shaders.vertexShader}
-              fragmentShader={shaders.fragmentShader}
-              texturePaths={texturePaths}
-            />
-          </Canvas>
-        )
+        <Canvas
+          dpr={[1, 2]}
+          camera={{
+            position: [0, 0, 1],
+            fov: 45,
+            near: 0.1,
+            far: 1000,
+          }}
+          gl={{
+            antialias: true,
+            powerPreference: "high-performance",
+            preserveDrawingBuffer: true,
+            alpha: false,
+            stencil: false,
+          }}
+          onCreated={({ gl }) => {
+            const pixelRatio = window.devicePixelRatio || 2;
+            gl.setPixelRatio(pixelRatio);
+          }}
+          className="inline margin-auto"
+        >
+          <CustomShaderCube
+            mouse={mouse}
+            vertexShader={shaders.vertexShader}
+            fragmentShader={shaders.fragmentShader}
+            texturePaths={texturePaths}
+          />
+        </Canvas>
       )}
     </div>
   );
