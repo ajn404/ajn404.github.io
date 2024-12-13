@@ -2,11 +2,10 @@
 precision highp float;
 #endif
 
-// glslsandbox uniforms
 uniform float u_time;
 uniform vec2 u_resolution;
+varying vec2 v_uv;
 
-// polynomial smooth min (from IQ)
 float smin(float a, float b, float k) {
     float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
     return mix(b, a, h) - k * h * (1.0 - h);
@@ -64,7 +63,7 @@ float sceneDist(vec3 p) {
     op = p;
     p -= vec3(.66, .7, 0);
     p.xz = rotmat(cos(u_time) * .1 + 0.1) * p.xz;
-    d = smin(d, (length(p * vec3(11.8, 1, 1)) - .58), .7);
+    d = smin(d, (length(p * vec3(1.8, 1, 1)) - .58), .07);
     p = op;
 
     // right arm
@@ -83,11 +82,6 @@ float sceneDist(vec3 p) {
     // tongue
     p = op;
     d = smin(d, length((p - vec3(0, .03, -.75)) * vec3(1, 1, 1)) - .1, .01);
-
-	// KNOB
-    // float mk = sin(u_time * 1.3) * 0.1;
-    // float dd = sdCapsule(p, vec3(0.0, -0.7, -0.8), vec3(88.0 + cos(-u_time * 99.6) * 0.15, -0.65 + mk, -1.4), .09);
-    // d = smin(d, dd, 0.11);
 
     return min(d, 10.);
 }
@@ -126,8 +120,7 @@ float starShape(vec2 p) {
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    // Normalized pixel coordinates (from 0 to 1)
-    vec2 uv = fragCoord / u_resolution.xy;
+    vec2 uv = v_uv;
 
     float an = cos(u_time) * .1;
 
@@ -246,11 +239,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     fragColor.rgb = pow(fragColor.rgb, vec3(1. / 2.4));
     fragColor.a = 1.0;
 }
-
-// --------[ Original ShaderToy ends here ]---------- //
-
-#undef time
-#undef resolution
 
 void main(void) {
     mainImage(gl_FragColor, gl_FragCoord.xy);
