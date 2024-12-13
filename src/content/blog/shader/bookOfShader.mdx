@@ -882,6 +882,118 @@ float n = noise(pos);float c = circle(st, n * 0.5);
 
 </div>
 
+<div class="prose-flex items-center flex-wrap text-wrap">
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/grid.frag"
+  client:only="react"
+/>
+
+```glsl
+vec2 skew(vec2 st) {
+    vec2 r = vec2(0.0);
+    r.x = 1.1547 * st.x;
+    r.y = st.y + 0.5 * r.x;
+    return r;
+}
+
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/grid_skew.frag"
+  client:only="react"
+/>
+
+<p class="w-1/4">
+  通过判断 if x > y (下三角) 还是 y > x
+  (上三角)，就把歪斜过的正方形切成了两个等腰三角形
+</p>
+
+```glsl
+vec3 simplexGrid(vec2 st) {
+    vec3 xyz = vec3(0.0);
+
+    vec2 p = fract(skew(st));
+    if(p.x > p.y) {
+        xyz.xy = 1.0 - vec2(p.x, p.y - p.x);
+        xyz.z = p.y;
+    } else {
+        xyz.yz = 1.0 - vec2(p.x - p.y, p.y);
+        xyz.x = p.x;
+    }
+
+    return fract(xyz);
+}
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/grid_simplex.frag"
+  client:only="react"
+/>
+
+<p class="w-1/4">**Simplex Noise**</p>
+
+```glsl
+float snoise(vec2 v) {
+    const vec4 C = vec4(0.211324865405187,
+    0.366025403784439,
+    -0.577350269189626,
+    0.024390243902439);
+    vec2 i = floor(v + dot(v, C.yy));
+    vec2 x0 = v - i + dot(i, C.xx);
+    vec2 i1 = vec2(0.0);
+    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec2 x1 = x0.xy + C.xx - i1;
+    vec2 x2 = x0.xy + C.zz;
+    i = mod289(i);
+    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+    vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x1, x1), dot(x2, x2)), 0.0);
+
+    m = m * m;
+    m = m * m;
+    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x) - 0.5;
+    vec3 ox = floor(x + 0.5);
+    vec3 a0 = x - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+
+    vec3 g = vec3(0.0);
+    g.x = a0.x * x0.x + h.x * x0.y;
+    g.yz = a0.yz * vec2(x1.x, x2.x) + h.yz * vec2(x1.y, x2.y);
+    return 130.0 * dot(m, g);
+}
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/simplexNoise.frag"
+  client:only="react"
+/>
+
+<Excalidraw
+  viewModeEnabled="true"
+  file="perlin_noise"
+  className="w-[60vw] h-full"
+/>
+
+import Excalidraw from "@components/astro/UI/excalidraw.astro";
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/11/perlin_noise.frag"
+  client:only="react"
+/>
+
+</div>
+
 ## 本页面主要使用的组件源码
 
 [src/components/react/fiber/bookOfShader/templateFromUrl.tsx](https://github.com/ajn404/ajn404.github.io/blob/main/src/components/react/fiber/bookOfShader/templateFromUrl.tsx)
