@@ -127,7 +127,7 @@
   }
 
   .prose .prose-flex {
-    @apply flex flex-wrap gap-1 w-full h-min-[30vw];
+    @apply flex flex-wrap gap-1 w-full min-h-[30vw];
   }
   .prose code {
     color: #28a2b7 !important;
