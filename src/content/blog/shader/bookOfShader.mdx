@@ -774,6 +774,7 @@ float n = noise(pos);float c = circle(st, n * 0.5);
 
 <details>
 <summary>value noise && gradient noise</summary>
+
 **Value Noise** 和 **Gradient Noise** 是计算机图形学中两种常见的噪声生成方法。它们在数学构造、视觉效果和实现方式上有所不同。以下是两者的主要区别：
 
 ---
@@ -909,8 +910,8 @@ vec2 skew(vec2 st) {
 />
 
 <p class="w-1/4">
-  通过判断 if x > y (下三角) 还是 y > x
-  (上三角)，就把歪斜过的正方形切成了两个等腰三角形
+  通过判断 if x > y (下三角) 还是 y >
+  x(上三角)，就把歪斜过的正方形切成了两个等腰三角形
 </p>
 
 ```glsl
@@ -977,13 +978,13 @@ float snoise(vec2 v) {
   client:only="react"
 />
 
+import Excalidraw from "@components/astro/UI/excalidraw.astro";
+
 <Excalidraw
   viewModeEnabled="true"
   file="perlin_noise"
   className="w-[60vw] h-full"
 />
-
-import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
 <ShaderTemplateUrl
   width="30"
