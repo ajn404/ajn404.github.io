@@ -6,24 +6,32 @@ import React, {
   useCallback,
 } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ShaderMaterial } from "three";
+import { ShaderMaterial, TextureLoader } from "three";
 import * as THREE from "three";
 
 const CustomShaderCube: React.FC<{
   mouse: { x: number; y: number };
   vertexShader: string;
   fragmentShader: string;
-}> = ({ mouse, vertexShader, fragmentShader }) => {
+  texturePaths: string[];
+}> = ({ mouse, vertexShader, fragmentShader, texturePaths }) => {
   const geometry = useMemo(() => new THREE.PlaneGeometry(2, 2), []);
   const material = useMemo(() => {
+    const uniforms: Record<string, any> = {
+      u_time: { value: 0 },
+      u_resolution: { value: new THREE.Vector2() },
+      u_mouse: { value: new THREE.Vector2() },
+    };
+
+    // Initialize uniforms for each texture
+    texturePaths.forEach((_, index) => {
+      uniforms[`u_texture${index}`] = { value: null };
+    });
+
     return new ShaderMaterial({
       vertexShader,
       fragmentShader,
-      uniforms: {
-        u_time: { value: 0 },
-        u_resolution: { value: new THREE.Vector2() },
-        u_mouse: { value: new THREE.Vector2() },
-      },
+      uniforms,
     });
   }, [vertexShader, fragmentShader]);
 
@@ -35,6 +43,18 @@ const CustomShaderCube: React.FC<{
     gl.setSize(size.width, size.height);
     material.uniforms.u_resolution.value.set(size.width, size.height);
 
+    // Load all textures
+    if (texturePaths.length > 0) {
+      const textureLoader = new TextureLoader();
+      texturePaths.forEach((path, index) => {
+        textureLoader.load(path, texture => {
+          //禁止重复 repeat
+          texture.wrapS = THREE.ClampToEdgeWrapping;
+          texture.wrapT = THREE.ClampToEdgeWrapping;
+          material.uniforms[`u_texture${index}`].value = texture;
+        });
+      });
+    }
     return () => {
       material.dispose();
       geometry.dispose();
@@ -56,11 +76,13 @@ const App: React.FC<{
   fragmentShaderPath?: string;
   width?: NumericString;
   height?: NumericString;
+  imgPaths?: string;
 }> = ({
   vertexShaderPath = "/assets/glsl/all.vert",
   fragmentShaderPath = "/assets/glsl/draft/1.frag",
   width = "45",
   height = "45",
+  imgPaths = "",
 }) => {
   const [shaders, setShaders] = useState({
     vertexShader: "",
@@ -69,11 +91,18 @@ const App: React.FC<{
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const texturePaths = imgPaths.split(",").map(path => path.trim());
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
     setMouse({ x: event.clientX, y: event.clientY });
   }, []);
+  const handleTouchMove = useCallback((event: TouchEvent) => {
+    const touch = event.touches[0];
+    setMouse({ x: touch.clientX, y: touch.clientY });
+  }, []);
   const loadShaders = async () => {
+    setIsLoading(true);
     try {
       const [vertexRes, fragmentRes] = await Promise.all([
         fetch(vertexShaderPath),
@@ -94,6 +123,8 @@ const App: React.FC<{
       setShaders({ vertexShader, fragmentShader });
     } catch (error) {
       console.error("Error fetching shader files:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -102,8 +133,12 @@ const App: React.FC<{
 
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [handleMouseMove]);
+    window.addEventListener("touchmove", handleTouchMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [handleMouseMove, handleTouchMove]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -124,13 +159,19 @@ const App: React.FC<{
       style={{
         width: `${width}vw`,
         height: `${height}vw`,
+        minWidth: `${width}vw`,
+        minHeight: `${height}vw`,
         margin: "auto",
         boxShadow: "rgba(200, 211, 211, 0.2) 0px 7px 29px 0px",
         marginTop: "2rem",
         cursor: "pointer",
       }}
     >
-      {isVisible && shaders.vertexShader && shaders.fragmentShader && (
+      {isLoading || !isVisible ? (
+        <div className="flex justify-center items-center h-full">
+          Loading...
+        </div>
+      ) : (
         <Canvas
           dpr={[1, 2]}
           camera={{
@@ -140,19 +181,23 @@ const App: React.FC<{
             far: 1000,
           }}
           gl={{
-            antialias: false,
+            antialias: true,
             powerPreference: "high-performance",
             preserveDrawingBuffer: true,
             alpha: false,
             stencil: false,
           }}
-          onCreated={({ gl }) => gl.setClearColor("black")}
+          onCreated={({ gl }) => {
+            const pixelRatio = window.devicePixelRatio || 2;
+            gl.setPixelRatio(pixelRatio);
+          }}
           className="inline margin-auto"
         >
           <CustomShaderCube
             mouse={mouse}
             vertexShader={shaders.vertexShader}
             fragmentShader={shaders.fragmentShader}
+            texturePaths={texturePaths}
           />
         </Canvas>
       )}
