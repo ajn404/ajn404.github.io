@@ -191,7 +191,7 @@ const App: React.FC<{
             const pixelRatio = window.devicePixelRatio || 2;
             gl.setPixelRatio(pixelRatio);
           }}
-          className="inline margin-auto"
+          className="w-full h-full"
         >
           <CustomShaderCube
             mouse={mouse}
