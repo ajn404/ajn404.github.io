@@ -30,6 +30,9 @@ float hex(vec2 st, bool a, bool b, bool c, bool d, bool e, bool f) {
     vec2 fpos = fract(st);
     vec2 ipos = floor(st);
 
+    //输入坐标被缩放到六边形网格的比例（vec2(2., 6.)），然后使用 floor 和 fract 将网格划分为整数和小数部分。
+
+    //每一行的六边形通过布尔值 a-f 来决定显示某种样式（比如内部是否填充）。
     if(ipos.x == 1.0)
         fpos.x = 1. - fpos.x;
     if(ipos.y < 1.0) {
@@ -113,12 +116,11 @@ void main() {
     vec2 texUV = st;
     vec4 textureColor0 = texture2D(u_texture0, texUV);
     vec4 textureColor1 = texture2D(u_texture1, texUV);
-    vec4 textureColor = mix(textureColor0, textureColor1, step(sin(u_time), st.x));
+    vec4 textureColor = mix(textureColor0, textureColor1, step(abs(sin(u_time*0.4)), st.x));
 
     df = mix(hex(st, t), hex(st, t + 1.), fract(t));
     df += snoise(vec3(st * 75., t * 0.1)) * 0.03;
 
     gl_FragColor = vec4(mix(textureColor.rgb, vec3(.9,.5,.3), step(0.7, df)), 1.0);
 
-    // gl_FragColor = vec4(textureColor.rgb, 1.0);
 }

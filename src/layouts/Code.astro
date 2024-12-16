@@ -4,30 +4,94 @@ import CheckIcon from "./CheckIcon.astro";
 ---
 
 <pre
-  class="relative shadow-2xl bg-black code"><div class="sticky  z-20 top-0 left-0 mb-8 max-h-0 flex">
-    <button aria-label="copy-button" class="copy-button text-skin-purple rounded-md transition-all ease-in hover:text-indigo-400"><CopyIcon /></button><span class="check-span rounded-md transition-all ease-in hidden text-green-300 "><CheckIcon /></span>    
-    </div><slot/></pre>
+  class="relative shadow-2xl bg-black code">
+  <div class="sticky z-20 top-0 left-0 mb-8 max-h-0 flex">
+    <button aria-label="copy-button" class="copy-button text-skin-purple rounded-md transition-all ease-in hover:text-indigo-400">
+      <CopyIcon />
+    </button>
+    <span class="check-span rounded-md transition-all ease-in hidden text-green-300">
+      <CheckIcon />
+    </span>
+  </div>
+  <div class="code-container">
+    <div class="line-numbers" />
+    <code class="code-content">
+      <slot />
+    </code>
+  </div>
+</pre>
 
 <script>
-  const coppyBlock = () => {
-    const codeBlock = document.querySelectorAll("pre");
+  const copyBlock = () => {
+    const codeBlocks = document.querySelectorAll("pre");
 
-    codeBlock.forEach(code => {
+    codeBlocks.forEach(code => {
+      const codeContent = code.querySelector(".code-content");
+      const lineNumbers = code.querySelector(".line-numbers");
       const button = code.querySelector(".copy-button");
       const check = code.querySelector(".check-span");
-      if (!button) return;
 
-      button!.addEventListener("click", () => {
-        navigator.clipboard.writeText(code.textContent?.trim() || "");
-        check?.classList.remove("hidden");
-        button?.classList.add("hidden");
-        setTimeout(() => {
-          check?.classList.add("hidden");
-          button?.classList.remove("hidden");
-        }, 2000);
-      });
+      if (!codeContent || !lineNumbers) return;
+
+      // Split code into lines and generate line numbers
+      const lines = codeContent.textContent.split("\n");
+      lineNumbers.innerHTML = "\n" + lines.map((_, index) => index+1).join("\n");
+      // Add event listener for copy button
+      if (button) {
+        button.addEventListener("click", () => {
+          navigator.clipboard.writeText(codeContent.textContent.trim());
+          check?.classList.remove("hidden");
+          button?.classList.add("hidden");
+          setTimeout(() => {
+            check?.classList.add("hidden");
+            button?.classList.remove("hidden");
+          }, 2000);
+        });
+      }
     });
   };
-  coppyBlock(); // initial load
-  document.addEventListener("astro:after-swap", coppyBlock); // re-run after each page change
+
+  // Run the function on initial load and after page swaps
+  copyBlock();
+  document.addEventListener("astro:after-swap", copyBlock);
 </script>
+
+<style>
+  pre {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: auto;
+    background: #1e1e1e; /* 深色背景 */
+    color: #dcdcdc; /* 默认代码字体颜色 */
+    border-radius: 8px;
+  }
+
+  pre .code-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+  }
+
+  pre .line-numbers {
+    text-align: right;
+    padding-right: 16px;
+    user-select: none;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #606060; /* 行号颜色 */
+    border-right: 1px solid #2e2e2e; /* 分割线 */
+  }
+
+  pre .code-content {
+    padding-left: 16px;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre-wrap; /* 保持换行 */
+    word-wrap: break-word; /* 长单词换行 */
+  }
+</style>

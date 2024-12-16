@@ -95,11 +95,24 @@ const App: React.FC<{
   const [isLoading, setIsLoading] = useState(true);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
-    setMouse({ x: event.clientX, y: event.clientY });
+    if (!canvasRef.current) return;
+
+    const rect = canvasRef.current.getBoundingClientRect(); // 获取 Canvas 的位置和尺寸
+    setMouse({
+      x: (event.clientX - rect.left) / rect.width, // 鼠标相对于 Canvas 的归一化坐标
+      y: 1 - (event.clientY - rect.top) / rect.height, // 翻转 Y 轴
+    });
   }, []);
+
   const handleTouchMove = useCallback((event: TouchEvent) => {
+    if (!canvasRef.current) return;
+
     const touch = event.touches[0];
-    setMouse({ x: touch.clientX, y: touch.clientY });
+    const rect = canvasRef.current.getBoundingClientRect(); // 获取 Canvas 的位置和尺寸
+    setMouse({
+      x: (touch.clientX - rect.left) / rect.width, // 鼠标相对于 Canvas 的归一化坐标
+      y: 1 - (touch.clientY - rect.top) / rect.height, // 翻转 Y 轴
+    });
   }, []);
   const loadShaders = async () => {
     setIsLoading(true);
@@ -132,13 +145,13 @@ const App: React.FC<{
   }, [vertexShaderPath, fragmentShaderPath]);
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("touchmove", handleTouchMove);
+    canvasRef.current.addEventListener("mousemove", handleMouseMove);
+    canvasRef.current.addEventListener("touchmove", handleTouchMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("touchmove", handleTouchMove);
+      canvasRef.current.removeEventListener("mousemove", handleMouseMove);
+      canvasRef.current.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [handleMouseMove, handleTouchMove]);
+  }, [handleMouseMove, handleTouchMove, canvasRef]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
