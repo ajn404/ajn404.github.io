@@ -18,10 +18,7 @@ function Bnbshader() {
 
   return (
     <>
-      <details open={open.current}>
-        <summary>Voronoi</summary>
-        <div ref={ref} />
-      </details>
+      <div ref={ref} className="w-full overflow-hidden" />
     </>
   );
 }
