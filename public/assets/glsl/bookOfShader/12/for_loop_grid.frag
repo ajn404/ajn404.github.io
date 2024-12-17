@@ -19,15 +19,15 @@ void main() {
     vec3 color = vec3(.0);
     st *= 3.;
 
-    // Tile the space
-    vec2 i_st = floor(st);
-    vec2 f_st = fract(st);
+    vec2 i_st = floor(st);//整数
+    vec2 f_st = fract(st);//小数表示为网格内的每个像素点
 
-    vec2 point = random2(i_st);
+    vec2 point = random2(i_st);//随机点
     vec2 diff = point - f_st;
 
     float dist = length(diff);
     color += dist;
+    //计算网格内的每个像素点到随机点的距离
 
     // Draw cell center
     color += 1. - step(.02, dist);

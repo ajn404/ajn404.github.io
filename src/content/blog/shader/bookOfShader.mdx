@@ -3,7 +3,7 @@ author: ajn404
 pubDatetime: 2024-11-27T17:22:34.000Z
 modDatetime:
 title: book of shader
-featured: false
+featured: true
 draft: false
 tags:
   - "2024"
@@ -11,6 +11,8 @@ tags:
   - "book of shader"
 description: "book of shader"
 ---
+
+学习shader，从book of shader开始
 
 import ShaderTemplate from "@components/react/fiber/bookOfShader/template.tsx";
 
@@ -1084,7 +1086,9 @@ void main() {
   client:only="react"
 />
 
-网格
+</div>
+
+<div class="prose-flex flex-wrap">
 
 <ShaderTemplateUrl
   width="30"
@@ -1093,7 +1097,126 @@ void main() {
   client:only="react"
 />
 
+计算相邻网络的像素点和随机点的位置,把空间分割成网格,计算每个像素点到它所在网格中的那个特征点的距离，和它到相邻的八个网格中的特征点的距离，结果是一个距离场
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_grid_neighbor.frag"
+  client:only="react"
+/>
+
 </div>
+
+<div class="prose-flex">
+
+```glsl
+color += m_dist;                 // 绘制最小距离（平滑的灰度场）
+color += 1. - step(.02, m_dist); // 绘制网格中心的圆点
+color -= step(.7,abs(sin(27.0*m_dist)))*.5;
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_grid_neighbor_v1.frag"
+  client:only="react"
+/>
+
+```glsl
+color += smoothstep(.1, .5, m_dist);
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_grid_neighbor_v2.frag"
+  client:only="react"
+/>
+
+</div>
+
+<div class="prose-flex">
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_grid_neighbor_v3.frag"
+  client:only="react"
+/>
+
+```glsl
+point = 0.1 + 0.9 * sin(u_time + 6.2831 * point);
+//随机点应该能出现在多个网格中
+```
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_grid_neighbor_v4.frag"
+  client:only="react"
+/>
+
+</div>
+
+<details>
+<summary>Georgy Voronoi算法</summary>
+
+import Voronoi from "@components/react/observablehq/ajn404/voronoi.tsx";
+
+<Voronoi client:visible />
+
+Georgy Voronoi算法用于生成Voronoi图，这是一种将平面划分为多个区域的方法，每个区域对应于一个给定的点集（称为种子点）。在每个Voronoi单元中，所有点到该种子点的距离都小于到其他种子点的距离。以下是Voronoi图生成的基本步骤和一种常见的算法实现：
+
+### 基本步骤
+
+1. **输入点集**：给定一组点（种子点）。
+2. **计算边界**：对于每一对种子点，计算它们的中垂线，这些中垂线将形成Voronoi图的边界。
+3. **构建单元**：通过连接中垂线的交点，形成Voronoi单元。
+4. **输出结果**：返回Voronoi图的边界和单元。
+
+### 常见算法
+
+1. **暴力法**：
+
+   - 对于每个像素，计算其到所有种子点的距离，选择最近的种子点。这种方法简单但效率低下，时间复杂度为O(n^2)。
+
+2. **Fortune算法**：
+   - 这是一个更高效的算法，时间复杂度为O(n log n)。它使用了扫描线技术，通过维护一个事件队列和一个活动边界来构建Voronoi图。
+
+### 示例代码（Python）
+
+以下是使用暴力法生成Voronoi图的简单示例：
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def voronoi(points, size):
+    img = np.zeros((size, size, 3), dtype=np.uint8)
+    for x in range(size):
+        for y in range(size):
+            # 计算每个像素到所有种子点的距离
+            distances = [np.linalg.norm(np.array([x, y]) - np.array(point)) for point in points]
+            # 找到最近的种子点
+            closest = np.argmin(distances)
+            img[y, x] = [closest * 50 % 255, closest * 100 % 255, closest * 150 % 255]  # 颜色编码
+    return img
+
+# 示例种子点
+points = [(100, 200), (300, 400), (500, 100), (700, 600)]
+size = 800
+voronoi_image = voronoi(points, size)
+
+plt.imshow(voronoi_image)
+plt.title("Voronoi Diagram")
+plt.axis('off')
+plt.show()
+```
+
+这个代码示例生成了一个简单的Voronoi图，使用随机颜色来表示不同的单元。你可以根据需要调整种子点的位置和数量。
+
+</details>
 
 ## 本页面主要使用的组件源码
 

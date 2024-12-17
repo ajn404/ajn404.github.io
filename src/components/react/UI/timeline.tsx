@@ -39,7 +39,7 @@ export default function TimelineDemo() {
       ),
     },
     {
-      title: "日出东方",
+      title: "过去搭建的ssg/学习demo",
       content: (
         <div>
           <a href="https://ajn404.github.io/mono_notes/">astro雏形</a>
