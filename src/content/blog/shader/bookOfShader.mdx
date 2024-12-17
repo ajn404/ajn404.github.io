@@ -751,7 +751,7 @@ float n = noise(pos);float c = circle(st, n * 0.5);
   client:only="react"
 />
 
-看着似乎和前面的一样，实际这个是rectangle
+看着似乎和前面的一样，实际这个是rectangle,背景在2.5k显示屏是黑色的，1k显示屏则是青黄交接
 
 <ShaderTemplateUrl
   width="60"
@@ -1081,6 +1081,15 @@ void main() {
   width="30"
   height="30"
   fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_clear.frag"
+  client:only="react"
+/>
+
+网格
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/12/for_loop_grid.frag"
   client:only="react"
 />
 

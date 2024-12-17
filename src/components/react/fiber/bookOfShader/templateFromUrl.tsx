@@ -6,9 +6,10 @@ import React, {
   useCallback,
 } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ShaderMaterial, TextureLoader } from "three";
+import { ShaderMaterial, TextureLoader, ClampToEdgeWrapping } from "three";
 import * as THREE from "three";
 
+// CustomShaderCube 组件
 const CustomShaderCube: React.FC<{
   mouse: { x: number; y: number };
   vertexShader: string;
@@ -17,13 +18,13 @@ const CustomShaderCube: React.FC<{
 }> = ({ mouse, vertexShader, fragmentShader, texturePaths }) => {
   const geometry = useMemo(() => new THREE.PlaneGeometry(2, 2), []);
   const material = useMemo(() => {
-    const uniforms: Record<string, any> = {
+    const uniforms = {
       u_time: { value: 0 },
       u_resolution: { value: new THREE.Vector2() },
       u_mouse: { value: new THREE.Vector2() },
     };
 
-    // Initialize uniforms for each texture
+    // 动态创建纹理的 uniform
     texturePaths.forEach((_, index) => {
       uniforms[`u_texture${index}`] = { value: null };
     });
@@ -33,42 +34,37 @@ const CustomShaderCube: React.FC<{
       fragmentShader,
       uniforms,
     });
-  }, [vertexShader, fragmentShader]);
+  }, [vertexShader, fragmentShader, texturePaths]);
 
   const { size, gl } = useThree();
 
   useEffect(() => {
-    const pixelRatio = window.devicePixelRatio || 2;
-    gl.setPixelRatio(pixelRatio);
-    gl.setSize(size.width, size.height);
     material.uniforms.u_resolution.value.set(size.width, size.height);
 
-    // Load all textures
-    if (texturePaths.length > 0) {
-      const textureLoader = new TextureLoader();
-      texturePaths.forEach((path, index) => {
-        textureLoader.load(path, texture => {
-          //禁止重复 repeat
-          texture.wrapS = THREE.ClampToEdgeWrapping;
-          texture.wrapT = THREE.ClampToEdgeWrapping;
-          material.uniforms[`u_texture${index}`].value = texture;
-        });
+    const textureLoader = new TextureLoader();
+    texturePaths.forEach((path, index) => {
+      textureLoader.load(path, texture => {
+        texture.wrapS = ClampToEdgeWrapping;
+        texture.wrapT = ClampToEdgeWrapping;
+        material.uniforms[`u_texture${index}`].value = texture;
       });
-    }
+    });
+
     return () => {
       material.dispose();
       geometry.dispose();
     };
-  }, [size, gl, material, geometry]);
+  }, [size, material, texturePaths, geometry]);
 
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
   });
 
-  return <mesh material={material} geometry={geometry}></mesh>;
+  return <mesh geometry={geometry} material={material} />;
 };
 
+// App 组件
 type NumericString = `${number}`;
 
 const App: React.FC<{
@@ -90,43 +86,25 @@ const App: React.FC<{
   });
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const texturePaths = imgPaths.split(",").map(path => path.trim());
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleMouseMove = useCallback((event: MouseEvent) => {
-    if (!canvasRef.current) return;
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const texturePaths = useMemo(
+    () => imgPaths.split(",").map(path => path.trim()),
+    [imgPaths]
+  );
 
-    const rect = canvasRef.current.getBoundingClientRect(); // 获取 Canvas 的位置和尺寸
-    setMouse({
-      x: (event.clientX - rect.left) / rect.width, // 鼠标相对于 Canvas 的归一化坐标
-      y: 1 - (event.clientY - rect.top) / rect.height, // 翻转 Y 轴
-    });
-  }, []);
-
-  const handleTouchMove = useCallback((event: TouchEvent) => {
-    if (!canvasRef.current) return;
-
-    const touch = event.touches[0];
-    const rect = canvasRef.current.getBoundingClientRect(); // 获取 Canvas 的位置和尺寸
-    setMouse({
-      x: (touch.clientX - rect.left) / rect.width, // 鼠标相对于 Canvas 的归一化坐标
-      y: 1 - (touch.clientY - rect.top) / rect.height, // 翻转 Y 轴
-    });
-  }, []);
-  const loadShaders = async () => {
-    setIsLoading(true);
+  // 加载 Shader 文件
+  const loadShaders = useCallback(async () => {
     try {
+      setIsLoading(true);
       const [vertexRes, fragmentRes] = await Promise.all([
         fetch(vertexShaderPath),
         fetch(fragmentShaderPath),
       ]);
 
-      if (!vertexRes.ok || !fragmentRes.ok) {
-        throw new Error(
-          `Failed to load shaders: ${vertexRes.status}, ${fragmentRes.status}`
-        );
-      }
+      if (!vertexRes.ok || !fragmentRes.ok)
+        throw new Error("Failed to load shaders.");
 
       const [vertexShader, fragmentShader] = await Promise.all([
         vertexRes.text(),
@@ -135,24 +113,49 @@ const App: React.FC<{
 
       setShaders({ vertexShader, fragmentShader });
     } catch (error) {
-      console.error("Error fetching shader files:", error);
+      console.error("Error loading shaders:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-  useEffect(() => {
-    loadShaders();
   }, [vertexShaderPath, fragmentShaderPath]);
 
   useEffect(() => {
-    canvasRef.current.addEventListener("mousemove", handleMouseMove);
-    canvasRef.current.addEventListener("touchmove", handleTouchMove);
-    return () => {
-      canvasRef.current.removeEventListener("mousemove", handleMouseMove);
-      canvasRef.current.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, [handleMouseMove, handleTouchMove, canvasRef]);
+    loadShaders();
+  }, [loadShaders]);
 
+  // 鼠标移动事件
+  const handleMouseMove = useCallback(
+    (event: MouseEvent | TouchEvent) => {
+      if (!canvasRef.current) return;
+      const rect = canvasRef.current.getBoundingClientRect();
+      const clientX =
+        "clientX" in event ? event.clientX : event.touches[0]?.clientX;
+      const clientY =
+        "clientY" in event ? event.clientY : event.touches[0]?.clientY;
+
+      setMouse({
+        x: (clientX - rect.left) / rect.width,
+        y: 1 - (clientY - rect.top) / rect.height,
+      });
+    },
+    [canvasRef]
+  );
+
+  useEffect(() => {
+    const ref = canvasRef.current;
+    if (ref) {
+      ref.addEventListener("mousemove", handleMouseMove);
+      ref.addEventListener("touchmove", handleMouseMove);
+    }
+    return () => {
+      if (ref) {
+        ref.removeEventListener("mousemove", handleMouseMove);
+        ref.removeEventListener("touchmove", handleMouseMove);
+      }
+    };
+  }, [handleMouseMove]);
+
+  // 可见性观察
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
@@ -160,10 +163,7 @@ const App: React.FC<{
     );
 
     if (canvasRef.current) observer.observe(canvasRef.current);
-
-    return () => {
-      if (canvasRef.current) observer.unobserve(canvasRef.current);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -172,11 +172,8 @@ const App: React.FC<{
       style={{
         width: `${width}vw`,
         height: `${height}vw`,
-        minWidth: `${width}vw`,
-        minHeight: `${height}vw`,
-        margin: "auto",
+        margin: "2rem auto",
         boxShadow: "rgba(200, 211, 211, 0.2) 0px 7px 29px 0px",
-        marginTop: "2rem",
         cursor: "pointer",
       }}
     >
@@ -187,22 +184,11 @@ const App: React.FC<{
       ) : (
         <Canvas
           dpr={[1, 2]}
-          camera={{
-            position: [0, 0, 1],
-            fov: 45,
-            near: 0.1,
-            far: 1000,
-          }}
+          camera={{ position: [0, 0, 1], fov: 45 }}
           gl={{
             antialias: true,
             powerPreference: "high-performance",
-            preserveDrawingBuffer: true,
             alpha: false,
-            stencil: false,
-          }}
-          onCreated={({ gl }) => {
-            const pixelRatio = window.devicePixelRatio || 2;
-            gl.setPixelRatio(pixelRatio);
           }}
           className="w-full h-full"
         >
