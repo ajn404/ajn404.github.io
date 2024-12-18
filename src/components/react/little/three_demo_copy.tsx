@@ -40,8 +40,6 @@ const ModelViewer: React.FC = ({
     controls.enableDamping = true;
     controls.enableZoom = true;
     controls.enablePan = true;
-    controls.minDistance = 21;
-    controls.maxDistance = 50;
     controls.minPolarAngle = Math.PI / 5;
     controls.maxPolarAngle = Math.PI / 2;
     const minPan = new THREE.Vector3(-2, -0.5, -2);
@@ -49,9 +47,7 @@ const ModelViewer: React.FC = ({
 
     // Materials and Textures
     const textureLoader = new THREE.TextureLoader();
-    const bakedTexture = textureLoader.load("/assets/texture/baked.jpg");
-    bakedTexture.flipY = false;
-    bakedTexture.encoding = THREE.sRGBEncoding;
+    const bakedTexture = textureLoader.load("/assets/bg/1.jpeg");
     const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
 
     // Model Loading
@@ -99,15 +95,23 @@ const ModelViewer: React.FC = ({
 
     animate();
 
+    // 禁用鼠标滚动事件
+    const handleWheel = (event: WheelEvent) => {
+      // event.preventDefault(); // 阻止默认的滚动行为
+      event.stopPropagation();
+    };
+    canvas.addEventListener("wheel", handleWheel);
+
     return () => {
       window.removeEventListener("resize", handleResize);
+      canvas.removeEventListener("wheel", handleWheel);
       renderer.dispose(); // 清理资源
     };
   }, []);
 
   return (
     <>
-      <canvas ref={canvasRef} className="webgl w-full user-select-none" />
+      <canvas ref={canvasRef} className="webgl w-1/2 m-auto touch-none" />
       <div id="loader" ref={loadingRef}>
         <h1>Loading</h1>
       </div>
