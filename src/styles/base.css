@@ -561,3 +561,8 @@ canvas {
 pre {
   overflow: auto;
 }
+
+
+.card-grid{
+    @apply flex flex-wrap gap-4 justify-center;
+}

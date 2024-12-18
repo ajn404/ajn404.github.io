@@ -4,7 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import Footer from "@components/astro/UI/Footer.astro";
 import LinkButton from "@components/astro/UI/LinkButton.astro";
 import Hr from "@components/astro/UI/Hr.astro";
-import Card from "@components/react/UI/Card";
+import Card from "@components/react/UI/3d-card";
 import Socials from "@components/astro/UI/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
@@ -130,7 +130,7 @@ console.timeEnd("index");
         <div class="card-grid">
           {
             sortedPosts
-              .slice(0, 8)
+              .slice(0, 9)
               .map(({ data }) => (
                 <Card
                   client:load
