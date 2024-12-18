@@ -34,7 +34,7 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
           translateZ="60"
           className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
         >
-          <h3>{description}</h3>
+          {description}
         </CardItem>
         <CardItem translateZ="100" className="w-full mt-4">
           <img
@@ -44,14 +44,8 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
           />
         </CardItem>
         <div className="flex justify-between items-center mt-20">
-          <CardItem
-            translateZ={20}
-            as={Datetime}
-            datetime={pubDatetime}
-            className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-          >
-            {""}
-          </CardItem>
+          <Datetime className="w-3/4" datetime={pubDatetime} />
+
           <CardItem
             translateZ={20}
             as="a"
