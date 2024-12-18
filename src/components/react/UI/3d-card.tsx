@@ -39,7 +39,7 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
         <CardItem translateZ="100" className="w-full mt-4">
           <img
             src={ogImage || "/assets/ajn404.jpeg"}
-            className="h-60 w-full object-contain rounded-xl group-hover/card:shadow-xl"
+            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
             alt="thumbnail"
           />
         </CardItem>
