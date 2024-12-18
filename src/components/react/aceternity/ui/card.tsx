@@ -42,6 +42,26 @@ export const CardContainer = ({
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsMouseEntered(true);
+    if (!containerRef.current) return;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const touch = e.touches[0];
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
+    const x = (touch.clientX - left - width / 2) / 25;
+    const y = (touch.clientY - top - height / 2) / 25;
+    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    setIsMouseEntered(false);
+    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+  };
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
@@ -58,6 +78,9 @@ export const CardContainer = ({
           onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart} // 添加触摸事件
+          onTouchMove={handleTouchMove} // 添加触摸事件
+          onTouchEnd={handleTouchEnd} // 添加触摸事件
           className={cn(
             "flex items-center justify-center relative transition-all duration-200 ease-linear",
             className
