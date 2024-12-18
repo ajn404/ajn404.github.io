@@ -13,12 +13,14 @@ import TextAnimation from "@components/react/d3/textAnimation.tsx";
 import Header from "@components/astro/UI/Header.astro";
 import TimeLine from "@components/react/UI/timeline.tsx";
 import { TypewriterEffectSmooth } from "@aceternity/ui/typewriter-effect";
+console.time("index");
 const [posts, socialCount] = await Promise.all([
   getCollection("blog"),
   SOCIALS.filter(social => social.active).length,
 ]);
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+console.timeEnd("index");
 ---
 
 <Layout>
@@ -161,7 +163,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
     </section>
   </main>
   <blockquote
-    class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900 w-full text-center my-10 font-bold italic text-white"
+    class="w-full text-center my-10 font-bold italic text-white"
   >
     <p>
       "The WorldWideWeb (WWW) project aims to allow links to be made to any

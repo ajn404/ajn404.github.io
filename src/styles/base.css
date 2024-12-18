@@ -98,7 +98,7 @@
     --p: 100%;
   }
   #nav-menu svg,
-  .flex > svg,
+  /* .flex > svg, */
   .small-svg {
     @apply inline-block h-6 w-6 fill-skin-base group-hover:fill-skin-accent;
   }
@@ -190,7 +190,7 @@
     @apply mb-2;
   }
   .prose details {
-    @apply inline-block cursor-pointer  text-skin-base rounded-lg;
+    @apply inline-block cursor-pointer  text-skin-base rounded-lg w-full overflow-auto;
   }
   .prose details[open] {
     @apply text-skin-base highlight highlight-variant-1 after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)];

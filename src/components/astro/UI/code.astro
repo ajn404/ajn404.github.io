@@ -1,0 +1,25 @@
+---
+import { CodeBlock } from "@components/react/aceternity/ui/codeblock";
+import fs from "fs";
+
+const { url, lang, highlightLines } = Astro.props;
+
+// 读取文件内容
+let code = "";
+try {
+  code = fs.readFileSync(url, "utf-8");
+} catch (err) {
+  console.error(`Error reading file at ${url}:`, err);
+  code = "// File not found or error reading file.";
+}
+const paramsHighlightLines = highlightLines
+  ? highlightLines.split(",").map(Number)
+  : [];
+---
+
+<CodeBlock
+  filename={url}
+  code={code}
+  language={lang}
+  highlightLines={paramsHighlightLines}
+/>
