@@ -5,10 +5,12 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export interface ModelViewerProps {
   url?: string;
+  className?: string;
 }
 
 const ModelViewer: React.FC = ({
   url = "/assets/models/gltf/model.glb",
+  className = "",
 }: ModelViewerProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
@@ -21,11 +23,9 @@ const ModelViewer: React.FC = ({
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({
       canvas,
-      // antialias: true,
-      // alpha: true,
+      antialias: true,
+      alpha: true,
     });
-    renderer.outputEncoding = THREE.sRGBEncoding;
-
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
       10,
@@ -47,7 +47,7 @@ const ModelViewer: React.FC = ({
 
     // Materials and Textures
     const textureLoader = new THREE.TextureLoader();
-    const bakedTexture = textureLoader.load("/assets/bg/1.jpeg");
+    const bakedTexture = textureLoader.load("/assets/bg/2.jpeg");
     const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
 
     // Model Loading
@@ -111,7 +111,10 @@ const ModelViewer: React.FC = ({
 
   return (
     <>
-      <canvas ref={canvasRef} className="webgl w-1/2 m-auto touch-none" />
+      <canvas
+        ref={canvasRef}
+        className={`webgl w-1/2 m-auto touch-none ${className}`}
+      />
       <div id="loader" ref={loadingRef}>
         <h1>Loading</h1>
       </div>
