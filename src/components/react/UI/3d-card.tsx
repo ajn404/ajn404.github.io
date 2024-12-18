@@ -58,7 +58,7 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
             as="a"
             href={href}
             target="__blank"
-            className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+            className="px-4 py-2 rounded-xl text-xl font-normal text-white"
           >
             跳转 →
           </CardItem>
