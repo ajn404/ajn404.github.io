@@ -21,7 +21,7 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
   return (
     <CardContainer className="inter-var">
       <CardBody
-        className={`w-auto sm:w-[30rem] h-auto rounded-xl p-6   highlight highlight-variant-${random} after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)]`}
+        className={`w-auto sm:w-[30rem] h-auto rounded-xl px-6   highlight highlight-variant-${random} after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)]  after:to-[rgb(47,111,123,0.8)]`}
       >
         <CardItem
           translateZ="50"
@@ -39,18 +39,18 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
         <CardItem translateZ="100" className="w-full mt-4">
           <img
             src={ogImage || "/assets/ajn404.jpeg"}
-            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+            className="h-60 w-full object-contain rounded-xl group-hover/card:shadow-xl"
             alt="thumbnail"
           />
         </CardItem>
-        <div className="flex justify-between items-center mt-20">
+        <div className="flex justify-between items-center mt-4">
           <Datetime className="w-3/4" datetime={pubDatetime} />
 
           <CardItem
             translateZ={20}
             as="a"
             href={href}
-            target="__blank"
+            target="_parent"
             className="px-4 py-2 rounded-xl text-xs font-normal text-white"
           >
             跳转 →
