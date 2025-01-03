@@ -8,6 +8,8 @@ float noise(in vec2 p) {
     return sin(p.x) * sin(p.y);
 }
 
+
+// 分形布朗运动
 float fbm4(vec2 p) {
     float f = 0.0;
     f += 0.5000 * noise(p);
@@ -46,6 +48,8 @@ vec2 fbm6_2(vec2 p) {
 
 //====================================================================
 
+//生成一个基于噪声的复杂值 f，并输出额外的噪声信息 ron。
+// 通过调整输入坐标 q 和时间 u_time，引入动态效果。
 float func(vec2 q, out vec4 ron) {
     q += 0.03 *  sin(vec2(0.27, 0.23) * u_time  + length(q) * vec2(4.1, 4.3));
 
@@ -62,6 +66,8 @@ float func(vec2 q, out vec4 ron) {
     return mix(f, f * f * f * 3.5, f * abs(n.x));
 }
 
+//根据当前像素坐标 fragCoord 和分辨率 u_resolution，计算颜色值 fragColor。
+// 结合噪声值和光照模型，生成最终的视觉效果
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 p = (2.0 * fragCoord - u_resolution.xy) / u_resolution.y;
     float e = 2.0 / u_resolution.y;

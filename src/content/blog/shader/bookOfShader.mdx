@@ -1162,6 +1162,8 @@ point = 0.1 + 0.9 * sin(u_time + 6.2831 * point);
 
 </div>
 
+- 泰森多边形
+
 <details>
 <summary>Georgy Voronoi算法</summary>
 
@@ -1240,6 +1242,67 @@ plt.show()
   width="90"
   height="20"
   fragmentShaderPath="/assets/glsl/bookOfShader/demo/fluent_v1.frag"
+  client:only="react"
+/>
+
+- https://iquilezles.org/articles/voronoilines/
+
+<details open>
+<summary>旎嗥</summary>
+
+- 简单 F2-F1 Voronoi 导致非均匀线条、损坏的单元格和断裂的单元格等高线 的原因
+
+<blockquote>
+
+在绘制F2-F1 Voronoi图时，出现非均匀线条、破损单元格和断裂等高线的问题，可能由以下几个原因导致：
+
+1. **生成点分布不均匀**：
+
+   - 如果生成点分布不均匀，会导致Voronoi区域大小不一，线条粗细不均。建议使用Poisson disk sampling等方法生成均匀分布的生成点。
+
+2. **Voronoi图生成算法错误**：
+
+   - 确保使用的Voronoi图生成算法正确无误，能够正确划分所有区域并处理边界条件。可以考虑使用可靠的Voronoi图生成库来避免实现错误。
+
+3. **F2-F1定义不明确**：
+
+   - F2-F1的具体定义可能不清晰，导致减法操作不适用。需要明确F2和F1的数学定义，并确保它们在数学上是可减的。
+
+4. **等高线绘制算法问题**：
+
+   - 使用简单的阈值法绘制等高线可能导致线条不连续。建议使用marching squares等robust的等高线绘制算法来避免断裂。
+
+5. **距离场不平滑**：
+   - 如果F2是通过非线性变换得到的距离场，可能会导致不平滑，从而在绘制等高线时出现断裂。可以尝试对距离场进行平滑处理，如高斯模糊。
+
+通过以下步骤可以改善这些问题：
+
+- **生成均匀分布的生成点**：使用Poisson disk sampling确保生成点分布均匀。
+- **验证Voronoi图生成算法**：确保算法正确处理所有生成点和边界条件。
+- **明确F2-F1定义**：确保F2和F1在数学上是兼容的，可以相减得到平滑的场。
+- **使用robust的等高线绘制算法**：如marching squares，确保等高线连续无断裂。
+- **平滑距离场**：对距离场进行平滑处理，减少噪声影响。
+
+通过这些步骤，可以显著改善非均匀线条、破损单元格和断裂等高线的问题，生成更高质量的Voronoi图。
+
+</blockquote>
+
+</details>
+
+- 继续demo吧，反正到这块我好多都看不懂了
+
+<ShaderTemplateUrl
+  width="90"
+  height="20"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/PixelCavern.frag"
+  client:only="react"
+  imgPaths="/assets/webp/2.webp,/assets/webp/2.webp,/assets/webp/2.webp"
+/>
+
+<ShaderTemplateUrl
+  width="90"
+  height="20"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/PixelCavern_v1.frag"
   client:only="react"
 />
 

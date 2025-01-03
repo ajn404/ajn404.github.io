@@ -22,6 +22,7 @@ const CustomShaderCube: React.FC<{
       u_time: { value: 0 },
       u_resolution: { value: new THREE.Vector2() },
       u_mouse: { value: new THREE.Vector2() },
+      u_frame: { value: 0 }, // 添加u_frame
     };
 
     // 动态创建纹理的 uniform
@@ -37,7 +38,7 @@ const CustomShaderCube: React.FC<{
   }, [vertexShader, fragmentShader, texturePaths]);
 
   const { size, gl } = useThree();
-
+  const frameCountRef = useRef(0);
   useEffect(() => {
     material.uniforms.u_resolution.value.set(size.width, size.height);
 
@@ -59,6 +60,8 @@ const CustomShaderCube: React.FC<{
   useFrame(({ clock }) => {
     material.uniforms.u_time.value = clock.getElapsedTime();
     material.uniforms.u_mouse.value.set(mouse.x, mouse.y);
+    material.uniforms.u_frame.value = frameCountRef.current;
+    frameCountRef.current += 1;
   });
 
   return <mesh geometry={geometry} material={material} />;
