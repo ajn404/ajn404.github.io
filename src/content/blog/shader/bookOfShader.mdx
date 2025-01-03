@@ -21,6 +21,8 @@ import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFrom
 
 import Text from "@components/react/UI/Text.tsx";
 
+import CodeFromUrl from "@components/astro/UI/code.astro";
+
 ## 目录
 
 ## [editor](/fantastic/glslEditor)
@@ -1160,7 +1162,7 @@ point = 0.1 + 0.9 * sin(u_time + 6.2831 * point);
 
 </div>
 
-<details open>
+<details>
 <summary>Georgy Voronoi算法</summary>
 
 import D3Voronoi from "@components/react/d3/practice/Voronoi.tsx";
@@ -1222,6 +1224,24 @@ plt.show()
 这个代码示例生成了一个简单的Voronoi图，使用随机颜色来表示不同的单元。你可以根据需要调整种子点的位置和数量。
 
 </details>
+
+- demo
+
+<ShaderTemplateUrl
+  width="90"
+  height="20"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/fluent.frag"
+  client:only="react"
+/>
+
+- 加入更多的变化
+
+<ShaderTemplateUrl
+  width="90"
+  height="20"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/fluent_v1.frag"
+  client:only="react"
+/>
 
 ## 本页面主要使用的组件源码
 
@@ -1815,6 +1835,12 @@ const handleTouchMove = useCallback((event: TouchEvent) => {
   });
 }, []);
 ```
+
+<CodeFromUrl
+  lang="tsx"
+  highlightLines="207"
+  url="src/components/react/fiber/bookOfShader/templateFromUrl.tsx"
+/>
 
 </details>
 
