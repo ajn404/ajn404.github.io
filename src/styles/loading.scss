@@ -1,0 +1,90 @@
+.loader-v1 {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 30px;
+  animation: l1 1s linear infinite alternate;
+}
+.loader-v1:before {
+  content:"Loading..."
+}
+@keyframes l1 {to{opacity: 0}}
+
+
+.loader-v2 {
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  display: inline-flex;
+}
+.loader-v2::before {
+  content:"Loadi";
+  animation: l27 2s infinite;
+}
+.loader-v2::after {
+  content:"ng...";
+  animation: l27 2s infinite 1s;
+}
+
+@keyframes l27{
+   50%,100%{transform:rotate(1turn)}
+}
+
+.loader-v3 {
+  --s: 25px;
+  --g :5px;  
+  
+  width: calc(3*(1.353*var(--s) + var(--g)));
+  display: grid;
+  justify-items: end;
+  aspect-ratio: 3;
+  overflow: hidden;
+  --_m: linear-gradient(90deg,#0000,#000 15px calc(100% - 15px),#0000);
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+}
+.loader-v3:before { 
+  content: "";
+  width: 200%;
+  background:
+    linear-gradient(90deg,#ff1818 50%,#0000 0),
+    conic-gradient(from -90deg at var(--s) calc(0.353*var(--s)),
+      #fff 135deg,#666 0 270deg,#aaa 0); 
+  background-blend-mode: multiply;
+  --_m:
+    linear-gradient(to bottom right,
+       #0000 calc(0.25*var(--s)),#000 0 calc(100% - calc(0.25*var(--s)) - 1.414*var(--g)),#0000 0),
+    conic-gradient(from -90deg at right var(--g) bottom var(--g),#000 90deg,#0000 0);
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  background-size:   calc(100%/3) 100%, calc(100%/6) 100%;
+  -webkit-mask-size: calc(100%/6) 100%;
+          mask-size: calc(100%/6) 100%;
+  -webkit-mask-composite: source-in;
+          mask-composite: intersect;
+  animation: l10 1s infinite linear;
+}
+@keyframes l10 {
+  to {transform:translate(calc(100%/3))}
+}
+
+.loader {
+  display: inline-grid;
+  width: 80px;
+  aspect-ratio: 1;
+  animation: l6-0 .5s linear infinite;
+  background: 
+   conic-gradient(from -34deg at 50% 99%,#0000, #91492A 2deg 65deg,#0000 68deg)
+   -6% 0%/20% 27% repeat-x,
+   conic-gradient(from 146deg at 50% 1%,#0000, #91492A 2deg 65deg,#0000 68deg)
+   -5% 100%/20% 27% repeat-x;
+}
+.loader:before {
+  content:"";
+  animation: inherit;
+  animation-name: l6-1;
+  margin: 12.5%;
+  clip-path: polygon(100% 50%,78.19% 60.26%,88.3% 82.14%,65% 75.98%,58.68% 99.24%,44.79% 79.54%,25% 93.3%,27.02% 69.28%,3.02% 67.1%,20% 50%,3.02% 32.9%,27.02% 30.72%,25% 6.7%,44.79% 20.46%,58.68% 0.76%,65% 24.02%,88.3% 17.86%,78.19% 39.74%);
+  background: #CF6F46;
+}
+@keyframes l6-0 {to{background-position:-31% 0%, 20% 100%}}
+@keyframes l6-1 {to{rotate: -40deg}}

@@ -11,6 +11,7 @@ description: "css很灵活,一万个前端有一万种css,争取写好自己的�
 ---
 
 import "@styles/collection.css";
+import "@styles/loading.scss";
 
 从博客的样式就可以看出来,我是没啥设计思路的,设计来设计去最后发现不如不设计,原生的html就很好了,多学些css,至少去做别人的设计时不会还是没思路
 
@@ -218,11 +219,19 @@ width: clamp(10px, 5vw, 20px);
 
 ### progress
 
-<div class="grid place-content-center w-full grid-cols-[auto_auto] gap-[20px] pt-[40px]">
+<div class="grid place-content-center w-full grid-cols-[auto_auto] gap-[20px] py-[80px]">
   <progress value=".5"></progress>
   <progress value=".2"></progress>
   <progress value=".7" class="bottom A"></progress>
   <progress value=".9" class="bottom"></progress>
+</div>
+
+### loading...
+
+<div class="flex flew-wrap gap-2 justify-between">
+  <div class="loader-v1 text-white" />
+  <div class="loader-v2 text-white" />
+  <div class="loader-v3 text-white" />
 </div>
 
 ## 链接
@@ -232,3 +241,4 @@ width: clamp(10px, 5vw, 20px);
 - [generator](https://colorgradient.dev/gradient-generator)
 - [css 2024](https://thomasorus.com/new-css-that-can-actually-be-used-in-2024.html)
 - [css articles](https://css-articles.com/)
+- [css loaders](https://css-loaders.com/)
