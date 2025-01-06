@@ -1,5 +1,6 @@
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_mouse;
 varying vec2 v_uv;
 
 const mat2 m = mat2(0.80, 0.60, -0.60, 0.80);
@@ -70,9 +71,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     float f = func(p, on);
 
     vec3 col = vec3(0.0);
-    col = mix(vec3(0.2, 0.1, 0.9), vec3(0.9, 0.05, 0.5), f);
-    col = mix(col, vec3(0.9, 0.9, 0.1), dot(on.zw, on.zw));
-    col = mix(col, vec3(0.4, 0.3, 0.3), 0.2 + 0.5 * on.y * on.y);
+    col = mix(vec3(abs(sin(u_mouse.x)), 0.1, 0.9), vec3(0.9, 0.05, 0.5), f);
+    col = mix(col, vec3(abs(cos(u_mouse.y)), 0.9, 0.1), dot(on.zw, on.zw));
+    col = mix(col, vec3(0.4, 0.3, abs(cos(u_mouse.y*u_mouse.x))), 0.2 + 0.5 * on.y * on.y);
     col = mix(col, vec3(0.0, 0.2, 0.4), 0.5 * smoothstep(1.2, 1.3, abs(on.z) + abs(on.w)));
     col = clamp(col * f * 2.0, 0.0, 1.0);
 
