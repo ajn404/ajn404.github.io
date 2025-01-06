@@ -5,7 +5,12 @@ export default function TimelineDemo() {
     {
       title: "类型体操",
       content: (
-        <div>
+        <div className="text-center">
+          <img
+            className="w-1/2 m-auto pb-2"
+            src="/assets/svg/type_challenge.svg"
+            alt=""
+          />
           <a href="/posts/2024-10#实现pickt-k-extends-keyof-t">实现Pick</a>
           <br />
           <a href="/posts/2024-09#今日类型体操">实现Get Return Type</a>
@@ -26,7 +31,24 @@ export default function TimelineDemo() {
     {
       title: "代码艺术",
       content: (
-        <div>
+        <div className="text-center">
+          <svg className="w-1/2 m-auto pb-2" viewBox="0 0 800 800" fill="none">
+            <path
+              d="M400 500C700 500 700 100 400 100"
+              stroke="#0468FF"
+              stroke-width="150"
+            ></path>
+            <path
+              d="M400 200L100 600"
+              stroke="#1F34AB"
+              stroke-width="150"
+            ></path>
+            <path
+              d="M100 300L200 500"
+              stroke="#85AEFF"
+              stroke-width="150"
+            ></path>
+          </svg>
           <a href="/posts/fantastic#flow-field">flow field</a>
           <br />
           <a href="/posts/fantastic#图形融合">sdf图形融合</a>
@@ -41,19 +63,23 @@ export default function TimelineDemo() {
     {
       title: "过去搭建的ssg/学习demo",
       content: (
-        <div>
-          <a href="https://ajn404.github.io/mono_notes/">astro雏形</a>
+        <div className="text-center">
+          <img className="w-1/2 m-auto pb-2" src="/assets/ajn404.jpeg" alt="" />
+          <a href="https://ajn404.github.io/mono_notes/">
+            astro雏形(mono repo，2/3年阶段)
+          </a>
           <br />
           <a href="https://ajn404.github.io/vue3_tauri_fun">vue3玩具</a>
           <br />
-          <a href="https://ajn404.github.io/note">rust/p5</a>
+          <a href="https://ajn404.github.io/note">rust/p5(2/3年阶段)</a>
           <br />
           <a href="https://ajn404.github.io/ngm.github.io/vue_still_learn/#目录">
-            出生-前端
+            出生-前端（1年左右）
           </a>
           <br />
           <a href="https://ajn404.github.io/log.github.io/">学校-记录</a>
           <br />
+          <a href="https://github.com/ajn404">......</a>
         </div>
       ),
     },
