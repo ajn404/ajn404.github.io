@@ -9,6 +9,8 @@ tags:
 description: "css很灵活,一万个前端有一万种css,争取写好自己的每一行css"
 ---
 
+import "@styles/collection.css";
+
 从博客的样式就可以看出来,我是没啥设计思路的,设计来设计去最后发现不如不设计,原生的html就很好了,多学些css,至少去做别人的设计时不会还是没思路
 
 ## 目录
@@ -149,6 +151,12 @@ background: repeating-conic-gradient(
   class="m-5 w-[100px] h-[100px]"
 />
 
+### mask
+
+- [mask](https://developer.mozilla.org/zh-CN/docs/Web/CSS/mask)
+
+> CSS 属性 mask 允许使用者通过遮罩或者裁切特定区域的图片的方式来隐藏一个元素的部分或者全部可见区域。
+
 ## scroll
 
 ## 单位
@@ -167,9 +175,59 @@ clamp(<min>, <val>, <max>)
 width: clamp(10px, 5vw, 20px);
 ```
 
+## collection
+
+### [zig-zag](https://verpex.com/blog/website-tips/how-to-create-a-zig-zag-box-using-css)
+
+<div class="flex">
+
+<img class="zig-zag-box object-cover" src="/assets/svg/ru01.svg" />
+
+<p class="zig-zag-box-v1 text-center indent-2 grid place-content-center font-xkcd text-2xl">
+  和所有以梦为马的诗人一样，我以此火得度一生的茫茫黑夜
+</p>
+
+<img class="zig-zag-box-v1 object-cover" src="/assets/svg/ru02.svg" />
+
+</div>
+
+```css
+.zig-zag-box {
+  --s: 60px; /* control the size of the spikes */
+  --w: 350px; /* preferred image width */
+
+  width: round(var(--w), var(--s));
+  aspect-ratio: 1;
+  object-fit: cover;
+  padding: calc(0.75 * var(--s));
+  box-sizing: border-box;
+  background: #0b486b;
+  mask:
+    conic-gradient(#000 0 0) 50% / calc(100% - var(--s)) calc(100% - var(--s))
+      no-repeat,
+    repeating-conic-gradient(
+        from 45deg,
+        #0000 0,
+        #000 1deg 89deg,
+        #0000 25% 50%
+      )
+      calc(var(--s) / 2) 0 / var(--s) var(--s);
+}
+```
+
+### progress
+
+<div class="grid place-content-center w-full grid-cols-[auto_auto] gap-[20px] pt-[40px]">
+  <progress value=".5"></progress>
+  <progress value=".2"></progress>
+  <progress value=".7" class="bottom"></progress>
+  <progress value=".9" class="bottom"></progress>
+</div>
+
 ## 链接
 
 - [Linking Directly to Web Page Content](https://alfy.blog/2024/10/19/linking-directly-to-web-page-content.html)
 - [use only one gradient](https://css-tricks.com/css-tricks-that-use-only-one-gradient/)
 - [generator](https://colorgradient.dev/gradient-generator)
 - [css 2024](https://thomasorus.com/new-css-that-can-actually-be-used-in-2024.html)
+- [css articles](https://css-articles.com/)

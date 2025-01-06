@@ -107,7 +107,7 @@ export default function SearchBar({ searchList }: Props) {
         <div className="card-grid ">
           {searchResults &&
             searchResults.map(({ item, refIndex }, index) => (
-              <div className="w-full inline" key={index}>
+              <div className="inline" key={index}>
                 <Card
                   href={`/posts/${slugify(item.data)}`}
                   frontmatter={item.data}
