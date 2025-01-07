@@ -387,90 +387,127 @@
   }
 </style>
 
-<script async>
-  let isListening = false;
-  const toggleBtn = document.getElementById("toggleListener");
+<script>
+  import * as Tone from "tone";
+  document.addEventListener("DOMContentLoaded", () => {
+    const synth = new Tone.Synth().toDestination();
+    let isListening = false;
+    const toggleBtn = document.getElementById("toggleListener");
 
-  // 键盘映射表
-  const keyMap = {
-    Escape: "Esc",
-    F1: "F1",
-    F2: "F2",
-    // ... 其他功能键
-    Tab: "Tab",
-    CapsLock: "Caps",
-    Shift: "Shift",
-    Control: "Ctrl",
-    Meta: "Win",
-    Alt: "Alt",
-    " ": "key-space",
-    ArrowLeft: "←",
-    ArrowRight: "→",
-    ArrowUp: "↑",
-    ArrowDown: "↓",
-  };
+    // 键盘映射表
+    const keyMap = {
+      Escape: "Esc",
+      F1: "F1",
+      F2: "F2",
+      // ... 其他功能键
+      Tab: "Tab",
+      CapsLock: "Caps",
+      Shift: "Shift",
+      Control: "Ctrl",
+      Meta: "Win",
+      Alt: "Alt",
+      " ": "key-space",
+      ArrowLeft: "←",
+      ArrowRight: "→",
+      ArrowUp: "↑",
+      ArrowDown: "↓",
+    };
 
-  function handleKeyPress(event) {
-    // 防止按键默认行为
-    event.preventDefault();
+    const musicMap = {
+      " ": "C4",
+      ArrowLeft: "C#4",
+      ArrowRight: "D4",
+      ArrowUp: "D#4",
+      ArrowDown: "E4",
+      a: "C4",
+      w: "C#4",
+      s: "D4",
+      e: "D#4",
+      d: "E4",
+      f: "F4",
+      t: "F#4",
+      g: "G4",
+      y: "G#4",
+      h: "A4",
+      u: "A#4",
+      j: "B4",
+      k: "C5",
+      o: "C#5",
+      l: "D5",
+      p: "D#5",
+      ";": "E5",
+    };
 
-    // 获取按键值
-    let keyValue = event.key;
+    function handleKeyPress(event) {
+      // 防止按键默认行为
+      event.preventDefault();
 
-    // 移除所有现有的高亮
-    document.querySelectorAll(".key-active").forEach(el => {
-      el.classList.remove("key-active");
-    });
+      // 获取按键值
+      let keyValue = event.key;
 
-    // 查找并高亮对应的按键
-    const keys = document.querySelectorAll(".key, .key-space");
-    keys.forEach(key => {
-      const keyText = key.textContent;
-      if (keyText === keyMap[keyValue] || keyText === keyValue.toUpperCase()) {
-        key.classList.add("key-active");
-      }
-    });
-  }
-
-  // 添加点击处理函数
-  function handleKeyClick(event) {
-    const clickedKey = event.currentTarget;
-
-    // 移除所有现有的高亮
-    document.querySelectorAll(".key-active").forEach(el => {
-      el.classList.remove("key-active");
-    });
-
-    // 添加高亮效果
-    clickedKey.classList.add("key-active");
-
-    // 300ms 后移除高亮效果
-    setTimeout(() => {
-      clickedKey.classList.remove("key-active");
-    }, 300);
-  }
-
-  // 为所有按键添加点击事件监听器
-  document.querySelectorAll(".key, .key-space").forEach(key => {
-    key.addEventListener("click", handleKeyClick);
-    // 添加鼠标样式
-    key.style.cursor = "pointer";
-  });
-
-  toggleBtn.addEventListener("click", () => {
-    isListening = !isListening;
-    if (isListening) {
-      document.addEventListener("keydown", handleKeyPress);
-      toggleBtn.textContent = "停止监听";
-      toggleBtn.style.background = "#ffb380";
-    } else {
-      document.removeEventListener("keydown", handleKeyPress);
-      toggleBtn.textContent = "开始监听键盘";
-      toggleBtn.style.background = "#eed9c4";
-      // 移除所有高亮
+      if (musicMap[keyValue])
+        synth.triggerAttackRelease(musicMap[keyValue], "8n");
+      // 移除所有现有的高亮
       document.querySelectorAll(".key-active").forEach(el => {
         el.classList.remove("key-active");
       });
+
+      // 查找并高亮对应的按键
+      const keys = document.querySelectorAll(".key, .key-space");
+      keys.forEach(key => {
+        const keyText = key.textContent;
+        if (
+          keyText === keyMap[keyValue] ||
+          keyText === keyValue.toUpperCase()
+        ) {
+          key.classList.add("key-active");
+        }
+      });
     }
+
+    // 添加点击处理函数
+    function handleKeyClick(event) {
+      const clickedKey = event.currentTarget;
+      const keyValue = clickedKey.textContent.toLowerCase();
+      if (musicMap[keyValue])
+        synth.triggerAttackRelease(musicMap[keyValue], "8n");
+
+      // 移除所有现有的高亮
+      document.querySelectorAll(".key-active").forEach(el => {
+        el.classList.remove("key-active");
+      });
+
+      // 添加高亮效果
+      clickedKey.classList.add("key-active");
+
+      // 300ms 后移除高亮效果
+      setTimeout(() => {
+        clickedKey.classList.remove("key-active");
+      }, 300);
+    }
+
+    // 为所有按键添加点击事件监听器
+    document.querySelectorAll(".key, .key-space").forEach(key => {
+      key.addEventListener("click", handleKeyClick);
+      // 添加鼠标样式
+      (key as HTMLElement).style.cursor = "pointer";
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      isListening = !isListening;
+      if (isListening) {
+        document.addEventListener("keydown", handleKeyPress);
+        toggleBtn.textContent = "停止监听";
+        toggleBtn.style.background = "#ffb380";
+      } else {
+        document.removeEventListener("keydown", handleKeyPress);
+        toggleBtn.textContent = "开始监听键盘";
+        toggleBtn.style.background = "#eed9c4";
+        // 移除所有高亮
+        document.querySelectorAll(".key-active").forEach(el => {
+          el.classList.remove("key-active");
+        });
+      }
+    });
   });
 </script>
