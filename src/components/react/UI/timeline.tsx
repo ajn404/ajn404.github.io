@@ -36,17 +36,17 @@ export default function TimelineDemo() {
             <path
               d="M400 500C700 500 700 100 400 100"
               stroke="#0468FF"
-              stroke-width="150"
+              strokeWidth="150"
             ></path>
             <path
               d="M400 200L100 600"
               stroke="#1F34AB"
-              stroke-width="150"
+              strokeWidth="150"
             ></path>
             <path
               d="M100 300L200 500"
               stroke="#85AEFF"
-              stroke-width="150"
+              strokeWidth="150"
             ></path>
           </svg>
           <a href="/posts/fantastic#flow-field">flow field</a>
