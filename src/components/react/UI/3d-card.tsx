@@ -22,9 +22,7 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
 
   return (
     <CardContainer className="inter-var">
-      <CardBody
-        className={`w-auto sm:w-[30rem] h-auto rounded-xl px-6 highlight highlight-variant-${highlightVariant} after:bg-gradient-to-tr after:from-[rgb(111,93,193,0.8)] after:to-[rgb(47,111,123,0.8)]`}
-      >
+      <CardBody className={`w-auto sm:w-[30rem] h-auto rounded-xl px-6`}>
         <CardItem
           translateZ="50"
           className="text-xl font-bold text-neutral-600 dark:text-white"
