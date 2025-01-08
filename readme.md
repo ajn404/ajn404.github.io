@@ -1,10 +1,10 @@
-![](./app-icon.png)
-
-# 项目名称 [![wakatime](https://wakatime.com/badge/user/018defe3-c72b-44bd-9a7e-3a7605089bf0/project/018df007-4860-4f87-bdb6-017c942ba8c6.svg)](https://wakatime.com/badge/user/018defe3-c72b-44bd-9a7e-3a7605089bf0/project/018df007-4860-4f87-bdb6-017c942ba8c6)
-
 ## 概述
 
 这是一个博客网页和 Tauri 应用。
+
+![](./app-icon.png)
+
+# 项目名称 [![wakatime](https://wakatime.com/badge/user/018defe3-c72b-44bd-9a7e-3a7605089bf0/project/018df007-4860-4f87-bdb6-017c942ba8c6.svg)](https://wakatime.com/badge/user/018defe3-c72b-44bd-9a7e-3a7605089bf0/project/018df007-4860-4f87-bdb6-017c942ba8c6)
 
 ## 开发
 
