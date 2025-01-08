@@ -142,3 +142,12 @@ progress.bottom::before {
       50% - var(--b) / 2
     ) / var(--h) 0 0 0;
 }
+
+
+.rainbow-border{
+    border: 8px solid;
+    border-image:  linear-gradient(35deg, rgb(211, 103, 193) 10%, rgb(222, 223, 64) 25%, rgb(98, 203, 92) 50%, rgb(0, 187, 203) 75%, rgb(171, 121, 214) 90%);
+    color:white;
+    text-align: center;
+    border-image-slice: 1;
+}

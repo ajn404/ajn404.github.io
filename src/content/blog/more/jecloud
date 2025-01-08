@@ -10,6 +10,13 @@
 
 ### 前端
 
+
+#### 微前端框架MicroApp
+
+- JS 沙箱
+
+ 例如子应用访问的window和主应用的window不是同一个对象
+
 #### workflow
 
 - 画图引擎基于mxgraph
@@ -20,4 +27,4 @@
 
 #### login
 
-
+- 登陆微前端

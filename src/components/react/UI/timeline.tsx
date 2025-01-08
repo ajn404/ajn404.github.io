@@ -83,6 +83,23 @@ export default function TimelineDemo() {
         </div>
       ),
     },
+    {
+      title: "开源组件/应用",
+      content: (
+        <div className="text-center">
+          <a
+            href="https://www.npmjs.com/package/just-draw-it"
+            title="just draw it"
+          >
+            <img
+              className="w-1/2 m-auto pb-2"
+              src="/assets/more/screenshoot.png"
+              alt=""
+            />
+          </a>
+        </div>
+      ),
+    },
   ];
   return (
     <div className="w-full pb-8">

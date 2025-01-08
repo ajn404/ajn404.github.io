@@ -1,0 +1,370 @@
+---
+author: ajn404
+pubDatetime: 2025-01-08T11:49:19Z
+title: "2025-1-8"
+featured: false
+draft: false
+tags:
+  - "2025"
+  - "2025-1-8"
+description: 1月8日，今日无事
+---
+
+## 目录
+
+## pdf解析json方案
+
+### nodejs
+
+```js
+const fs = require("fs");
+const pdf = require("pdf-parse");
+
+// PDF 转 JSON 函数
+async function pdfToJson(pdfPath) {
+  try {
+    const dataBuffer = fs.readFileSync(pdfPath); // 读取 PDF 文件
+    const data = await pdf(dataBuffer);
+    console.log(data);
+    // 将 PDF 的文本内容存入 JSON
+    const result = {
+      metadata: {
+        title: data.info.Title || "Unknown Title",
+        author: data.info.Author || "Unknown Author",
+        pages: data.numpages,
+      },
+      content: data.text.split("\n"), // 按行分割文本
+    };
+
+    return result;
+  } catch (error) {
+    console.error("Error processing PDF:", error);
+    return null;
+  }
+}
+
+// 示例：读取一个 PDF 文件并转换为 JSON
+const pdfPath = "./1.pdf"; // 替换为你的 PDF 文件路径
+pdfToJson(pdfPath).then(json => {
+  if (json) {
+    fs.writeFileSync("output.json", JSON.stringify(json, null, 2), "utf-8");
+    console.log("PDF 转换为 JSON 成功，已保存为 output.json");
+  }
+});
+```
+
+输出为
+
+`console`
+
+```json
+{
+  numpages: 40,
+  numrender: 40,
+  info: {
+    PDFFormatVersion: '1.3',
+    IsAcroFormPresent: false,
+    IsXFAPresent: false,
+    Creator: 'PFU ScanSnap Home 2.8.0 #iX1600(W)',
+    Producer: 'PFU PDF Library 2.0.0',
+    CreationDate: "D:20230805110835+08'00'",
+    ModDate: "D:20230805110835+08'00'"
+  },
+  metadata: Metadata {
+    _metadata: [Object: null prototype] {
+      'pdf:producer': 'PFU PDF Library 2.0.0',
+      'dc:format': 'application/pdf',
+      'xmpmm:documentid': 'uuid:b19f17c8-ff22-4e80-bd5a-5bb350fb186f',
+      'xmpmm:instanceid': 'uuid:5cd8fa62-f842-4511-bbef-bc897585a608',
+      'xmp:creatortool': 'PFU ScanSnap Home 2.8.0 #iX1600(W)',
+      'xmp:createdate': '2023-08-05T11:08:35+08:00',
+      'xmp:modifydate': '2023-08-05T11:08:35+08:00',
+      'xmp:metadatadate': '2023-08-05T11:08:35+08:00'
+    }
+  },
+  text: '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n' +
+    '\n',
+  version: '1.10.100'
+}
+```
+
+output.json
+
+```json
+{
+  "metadata": {
+    "title": "Unknown Title",
+    "author": "Unknown Author",
+    "pages": 40
+  },
+  "content": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ]
+}
+```
+
+> 问题
+
+- 为什么 `data.text` 是空字符串？
+
+text 中没有有效内容，可能是以下原因：
+
+1. PDF 是扫描件（图片型 PDF）
+
+图片型 PDF 没有嵌入文本，pdf-parse 无法直接提取文本。
+需要 OCR（光学字符识别）技术来提取文字。例如，使用 Tesseract.js 进行文本识别。
+
+2. 字体编码问题
+
+某些 PDF 使用自定义字体编码，可能导致文本解析失败。可以尝试其他库（例如 pdf.js）。
+
+3. PDF 格式问题
+
+某些 PDF 格式可能使用复杂结构（例如嵌套对象或加密），导致解析失败。
+
+> 解决
+
+```js
+const fs = require("fs");
+const pdf = require("pdf-parse");
+const { spawn } = require("child_process");
+const Tesseract = require("tesseract.js");
+
+async function convertPDFToImages(pdfPath, outputDir) {
+  return new Promise((resolve, reject) => {
+    const pdfToPpm = spawn("pdftoppm", [
+      "-png",
+      pdfPath,
+      `${outputDir}/output`,
+    ]);
+
+    pdfToPpm.on("close", code => {
+      if (code === 0) {
+        resolve("PDF successfully converted to images");
+      } else {
+        reject(new Error("Failed to convert PDF to images"));
+      }
+    });
+  });
+}
+
+async function ocrImage(imagePath) {
+  return Tesseract.recognize(imagePath, "chi_sim")
+    .then(({ data: { text } }) => text)
+    .catch(err => {
+      console.error("OCR failed:", err);
+    });
+}
+
+async function processPDFWithOCR(pdfPath) {
+  const outputDir = "./images";
+
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir);
+  }
+
+  console.log("Converting PDF to images...");
+  await convertPDFToImages(pdfPath, outputDir);
+
+  const images = fs
+    .readdirSync(outputDir)
+    .filter(file => file.endsWith(".png"));
+  console.log("Extracting text from images using OCR...");
+
+  for (const image of images) {
+    const imagePath = `${outputDir}/${image}`;
+    const text = await ocrImage(imagePath);
+    console.log(`Text from ${image}:\n`, text);
+  }
+}
+
+// 替换为你的 PDF 文件路径
+const pdfPath = "./1.pdf";
+
+processPDFWithOCR(pdfPath)
+  .then(() => console.log("OCR process completed"))
+  .catch(err => console.error("Error:", err));
+```
+
+## ui
+
+- rainbow border
+
+import "@styles/collection.css";
+
+<div class="rainbow-border">hi hi hi </div>
+
+```css
+.rainbow-border {
+  border: 8px solid;
+  border-image: linear-gradient(
+    35deg,
+    rgb(211, 103, 193) 10%,
+    rgb(222, 223, 64) 25%,
+    rgb(98, 203, 92) 50%,
+    rgb(0, 187, 203) 75%,
+    rgb(171, 121, 214) 90%
+  );
+  color: white;
+  text-align: center;
+  border-image-slice: 1;
+}
+```
