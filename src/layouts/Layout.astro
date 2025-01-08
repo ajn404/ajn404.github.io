@@ -55,6 +55,7 @@ const socialImageURL = new URL(
     <meta property="og:image" content={socialImageURL} />
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
+
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
@@ -86,14 +87,16 @@ const socialImageURL = new URL(
 <script src="./defineEvents"></script>
 
 <script>
-  import eruda from "eruda";
   const width = window.innerWidth;
   if (width < 768) {
     // 添加一个被动事件监听器
     window.addEventListener(
       "touchstart",
-      function (e) {
-        eruda.init();
+      function () {
+        import("eruda").then(module => {
+            const eruda = module.default;
+            eruda.init();
+        });
       },
       { passive: true }
     );
