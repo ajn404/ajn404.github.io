@@ -67,7 +67,9 @@ const vite = {
         "wavesurfer.js",
         "wavesurfer.js/dist/plugins/spectrogram.esm.js",
       ],
-      sourceMap: "inline",
+      output: {
+        sourceMap: "inline",
+      },
     },
   },
   server: {
