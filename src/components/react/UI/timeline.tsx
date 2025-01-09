@@ -84,7 +84,7 @@ export default function TimelineDemo() {
       ),
     },
     {
-      title: "开源组件/应用",
+      title: "开源组件/应用/工具",
       content: (
         <div className="text-center">
           <a
@@ -97,6 +97,7 @@ export default function TimelineDemo() {
               alt=""
             />
           </a>
+          <a href="/posts/2025-1-8#按钮获取当前位置坐标">获取当前位置坐标</a>
         </div>
       ),
     },
