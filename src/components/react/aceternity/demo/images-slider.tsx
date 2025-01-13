@@ -4,9 +4,11 @@ import { ImagesSlider } from "../ui/images-slider";
 export default function ImagesSliderDemo() {
   const images = [
     "/assets/bg/4.png",
-    "/assets/bg/1.jpeg",
+    "/assets/bg/2.jpg",
+    "/assets/bg/1.jpg",
     "/assets/bg/7.png",
     "/assets/bg/7.jpg",
+    "/assets/svg/ru01.svg",
   ];
   return (
     <ImagesSlider className="h-[40rem]" images={images}>

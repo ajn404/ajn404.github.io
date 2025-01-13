@@ -24,9 +24,13 @@ import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFrom
 <ShaderTemplateUrl
   width="30"
   height="30"
-  fragmentShaderPath="/assets/glsl/bookOfShader/07/11.frag"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/8.frag"
   client:only="react"
 />
+
+import DemoImageFadeShader from "@components/react/fiber/demoImageFadeShader.tsx";
+
+<DemoImageFadeShader client:load />
 
 ## table
 
@@ -78,3 +82,21 @@ import DriverNoText from "@components/react/little/driverString.tsx";
 import ImagesSlider from "@aceternity/demo/images-slider";
 
 <ImagesSlider client:load />
+
+## graph
+
+import Graph from "@components/react/echarts/graph.tsx";
+
+<Graph client:load />
+
+## editor
+
+import Editor from "@components/react/editor/index.tsx";
+
+<Editor client:only="react" />
+
+## timeline
+
+import TimelineDemo from "@aceternity/demo/timeline.tsx";
+
+<TimelineDemo client:load />
