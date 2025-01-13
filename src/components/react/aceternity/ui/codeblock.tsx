@@ -7,6 +7,7 @@ type CodeBlockProps = {
   language: string;
   filename: string;
   highlightLines?: number[];
+  highlightRange?: { start: number; end: number };
 } & (
   | {
       code: string;
@@ -19,6 +20,7 @@ type CodeBlockProps = {
         code: string;
         language?: string;
         highlightLines?: number[];
+        highlightRange?: { start: number; end: number };
       }>;
     }
 );
@@ -28,6 +30,7 @@ export const CodeBlock = ({
   filename,
   code,
   highlightLines = [],
+  highlightRange,
   tabs = [],
 }: CodeBlockProps) => {
   const [copied, setCopied] = React.useState(false);
@@ -50,6 +53,9 @@ export const CodeBlock = ({
   const activeHighlightLines = tabsExist
     ? tabs[activeTab].highlightLines || []
     : highlightLines;
+  const activeHighlightRange = tabsExist
+    ? tabs[activeTab].highlightRange || highlightRange
+    : highlightRange;
 
   return (
     <div className="relative w-full rounded-lg bg-slate-900 p-4 font-mono text-sm">
@@ -100,9 +106,13 @@ export const CodeBlock = ({
         showLineNumbers={true}
         lineProps={lineNumber => ({
           style: {
-            backgroundColor: activeHighlightLines.includes(lineNumber)
-              ? "rgba(255,255,255,0.1)"
-              : "transparent",
+            backgroundColor:
+              activeHighlightLines.includes(lineNumber) ||
+              (activeHighlightRange &&
+                lineNumber >= activeHighlightRange.start &&
+                lineNumber <= activeHighlightRange.end)
+                ? "rgba(255,255,255,0.1)"
+                : "transparent",
             display: "block",
             width: "100%",
           },

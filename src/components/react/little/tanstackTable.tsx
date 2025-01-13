@@ -58,20 +58,20 @@ export default function TanStackTableDemo() {
           accessorKey: "firstName",
           header: "名",
         },
-        {
-          accessorKey: "lastName",
-          header: "姓",
-        },
+        // {
+        //   accessorKey: "lastName",
+        //   header: "姓",
+        // },
       ],
     },
     {
       header: "详细信息",
       columns: [
-        {
-          accessorKey: "age",
-          header: "年龄",
-          size: 80,
-        },
+        // {
+        //   accessorKey: "age",
+        //   header: "年龄",
+        //   size: 80,
+        // },
         {
           accessorKey: "visits",
           header: "访问次数",
