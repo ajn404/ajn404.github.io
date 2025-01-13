@@ -1,6 +1,9 @@
 import React from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import {
+  atomDark,
+  vscDarkPlus,
+} from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
 
 type CodeBlockProps = {
@@ -58,18 +61,18 @@ export const CodeBlock = ({
     : highlightRange;
 
   return (
-    <div className="relative w-full rounded-lg bg-slate-900 p-4 font-mono text-sm">
+    <div className="relative w-full rounded-xl bg-slate-900/70 backdrop-blur-sm p-4 font-mono text-sm shadow-xl border border-slate-800">
       <div className="flex flex-col gap-2">
         {tabsExist && (
-          <div className="flex  overflow-x-auto">
+          <div className="flex overflow-x-auto border-b border-slate-800">
             {tabs.map((tab, index) => (
               <button
                 key={index}
                 onClick={() => setActiveTab(index)}
-                className={`px-3 !py-2 text-xs transition-colors font-sans ${
+                className={`px-4 py-2 text-xs transition-all font-medium font-sans rounded-t-lg ${
                   activeTab === index
-                    ? "text-white"
-                    : "text-zinc-400 hover:text-zinc-200"
+                    ? "text-white bg-slate-800/50 border-b-2 border-blue-500"
+                    : "text-zinc-400 hover:text-zinc-200 hover:bg-slate-800/30"
                 }`}
               >
                 {tab.name}
@@ -78,29 +81,32 @@ export const CodeBlock = ({
           </div>
         )}
         {!tabsExist && filename && (
-          <div className="flex justify-between items-center py-2">
-            <div className="text-xs text-zinc-400">{filename}</div>
+          <div className="flex justify-between items-center py-2 px-1">
+            <div className="text-xs text-zinc-400 flex items-center gap-2">
+              <span className="inline-block w-2 h-2 rounded-full bg-zinc-400"></span>
+              {filename}
+            </div>
             <button
               onClick={copyToClipboard}
-              className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-sans"
+              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-sans px-2 py-1 rounded-md hover:bg-slate-800/50"
             >
               {copied ? (
                 <IconCheck className="w-auto" size={14} />
               ) : (
                 <IconCopy size={14} />
               )}
+              {copied ? "已复制" : "复制"}
             </button>
           </div>
         )}
       </div>
       <SyntaxHighlighter
         language={activeLanguage}
-        style={atomDark}
+        style={vscDarkPlus}
         customStyle={{
           margin: 0,
           padding: 0,
           background: "transparent",
-          fontSize: "0.875rem", // text-sm equivalent
         }}
         wrapLines={true}
         showLineNumbers={true}

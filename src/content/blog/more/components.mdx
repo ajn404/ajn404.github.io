@@ -1,0 +1,80 @@
+---
+author: ajn404
+pubDatetime: 2025-01-13T03:44:01Z
+title: "components"
+featured: true
+ogImage: /assets/bg/8.png
+tags:
+  - components
+description: components
+---
+
+## 目录
+
+## code
+
+import CodeFromUrl from "@components/astro/UI/code.astro";
+
+<CodeFromUrl lang="tsx" highlightRange="1,10" url="src/config.ts" />
+
+## shader
+
+import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/07/11.frag"
+  client:only="react"
+/>
+
+## table
+
+import TanstackTable from "components/react/little/tanstackTable.tsx";
+
+<TanstackTable client:visible />
+
+## text
+
+import Text from "@components/react/UI/Text.tsx";
+
+<Text client:visible>
+  那一天，我也将沉静着走下山去，扶着我的拐杖。有一天，在某一处山洼里，势必会跑上来一个欢蹦的孩子，抱着
+  他的玩具。
+</Text>
+
+## Excalidraw
+
+import Excalidraw from "@components/astro/UI/excalidraw.astro";
+
+<Excalidraw
+  viewModeEnabled="true"
+  file="Hooke"
+  className="w-[60vw] m-auto my-10"
+/>
+
+## p5
+
+import SpringV2 from "@components/react/p5/Oscillation/spring/springV2.tsx";
+
+<SpringV2 showControl="true" client:load />
+
+## driver.js
+
+import DriverNoText from "@components/react/little/driverString.tsx";
+
+<DriverNoText client:load elements="ajn404,e3-7" />
+
+<div class="ajn404" data-description="ajn404">
+  <Text client:visible>ajn404</Text>
+</div>
+
+<div class="e3-7" data-description="旎嗥吗">
+  <Text client:visible>旎嗥吗</Text>
+</div>
+
+## slider
+
+import ImagesSlider from "@aceternity/demo/images-slider";
+
+<ImagesSlider client:load />
