@@ -100,3 +100,28 @@ import Editor from "@components/react/editor/index.tsx";
 import TimelineDemo from "@aceternity/demo/timeline.tsx";
 
 <TimelineDemo client:load />
+
+## music
+
+import Peaks from "@components/react/little/peaks.tsx";
+
+<Peaks client:load />
+
+## 标签input
+
+import Tagify from "@components/react/little/tagify.tsx";
+
+<Tagify initialValue="rust,swift" client:only="react" />
+
+## cesium
+
+import CustomShaderDemo from "@components/react/cesium/customShader/demo_v1.tsx";
+
+<ShaderTemplateUrl
+  width="30"
+  height="30"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/2.frag"
+  client:only="react"
+/>
+
+<CustomShaderDemo client:visible />

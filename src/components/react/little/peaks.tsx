@@ -74,7 +74,11 @@ export default () => {
         </div>
       </div>
       <div id="overview-container" className=" h-[200px]"></div>
-      <audio id="audio" controls>
+      <audio
+        id="audio"
+        controls
+        className="w-full mt-4 h-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 [&::-webkit-media-controls-panel]:bg-gray-100 [&::-webkit-media-controls-current-time-display]:text-gray-700 [&::-webkit-media-controls-time-remaining-display]:text-gray-700"
+      >
         <source src="/assets/sorry.mp3" type="audio/mpeg" />
       </audio>
     </div>
