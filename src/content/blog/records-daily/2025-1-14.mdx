@@ -1,0 +1,53 @@
+---
+author: ajn404
+pubDatetime: 2025-01-14T15:28:29.000Z
+title: "2025-1-14"
+featured: false
+ogImage: /assets/bg/9.jpeg
+draft: false
+tags:
+  - "2025"
+  - "2025-1-14"
+description: 谐波叠加
+---
+
+### 谐波叠加
+
+谐波叠加是指多个谐波振动的叠加，通常遵循叠加原理。根据叠加原理，多个谐波的合成位移是各个谐波位移的向量和。具体来说，对于两个谐波振动 $y_1(t) = A_1 \sin(\omega t + \alpha_1)$ 和 $y_2(t) = A_2 \sin(\omega t + \alpha_2)$，它们的合成可以表示为：
+
+$$
+y(t) = y_1(t) + y_2(t)
+$$
+
+如果这两个谐波具有相同的频率 $\omega$，则可以通过三角恒等式将其合成简化为：
+
+$$
+y(t) = A \sin(\omega t + \phi)
+$$
+
+其中，合成振幅 $A$ 和合成相位 $\phi$ 可以通过以下公式计算：
+
+$$
+A = \sqrt{A_1^2 + A_2^2 + 2A_1A_2 \cos(\alpha_2 - \alpha_1)}
+$$
+
+$$
+\tan(\phi) = \frac{A_1 \sin(\alpha_1) + A_2 \sin(\alpha_2)}{A_1 \cos(\alpha_1) + A_2 \cos(\alpha_2)}
+$$
+
+当两个谐波的频率不同（例如 $y_1(t) = A \sin(\omega_1 t)$ 和 $y_2(t) = A \sin(\omega_2 t)$）时，合成的结果会表现出调制现象，形成所谓的“拍频”效应。合成的表达式为：
+
+$$
+y(t) = A \sin(\omega_1 t) + A \sin(\omega_2 t) = 2A \cos\left(\frac{\omega_1 - \omega_2}{2} t\right) \sin\left(\frac{\omega_1 + \omega_2}{2} t\right)
+$$
+
+这种调制现象在物理学和工程学中有广泛的应用，例如在声音合成和信号处理等领域。
+
+import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
+
+<ShaderTemplateUrl
+  width="60"
+  height="60"
+  fragmentShaderPath="/assets/glsl/bookOfShader/demo/wave.frag"
+  client:only="react"
+/>

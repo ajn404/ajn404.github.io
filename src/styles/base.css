@@ -567,3 +567,9 @@ pre {
 .card-grid{
     @apply flex flex-wrap gap-4 justify-center;
 }
+
+.katex-mathml{
+    font-size: 1.5em;
+    filter: drop-shadow(0 0 0.75em #000) brightness(1.5) contrast(1.5);
+    line-height: 3em;
+}
