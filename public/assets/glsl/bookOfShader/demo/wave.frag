@@ -6,10 +6,11 @@
 uniform vec2 u_resolution;
 uniform float u_time;
 uniform int u_frame;
+uniform vec3 u_color;     // 控制颜色
 varying vec2 v_uv;
 
+//这个函数用于绘制一个带有边界的圆形
 vec3 circle(vec2 uv, float rr, float cc, float ss) {
-
     uv *= mat2(cc, ss, -ss, cc);
     if(rr < 0.)
         uv.y = -uv.y;
@@ -31,6 +32,10 @@ vec3 ima(vec2 uv, float th0) {
     float lerpy = smoothstep(-0.6, 0.2, cos(th0 * 0.1));
 #endif
 
+    // 添加动态缩放效果
+    float scale = 1.0 + 0.2 * sin(u_time);
+    uv *= scale;
+
     for(int i = 1; i < harmonic; i += 2) {
         float th = th0 * float(i);
         float fl = mod(float(i), 4.) - 2.;// used to be repeated assignment fl=-fl, but compiler bugs. :(
@@ -51,6 +56,14 @@ vec3 ima(vec2 uv, float th0) {
         col.xy = vec2(smoothstep(0., fwidth(uv.y), abs(uv.y)));
     if(uv0.y >= 1.5)
         col.xy = vec2(smoothstep(0., fwidth(uv.x), abs(uv.x)));
+
+    // 添加颜色变化
+    col = mix(col, u_color, 1.0 - col.r);
+
+    // 添加光晕效果
+    float glow = exp(-length(uv0) * 2.0);
+    col += u_color * glow * 0.5;
+
     return col;
 }
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
@@ -66,6 +79,14 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
         th0 += dt;
     }
     col = pow(col * (1. / float(moblur)), vec3(1. / 2.2));
+
+    // 添加色彩调整
+    col = mix(col, col.gbr, sin(u_time * 0.5) * 0.5 + 0.5);
+
+    // 添加脉动效果
+    // float pulse = 1.0 + 0.2 * sin(u_time * 3.0);
+    // col *= pulse;
+
     fragColor = vec4(col, 1.);
 }
 

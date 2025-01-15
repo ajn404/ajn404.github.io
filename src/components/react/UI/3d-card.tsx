@@ -14,12 +14,8 @@ export interface Props {
   showBackground?: boolean;
 }
 
-const getRandomHighlightVariant = () => Math.floor(Math.random() * 20) + 1;
-
-export default ({ href, frontmatter, secHeading = true }: Props) => {
+export default ({ href, frontmatter }: Props) => {
   const { title, pubDatetime, description, ogImage } = frontmatter;
-  const highlightVariant = getRandomHighlightVariant();
-
   return (
     <CardContainer className="inter-var">
       <CardBody className={`w-auto sm:w-[30rem] h-auto rounded-xl px-6`}>
@@ -39,7 +35,7 @@ export default ({ href, frontmatter, secHeading = true }: Props) => {
         <CardItem translateZ="100" className="w-full mt-4">
           <img
             src={ogImage || "/assets/ajn404.jpeg"}
-            className="h-60 w-full object-contain rounded-xl group-hover/card:shadow-xl"
+            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
             alt="thumbnail"
           />
         </CardItem>
