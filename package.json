@@ -72,6 +72,7 @@
     "@ritterim/skellycss": "^0.1.6",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@schedule-x/calendar": "^2.14.3",
     "@schedule-x/events-service": "^2.4.1",
     "@schedule-x/react": "^2.4.0",
     "@schedule-x/theme-default": "^2.4.1",
