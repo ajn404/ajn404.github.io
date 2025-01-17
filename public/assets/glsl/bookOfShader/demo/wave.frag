@@ -32,9 +32,6 @@ vec3 ima(vec2 uv, float th0) {
     float lerpy = smoothstep(-0.6, 0.2, cos(th0 * 0.1));
 #endif
 
-    // 添加动态缩放效果
-    float scale = 1.0 + 0.2 * sin(u_time);
-    uv *= scale;
 
     for(int i = 1; i < harmonic; i += 2) {
         float th = th0 * float(i);
@@ -82,10 +79,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     // 添加色彩调整
     col = mix(col, col.gbr, sin(u_time * 0.5) * 0.5 + 0.5);
-
-    // 添加脉动效果
-    // float pulse = 1.0 + 0.2 * sin(u_time * 3.0);
-    // col *= pulse;
 
     fragColor = vec4(col, 1.);
 }

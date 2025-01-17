@@ -9,17 +9,23 @@ tags:
 description: components
 ---
 
+import CodeFromUrl from "@components/astro/UI/code.astro";
+import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
+import DemoImageFadeShader from "@components/react/fiber/demoImageFadeShader.tsx";
+import TanstackTable from "components/react/little/tanstackTable.tsx";
+import Text from "@components/react/UI/Text.tsx";
+import Excalidraw from "@components/astro/UI/excalidraw.astro";
+import SpringV2 from "@components/react/p5/Oscillation/spring/springV2.tsx";
+import DriverNoText from "@components/react/little/driverString.tsx";
+import Tagify from "@components/react/little/tagify.tsx";
+
 ## 目录
 
 ## code
 
-import CodeFromUrl from "@components/astro/UI/code.astro";
-
 <CodeFromUrl lang="tsx" highlightRange="1,10" url="src/config.ts" />
 
 ## shader
-
-import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFromUrl.tsx";
 
 <ShaderTemplateUrl
   width="30"
@@ -28,19 +34,13 @@ import ShaderTemplateUrl from "@components/react/fiber/bookOfShader/templateFrom
   client:only="react"
 />
 
-import DemoImageFadeShader from "@components/react/fiber/demoImageFadeShader.tsx";
-
 <DemoImageFadeShader client:load />
 
 ## table
 
-import TanstackTable from "components/react/little/tanstackTable.tsx";
-
 <TanstackTable client:visible />
 
 ## text
-
-import Text from "@components/react/UI/Text.tsx";
 
 <Text client:visible>
   那一天，我也将沉静着走下山去，扶着我的拐杖。有一天，在某一处山洼里，势必会跑上来一个欢蹦的孩子，抱着
@@ -48,8 +48,6 @@ import Text from "@components/react/UI/Text.tsx";
 </Text>
 
 ## Excalidraw
-
-import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
 <Excalidraw
   viewModeEnabled="true"
@@ -59,13 +57,9 @@ import Excalidraw from "@components/astro/UI/excalidraw.astro";
 
 ## p5
 
-import SpringV2 from "@components/react/p5/Oscillation/spring/springV2.tsx";
-
 <SpringV2 showControl="true" client:load />
 
 ## driver.js
-
-import DriverNoText from "@components/react/little/driverString.tsx";
 
 <DriverNoText client:load elements="ajn404,e3-7" />
 
@@ -109,19 +103,4 @@ import Peaks from "@components/react/little/peaks.tsx";
 
 ## 标签input
 
-import Tagify from "@components/react/little/tagify.tsx";
-
 <Tagify initialValue="rust,swift" client:only="react" />
-
-## cesium
-
-import CustomShaderDemo from "@components/react/cesium/customShader/demo_v1.tsx";
-
-<ShaderTemplateUrl
-  width="30"
-  height="30"
-  fragmentShaderPath="/assets/glsl/bookOfShader/demo/2.frag"
-  client:only="react"
-/>
-
-<CustomShaderDemo client:visible />

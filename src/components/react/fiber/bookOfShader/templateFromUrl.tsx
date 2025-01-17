@@ -90,6 +90,7 @@ const App: React.FC<{
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const texturePaths = useMemo(
@@ -169,13 +170,44 @@ const App: React.FC<{
     return () => observer.disconnect();
   }, []);
 
+  // 处理全屏切换
+  const handleFullscreenToggle = useCallback(async () => {
+    if (!canvasRef.current) return;
+
+    if (!document.fullscreenElement) {
+      try {
+        await canvasRef.current.requestFullscreen();
+        setIsFullscreen(true);
+      } catch (err) {
+        console.error("全屏切换失败:", err);
+      }
+    } else {
+      await document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  }, []);
+
+  // 监听全屏变化
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
   return (
     <div
       ref={canvasRef}
+      onClick={handleFullscreenToggle}
       style={{
-        width: `${width}vw`,
-        height: `${height}vw`,
+        width: isFullscreen ? "80vh" : `${width}vw`,
+        height: isFullscreen ? "80vh" : `${height}vw`,
         margin: "2rem auto",
+        padding: isFullscreen ? "10vh calc(50vw - 40vh)" : "0",
         boxShadow: "rgba(200, 211, 211, 0.2) 0px 7px 29px 0px",
         cursor: "pointer",
       }}
