@@ -17,7 +17,7 @@
   margin: 20px auto;
 }
 
-@for $i from 1 through 6 {
+@for $i from 1 through 3 {
   .prose h#{$i} {
     @include heading-styles($i); // 直接传递数字
   }

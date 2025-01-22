@@ -1,0 +1,44 @@
+---
+author: ajn404
+pubDatetime: 2025-01-22T15:56:20.000Z
+title: cesium
+featured: false
+draft: false
+tags:
+  - cesium
+description: cesium basic
+---
+
+## 目录
+
+## basic
+
+import CodeFromUrl from "@components/astro/UI/code.astro";
+
+<CodeFromUrl
+  lang="tsx"
+  highlightRange="1,10"
+  url="src/components/react/cesium/template.tsx"
+/>
+
+### tips
+
+- cesium 鼠标左键旋转右键平移
+
+```ts
+let controller = viewer.scene.screenSpaceCameraController;
+controller.tiltEventTypes = [Cesium.CameraEventType.RIGHT_DRAG];
+controller.rotateEventTypes = [Cesium.CameraEventType.LEFT_DRAG];
+```
+
+### google earth demo
+
+- https://js-3d-area-explorer-demo-dev-t6a6o7lkja-uc.a.run.app/
+
+### components
+
+#### 历史轨迹
+
+import Trackline from "@components/react/cesium/work/trackline.tsx";
+
+<Trackline client:visible />

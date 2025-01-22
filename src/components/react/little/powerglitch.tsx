@@ -7,8 +7,7 @@ export default ({ children }) => {
       playMode: "always",
       hideOverflow: true,
       timing: {
-        duration: 1000,
-        iterations: 15,
+        duration: 2000,
         easing: "ease-in-out",
       },
       glitchTimeSpan: {
@@ -21,7 +20,7 @@ export default ({ children }) => {
         amplitudeY: 0.4,
       },
       slice: {
-        count: 40,
+        count: 10,
         velocity: 10,
         minHeight: 0.02,
         maxHeight: 0.4,
