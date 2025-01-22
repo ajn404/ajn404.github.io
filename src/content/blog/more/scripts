@@ -1,0 +1,4 @@
+
+
+### js实现递归目录，将目录下的所有非webp图片转成webp,使用类似 ffmpeg -i 1.jpeg 1.webp  的命令，本地装有ffmpeg,同时删除原图片
+

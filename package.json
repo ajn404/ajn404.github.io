@@ -117,6 +117,7 @@
     "embla-carousel-autoplay": "^8.1.7",
     "embla-carousel-react": "^8.0.0-rc20",
     "emoji-picker-element": "^1.22.0",
+    "fast-glob": "^3.3.3",
     "framer-motion": "^10.17.12",
     "fuse.js": "^7.0.0",
     "github-slugger": "^2.0.0",
