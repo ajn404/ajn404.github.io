@@ -89,7 +89,7 @@ export default () => {
       };
 
       const preload = () => {
-        let url = `/assets/bg/${imgUrl}${Math.random() > 0.5 ? ".jpg" : ".png"}`;
+        let url = `/assets/bg/${imgUrl}.webp`;
         img = p.loadImage(url);
         if (button) getImgColor(url);
 

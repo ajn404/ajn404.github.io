@@ -3,11 +3,11 @@ import { ImagesSlider } from "../ui/images-slider";
 
 export default function ImagesSliderDemo() {
   const images = [
-    "/assets/bg/4.png",
-    "/assets/bg/2.jpg",
-    "/assets/bg/1.jpg",
-    "/assets/bg/7.png",
-    "/assets/bg/7.jpg",
+    "/assets/bg/4.webp",
+    "/assets/bg/2.webp",
+    "/assets/bg/1.webp",
+    "/assets/bg/7.webp",
+    "/assets/bg/7.webp",
     "/assets/svg/ru01.svg",
   ];
   return (

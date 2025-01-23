@@ -47,7 +47,7 @@ const ModelViewer: React.FC = ({
 
     // Materials and Textures
     const textureLoader = new THREE.TextureLoader();
-    const bakedTexture = textureLoader.load("/assets/bg/2.jpeg");
+    const bakedTexture = textureLoader.load("/assets/bg/2.webp");
     const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
 
     // Model Loading

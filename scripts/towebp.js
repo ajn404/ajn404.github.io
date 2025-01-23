@@ -150,7 +150,7 @@ async function main() {
     console.log(`📦 Saved mapping file: ${config.mappingFile}`)
     
     // 阶段3：更新源代码
-    await updateSourceCodeReferences()
+    // await updateSourceCodeReferences()
     console.log('🎉 All done! Source code updated.')
   } catch (error) {
     console.error('🚨 Main process failed:', error)

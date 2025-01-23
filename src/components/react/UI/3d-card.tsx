@@ -34,7 +34,7 @@ export default ({ href, frontmatter }: Props) => {
         </CardItem>
         <CardItem translateZ="100" className="w-full mt-4">
           <img
-            src={ogImage || "/assets/ajn404.jpeg"}
+            src={ogImage || "/assets/ajn404.webp"}
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
             alt="thumbnail"
           />

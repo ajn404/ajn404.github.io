@@ -54,7 +54,7 @@ export default function template() {
           },
           //   u_externalTexture: {
           //     value: new Cesium.TextureUniform({
-          //       url: "/assets/bg/1.jpeg",
+          //       url: "/assets/bg/1.webp",
           //     }),
           //     type: Cesium.UniformType.SAMPLER_2D,
           //   },

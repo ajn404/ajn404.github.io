@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
 const textures = [
-  "/assets/texture/1.jpeg",
-  "/assets/texture/2.jpeg",
-  "/assets/texture/3.jpeg",
+  "/assets/texture/1.webp",
+  "/assets/texture/2.webp",
+  "/assets/texture/3.webp",
 ];
 
 interface Store {

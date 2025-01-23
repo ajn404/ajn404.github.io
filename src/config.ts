@@ -5,7 +5,7 @@ export const SITE: Site = {
   author: "ajn404",
   desc: "mono notes copying everything",
   title: "笔记",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "astropaper-og.webp",
   lightAndDarkMode: true,
   postPerPage: 20,
 };

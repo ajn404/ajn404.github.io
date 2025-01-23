@@ -36,7 +36,7 @@ export default function Template() {
         // 添加几个Billboard
         billboards.add({
           position: Cartesian3.fromDegrees(-75.59777, 40.03883, 0), // 经度, 纬度, 高度
-          image: "/assets/bg/1.jpg", // 替换为你的图片URL
+          image: "/assets/bg/1.webp", // 替换为你的图片URL
           width: 100,
           height: 100,
         });

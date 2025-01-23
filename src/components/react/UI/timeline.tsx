@@ -64,7 +64,7 @@ export default function TimelineDemo() {
       title: "过去搭建的ssg/学习demo",
       content: (
         <div className="text-center">
-          <img className="w-1/2 m-auto pb-2" src="/assets/ajn404.jpeg" alt="" />
+          <img className="w-1/2 m-auto pb-2" src="/assets/ajn404.webp" alt="" />
           <a href="https://ajn404.github.io/mono_notes/">
             astro雏形(mono repo，2/3年阶段)
           </a>
@@ -93,7 +93,7 @@ export default function TimelineDemo() {
           >
             <img
               className="w-1/2 m-auto pb-2"
-              src="/assets/more/screenshoot.png"
+              src="/assets/more/screenshoot.webp"
               alt=""
             />
           </a>

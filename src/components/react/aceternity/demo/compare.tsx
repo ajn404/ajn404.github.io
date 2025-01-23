@@ -12,8 +12,8 @@ export default () => {
         slideMode="drag"
       />
       <Compare
-        firstImage="/assets/texture/2.jpg"
-        secondImage="/assets/texture/1.jpg"
+        firstImage="/assets/texture/2.webp"
+        secondImage="/assets/texture/1.webp"
         firstImageClassName="object-cover object-center"
         secondImageClassname="object-cover object-center"
         className=" w-full "

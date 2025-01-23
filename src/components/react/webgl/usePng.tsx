@@ -13,7 +13,7 @@ export default () => {
             "linear-gradient(to right,rgb(251, 254, 251),rgb(33, 39, 55));",
         }}
       ></canvas>
-      <img className="hidden w-[200px]" src="/assets/xiao.jpg" id="image2" />
+      <img className="hidden w-[200px]" src="/assets/xiao.webp" id="image2" />
 
       <div className="controls text-center">
         <button

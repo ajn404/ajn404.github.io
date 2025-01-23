@@ -22,7 +22,7 @@ const ShaderComponent = ({
             "/assets/glsl/all.vert",
             "/assets/glsl/iq-canyon/iq-canyon.frag"
           );
-        myTexture = p.loadImage("/assets/glsl/iq-canyon/iChannel0.jpg");
+        myTexture = p.loadImage("/assets/glsl/iq-canyon/iChannel0.webp");
       };
 
       const setup = () => {

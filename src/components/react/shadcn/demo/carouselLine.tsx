@@ -17,7 +17,7 @@ export default () => {
               <Card>
                 <CardContent className="flex items-center justify-center p-6">
                   <img
-                    src={`/assets/bg/${index + 1}.jpg`}
+                    src={`/assets/bg/${index + 1}.webp`}
                     className="w-full h-full bg-white"
                     alt=""
                   />

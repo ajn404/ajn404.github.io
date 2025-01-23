@@ -18,7 +18,7 @@ const AutoplayCarousel: React.FC = () => {
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
             <img
-              src={`/assets/code/Equal${index}.png`}
+              src={`/assets/code/Equal${index}.webp`}
               className="w-full object-contain"
               alt={`Carousel image ${index + 1}`}
               loading="lazy"
