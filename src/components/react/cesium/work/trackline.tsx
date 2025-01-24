@@ -55,7 +55,7 @@ export default () => {
           outlineWidth: 2,
         }),
         model: {
-          uri: "/assets/models/gltf/animate.gltf",
+          uri: "/assets/models/gltf/Cesium_Man.glb",
           scale: 2,
         },
       });

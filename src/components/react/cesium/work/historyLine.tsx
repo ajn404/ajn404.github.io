@@ -1,15 +1,12 @@
 import {
   Cartesian3,
   JulianDate,
-  Clock,
   ClockRange,
-  ClockStep,
   SampledPositionProperty,
   TimeInterval,
-  Entity,
   PointGraphics,
   PolylineGlowMaterialProperty,
-  PolylineGraphics,
+  VelocityOrientationProperty,
   TimeIntervalCollection,
   Color,
   PathGraphics,
@@ -65,10 +62,15 @@ export default () => {
         }),
       ]),
       model: {
-        uri: "/assets/models/gltf/animate.gltf",
+        uri: "/assets/models/gltf/Cesium_Man.glb",
         scale: 2,
+        // 添加以下配置调整模型初始方向
+        minimumPixelSize: 64, // 可选：保持模型可见
+        maximumScale: 200, // 可选：限制最大缩放
+        clampAnimations: false, // 允许动画循环
       },
       position: positionProperty,
+      orientation: new VelocityOrientationProperty(positionProperty), // 自动计算朝向
       point: new PointGraphics({
         color: Color.RED,
         pixelSize: 12,

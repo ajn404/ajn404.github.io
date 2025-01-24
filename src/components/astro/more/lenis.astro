@@ -3,15 +3,26 @@
 ---
 
 <script>
-import Lenis from "@studio-freight/lenis";
+  import Lenis from "@studio-freight/lenis";
 
-const lenis = new Lenis();
-// lenis.on("scroll", e => {
-//   console.log(e);
-// });
-function raf(time) {
-  lenis?.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
+  // lenis.on("scroll", e => {
+  //   console.log(e);
+  // });
+  let id = null;
+  const width = window.innerWidth;
+  if (width < 768) {
+    const lenis = new Lenis();
+
+    function raf(time) {
+      if (window.innerWidth > 768) {
+        id && cancelAnimationFrame(id);
+        lenis.destroy();
+        return;
+      }
+
+      lenis?.raf(time);
+      requestAnimationFrame(raf);
+    }
+    id = requestAnimationFrame(raf);
+  }
 </script>
