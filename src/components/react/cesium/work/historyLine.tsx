@@ -14,10 +14,7 @@ export default () => {
     longitude?: number;
   };
 
-  const [currentLocation, setCurrentLocation] = useState<CurrentLocation>({
-    latitude: 39,
-    longitude: 116,
-  });
+  const [currentLocation, setCurrentLocation] = useState<CurrentLocation>({});
 
   // 初始化时检查地理位置权限
   useEffect(() => {
@@ -54,10 +51,6 @@ export default () => {
           outlineColor: Color.WHITE,
           outlineWidth: 2,
         }),
-        model: {
-          uri: "/assets/models/gltf/animate.gltf",
-          scale: 0.1,
-        },
       });
 
       setCurrentEntity(newEntity);
@@ -67,6 +60,7 @@ export default () => {
         destination: Cartesian3.fromDegrees(longitude, latitude, 1000),
         orientation: {
           heading: 0,
+          pitch: -Math.PI / 4,
           roll: 0,
         },
       });
