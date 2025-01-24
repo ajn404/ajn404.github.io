@@ -1,133 +1,198 @@
-import { Cartesian3, Color, Entity, PointGraphics } from "cesium";
+import {
+  Cartesian3,
+  JulianDate,
+  Clock,
+  ClockRange,
+  ClockStep,
+  SampledPositionProperty,
+  TimeInterval,
+  Entity,
+  PointGraphics,
+  PolylineGlowMaterialProperty,
+  PolylineGraphics,
+  TimeIntervalCollection,
+  Color,
+  PathGraphics,
+  Cartographic,
+  Math,
+} from "cesium";
 import { useCesium } from "../hooks/useCesium";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import "cesium/Build/Cesium/Widgets/widgets.css";
-import { Button } from "@components/react/shadcn/ui/button";
+import { generateTrajectory } from "./generateTrackJson";
 
 export default () => {
   const { cesiumContainerRef, viewer } = useCesium();
-  const [currentEntity, setCurrentEntity] = useState<Entity>(); // 存储位置实体
-  const [watchId, setWatchId] = useState<number>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState<{
+    lng: number;
+    lat: number;
+  }>();
+  const trajectoryPoints = generateTrajectory(116.5389, 39.8209);
 
-  type CurrentLocation = {
-    latitude?: number;
-    longitude?: number;
-  };
+  // 创建时间驱动的动态位置属性
+  const createTimeBasedPosition = useCallback(() => {
+    if (!viewer.current) return;
 
-  const [currentLocation, setCurrentLocation] = useState<CurrentLocation>({});
+    // 1. 配置场景时钟
+    const viewerClock = viewer.current.clock;
 
-  // 初始化时检查地理位置权限
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      alert("浏览器不支持地理位置功能");
-      return;
-    }
+    // 1. 配置时钟参数
+    viewerClock.startTime = JulianDate.fromDate(
+      new Date(trajectoryPoints[0].time)
+    );
+    viewerClock.stopTime = JulianDate.fromDate(
+      new Date(trajectoryPoints[trajectoryPoints.length - 1].time)
+    );
+    viewerClock.currentTime = JulianDate.clone(viewerClock.startTime);
+    viewerClock.clockRange = ClockRange.LOOP_STOP;
+    viewerClock.multiplier = 1;
 
-    navigator.permissions
-      .query({ name: "geolocation" })
-      .then(permissionStatus => {
-        if (permissionStatus.state === "denied") {
-          alert("请允许地理位置权限以使用此功能");
-        }
+    // 2. 创建采样位置属性
+    const positionProperty = new SampledPositionProperty();
+    trajectoryPoints.forEach(point => {
+      const time = JulianDate.fromDate(new Date(point.time));
+      const position = Cartesian3.fromDegrees(point.lng, point.lat);
+      positionProperty.addSample(time, position);
+    });
+
+    // 3. 创建动态实体
+    const movingEntity = viewer.current.entities.add({
+      availability: new TimeIntervalCollection([
+        new TimeInterval({
+          start: viewerClock.startTime,
+          stop: viewerClock.stopTime,
+        }),
+      ]),
+      model: {
+        uri: "/assets/models/gltf/animate.gltf",
+        scale: 2,
+      },
+      position: positionProperty,
+      point: new PointGraphics({
+        color: Color.RED,
+        pixelSize: 12,
+        outlineColor: Color.WHITE,
+        outlineWidth: 2,
+      }),
+      path: new PathGraphics({
+        resolution: 1,
+        material: new PolylineGlowMaterialProperty({
+          glowPower: 0.3,
+          color: Color.YELLOW,
+        }),
+        width: 3,
+      }),
+    });
+
+    // 配置跟踪参数
+    viewer.current.trackedEntity = movingEntity;
+    viewer.current.scene.screenSpaceCameraController.enableCollisionDetection =
+      false; // 禁用碰撞检测
+
+    // 4. 时间变化监听
+    viewer.current.clock.onTick.addEventListener(clock => {
+      const currentTime = clock.currentTime;
+      const cartesian = positionProperty.getValue(currentTime);
+      const cartographic = Cartographic.fromCartesian(cartesian);
+      setCurrentPosition({
+        lng: Math.toDegrees(cartographic.longitude),
+        lat: Math.toDegrees(cartographic.latitude),
       });
+    });
+
+    return () => {
+      viewer.current?.entities.remove(movingEntity);
+      viewer.current?.clock.onTick.removeEventListener();
+    };
+  }, [viewer.current, trajectoryPoints]);
+
+  // 初始化场景
+  useEffect(() => {
+    if (!viewer.current) return;
+
+    // 绘制静态轨迹
+    const staticPath = viewer.current.entities.add({
+      polyline: {
+        positions: Cartesian3.fromDegreesArray(
+          trajectoryPoints.flatMap(p => [p.lng, p.lat])
+        ),
+        width: 1,
+        material: Color.GRAY.withAlpha(0.5),
+      },
+    });
+
+    createTimeBasedPosition();
+
+    return () => {
+      viewer.current?.entities.remove(staticPath);
+    };
   }, []);
 
-  // 更新地图上的位置标记
-  const updatePositionMarker = useCallback(
-    (longitude: number, latitude: number) => {
-      if (!viewer.current) return;
+  // 控制时钟状态
+  const togglePlay = () => {
+    if (!viewer.current) return;
 
-      // 移除旧实体
-      if (currentEntity) {
-        viewer.current.entities.remove(currentEntity);
+    if (isPlaying) {
+      viewer.current.clock.shouldAnimate = false;
+    } else {
+      if (
+        JulianDate.compare(
+          viewer.current.clock.currentTime,
+          viewer.current.clock.stopTime
+        ) === 0
+      ) {
+        viewer.current.clock.currentTime = viewer.current.clock.startTime;
       }
-
-      // 创建新实体
-      const newEntity = viewer.current.entities.add({
-        position: Cartesian3.fromDegrees(longitude, latitude),
-        point: new PointGraphics({
-          color: Color.RED,
-          pixelSize: 10,
-          outlineColor: Color.WHITE,
-          outlineWidth: 2,
-        }),
-      });
-
-      setCurrentEntity(newEntity);
-
-      // 移动视角到当前位置
-      viewer.current.camera.flyTo({
-        destination: Cartesian3.fromDegrees(longitude, latitude, 1000),
-        orientation: {
-          heading: 0,
-          pitch: -Math.PI / 4,
-          roll: 0,
-        },
-      });
-    },
-    [viewer.current, currentEntity]
-  );
-
-  // 监听位置变化
-  const watchCurrentLocation = useCallback(() => {
-    const id = navigator.geolocation.watchPosition(
-      position => {
-        const { latitude, longitude } = position.coords;
-        setCurrentLocation({ latitude, longitude });
-        updatePositionMarker(longitude, latitude);
-      },
-      error => {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            alert("用户拒绝了地理位置请求");
-            break;
-          case error.POSITION_UNAVAILABLE:
-            alert("无法获取位置信息");
-            break;
-          case error.TIMEOUT:
-            alert("请求超时");
-            break;
-          default:
-            alert("未知错误");
-        }
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
-      }
-    );
-    setWatchId(id);
-  }, [updatePositionMarker]);
-
-  // 清理
-  useEffect(() => {
-    return () => {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-      if (currentEntity && viewer.current) {
-        viewer.current.entities.remove(currentEntity);
-      }
-    };
-  }, [watchId, currentEntity]);
+      viewer.current.clock.shouldAnimate = true;
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <div
         ref={cesiumContainerRef}
         style={{
           width: "100%",
-          height: "500px",
+          height: "70vh",
           userSelect: "none",
           position: "relative",
           zIndex: 0,
         }}
       />
-      <Button onClick={watchCurrentLocation}>开始实时定位</Button>
 
-      <div className="position-info">
-        当前坐标: {currentLocation.latitude?.toFixed(5)},{" "}
-        {currentLocation.longitude?.toFixed(5)}
+      {/* 控制面板 */}
+      <div
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          zIndex: 1,
+          background: "rgba(40,40,40,0.7)",
+          color: "white",
+          padding: "10px",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+        }}
+      >
+        <button onClick={togglePlay}>
+          {isPlaying ? "⏸️ 暂停" : "▶️ 播放"}
+        </button>
+        <button
+          onClick={() => {
+            viewer.current!.clock.currentTime = viewer.current!.clock.startTime;
+            viewer.current!.clock.shouldAnimate = false;
+            setIsPlaying(false);
+          }}
+        >
+          ⏹️ 重置
+        </button>
+        <div style={{ marginTop: 10 }}>
+          {currentPosition &&
+            `经度: ${currentPosition.lng.toFixed(6)}  纬度: ${currentPosition.lat.toFixed(6)}`}
+        </div>
       </div>
-    </>
+    </div>
   );
 };

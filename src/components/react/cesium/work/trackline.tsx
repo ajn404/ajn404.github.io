@@ -56,7 +56,7 @@ export default () => {
         }),
         model: {
           uri: "/assets/models/gltf/animate.gltf",
-          scale: 0.1,
+          scale: 2,
         },
       });
 
