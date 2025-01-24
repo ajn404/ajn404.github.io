@@ -1,6 +1,6 @@
 import { Cartesian3 } from "cesium";
 import { useCesium } from "../hooks/useCesium";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import { Button } from "@components/react/shadcn/ui/button";
 
@@ -13,15 +13,28 @@ export default () => {
       });
   }, [viewer]);
 
+  type CurrentLocation = {
+    latitude?: number;
+    longitude?: number;
+  };
+
+  const [currentLocation, setCurrentLocation] = useState<CurrentLocation>({});
+
+  const [watchId, setWatchId] = useState<number>(null);
+
   const getCurrentLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      alert("浏览器不支持地理位置功能");
+      return;
+    }
     navigator.geolocation.getCurrentPosition(
       // 成功回调
       position => {
-        const latitude = position.coords.latitude; // 纬度
-        const longitude = position.coords.longitude; // 经度
-        viewer.current.camera.flyTo({
-          destination: Cartesian3.fromDegrees(latitude, longitude, 15000.0),
-        });
+        setCurrentLocation(prev => ({
+          ...prev,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }));
       },
       // 失败回调
       error => {
@@ -38,9 +51,26 @@ export default () => {
           default:
             alert("未知错误");
         }
+      },
+      {
+        enableHighAccuracy: true, // 提高精度
+        timeout: 10000, // 超时时间 10 秒
+        maximumAge: 0, // 不缓存位置
       }
     );
   }, []);
+
+  const watchCurrentLocation = useCallback(() => {
+    const id = navigator.geolocation.watchPosition(position => {
+      setCurrentLocation(prev => ({
+        ...prev,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }));
+    });
+    setWatchId(id);
+  }, []);
+
   return (
     <>
       <div
@@ -56,9 +86,12 @@ export default () => {
         ref={cesiumContainerRef}
         style={{ width: "100%", height: "500px", userSelect: "none" }}
       />
-      <Button className="flex items-center" onClick={getCurrentLocation}>
-        获取当前位置
-      </Button>
+      <Button onClick={getCurrentLocation}>获取当前位置</Button>
+      <Button onClick={watchCurrentLocation}>监听当前位置</Button>
+
+      <span className="white">
+        经纬度:{currentLocation.latitude},{currentLocation.longitude}
+      </span>
     </>
   );
 };
