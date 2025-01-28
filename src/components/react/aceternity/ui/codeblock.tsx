@@ -106,6 +106,8 @@ export const CodeBlock = ({
         customStyle={{
           margin: 0,
           padding: 0,
+          overflowY: "hidden",
+          overflowX: "auto",
           background: "transparent",
         }}
         wrapLines={true}

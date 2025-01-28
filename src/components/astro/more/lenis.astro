@@ -10,7 +10,9 @@
   // });
   let id = null;
   const width = window.innerWidth;
-  if (width < 768) {
+
+  //todo:control
+//   if (width < 768) {
     const lenis = new Lenis();
 
     function raf(time) {
@@ -24,5 +26,5 @@
       requestAnimationFrame(raf);
     }
     id = requestAnimationFrame(raf);
-  }
+//   }
 </script>
