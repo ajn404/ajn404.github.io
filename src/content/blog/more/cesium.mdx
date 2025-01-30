@@ -16,11 +16,16 @@ description: cesium basic
 
 import CodeFromUrl from "@components/astro/UI/code.astro";
 
+<details>
+<summary>代码</summary>
+
 <CodeFromUrl
   lang="tsx"
   highlightRange="1,10"
   url="src/components/react/cesium/template.tsx"
 />
+
+</details>
 
 ### tips
 
@@ -42,7 +47,15 @@ controller.rotateEventTypes = [Cesium.CameraEventType.LEFT_DRAG];
 
 import Trackline from "@components/react/cesium/work/trackline.tsx";
 
+<details>
+<summary>当前位置定位：刷新页面，查看当前位置</summary>
+
 <Trackline client:visible />
+
+</details>
+
+<details>
+<summary>代码</summary>
 
 <CodeFromUrl
   lang="tsx"
@@ -50,8 +63,104 @@ import Trackline from "@components/react/cesium/work/trackline.tsx";
   url="src/components/react/cesium/work/trackline.tsx"
 />
 
+</details>
+
 #### 历史轨迹
 
 import HistoryLine from "@components/react/cesium/work/historyLine.tsx";
 
+<details>
+<summary>第一版:实现人员跟踪</summary>
+
 <HistoryLine client:visible />
+
+</details>
+
+## 漫思
+
+### vite-plugin-cesium的原理
+
+<details>
+<summary>vite-plugin-cesium</summary>
+
+`vite-plugin-cesium` 是一个用于简化在 Vite 项目中集成 CesiumJS 的插件。它的核心原理是通过自动化配置和资源处理，解决 CesiumJS 在 Vite 中常见的静态资源加载、路径配置、模块兼容性等问题。以下是其工作原理的详细分析：
+
+---
+
+### 1. **自动依赖管理与路径别名**
+
+- **Cesium 安装**：插件会自动安装 `cesium` npm 包，或确保用户已正确安装。
+- **别名配置**：在 Vite 配置中设置路径别名，将 `cesium` 指向 `node_modules/cesium`，简化模块导入：
+  ```javascript
+  // vite.config.js
+  export default {
+    resolve: {
+      alias: {
+        cesium: path.resolve(__dirname, "node_modules/cesium"),
+      },
+    },
+  };
+  ```
+
+---
+
+### 2. **静态资源处理**
+
+CesiumJS 依赖大量静态资源（如 WebAssembly、图片、CSS 等），这些资源需要被正确加载。
+
+- **资源复制**：插件在开发阶段将 `node_modules/cesium/Build/Cesium` 下的静态资源复制到 Vite 项目的 `public` 目录（或指定路径），确保开发服务器能访问它们。
+- **生产构建处理**：在构建阶段，资源会被打包到输出目录（如 `dist`），并通过 `CESIUM_BASE_URL` 配置基础路径。
+
+---
+
+### 3. **Web Workers 与 WASM 配置**
+
+CesiumJS 使用 Web Workers 和 WebAssembly 提升性能，但浏览器安全策略要求这些文件必须通过正确的 MIME 类型和路径加载。
+
+- **Worker 文件处理**：通过 `vite` 的 `worker` 插件配置，将 `.js` 文件标记为 Web Workers，确保其被正确隔离和加载。
+- **WASM 配置**：配置 `.wasm` 文件作为异步模块加载，并设置正确的 MIME 类型（如 `application/wasm`）。
+
+---
+
+### 4. **环境变量注入**
+
+- **CESIUM_BASE_URL**：插件自动设置环境变量 `CESIUM_BASE_URL`，指向静态资源的基础路径（如开发环境的 `/public` 或生产环境的相对路径）。CesiumJS 通过此变量加载资源：
+  ```javascript
+  window.CESIUM_BASE_URL = "/";
+  ```
+
+---
+
+### 5. **Vite 构建配置调整**
+
+- **资源包含规则**：扩展 `assetsInclude` 配置，让 Vite 识别 Cesium 相关文件（如 `.glb`, `.czml` 等）。
+- **CommonJS 转换**：CesiumJS 使用 CommonJS 模块，插件通过 `@rollup/plugin-commonjs` 将其转换为 ESM，确保与 Vite 的 ESM 环境兼容。
+- **依赖优化**：在 `optimizeDeps` 中排除 Cesium，避免 Vite 预构建时处理其复杂依赖。
+
+---
+
+### 6. **开发服务器中间件配置**
+
+- **CORS 头设置**：为开发服务器添加中间件，设置 `Cross-Origin-Opener-Policy` 和 `Cross-Origin-Embedder-Policy` 头，解决 Web Worker 的跨域限制。
+- **静态资源代理**：确保对 Cesium 资源的请求被正确代理到本地文件或 CDN。
+
+---
+
+### 7. **生产优化**
+
+- **代码拆分**：配置 Rollup 避免拆分关键 Cesium 模块，保持运行时完整性。
+- **资源压缩**：启用 `build.minify` 压缩代码，同时确保 WASM 等二进制文件不被破坏。
+
+---
+
+### 总结
+
+`vite-plugin-cesium` 通过以下方式简化开发：
+
+1. **自动化配置**：隐藏复杂的路径、资源处理和模块转换逻辑。
+2. **环境适配**：统一开发和生产环境下的静态资源加载行为。
+3. **兼容性处理**：解决 CJS/ESM 模块差异和浏览器安全策略问题。
+
+开发者只需安装插件并导入 Cesium，无需手动处理上述细节，即可快速启动 3D 地理可视化项目。
+
+</details>
