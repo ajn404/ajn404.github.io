@@ -98,6 +98,8 @@ export default function TimelineDemo() {
             />
           </a>
           <a href="/posts/2025-1-8#按钮获取当前位置坐标">获取当前位置坐标</a>
+          <br />
+          <a href="/posts/cesium#历史轨迹">人员定位/轨迹</a>
         </div>
       ),
     },
