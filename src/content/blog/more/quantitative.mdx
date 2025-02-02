@@ -211,3 +211,17 @@ async function executeTrade(signal) {
 ### **总结**
 
 JavaScript适合**低频策略原型开发**和**全栈量化系统构建**（前端展示+后端逻辑），但在复杂数学运算和高频场景中需谨慎。建议先用JS验证策略逻辑，再针对性能关键模块换用Python/C++。
+
+## cursor问题构建
+
+- 直接将图表渲染到dom中，能交互，使用vue服务端组件，实现自己选择时间区间，选择时间后相应地请求数据，参数为start_date，起始日期。格式“yyyy-mm-dd”，和end_date，格式同start_date
+
+import CodeFromUrl from "@components/astro/UI/code.astro";
+
+<CodeFromUrl
+  lang="js"
+  highlightRange="0"
+  url="examples/quantitative/toImage.js"
+/>
+
+## 优化方案，使用nextjs吧
