@@ -57,3 +57,5 @@ key.properties
 .tauri
 tauri.settings.gradle
 src-tauri/gen
+
+.next
