@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .chart-container {
+    @apply bg-white rounded-lg shadow-lg p-4;
+  }
+
+  .metric-card {
+    @apply bg-white rounded-lg shadow p-4;
+  }
+
+  .metric-value {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .metric-label {
+    @apply text-sm text-gray-500;
+  }
+} 
