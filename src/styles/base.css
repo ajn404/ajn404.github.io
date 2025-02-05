@@ -88,15 +88,19 @@
   footer {
     @apply mx-auto max-w-[100vw] px-4;
   }
-  a {
+  .prose a {
     background: linear-gradient(rgb(var(--color-text-base)) 0 0) var(--p, 0)
       100% / var(--p, 0) 0.1em no-repeat;
     transition:
       0.4s,
       background-position 0s;
   }
-  a:hover {
+  .prose a:hover {
     --p: 100%;
+    outline:none;
+  }
+  a:hover{
+    outline:5px dotted #0e0e0e;
   }
   #nav-menu svg,
   /* .flex > svg, */

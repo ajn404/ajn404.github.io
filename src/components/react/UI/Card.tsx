@@ -3,7 +3,7 @@ import Datetime from "./Datetime";
 import type { CollectionEntry } from "astro:content";
 import Text from "@components/react/UI/Text";
 import { useRef } from "react";
-import "@styles/card.scss";
+// import "@styles/card.scss";
 
 export interface Props {
   href?: string;
