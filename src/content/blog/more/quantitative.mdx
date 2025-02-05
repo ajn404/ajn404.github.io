@@ -226,6 +226,114 @@ import CodeFromUrl from "@components/astro/UI/code.astro";
 
 ## 优化方案，使用nextjs吧
 
+两个交易策略的实现和原理：
+
+SMA (简单移动平均线) 策略
+
+```js
+case 'sma': {
+  if (slicedData.length < period + 1) return null;
+
+  const prices = slicedData.map(candle => candle.close);
+  const sma = indicators.sma(prices, period);
+  const currentPrice = prices[prices.length - 1];
+  const currentSMA = sma[sma.length - 1];
+  const previousPrice = prices[prices.length - 2];
+  const previousSMA = sma[sma.length - 2];
+
+  // 价格从下方穿过 SMA，买入信号
+  if (previousPrice < previousSMA && currentPrice > currentSMA) {
+    return 'buy';
+  }
+  // 价格从上方穿过 SMA，卖出信号
+  if (previousPrice > previousSMA && currentPrice < currentSMA) {
+    return 'sell';
+  }
+  return null;
+}
+```
+
+SMA策略原理：
+计算指定周期（如20天）的移动平均线
+当价格从下方突破均线时（金叉），产生买入信号
+当价格从上方跌破均线时（死叉），产生卖出信号
+这个策略适合趋势型行情，在震荡市可能会产生虚假信号
+
+RSI (相对强弱指标) 策略：
+
+```js
+case 'rsi': {
+  if (slicedData.length < period + 1) return null;
+
+  const prices = slicedData.map(candle => candle.close);
+  const rsiValues = indicators.rsi(prices, period);
+  const currentRSI = rsiValues[rsiValues.length - 1];
+
+  // RSI < 30 超卖，买入信号
+  if (currentRSI < 30) return 'buy';
+  // RSI > 70 超买，卖出信号
+  if (currentRSI > 70) return 'sell';
+  return null;
+}
+```
+
+RSI策略原理：
+RSI衡量价格的超买超卖状态，取值范围0-100
+RSI < 30被认为是超卖区域，可能会反弹，产生买入信号
+RSI > 70被认为是超买区域，可能会回落，产生卖出信号
+这个策略适合震荡行情，在单边趋势市场可能会造成较大损失
+
+RSI的计算过程（在indicators.js中实现）
+
+```js
+rsi: function(data, period = 14) {
+  const changes = [];
+  const gains = [];
+  const losses = [];
+
+  // 1. 计算价格变化
+  for(let i = 1; i < data.length; i++) {
+    changes[i] = data[i] - data[i-1];
+    gains[i] = changes[i] > 0 ? changes[i] : 0;
+    losses[i] = changes[i] < 0 ? -changes[i] : 0;
+  }
+
+  // 2. 计算首个RSI值
+  let avgGain = gains.slice(1, period + 1).reduce((sum, gain) => sum + gain, 0) / period;
+  let avgLoss = losses.slice(1, period + 1).reduce((sum, loss) => sum + loss, 0) / period;
+
+  // 3. 使用平滑移动平均计算后续RSI值
+  const result = Array(period).fill(null);
+  for(let i = period; i < data.length; i++) {
+    avgGain = ((avgGain * (period - 1)) + gains[i]) / period;
+    avgLoss = ((avgLoss * (period - 1)) + losses[i]) / period;
+
+    const RS = avgGain / avgLoss;
+    result.push(100 - (100 / (1 + RS)));
+  }
+
+  return result;
+}
+```
+
+策略使用建议：
+SMA策略：
+适合中长期趋势交易
+建议在较大的时间周期上使用（如日线、周线）
+可以使用多个周期的均线组合（如金叉死叉）
+建议在趋势明确的市场中使用
+RSI策略：
+适合短期交易和震荡市场
+建议配合其他指标使用（如MACD）
+可以根据市场情况调整超买超卖阈值
+在强趋势市场中要谨慎使用
+
+这两个策略都是比较基础的技术分析策略，建议：
+可以组合使用多个指标
+添加止损止盈条件
+考虑加入趋势过滤器
+根据不同市场情况动态调整参数
+
 ## 《主动投资组合管理》
 
 <details open>
