@@ -4,7 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import Footer from "@components/astro/UI/Footer.astro";
 import LinkButton from "@components/astro/UI/LinkButton.astro";
 import Hr from "@components/astro/UI/Hr.astro";
-import Card from "@components/react/UI/3d-card";
+import Card from "@components/react/UI/Card";
 import Socials from "@components/astro/UI/Socials.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
@@ -13,7 +13,8 @@ import TextAnimation from "@components/react/d3/textAnimation.tsx";
 import Header from "@components/astro/UI/Header.astro";
 import TimeLine from "@components/react/UI/timeline.tsx";
 import { TypewriterEffectSmooth } from "@aceternity/ui/typewriter-effect";
-console.time("index");
+import GlowingEffectDemo from "@components/react/UI/glowing-effect-card";
+
 const [posts, socialCount] = await Promise.all([
   getCollection("blog"),
   SOCIALS.filter(social => social.active).length,
@@ -156,15 +157,18 @@ console.timeEnd("index");
     </section>
 
     <section class="pb-6 pt-12">
+      <h2>大A探索</h2>
+      <GlowingEffectDemo client:load />
+    </section>
+
+    <section class="pb-6 pt-12">
       <Header home={true} />
       <h2 class="text-2xl font-semibold tracking-wide">时间线</h2>
 
       <TimeLine client:load />
     </section>
   </main>
-  <blockquote
-    class="w-full text-center my-10 font-bold italic text-white"
-  >
+  <blockquote class="w-full text-center my-10 font-bold italic text-white">
     <p>
       "The WorldWideWeb (WWW) project aims to allow links to be made to any
       information anywhere."
