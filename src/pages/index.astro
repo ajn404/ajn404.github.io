@@ -100,6 +100,7 @@ console.timeEnd("index");
       }
     </section>
     <!-- <Hr /> -->
+    <Header home={true} />
 
     {
       featuredPosts.length > 0 && (
@@ -161,7 +162,6 @@ console.timeEnd("index");
     </section>
 
     <section class="pb-6 pt-12">
-      <Header home={true} />
       <h2 class="text-2xl font-semibold tracking-wide">时间线</h2>
 
       <TimeLine client:load />
