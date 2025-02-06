@@ -1,0 +1,3 @@
+(function(){try{var e=typeof window<"u"?window:typeof global<"u"?global:typeof globalThis<"u"?globalThis:typeof self<"u"?self:{},t=new e.Error().stack;t&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[t]="3527a42c-08e7-4b2d-ba6d-83bb415d9d21",e._sentryDebugIdIdentifier="sentry-dbid-3527a42c-08e7-4b2d-ba6d-83bb415d9d21")}catch{}})();document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("select-button");e&&e.addEventListener("click",()=>{const t=document.getElementById("textarea");if(!t)return;const n=t.value.split(`
+`),d=2,s=n.slice(0,d).reduce((c,l)=>c+l.length+1,0),o=s+n[d].length;t.focus(),t.setSelectionRange(s,o)})});
+//# sourceMappingURL=textarea.astro_astro_type_script_index_0_lang.BFkSY4_W.js.map
