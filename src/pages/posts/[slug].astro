@@ -7,8 +7,6 @@ import getPageNumbers from "@utils/getPageNumbers";
 import slugify from "@utils/slugify";
 import { SITE } from "@config";
 import MotionScroll from '@components/react/UI/Progress'
-import CustomText from "@components/react/custom-element/custom-text.tsx"
-
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -53,4 +51,4 @@ const paginatedPosts = sortedPosts.slice(startPost, lastPost);
 
 <MotionScroll client:load></MotionScroll>
 <!-- 没用的 -->
-<CustomText client:load></CustomText>
+<!-- <CustomText client:load></CustomText> -->

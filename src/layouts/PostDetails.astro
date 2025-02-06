@@ -7,13 +7,15 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import "medium-zoom/dist/style.css";
 
-// import NavToc from "./NavToc.astro";
+import NavToc from "./NavToc.astro";
 import Code from "./Code.astro";
 import Image from "./Image.astro";
 
 import OpenDetails from "@components/astro/dom/openDetails.astro";
 import Lenis from "@components/astro/more/lenis.astro";
 import LocalStorage from "@components/react/util/localStorage.tsx";
+// import NavToc from "@layouts/NavToc.astro";
+
 export interface Props {
   post: CollectionEntry<"blog">;
 }
@@ -90,12 +92,11 @@ const ogUrl = new URL(ogImage ? ogImage : `${title}.png`, Astro.url.origin)
         }
         <Content components={{ img: Image }} />
       </article>
+      {NavToc && <NavToc class="sticky top-20 ml-8 hidden lg:block w-64" />}
     </div>
     <ul class="tags-container">
       {tags.map(tag => <Tag name={slugifyStr(tag)} />)}
     </ul>
-    <!-- 这里好像是因为组件没有实体只有脚本,引用后便加载了,schema无法控制它的中断 -->
-    <!-- {navToc && <NavToc />} -->
   </main>
   {detailButton && <OpenDetails />}
 
