@@ -252,14 +252,6 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-skin-card-muted;
   }
-
-  img {
-    @apply transition-opacity duration-300;
-    opacity: 0;
-    &.loaded {
-      opacity: 1;
-    }
-  }
 }
 
 @layer components {
