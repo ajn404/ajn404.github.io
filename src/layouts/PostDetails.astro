@@ -8,13 +8,11 @@ import { slugifyStr } from "@utils/slugify";
 import "medium-zoom/dist/style.css";
 
 import NavToc from "./NavToc.astro";
-import Code from "./Code.astro";
 import Image from "./Image.astro";
 
 import OpenDetails from "@components/astro/dom/openDetails.astro";
 import Lenis from "@components/astro/more/lenis.astro";
 import LocalStorage from "@components/react/util/localStorage.tsx";
-// import NavToc from "@layouts/NavToc.astro";
 
 export interface Props {
   post: CollectionEntry<"blog">;

@@ -102,9 +102,6 @@
     --p: 100%;
     outline:none;
   }
-  a:hover{
-    outline:5px dotted #0e0e0e;
-  }
   #nav-menu svg,
   /* .flex > svg, */
   .small-svg {
