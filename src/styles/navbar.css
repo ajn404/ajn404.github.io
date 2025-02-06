@@ -3,21 +3,19 @@
 }
 
 #目录 + ul {
-
-  @apply sm:dark:brightness-125  sm:block sm:fixed sm:right-0 sm:top-0 sm:-z-10 sm:bottom-16;
-
-
+  @apply sm:dark:brightness-125 sm:block sm:fixed sm:right-0 sm:top-0 sm:-z-10 sm:bottom-2;
+  
   @media screen and (min-width: 640px) {
     width: calc(80vw - 48rem - 0.75rem);
     min-width: 300px;
     padding-left: 0em !important;
     overflow-y: auto;
     scroll-behavior: smooth;
-  }
-}
+    transform: translateY(calc(50vh - 50%));
+  height:fit-content;
 
-body:has(footer.active) #目录 + ul {
-  max-height: calc(100vh - 5rem);
+
+  }
 }
 
 body:has(#目录 + ul) header.active #theme-btn {
@@ -35,15 +33,9 @@ body:has(#目录 + ul) #btn-back-to-top {
 }
 
 #目录 + ul{
-     @apply sm:top-[8rem]
+     @apply sm:top-[2rem]
 }
 
-body:has(header.active) #目录 + ul {
-  @apply sm:top-[8rem];
-  @media screen and (min-width: 640px) {
-    max-height: calc(100vh - 7rem);
-  }
-}
 
 #目录 + ul,
 #目录 + ul ul {
