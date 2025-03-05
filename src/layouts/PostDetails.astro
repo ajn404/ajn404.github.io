@@ -7,7 +7,6 @@ import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import "medium-zoom/dist/style.css";
 
-import NavToc from "./NavToc.astro";
 import Image from "./Image.astro";
 
 import OpenDetails from "@components/astro/dom/openDetails.astro";
@@ -28,7 +27,6 @@ const {
   tags,
   detailButton,
   excalidraw,
-  //   navToc,
 } = post.data;
 const data = await post.render();
 
