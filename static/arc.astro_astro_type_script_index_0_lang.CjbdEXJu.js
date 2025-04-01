@@ -1,0 +1,2 @@
+(function(){try{var n=typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},e=new Error().stack;e&&(n._sentryDebugIds=n._sentryDebugIds||{},n._sentryDebugIds[e]="ea7cc815-616b-4759-8926-0989cefbaef9",n._sentryDebugIdIdentifier="sentry-dbid-ea7cc815-616b-4759-8926-0989cefbaef9")}catch{}})();addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("arcCanvas").getContext("2d");e.beginPath(),e.arc(150,100,50,0,Math.PI*2),e.fill()});
+//# sourceMappingURL=arc.astro_astro_type_script_index_0_lang.CjbdEXJu.js.map

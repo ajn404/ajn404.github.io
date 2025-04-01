@@ -1,0 +1,2 @@
+(function(){try{var e=typeof window<"u"?window:typeof global<"u"?global:typeof self<"u"?self:{},d=new Error().stack;d&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[d]="da2346d3-3f68-4a54-9402-bdead73abb79",e._sentryDebugIdIdentifier="sentry-dbid-da2346d3-3f68-4a54-9402-bdead73abb79")}catch{}})();function n(e){console.log("Button Clicked!"),this.disabled=!this.disabled}document.getElementById("clickMe").addEventListener("click",n);
+//# sourceMappingURL=typeOfThis.astro_astro_type_script_index_0_lang.BG89ZWzj.js.map
