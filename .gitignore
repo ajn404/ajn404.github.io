@@ -33,7 +33,6 @@ pnpm-debug.log*
 .obsidian
 .vercel
 build
-pnpm-lock.yaml
 src/content/obsidian/Excalidraw
 src/content/obsidian/.*
 target
