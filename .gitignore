@@ -58,3 +58,4 @@ tauri.settings.gradle
 src-tauri/gen
 
 .next
+pnpm-lock.yaml

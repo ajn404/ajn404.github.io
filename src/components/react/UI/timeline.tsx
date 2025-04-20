@@ -105,7 +105,7 @@ export default function TimelineDemo() {
     },
   ];
   return (
-    <div className="w-full pb-8">
+    <div className="w-1/2 pb-8">
       <Timeline data={data} />
     </div>
   );
