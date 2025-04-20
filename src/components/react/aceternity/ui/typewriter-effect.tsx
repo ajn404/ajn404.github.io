@@ -117,7 +117,7 @@ export const TypewriterEffectSmooth = ({
   });
   const renderWords = () => {
     return (
-      <div>
+      <div title="我已经和自己打交道很久了，宁愿作我">
         {wordsArray.map((word, idx) => {
           return (
             <div key={`word-${idx}`} className={"inline-block"}>

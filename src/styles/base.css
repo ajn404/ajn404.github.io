@@ -100,7 +100,7 @@
   }
   .prose a:hover {
     --p: 100%;
-    outline:none;
+    outline: none;
   }
   #nav-menu svg,
   /* .flex > svg, */
@@ -462,7 +462,7 @@ iframe {
 .loading {
   @apply fixed inset-0 z-50 flex items-center justify-center bg-black/80;
   &::after {
-    content: '';
+    content: "";
     @apply w-12 h-12 border-4 border-t-transparent border-white rounded-full animate-spin;
   }
 }
@@ -569,17 +569,82 @@ pre {
 }
 
 .card-grid {
-  @apply grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6 p-4;
-  @media (max-width: 640px) {
-    grid-cols: 1;
-    gap: 4;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  border: 0.155rem solid transparent;
 }
 
-.katex-mathml{
-    font-size: 1.5em;
-    filter: drop-shadow(0 0 0.75em #000) brightness(1.5) contrast(1.5);
-    line-height: 3em;
+.card__content {
+  box-shadow: 1px 12px 25px rgb(20 20 20 / 77%);
+  border-radius: 2.25rem;
+  min-height: 200px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+  z-index: 555;
+  background: radial-gradient(
+    ellipse at right top,
+    rgba(var(--color-fill), var(--tw-bg-opacity)) 0%,
+    #151419 47%,
+    #151419 100%
+  );
+  transition: all 3s ease; /* 添加过渡效果 */
+}
+
+.card__content:hover {
+  background: radial-gradient(
+    ellipse at left top,
+    rgba(var(--color-fill), var(--tw-bg-opacity)) 0%,
+    /* 更亮的金色 */ #2a292e 47%,
+    /* 稍微提亮的深灰 */ #2a292e 100%
+  );
+}
+.card__content:hover::before {
+  background: linear-gradient(
+      45deg,
+      #3a393f,
+      #3a393f,
+      #3a393f,
+      #3a393f,
+      #ffd700
+    )
+    border-box;
+}
+
+.card__content::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 2.25rem;
+  z-index: -1;
+  background: linear-gradient(
+      45deg,
+      #232228,
+      #232228,
+      #232228,
+      #232228,
+      #ffb741
+    )
+    border-box;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.katex-mathml {
+  font-size: 1.5em;
+  filter: drop-shadow(0 0 0.75em #000) brightness(1.5) contrast(1.5);
+  line-height: 3em;
 }
 
 @media (max-width: 768px) {
