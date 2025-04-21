@@ -15,12 +15,10 @@ import { Skeleton } from "@components/react/shadcn/ui/custom-skeleton.tsx";
 import { TypewriterEffectSmooth } from "@aceternity/ui/typewriter-effect";
 import GlowingEffectDemo from "@components/react/UI/glowing-effect-card";
 
-console.time("index");
 const [posts, socialCount] = await Promise.all([
   getCollection("blog"),
   SOCIALS.filter(social => social.active).length,
 ]);
-console.timeEnd("index");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 ---

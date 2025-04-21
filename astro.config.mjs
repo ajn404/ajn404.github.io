@@ -16,18 +16,15 @@ import { remarkReadingTime } from "./plugin/remark-reading-time.mjs";
 import cesium from "vite-plugin-cesium";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import myIntegration from "./plugin/devtool/my-integration";
-
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import lit from "@astrojs/lit";
-
 import expressiveCode from "astro-expressive-code";
+import partytown from "@astrojs/partytown";
 const __filenameNew = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filenameNew);
-
 const cesiumSource = "node_modules/cesium/Build/Cesium";
 const cesiumBaseUrl = "cesiumStatic";
-
 const vite = {
   clearScreen: false,
   optimizeDeps: {
@@ -42,10 +39,22 @@ const vite = {
   plugins: [
     viteStaticCopy({
       targets: [
-        { src: `${cesiumSource}/ThirdParty`, dest: cesiumBaseUrl },
-        { src: `${cesiumSource}/Workers`, dest: cesiumBaseUrl },
-        { src: `${cesiumSource}/Assets`, dest: cesiumBaseUrl },
-        { src: `${cesiumSource}/Widgets`, dest: cesiumBaseUrl },
+        {
+          src: `${cesiumSource}/ThirdParty`,
+          dest: cesiumBaseUrl,
+        },
+        {
+          src: `${cesiumSource}/Workers`,
+          dest: cesiumBaseUrl,
+        },
+        {
+          src: `${cesiumSource}/Assets`,
+          dest: cesiumBaseUrl,
+        },
+        {
+          src: `${cesiumSource}/Widgets`,
+          dest: cesiumBaseUrl,
+        },
       ],
     }),
   ],
@@ -83,8 +92,10 @@ if (import.meta.env.DEV) {
   vite.server = {
     proxy: {
       "/RPC2_Login": {
-        target: "http://192.168.200.2/RPC2_Login", // 目标服务器地址
-        changeOrigin: true, // 是否改变请求源
+        target: "http://192.168.200.2/RPC2_Login",
+        // 目标服务器地址
+        changeOrigin: true,
+        // 是否改变请求源
         secure: false,
         rewrite: path => path.replace(/^\/RPC2_Login/, ""),
       },
@@ -145,6 +156,7 @@ export default defineConfig({
         wrap: true,
       },
     }),
+    partytown(),
   ],
   markdown: {
     remarkPlugins: [

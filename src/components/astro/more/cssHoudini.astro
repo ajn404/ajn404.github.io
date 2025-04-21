@@ -1,0 +1,13 @@
+<script lang="ts">
+  CSS.paintWorklet.addModule("/assets/cdn/checkerboard.js");
+</script>
+
+<style>
+  .element {
+    background-image: paint(checkerboard);
+  }
+</style>
+
+<div>
+  <div class="element"></div>
+</div>
