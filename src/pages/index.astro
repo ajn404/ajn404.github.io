@@ -11,6 +11,7 @@ import { SOCIALS } from "@config";
 import TextAnimation from "@components/react/d3/textAnimation.tsx";
 import Header from "@components/astro/UI/Header.astro";
 import TimeLine from "@components/react/UI/timeline.tsx";
+import { Skeleton } from "@components/react/shadcn/ui/custom-skeleton.tsx";
 import { TypewriterEffectSmooth } from "@aceternity/ui/typewriter-effect";
 import GlowingEffectDemo from "@components/react/UI/glowing-effect-card";
 
@@ -99,7 +100,6 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
         )
       }
     </section>
-    <!-- <Hr /> -->
     <Header home={true} />
 
     {
@@ -124,7 +124,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
         </>
       ) : (
         <>
-          <div class="text-center text-2xl font-bold">加载中</div>
+          <Skeleton client:load className="h-[600px] w-[90vw] m-auto" />
         </>
       )
     }
@@ -159,12 +159,12 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
         </>
       ) : (
         <>
-          <div class="text-center text-2xl font-bold">加载中</div>
+          <Skeleton client:load data-src="/assets/bg/12.webp" className="h-[600px] w-[90vw] m-auto" />
         </>
       )
     }
 
-    <section class="pb-6 pt-12">
+<section class="pb-6 pt-12">
       <h2 class="text-2xl font-semibold tracking-wide pb-4">大A探索</h2>
       <GlowingEffectDemo client:load />
     </section>
