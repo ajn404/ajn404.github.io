@@ -14,10 +14,12 @@ import TimeLine from "@components/react/UI/timeline.tsx";
 import { TypewriterEffectSmooth } from "@aceternity/ui/typewriter-effect";
 import GlowingEffectDemo from "@components/react/UI/glowing-effect-card";
 
+console.time("index");
 const [posts, socialCount] = await Promise.all([
   getCollection("blog"),
   SOCIALS.filter(social => social.active).length,
 ]);
+console.timeEnd("index");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 ---
@@ -101,7 +103,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
     <Header home={true} />
 
     {
-      featuredPosts.length > 0 && (
+      featuredPosts.length > 0 ? (
         <>
           <section id="featured">
             <h2>feature</h2>
@@ -120,39 +122,47 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
             </section>
           </section>
         </>
+      ) : (
+        <>
+          <div class="text-center text-2xl font-bold">加载中</div>
+        </>
       )
     }
 
-    <section id="recent-posts">
-      <h2>最近的文章</h2>
-      <section class="hero-section">
-        <div class="card-grid">
-          {
-            sortedPosts
-              .slice(0, 12)
-              .map(({ data }) => (
-                <Card
-                  client:load
-                  client:only="react"
-                  href={`posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))
-          }
-        </div>
-      </section>
-      <div class="all-posts-btn-wrapper">
-        <LinkButton href="posts">
-          所有文章
-          <svg class="small-svg" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-            ></path>
-          </svg>
-        </LinkButton>
-      </div>
-    </section>
+    {
+      sortedPosts.length > 0 ? (
+        <>
+          <section id="recent-posts">
+            <h2>最近的文章</h2>
+            <section class="hero-section">
+              <div class="card-grid">
+                {sortedPosts.slice(0, 12).map(({ data }) => (
+                  <Card
+                    client:load
+                    client:only="react"
+                    href={`posts/${slugify(data)}`}
+                    frontmatter={data}
+                    secHeading={false}
+                  />
+                ))}
+              </div>
+            </section>
+            <div class="all-posts-btn-wrapper">
+              <LinkButton href="posts">
+                所有文章
+                <svg class="small-svg" xmlns="http://www.w3.org/2000/svg">
+                  <path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z" />
+                </svg>
+              </LinkButton>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          <div class="text-center text-2xl font-bold">加载中</div>
+        </>
+      )
+    }
 
     <section class="pb-6 pt-12">
       <h2 class="text-2xl font-semibold tracking-wide pb-4">大A探索</h2>
