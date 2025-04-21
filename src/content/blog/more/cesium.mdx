@@ -164,3 +164,13 @@ CesiumJS 使用 Web Workers 和 WebAssembly 提升性能，但浏览器安全策
 开发者只需安装插件并导入 Cesium，无需手动处理上述细节，即可快速启动 3D 地理可视化项目。
 
 </details>
+
+### [cesium maximumScreenSpaceError](https://cesium.com/learn/cesiumjs/ref-doc/Cesium3DTileset.html#maximumScreenSpaceError)
+
+> A tile's screen space error is roughly equivalent to the number of pixels wide that would be drawn if a sphere with a radius equal to the tile's geometric error were rendered at the tile's position. If this value exceeds maximumScreenSpaceError the tile refines to its descendants.
+
+瓦片的屏幕空间误差大致相当于如果以与瓦片几何误差相等的半径绘制一个球体，并在瓦片位置渲染时，该球体所绘制的像素宽度。如果此值超过 maximumScreenSpaceError ，则瓦片将细化到其子代。
+
+> Depending on the tileset, maximumScreenSpaceError may need to be tweaked to achieve the right balance. Higher values provide better performance but lower visual quality.
+
+根据瓦片集的不同，可能需要调整 maximumScreenSpaceError 以实现正确的平衡。更高的值提供更好的性能，但视觉质量较低。
