@@ -156,7 +156,9 @@ export default defineConfig({
         wrap: true,
       },
     }),
-    partytown(),
+    partytown({
+      config: { debug: false }, // 开发环境调试
+    }),
   ],
   markdown: {
     remarkPlugins: [
