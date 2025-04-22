@@ -1,0 +1,35 @@
+.content > h1 {
+  margin: 0 0 20px 0;
+  font-family: 'Cookie', monospace;
+  font-size: 60px;
+}
+
+.content > p {
+  line-height: 1.7;
+  margin: 0;
+}
+
+.content > p > a {
+  color: black;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.hover-content {
+  padding: 10px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  background-color:transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hover-content > img {
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.hover-content > p {
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.4;
+}

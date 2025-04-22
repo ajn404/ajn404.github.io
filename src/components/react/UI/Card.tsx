@@ -16,7 +16,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
-    className: "text-lg card__heading pt-4 font-medium ",
+    className: "text-lg card__heading p-4 font-medium ",
   };
   return (
     <a href={href} className="card__item" ref={ref} data-astro-prefetch>

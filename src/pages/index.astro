@@ -104,7 +104,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
       featuredPosts.length > 0 ? (
         <>
           <section id="featured">
-            <h2>feature</h2>
+            <h2 class="pb-4">features(精选)</h2>
             <section class="hero-section">
               <div class="card-grid">
                 {featuredPosts.map(({ data }) => (
@@ -131,7 +131,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
       sortedPosts.length > 0 ? (
         <>
           <section id="recent-posts">
-            <h2>最近的文章</h2>
+            <h2 class="pb-4">(recent)最近的文章</h2>
             <section class="hero-section">
               <div class="card-grid">
                 {sortedPosts.slice(0, 12).map(({ data }) => (
@@ -157,12 +157,16 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
         </>
       ) : (
         <>
-          <Skeleton client:load data-src="/assets/bg/12.webp" className="h-[600px] w-[90vw] m-auto" />
+          <Skeleton
+            client:load
+            data-src="/assets/bg/12.webp"
+            className="h-[600px] w-[90vw] m-auto"
+          />
         </>
       )
     }
 
-<section class="pb-6 pt-12">
+    <section class="pb-6 pt-12">
       <h2 class="text-2xl font-semibold tracking-wide pb-4">大A探索</h2>
       <GlowingEffectDemo client:load />
     </section>

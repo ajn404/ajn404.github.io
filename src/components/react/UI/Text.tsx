@@ -15,7 +15,7 @@ export default function Text({ children }: Props) {
     value = removeHtmlTags(value);
     return (
       <div className="text-container">
-        <span className="txt anim-text-flow ">
+        <span className="txt anim-text-flow p-4">
           {value.split("").map((str: string, index: number) => (
             <span key={str + index}>{str}</span>
           ))}
