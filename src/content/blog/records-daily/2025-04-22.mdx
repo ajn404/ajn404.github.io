@@ -30,3 +30,141 @@ import HoverLinkContainer from "@components/react/UI/HoverLink.tsx";
   highlightRange="1,103"
   url="src/components/react/UI/HoverLink.tsx"
 />
+
+## 感慨
+
+> 作为对接国企的乙方，同时作为承包商对接各种服务商的甲方，真是两头受罪
+> 做一个项目下来要和很多一知半解的还闲言碎语的人打交道
+> 就大屏而言，包含的这些所谓的驾驶舱，各种图表，几乎每个图表要自己拼凑数据（我是指前端层面），就光谈人员定位这一个模块，莫名其妙的，高高在上的人过来给你提一嘴所谓的优化，你便要绞尽脑汁，竭尽所能地去用封装 cesium 的，来源不明的，文档不全的第三方库寻求解决方案，最后基于 LOD，LRU，websocket,idlecallback，web worker,卡尔曼滤波... 和分析debug第三方库（压缩后代码）实现一个要加载 1G 左右的倾斜摄影三维建模同时显示上千人的实时位置/历史轨迹/报警信息，还要在基于受限制的低代码平台（jecloud）上部署上述代码......
+> 然后就是这个jecloud,某种情况下能减轻前端的压力，当然是在你不用它的情况下，但凡你需要用这玩意做一些定制化的需求，比自己去写要难很多，幸好探索了一条路子，在它的脚本（jecloud中可以对一些按钮/表格/表单插入渲染/控制脚本）中基于h函数/vue3 defineComponent 可以实现
+> 害，刷刷题，看看文档，想想前端这份工作到底该咋走
+
+```js
+const getGraphicData = (data, type) => {
+  // 新增卡尔曼滤波缓存对象
+  const kalmanFilters = new Map();
+  const result = []; // 存储处理后的数据
+  let distance = 0;
+  let second = 1;
+  const now = Date.now();
+
+  // 新增卡尔曼滤波处理函数
+  const applyKalmanFilter = (tagId, newPoint) => {
+    if (!kalmanFilters.has(tagId)) {
+      kalmanFilters.set(tagId, {
+        P: 1, // 预测误差协方差
+        X: newPoint, // 初始状态
+        Q: 0.1, // 过程噪声
+        R: 0.1, // 观测噪声
+      });
+      return newPoint;
+    }
+
+    const filter = kalmanFilters.get(tagId);
+
+    // 预测阶段
+    const X_predict = filter.X;
+    const P_predict = filter.P + filter.Q;
+
+    // 更新阶段
+    const K = P_predict / (P_predict + filter.R);
+    const X_update = X_predict.add(
+      newPoint.subtract(X_predict).multiplyByScalar(K)
+    );
+    const P_update = (1 - K) * P_predict;
+
+    // 保存状态
+    kalmanFilters.set(tagId, {
+      P: P_update,
+      X: X_update,
+      Q: filter.Q,
+      R: filter.R,
+    });
+
+    return X_update;
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const params = data[i];
+    const isCar = type === "car";
+    let limitSpeed = 10; //设置速度阈值10m/s
+
+    const defaultName = isCar ? "2" : "1";
+    const urlName = data_dict[params.entityIconId]
+      ? params.entityIconId
+      : defaultName;
+    let avatarUrl = `/micro/security/images/avator/${urlName}.webp`;
+    let show = params.out === false;
+
+    if (mapType.value === "jintianhua") show = true;
+    if (!Number(params.longitude) && !Number(params.lng)) show = false;
+    if (!show) continue;
+
+    const lng = Number(params.longitude) || Number(params.lng);
+    const lat = Number(params.latitude) || Number(params.lat);
+    const tagId = params.tagId;
+    const currentPoint = new VE.Point(`${lng},${lat},2`);
+
+    // 新增滤波处理
+    const filteredPoint = applyKalmanFilter(tagId, currentPoint);
+
+    if (map.getGraphic(tagId) && map.getGraphic(tagId).point) {
+      distance = map.getGraphic(tagId).point.distance(filteredPoint);
+    }
+    const limitDistance = 60;
+    second = Math.floor(distance / limitSpeed); // 计算移动时间
+    if (distance / second > limitSpeed) {
+      second = distance / limitSpeed; //如果速度超过阈值，则强行让移动时间匹配阈值速度
+    }
+    second = Math.max(3, second); // 移动时间不能小于3秒
+    const revetP = new Cesium.SampledPositionProperty(); //构造返回对象并添加到结果数组中
+
+    if (distance > limitDistance || second > 10) {
+      if (map && map.getGraphic(tagId)) {
+        map.getGraphic(tagId).destroy();
+      }
+    } else if (map.getGraphic(tagId)) {
+      if (distance == 0) continue;
+      const time = new Date(now + second * 1000);
+      // 添加当前位置
+      revetP.addSample(
+        Cesium.JulianDate.fromDate(new Date()),
+        map.getGraphic(tagId).point
+      );
+      // 添加当前位置
+      revetP.addSample(
+        Cesium.JulianDate.fromDate(time),
+        Cesium.Cartesian3.fromDegrees(lng, lat, 2)
+      );
+      revetP.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
+      revetP.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
+      map.getGraphic(tagId).position = revetP;
+      //设置时间
+      map.getGraphic(tagId).options.time = time;
+      const floor = `${params.name || ""}${params.floor ? "(" + params.floor + "层)" : "(1层)"}`;
+      if (floor !== map.getGraphic(tagId).options.style.label.text) {
+        map.getGraphic(tagId).options.style.label.text = floor;
+      }
+      continue;
+    }
+    result.push({
+      ...params,
+      avatarUrl,
+      show,
+      title: params.name,
+      lng,
+      lat,
+      avatarSize: {
+        width: isCar ? 70 : 30,
+        height: isCar ? 40 : 30,
+      },
+      height: isCar ? 60 : 30,
+      width: isCar ? 60 : 30,
+      time: new Date(Date.now() + second * 1000),
+    });
+  }
+  return result; // 返回处理后的数组
+};
+```
+
+## 工具箱

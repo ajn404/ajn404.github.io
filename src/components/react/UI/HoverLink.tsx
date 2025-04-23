@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import "./HoverLink.css";
 
-const HoverLink = ({ href, content, children }) => {
+const HoverLink = ({ href, content, children, ...props }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [position, setPosition] = useState({ left: 0, top: 0 });
   const linkRef = useRef(null);
@@ -58,6 +58,7 @@ const HoverLink = ({ href, content, children }) => {
   return (
     <a
       href={href}
+      {...props}
       ref={linkRef}
       onMouseOver={handleMouseOver}
       onMouseMove={handleMouseMove}
@@ -96,12 +97,23 @@ interface HoverLinkContainerProps {
   img?: string;
   content: string;
   text: string;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-export default ({ url, img, content, text }: HoverLinkContainerProps) => {
+export default ({
+  url,
+  img,
+  content,
+  text,
+  className,
+  style,
+}: HoverLinkContainerProps) => {
   return (
     <HoverLink
       href={url}
+      className={className}
+      style={style}
       content={
         <div className="hover-content">
           {img && <img src={img} alt="预览" />}
