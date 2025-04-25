@@ -668,3 +668,10 @@ pre {
     gap: 1rem;
   }
 }
+
+@media (min-width: 1024px) {
+  #main-content {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
