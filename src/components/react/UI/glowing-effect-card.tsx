@@ -32,7 +32,8 @@ export default function GlowingEffectDemo() {
         area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
         icon={<Lock className="h-4 w-4 text-black dark:text-neutral-400" />}
         title="A股市场，七亏二平一赚。"
-        description="在A股，消息就是一切。"
+        link="/posts/股票研究"
+        description="在A股，消息就是一切（也许）。"
       />
 
       <GridItem
