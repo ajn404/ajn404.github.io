@@ -24,7 +24,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 ---
 
 <Layout>
-  <main id="main-content">
+  <main>
     <section id="hero">
       <h1
         class="highlight highlight-variant-2 after:bg-gradient-to-tr after:from-amber-900 after:to-sky-900"
@@ -87,6 +87,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
             >☃️</span
           >
         </span>
+        当然，主要还是记录
       </p>
 
       {
@@ -104,7 +105,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
       featuredPosts.length > 0 ? (
         <>
           <section id="featured">
-            <h2 class="pb-4">features(精选)</h2>
+            <h2 class="pb-4">features(精选记录)</h2>
             <section class="hero-section">
               <div class="card-grid">
                 {featuredPosts.map(({ data }) => (
