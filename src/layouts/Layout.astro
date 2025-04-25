@@ -80,25 +80,26 @@ const socialImageURL = new URL(
     {activeNav && <Header activeNav={activeNav} />}
     <slot />
     <Toaster client:load />
+    <div data-live2d-container></div>
   </body>
-</html>
 
-<script src="./importTwElement"></script>
-<script src="./defineEvents"></script>
+  <script src="./importTwElement"></script>
+  <script src="./defineEvents"></script>
 
-<script>
-  const width = window.innerWidth;
-  if (width < 768) {
-    // 添加一个被动事件监听器
-    window.addEventListener(
-      "touchstart",
-      function () {
-        import("eruda").then(module => {
+  <script>
+    const width = window.innerWidth;
+    if (width < 768) {
+      // 添加一个被动事件监听器
+      window.addEventListener(
+        "touchstart",
+        function () {
+          import("eruda").then(module => {
             const eruda = module.default;
             eruda.init();
-        });
-      },
-      { passive: true }
-    );
-  }
-</script>
+          });
+        },
+        { passive: true }
+      );
+    }
+  </script>
+</html>

@@ -204,7 +204,7 @@ const App: React.FC<{
       ref={canvasRef}
       onClick={handleFullscreenToggle}
       style={{
-        width: isFullscreen ? "80vh" : `${width}vw`,
+        width: isFullscreen ? "80vw" : `${Math.min(80, Number(width))}vw`,
         height: isFullscreen ? "80vh" : `${height}vw`,
         margin: "2rem auto",
         padding: isFullscreen ? "10vh calc(50vw - 40vh)" : "0",
