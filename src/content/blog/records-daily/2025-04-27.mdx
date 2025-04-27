@@ -1,5 +1,5 @@
 ---
-author: ajn404 
+author: ajn404
 pubDatetime: 2025-04-27T09:54:04.000Z
 title: 2025-04-27 调休周天
 ogImage: /assets/bg/8.png
@@ -18,6 +18,7 @@ description: 技术细节的东西，今天看到了之后可能会忘，但下�
 今天在群里问了一个问题
 
 `task.js`
+
 ```js
 new Promise(function (resolve) {
   resolve();
@@ -37,7 +38,6 @@ process.nextTick(function () {
 
 import HoverLinkContainer from "@components/react/UI/HoverLink.tsx";
 
-
 <HoverLinkContainer
   client:only="react"
   url="https://juejin.cn/post/7303739766105505832"
@@ -51,4 +51,39 @@ import HoverLinkContainer from "@components/react/UI/HoverLink.tsx";
 
 > 在ESM运行时，代码其实是在微任务阶段中，必须清空完微任务队列，才会轮到nextTick
 
+`v20`
 
+```js
+async run() {
+    await this.instantiate();
+    const timeout = -1;
+    const breakOnSigint = false;
+    try {
+      await this.module.evaluate(timeout, breakOnSigint);
+    } catch (e) {
+      if (e?.name === 'ReferenceError' &&
+          isCommonJSGlobalLikeNotDefinedError(e.message)) {
+        e.message += ' in ES module scope';
+
+        if (StringPrototypeStartsWith(e.message, 'require ')) {
+          e.message += ', you can use import instead';
+        }
+
+        const packageConfig =
+          StringPrototypeStartsWith(this.module.url, 'file://') &&
+            RegExpPrototypeExec(/\.js(\?[^#]*)?(#.*)?$/, this.module.url) !== null &&
+            require('internal/modules/esm/resolve')
+              .getPackageScopeConfig(this.module.url);
+        if (packageConfig.type === 'module') {
+          e.message +=
+            '\nThis file is being treated as an ES module because it has a ' +
+            `'.js' file extension and '${packageConfig.pjsonPath}' contains ` +
+            '"type": "module". To treat it as a CommonJS script, rename it ' +
+            'to use the \'.cjs\' file extension.';
+        }
+      }
+      throw e;
+    }
+    return { __proto__: null, module: this.module };
+  }
+```
