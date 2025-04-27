@@ -4,7 +4,7 @@
   --s: 3px; /* the thickness */
   --w: 10px; /* the width */
   --g: 10px; /* the gap */
-  --b: 20px; /* blur */
+  --b: 100px; /* blur */
 
   // 直接在 border-image 中使用 nth 函数获取颜色
   border-image: linear-gradient(

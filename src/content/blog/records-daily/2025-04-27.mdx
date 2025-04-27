@@ -1,0 +1,54 @@
+---
+author: ajn404 
+pubDatetime: 2025-04-27T09:54:04.000Z
+title: 2025-04-27 调休周天
+ogImage: /assets/bg/8.png
+featured: false
+draft: false
+tags:
+  - "2025"
+  - promise
+description: 技术细节的东西，今天看到了之后可能会忘，但下次再遇到时，潜意识多了这么一层思维，解决问题就快些/面试官能引导出来
+---
+
+## 目录
+
+## 日记
+
+今天在群里问了一个问题
+
+`task.js`
+```js
+new Promise(function (resolve) {
+  resolve();
+}).then(function () {
+  console.log(8);
+});
+process.nextTick(function () {
+  console.log(6);
+});
+```
+
+我本地运行`node task.js`
+
+为啥输入结果是`8 6`,而不是`6 9`,百思不得其解
+
+然后群友分享了一篇文章
+
+import HoverLinkContainer from "@components/react/UI/HoverLink.tsx";
+
+
+<HoverLinkContainer
+  client:only="react"
+  url="https://juejin.cn/post/7303739766105505832"
+  img="/assets/svg/掘金.svg"
+  content="事件循环 - nextTick与微任务 - 在 NodeJS的ESM模式和CJS模式下，nextTick与.then执行顺序不一致的问题"
+  text="事件循环"
+  className="text-pink-200"
+/>
+
+恍然大悟，原来我把脚本放在了`src/scripts`目录下，而`src`目录下是ESM模块，而`node`默认是CJS模块，所以执行顺序不一致
+
+> 在ESM运行时，代码其实是在微任务阶段中，必须清空完微任务队列，才会轮到nextTick
+
+

@@ -18,9 +18,9 @@
 .hover-content {
   padding: 10px;
   box-shadow: 0 2px 20px rgba(0,0,0,0.2);
-  background-color:transparent;
   width: 100%;
   box-sizing: border-box;
+  @apply bg-skin-card;
 }
 
 .hover-content > img {
