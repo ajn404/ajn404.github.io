@@ -14,8 +14,7 @@
     "format": "prettier --plugin-search-dir=. --write .",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
-    "tauri:android-build": "pnpm run build && pnpm tauri android build",
-    "knip": "knip"
+    "tauri:android-build": "pnpm run build && pnpm tauri android build"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.4",
@@ -214,7 +213,6 @@
     "eslint": "^8.56.0",
     "eslint-plugin-astro": "^0.31.0",
     "husky": "^8.0.3",
-    "knip": "^5.51.0",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
     "prettier-plugin-astro": "^0.12.3",
