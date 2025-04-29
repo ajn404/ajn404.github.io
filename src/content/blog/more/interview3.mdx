@@ -116,7 +116,49 @@ description: "前端面试(其二)"
 
 建议候选人回答时结合 **代码示例** 和 **实际项目经验**，体现技术深度与解决问题的系统性思维。
 
+## 上述问题部分解答
 
-## 文章
+### Generator实现 sleep函数
+
+先读一遍
+
+import HoverLinkContainer from "@components/react/UI/HoverLink.tsx";
+
+<HoverLinkContainer
+  client:only="react"
+  url="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Generator"
+  content="MDN-Generator"
+  text="Generator"
+  className="text-pink-200"
+/>
+
+```js
+// sleep 函数返回 Promise（与 Promise 实现相同）
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 生成器函数示例
+function* task() {
+  console.log("Start");
+  yield sleep(1000); // 在生成器中 yield sleep 的 Promise
+  console.log("After 1 second");
+}
+
+// 执行器（运行生成器并处理异步）
+function run(generator) {
+  const g = generator();
+  function next(err, result) {
+    const { value, done } = g.next(result);
+    if (done) return;
+    value.then(next); // 等待 Promise 完成后再继续
+  }
+  next();
+}
+
+run(task);
+```
+
+## 涉及到的文章
 
 - [事件循环](https://juejin.cn/post/7303739766105505832)
