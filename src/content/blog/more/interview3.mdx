@@ -159,6 +159,49 @@ function run(generator) {
 run(task);
 ```
 
+### `class A extends B`
+
+```js
+// 父类 B
+function B(name) {
+  this.name = name;
+  this.type = "Parent";
+}
+
+B.prototype.sayHello = function () {
+  console.log("Hello from B");
+};
+
+// 静态方法
+B.staticMethod = function () {
+  console.log("Static method from B");
+};
+
+// 子类 A
+function A(name, age) {
+  // 相当于 super(name)
+  B.call(this, name); // 调用父类构造函数
+  this.age = age;
+}
+
+// 继承原型链
+A.prototype = Object.create(B.prototype);
+// 修复 constructor 指向
+A.prototype.constructor = A;
+
+// 覆盖/扩展原型方法
+A.prototype.sayHello = function () {
+  // 相当于 super.sayHello()
+  B.prototype.sayHello.call(this); // 调用父类方法
+  console.log("Hello from A");
+};
+
+// 继承静态方法
+Object.keys(B).forEach(function (key) {
+  A[key] = B[key];
+});
+```
+
 ## 涉及到的文章
 
 - [事件循环](https://juejin.cn/post/7303739766105505832)

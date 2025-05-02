@@ -948,3 +948,936 @@ const modelMatrix = Cesium.Matrix4.multiplyByTranslation(
 ## 链接
 
 ## 感慨
+
+    抠搜老板/老板娘组合
+
+## 某些能让你想起什么的代码块
+
+### jecloud action操作列自定义为`更多`，即展开/收起逻辑
+
+<details>
+<summary>Click to expand</summary>
+
+```js
+const { $func, $grid, column, row } = EventOptions;
+
+const { ref, h, defineComponent } = JE.useVue();
+const level = row["TICKET_LEVEL"] === "DTZY";
+const buttons = $func.getActionButtons().filter(item => {
+  let show = !item.hidden;
+  if (item.code == "delay" && !level) {
+    show = false;
+  }
+  // let res = JE.useUtils().execScript4Async(item.events['hidden'], {
+  //     EventOptions,
+  // }, true)
+  // console.log(res)
+  return show;
+});
+
+const FuncButtonTypeEnum = Object.freeze({
+  /**
+   * 列表Action添加
+   */
+  ACTION_INSERT_BUTTON: "actionAdd",
+  /**
+   * 列表Action保存
+   */
+  ACTION_UPDATE_BUTTON: "actionUpdate",
+  /**
+   * 列表Action删除
+   */
+  ACTION_REMOVE_BUTTON: "actionRemove",
+  /**
+   * 列表Action编辑
+   */
+  ACTION_EDIT_BUTTON: "actionEdit",
+});
+
+function doGridActionButtonEvents($func, { button, eventOptions }) {
+  const { row } = eventOptions;
+  const { doGridInsert, doGridRemove, doGridEdit, doGridUpdateList } =
+    $func.action;
+  switch (button.code) {
+    case FuncButtonTypeEnum.ACTION_INSERT_BUTTON: // 添加
+      return doGridInsert({ row });
+    case FuncButtonTypeEnum.ACTION_REMOVE_BUTTON: // 删除
+      return doGridRemove({ row });
+    case FuncButtonTypeEnum.ACTION_UPDATE_BUTTON: // 保存
+      return doGridUpdateList({ row });
+    case FuncButtonTypeEnum.ACTION_EDIT_BUTTON: // 编辑
+      return doGridEdit({ row, actionBtn: true });
+  }
+}
+
+const HDropdown = defineComponent({
+  setup() {
+    const visible = ref(false);
+    return () => {
+      // 创建菜单项
+      const menuItems = buttons.map((item, index) =>
+        h(
+          JE.useUi().Menu.Item,
+          {
+            key: index,
+            onClick: () => {
+              console.log($func, item);
+              if (item.disabled) return;
+              if (!item.events.click) {
+                doGridActionButtonEvents($func, {
+                  button: item,
+                  eventOptions: EventOptions,
+                });
+              }
+
+              item.events["before-click"] &&
+                JE.useUtils().execScript4Async(
+                  item.events["before-click"],
+                  {
+                    EventOptions,
+                  },
+                  true
+                );
+              item.events.click &&
+                JE.useUtils().execScript4Async(
+                  item.events.click,
+                  {
+                    EventOptions,
+                  },
+                  true
+                );
+              item.events["after-click"] &&
+                JE.useUtils().execScript4Async(
+                  item.events["after-click"],
+                  {
+                    EventOptions,
+                  },
+                  true
+                );
+            },
+          },
+          item?.text
+        )
+      );
+      // 创建下拉菜单
+      const overlay = h(JE.useUi().Menu, menuItems);
+
+      // 构建下拉组件
+      return h(
+        JE.useUi().Dropdown,
+        {
+          "v-model:visible": visible.value,
+          "onUpdate:visible": val => {
+            visible.value = val;
+          },
+          trigger: ["click"],
+        },
+        {
+          default: () =>
+            h(
+              "a",
+              {
+                class: "ant-dropdown-link",
+                onClick: e => {
+                  e.preventDefault();
+                  visible.value = !visible.value;
+                },
+              },
+              [
+                "更多",
+                h("i", {
+                  class: "fal fa-angle-down",
+                  style: `display:${!visible.value ? "inline-block" : "none"};margin-left:5px`,
+                }),
+                h("i", {
+                  class: "fal fa-angle-up",
+                  style: `display:${visible.value ? "inline-block" : "none"};margin-left:5px`,
+                }),
+              ]
+            ),
+          overlay: () => overlay,
+        }
+      );
+    };
+  },
+});
+
+// 返回组件
+return h(HDropdown);
+```
+
+</details>
+
+### app(uniapp use plus)某全局脚本通过各种作业票的审批同意触发人脸识别等
+
+<details>
+<summary>Click to expand</summary>
+
+```js
+const {
+  $func, // 功能对象
+  flag = {
+    signature: true, //拍照签字
+    position: true, //围栏
+    gas: false, //气体分析
+  },
+} = EventOptions;
+
+const state = $func.$workflow.state.currentTaskNode;
+const isMobile = /Mobile|Android/i.test(navigator.userAgent);
+const isTest = location.host === "192.168.0.75";
+let faceTargetUser = {};
+const level = $func.store.activeBean?.TICKET_LEVEL;
+//动土 断路 盲堵
+const levelDoSelectList = ["DTZY", "DLZY", "MBCDZY"];
+const canDoSelect = levelDoSelectList.includes(level);
+//受限空间，临时用电，动火作业
+const levelDoGasList = ["SXKJZY", "LSYDZY", "YJDHZY", "EJDHZY", "TJDHZY"];
+
+const params = {
+  TICKET_INFO_ID:
+    $func.store.activeBean.TICKET_INFO_ID ||
+    $func.store.activeBean.TICKET_APPLICATION_ID,
+  NODE_ID: state && state.id,
+  NODE_NAME: state && state.name,
+};
+
+const { message, ajax } = JE;
+const closeWaiting = () => plus && plus.nativeUI.closeWaiting();
+const loadScript = (src, callback) => {
+  try {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = callback;
+    document.head.appendChild(script);
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+const handleError = (error, messageText = "操作失败") => {
+  closeWaiting();
+  uni.hideLoading();
+  message(`${messageText}: ${error.message || "未知错误"}`, "error");
+  location.reload();
+};
+
+const getCapture = async () => {
+  return new Promise((resolve, reject) => {
+    const cmr = plus.camera.getCamera();
+    cmr.captureImage(
+      url => {
+        plus.io.resolveLocalFileSystemURL(
+          url,
+          entry => {
+            entry.file(file => {
+              const reader = new plus.io.FileReader();
+              reader.readAsDataURL(file);
+              reader.onloadend = () => resolve(reader.result);
+            }, reject);
+          },
+          reject
+        );
+      },
+      error => {
+        reject(new Error("取消拍照，返回上级页面"));
+        setTimeout(() => {
+          location.reload();
+        }, 0);
+      },
+      { filename: "_doc/camera/", index: 1 }
+    );
+  });
+};
+
+const faceRecognition = async (fileKey, userId) => {
+  try {
+    // if (!isMobile || isTest) return true;
+    const { data } = await ajax({
+      url: "/je/sp/facialRecognition/querySimilarityScore",
+      method: "post",
+      headers: { pd: "security-platform-face" },
+      params: {
+        USER_FACE_FILE_KEY: fileKey,
+        JE_RBAC_ACCOUNT_DEPT_ID: userId,
+      },
+    });
+    return data === true;
+  } catch (error) {
+    handleError(error, "人脸识别服务错误");
+    return false;
+  }
+};
+
+const base64ToFile = (base64, fileName) => {
+  let arr = base64.split(","),
+    type = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName, { type });
+};
+
+const faceRecognize = async userId => {
+  let name =
+    faceTargetUser.FACE_ACCOUNT_USER_NAME ||
+    faceTargetUser.WORK_LIABLE_PERSON_NAME ||
+    faceTargetUser.text;
+  JE.confirm({
+    message: `请识别${name}的人脸进行审批。`,
+    title: "提示",
+    okButton: {
+      text: "确定",
+      handler: async () => {
+        try {
+          await uni.showLoading();
+          const base64Url = await getCapture();
+          if (!base64Url) throw new Error("获取图片失败");
+          const file = base64ToFile(base64Url, "capture.png");
+          plus &&
+            plus.nativeUI.showWaiting("人脸识别中,请稍等...", { back: "none" });
+          const uploadRes = await uni.uploadFile({
+            file,
+            header: { authorization: localStorage.getItem("authorization") },
+            url: `/je/document/file`,
+          });
+
+          const fileKey = JSON.parse(uploadRes.data).data[0].fileKey;
+          const faceRes = await faceRecognition(fileKey, userId);
+
+          closeWaiting();
+          uni.hideLoading();
+          if (faceRes) {
+            message("人脸识别成功", "success");
+            await JE.callCustomFn("workflowPreProcessing", {
+              ...EventOptions,
+              userId,
+              faceTargetUser,
+            })();
+          } else {
+            message("人脸识别未通过", "error");
+            setTimeout(() => {
+              location.reload();
+            }, 500);
+          }
+        } catch (error) {
+          handleError(error);
+        }
+      },
+    },
+    cancelButton: {
+      text: "取消",
+      handler() {
+        location.reload();
+      },
+    },
+  });
+};
+
+const judgeHasPicAndSig = async () => {
+  try {
+    const res = await JE.ajax({
+      method: "POST",
+      params,
+      url: "/je/sp/ticket/workflowExtend/app/load",
+      headers: {
+        pd: "security-platform-ticket",
+      },
+    });
+    console.log($func.store.activeBean, state, "state");
+    console.log(res, "judgeHasPicAndSig");
+    if (res.success) {
+      if (res.data) {
+        faceTargetUser = res.data;
+        if (res.data.FACE_RESULT === "over") {
+          return "jump";
+        }
+        if (res.data.FACE_ACCOUNT_DEPT_ID) {
+          return res.data.FACE_ACCOUNT_DEPT_ID;
+        }
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+  return false;
+};
+
+const init = async () => {
+  loadScript("/static/libs/eruda.min.js", () => eruda.init());
+  console.log(faceTargetUser, "faceTargetUser");
+
+  const doInit = async () => {
+    const res = await judgeHasPicAndSig();
+    //之前人脸识别过
+    if (res === "jump") {
+      return true;
+    }
+    //上一个节点之前选过人
+    else if (res) {
+      faceRecognize(res);
+    }
+    //动土 断路 盲堵 可以选人进行人脸识别
+    else if (canDoSelect) {
+      await JE.showUserSelect({
+        callback: res => {
+          if (res && res.rows) {
+            if (res.rows.length === 0) {
+              message("请选择人员数据！", "error");
+              location.reload();
+            }
+            console.log(res.rows, "rows");
+            faceTargetUser = res.rows[0];
+            faceRecognize(res.rows[0].id);
+          }
+        },
+        customOptions: {
+          cancelButton: false,
+        },
+      });
+    }
+    //其他情况直接对当前节点的人进行人脸识别
+    else {
+      faceTargetUser = $func.store.activeBean;
+      // if (!faceTargetUser.WORK_LIABLE_PERSON_NAME) {
+      const { data } = await ajax({
+        url: "/je/workflow/currentUserTask/getCirculationHistory",
+        method: "post",
+        params: {
+          beanId: params.TICKET_INFO_ID,
+        },
+      });
+      console.log("data", data);
+      if (data && data.length > 0) {
+        data.forEach(item => {
+          if (item.actualApprover) {
+            faceTargetUser.WORK_LIABLE_PERSON_NAME = item.actualApprover;
+          }
+        });
+      }
+      // }
+      faceRecognize(
+        $func.store.activeBean?.WORK_LIABLE_PERSON_ACCOUNTDEPT_ID ||
+          $func.store.activeBean?.APPLICANT_DEPT_ID
+      );
+    }
+  };
+
+  if (!levelDoGasList.includes(level)) {
+    await doInit();
+  } else {
+    const gas = await JE.ajax({
+      url: "/je/sp/ticket/gas/getLatestGasResult",
+      method: "POST",
+      headers: {
+        pd: "security-platform-ticket",
+      },
+      params: { TICKET_INFO_ID: params.TICKET_INFO_ID },
+    });
+
+    const confirm = message => {
+      JE.confirm({
+        content: message,
+        okButton: {
+          text: "继续提交",
+          handler() {
+            doInit();
+          },
+        },
+        cancelButton: {
+          text: "取消",
+          handler() {
+            location.reload();
+          },
+        },
+      });
+    };
+    if (!gas.success) {
+      confirm(gas.message);
+      // doInit();
+    } else {
+      const limit = gas.data[0].values.LOWER_LIMIT;
+      const limit_U = gas.data[0].values.UPPER_LIMIT;
+      const CONTENT = gas.data[0].values.CONTENT;
+      if (limit > CONTENT || limit_U < CONTENT) {
+        confirm("该作业票存在气体分析结果异常情况，请确认是否同意审批?");
+      } else doInit();
+    }
+  }
+};
+return init;
+```
+
+</details>
+
+### app(uniapp use plus)通过脚本实现签字拍照
+
+<details>
+<summary>Click to expand</summary>
+
+```js
+const {
+  $func, // 功能对象
+  $form, // 功能表单对象
+  button, // 按钮对象
+  flag = {
+    signature: true, //拍照签字
+    position: true, //围栏
+    gas: false, //气体分析
+  },
+  faceTargetUser = {},
+} = EventOptions;
+
+let { userId = "" } = EventOptions;
+
+let currentUser = {};
+let target = faceTargetUser;
+
+const loadScript = (src, callback) => {
+  try {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = callback;
+    document.head.appendChild(script);
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+const initSignaturePad = () => {
+  const canvas = document.getElementById("signature-pad");
+  if (!canvas) return;
+
+  signaturePad = new SignaturePad(canvas, {
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    penColor: "black",
+    minWidth: 0.5,
+    maxWidth: 2.5,
+  });
+  function resizeCanvas() {
+    const ratio = Math.max(devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+    signaturePad.clear();
+  }
+  addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+};
+
+const base64ToFile = (base64, fileName) => {
+  let arr = base64.split(","),
+    type = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName, { type });
+};
+
+const { message, ajax, dialog, uni } = JE;
+const { FilePicker } = JE.useUi();
+const { h, ref } = JE.useVue();
+
+const judgePosition = async () => {
+  console.log(
+    $func,
+    " $func.store.activeBean",
+    $func.store.activeBean.APPLICANT_USER_ID,
+    userId
+  );
+  const res = await ajax({
+    url: "/je/sp/position/work/alarm/judgePosition",
+    params: {
+      POSITION_WORK_ALARM_ID:
+        $func.store.activeBean.POSITION_WORK_ALARM_ID || "",
+      JE_RBAC_ACCOUNTDEPT_ID:
+        userId ||
+        currentUser.deptId ||
+        $func.store.activeBean.APPLICANT_DEPT_ID,
+    },
+    method: "GET",
+    headers: {
+      pd: "security-platform-position",
+    },
+  });
+
+  if (res.success) return;
+  JE.confirm({
+    content: res.message,
+    buttons: [
+      {
+        text: "取消",
+        handler() {
+          location.reload();
+        },
+      },
+    ],
+  });
+  throw new Error(res.message);
+};
+
+const rotate = base64 => {
+  const img = new Image();
+  return new Promise((res, rej) => {
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.height;
+      canvas.height = img.width;
+      const ctx = canvas.getContext("2d");
+      ctx.rect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fill();
+      ctx.translate(0, img.width);
+      ctx.rotate((-90 * Math.PI) / 180);
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      const newBase64Str = canvas.toDataURL("image/png", 1.0);
+      res(newBase64Str);
+    };
+
+    img.src = base64;
+  });
+};
+
+const analysisGas = () => {
+  const gasTime = $form.getValue("GAS_TIME");
+  if (!gasTime || gasTime == "") {
+    JE.confirm({
+      content: "30min内未进行气体分析",
+      buttons: [
+        {
+          text: "取消",
+          handler() {
+            location.reload();
+          },
+        },
+      ],
+    });
+    throw new Error("30min内未进行气体分析");
+    // return false;
+  }
+  const date = new Date(gasTime).getTime();
+  const nowData = new Date().getTime();
+  if (nowData - date > 30 * 60 * 1000) {
+    JE.confirm({
+      content: "30min内未进行气体分析",
+      buttons: [
+        {
+          text: "取消",
+          handler() {
+            location.reload();
+          },
+        },
+      ],
+    });
+    throw new Error("30min内未进行气体分析");
+    // return false;
+  }
+};
+
+let signaturePad = null;
+const includeSuffix = ["jpeg", "jpg", "png"];
+const fileValue = ref("");
+const state = $func.$workflow.state.currentTaskNode;
+const params = {
+  tableCode: "TICKET_INFO_WORKFLOW_EXTEND",
+  TICKET_INFO_ID:
+    $func.store.activeBean.TICKET_INFO_ID ||
+    $func.store.activeBean.TICKET_APPLICATION_ID,
+  NODE_ID: state && state.id,
+  NODE_NAME: state && state.name,
+  SIGN: null, //签字信息
+  PICTURE: null, //照片信息
+  FACE_RESULT: "over",
+  FACE_ACCOUNT_DEPT_ID: userId,
+  FACE_ACCOUNT_USER_NAME:
+    target.FACE_ACCOUNT_USER_NAME ||
+    target.WORK_LIABLE_PERSON_NAME ||
+    target.text,
+};
+
+const styles = {
+  header: "font-size:1.2em;font-weight:bolder;",
+  hidden: "display:none",
+  show: "display:block",
+  flex: ` display:flex;gap:20px;
+          justify-content:space-between;
+          width:90%; `,
+  primary: ` background-color: #3265f5;
+             color: white;
+             min-width:100px;
+             padding: 10px 20px;
+             border: none;
+             border-radius: 20px;
+             font-size: 1em;`,
+  container: `               
+              display:flex;
+              flex-direction:column;
+              gap:10px;
+              height:100%;
+              overflow-y:auto;
+              overflow-x:hidden;
+              align-items:center;`,
+};
+
+const showPictureWindow = async () => {
+  await JE.window({
+    height: "100vh",
+    maximized: true,
+    showHeader: false,
+    contentStyle: {
+      padding: 0,
+    },
+    title: "现场照片",
+    content: () => {
+      return h("div", {}, [
+        h(FilePicker, {
+          type: "image",
+          includeSuffix,
+          multiple: true,
+          maxCount: 10,
+          value: fileValue.value,
+          includeMessage: `请上传支持的文件格式：${includeSuffix.join("、")}`,
+          maxSize: 20,
+          "onUpdate:value": val => {
+            fileValue.value = val;
+            console.log(fileValue.value);
+            params.PICTURE = fileValue.value;
+          },
+        }),
+      ]);
+    },
+    buttons: [
+      {
+        text: "保存",
+        type: "primary",
+        closable: false,
+        handler({ $modal }) {
+          $modal.close();
+          //   save($modal);
+        },
+      },
+      {
+        text: "取消",
+        closable: false,
+        handler({ $modal }) {
+          $modal.close();
+        },
+      },
+    ],
+  });
+};
+
+const save = $modal => {
+  try {
+    if (!params.PICTURE) {
+      dialog({
+        title: "注意",
+        content: "请上传现场照片!",
+      });
+      return;
+    }
+    if (signaturePad.isEmpty()) {
+      dialog({
+        title: "注意",
+        content: "请签字",
+      });
+      return;
+    }
+    const url = signaturePad.toDataURL("image/png");
+    rotate(url).then(resUrl => {
+      const file = base64ToFile(resUrl, "sign.png");
+      uni.uploadFile({
+        file,
+        header: {
+          authorization: localStorage.getItem("authorization"),
+        },
+        url: `/je/document/file`,
+        success: async res => {
+          // message("签名上传成功");
+          const signData = JSON.parse(res.data);
+          if (signData && signData.data && signData.data.length > 0)
+            params.SIGN = JSON.stringify(signData.data);
+          console.log(params, "params");
+          plus && plus.nativeUI.showWaiting("保存中...");
+          ajax({
+            url: "/je/sp/ticket/workflowExtend/doSave",
+            params,
+            method: "POST",
+            headers: {
+              pd: "security-platform-ticket",
+            },
+          }).then(() => {
+            plus && plus.nativeUI.closeWaiting();
+            message("保存成功", "success");
+            $modal.close();
+          });
+        },
+      });
+    });
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+const openWindow = async () => {
+  await JE.window({
+    height: "100vh",
+    maximized: true,
+    showHeader: false,
+    contentStyle: {
+      padding: 0,
+    },
+    content: () => {
+      const canvas = h(
+        "canvas",
+        {
+          id: "signature-pad",
+          style: `    
+                        width:98%;
+                        height:100%;
+                        flex:1;
+                        margin:10px auto 0;
+                        z-index:2;
+                        background-color: rgba(255,255,255,0.1);`,
+        },
+        []
+      );
+      const tipText = h(
+        "div",
+        {
+          style: `font-size: 3rem;
+        opacity:0.1;
+        transform-origin: center;
+        position: absolute;
+        white-space: nowrap;
+        z-index:1;
+        top: 50%;
+        left: 50%;
+        touch-action: none;
+        transform: translate(-50%, -50%) rotate(90deg);`,
+        },
+        "签字区"
+      );
+      return h(
+        "div",
+        {
+          style: `${styles.container}`,
+        },
+        [canvas, tipText]
+      );
+    },
+    buttons: [
+      {
+        text: "现场照片",
+        closable: false,
+        type: "warning",
+        handler({ $modal }) {
+          showPictureWindow();
+        },
+      },
+      {
+        text: "清空",
+        closable: false,
+        type: "warning",
+        handler({ $modal }) {
+          signaturePad && signaturePad.clear();
+        },
+      },
+      {
+        text: "回退",
+        closable: false,
+        type: "success",
+        handler({ $modal }) {
+          const data = signaturePad.toData();
+          if (data) {
+            data.pop(); // remove the last dot or line
+            signaturePad.fromData(data);
+          }
+        },
+      },
+      {
+        text: "提交",
+        type: "primary",
+        closable: false,
+        handler({ $modal }) {
+          save($modal);
+        },
+      },
+      {
+        text: "取消",
+        closable: false,
+        handler({ $modal }) {
+          location.reload();
+        },
+      },
+    ],
+  });
+};
+const initButtonsStyle = () => {
+  const buttons = document.querySelectorAll(
+    ".je-modal-window__buttons .button"
+  );
+  if (!buttons) return;
+  buttons.forEach(item => {
+    item.style.marginBottom = "10px";
+    item.style.transform = "rotate(90deg)";
+    item.style.transformOrigin = "center";
+  });
+};
+const init = async () => {
+  // if (!/Mobile|Android/i.test(navigator.userAgent)) return true;
+
+  try {
+    loadScript("/static/libs/eruda.min.js", () => eruda.init());
+    const res = await JE.ajax({
+      url: "/je/rbac/cloud/account/currentUser",
+      params,
+      method: "GET",
+    });
+    if (res.success) {
+      currentUser = res.data;
+      if (!userId) {
+        userId = currentUser.deptId;
+      }
+      if (!target.FACE_ACCOUNT_USER_NAME) {
+        target.FACE_ACCOUNT_USER_NAME = currentUser.name;
+      }
+    }
+
+    flag.position && (await judgePosition());
+    flag.gas && analysisGas();
+    if (flag.signature) {
+      try {
+        await openWindow();
+        initButtonsStyle();
+        loadScript(`/static/libs/signature_pad.umd.min.js`, () => {
+          initSignaturePad();
+        });
+      } catch (e) {
+        plus.nativeUI.closeWaiting();
+        throw e;
+      }
+    }
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+return init;
+```
+
+</details>
+
+## maplibre
+
+import MaplibreExample from "@components/astro/map/maplibre_example.astro";
+
+<MaplibreExample client:visible />
