@@ -22,11 +22,14 @@ export default () => {
     const render = () => {
       initWebGL();
       console.log("Rendering...");
-      setProgress(prev => (prev < 100 ? prev + 0.005 : 100)); // 模拟进度更新
+      setProgress(prev => (prev < 100 ? prev + 1 : 100)); // 模拟进度更新
       gl.clearColor(progress / 100, 0.5, 1 - progress / 100, 1.0); // 设置背景颜色为黑色
       gl.clear(gl.COLOR_BUFFER_BIT); // 清除画布
       if (progress < 100) {
         id = requestAnimationFrame(render); // 循环渲染
+      } else {
+        console.log("Render complete");
+        cancelAnimationFrame(id); // 停止渲染
       }
     };
 
@@ -36,7 +39,7 @@ export default () => {
       console.log("Cleanup");
       cancelAnimationFrame(id); // 清除动画帧
     };
-  }, [progress]);
+  }, []);
 
   return (
     <div>

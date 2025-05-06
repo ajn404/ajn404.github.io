@@ -8,6 +8,8 @@ draft: false
 tags:
   - "2025"
   - "5月"
+  - webgl
+  - map
 description: 这个月月初以什么开始月末以什么结束呢
 ---
 
@@ -34,4 +36,4 @@ import Fundamental from "@components/react/webgl/fundamental/fundamentals.tsx";
 
 <Fundamental client:visible />
 
-> 不知道设置client:visible的react组件在视口外会不会销毁
+> 不知道设置`client:visible`的react组件在视口外会不会销毁(应该不会，`client:visible`只是解决了异步的问题吧)
