@@ -1,0 +1,32 @@
+---
+
+---
+
+<div
+    id="parallax"
+  class="ml-[-0.12ch] text-[clamp(100px,30vw,600px)] xs:mb-[-0.15ch] bg-clip-text bg-[size:100%] leading-none text-transparent tracking-[-0.02em] mt-[-0.24ch] select-none"
+  style='background-position-y: -150%; background-image: url("https://images.ctfassets.net/beeay9aupl8z/b3ObGYi0m116JbEoZAce8/dcc87adace37e1b49c7b30c98a188c36/IMAGE_GRID_OPTION_3.png?fm=webp&w=1800&q=75");'
+>
+  <span>Hey</span>
+</div>
+
+<script>
+  import gsap from "gsap";
+  document.addEventListener("DOMContentLoaded", () => {
+    import("gsap/ScrollTrigger").then(res => {
+      const ScrollTrigger = res.default;
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to("#parallax", {
+        backgroundPositionY: "0%",
+        duration: 1,
+        scrollTrigger: {
+          trigger: "#parallax",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+          // markers: true, // 可选：用于调试
+        },
+      });
+    });
+  });
+</script>

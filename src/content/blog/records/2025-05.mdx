@@ -36,4 +36,18 @@ import Fundamental from "@components/react/webgl/fundamental/fundamentals.tsx";
 
 <Fundamental client:visible />
 
+## 视差
+
+import ComponentName from "@components/astro/UI/viewDiff.astro";
+
+<ComponentName client:visible />
+
+## 继续webgl
+
 > 不知道设置`client:visible`的react组件在视口外会不会销毁(应该不会，`client:visible`只是解决了异步的问题吧)
+
+- 下面我们开始一个demo
+
+import Fundamental1 from "@components/astro/webgl/Fundamental1.astro";
+
+<Fundamental1 client:visible />
