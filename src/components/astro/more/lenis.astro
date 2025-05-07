@@ -16,11 +16,11 @@
     const lenis = new Lenis();
 
     function raf(time) {
-      if (window.innerWidth > 768) {
-        id && cancelAnimationFrame(id);
-        lenis.destroy();
-        return;
-      }
+    //   if (window.innerWidth > 768) {
+    //     id && cancelAnimationFrame(id);
+    //     lenis.destroy();
+    //     return;
+    //   }
 
       lenis?.raf(time);
       requestAnimationFrame(raf);
