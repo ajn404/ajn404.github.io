@@ -331,10 +331,37 @@ Vue中`created`和`mounted`两个钩子之间的时间差值主要受以下因�
 - React DOM 负责将虚拟 DOM 映射到浏览器中的真实 DOM。
 - React 的核心逻辑是平台无关的，通过不同的渲染器（如 react-dom 用于 Web、react-native 用于移动端）实现多端渲染。
 
-编写组件 ：使用 React 定义组件逻辑（如 function App() { return <div>Hello</div> }）。
 虚拟 DOM 生成 ：React 将组件转换为虚拟 DOM 结构。
 渲染到页面 ：React DOM 接收虚拟 DOM，通过高效的 Diffing 算法计算差异，并更新真实 DOM。
 更新与同步 ：当组件状态变化时，React 重新构建虚拟 DOM，React DOM 对比差异并高效更新真实 DOM。
+
+#### React Portals 有什么用
+
+突破 React 组件树与 DOM 树的层级限制 ，适用于需要将内容渲染到特定 DOM 位置的场景
+
+例如(下面是个这个组件，使用了)
+
+import CodeFromUrl from "@components/astro/UI/code.astro";
+
+<HoverLinkContainer
+  client:only="react"
+  url="https://juejin.cn/post/7303739766105505832"
+  img="/assets/svg/掘金.svg"
+  content="事件循环 - nextTick与微任务 - 在 NodeJS的ESM模式和CJS模式下，nextTick与.then执行顺序不一致的问题"
+  text="事件循环"
+  className="text-pink-200"
+/>
+
+<details>
+<summary>show code</summary>
+
+<CodeFromUrl
+  lang="tsx"
+  highlightRange="68,86"
+  url="src/components/react/UI/HoverLink.tsx"
+/>
+
+</details>
 
 ## 涉及到的文章
 

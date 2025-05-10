@@ -22,11 +22,11 @@
     if (!document.getElementById("map") || !window.maplibregl) {
       return;
     }
-    const MAPTILER_KEY = "get_your_own_OpIi9ZULNHzrESv6T2vL";
+    const MAPTILER_KEY = "lvBUPhq5VNjp1vV2yZ25";
 
     const map = new maplibregl.Map({
       style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${MAPTILER_KEY}`,
-      center: [-74.0066, 40.7135],
+      center: [116.563151429724, 39.78682955231054],
       zoom: 15.5,
       pitch: 45,
       bearing: -17.6,
@@ -92,4 +92,4 @@
     });
   });
 </script>
-<div id="map" class="max-h-[50vh]"></div>
+<div id="map" class="max-h-[50vh] user-select-none"></div>
