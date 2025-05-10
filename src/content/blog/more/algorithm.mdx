@@ -8,7 +8,7 @@ tags:
   - algorithm
   - sort
   - js
-description: "算法"
+description: "算法/leetcode"
 ---
 
 ## 目录
@@ -76,6 +76,62 @@ var twoSum = function (nums, target) {
     }
   }
   return res;
+};
+```
+
+2. 两数相加
+
+```js
+var addTwoNumbers = function (l1, l2) {
+  let head = null;
+  let temp = head;
+  let diff = 0;
+  while (l1 || l2) {
+    let plus = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + diff;
+    let newVal = plus % 10;
+    diff = ~~(plus / 10);
+    let node = new ListNode(newVal, null);
+    if (!head) {
+      head = node;
+    }
+    if (temp) {
+      temp.next = node;
+    }
+    temp = node;
+    l1 = l1 ? l1.next : null;
+    l2 = l2 ? l2.next : null;
+  }
+  if (diff > 0) {
+    let node = new ListNode(diff, null);
+    if (temp) {
+      temp.next = node;
+    }
+  }
+  return head;
+};
+```
+
+```js
+var addTwoNumbers = function (l1, l2) {
+  const dummy = new ListNode(0);
+  let current = dummy;
+  let carry = 0;
+
+  while (l1 || l2 || carry) {
+    const v1 = l1 ? l1.val : 0;
+    const v2 = l2 ? l2.val : 0;
+
+    const sum = v1 + v2 + carry;
+    carry = Math.floor(sum / 10);
+
+    current.next = new ListNode(sum % 10);
+    current = current.next;
+
+    if (l1) l1 = l1.next;
+    if (l2) l2 = l2.next;
+  }
+
+  return dummy.next;
 };
 ```
 

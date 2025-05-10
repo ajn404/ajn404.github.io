@@ -51,3 +51,16 @@ import ComponentName from "@components/astro/UI/viewDiff.astro";
 import Fundamental1 from "@components/astro/webgl/Fundamental1.astro";
 
 <Fundamental1 client:visible />
+
+<details>
+<summary>show code</summary>
+
+import CodeFromUrl from "@components/astro/UI/code.astro";
+
+<CodeFromUrl
+  lang="html"
+  highlightRange="53,100"
+  url="src/components/astro/webgl/Fundamental1.astro"
+/>
+
+</details>
