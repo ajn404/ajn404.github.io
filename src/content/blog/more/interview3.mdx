@@ -319,13 +319,13 @@ Vue中`created`和`mounted`两个钩子之间的时间差值主要受以下因�
 
 ### 为什么 react 需要 fiber 架构，而 Vue 却不需要
 
-#### React 的更新机制本质上是异步的，Vue 的更新机制被称为“本质上是同步的”
+### React 的更新机制本质上是异步的，Vue 的更新机制被称为“本质上是同步的”
 
-#### React 中为什么不直接使用 requestIdleCallback
+### React 中为什么不直接使用 requestIdleCallback
 
-#### messageChannel
+### messageChannel
 
-#### react 与 react dom
+### react 与 react dom
 
 - React 负责定义组件逻辑和虚拟 DOM。
 - React DOM 负责将虚拟 DOM 映射到浏览器中的真实 DOM。
@@ -335,7 +335,7 @@ Vue中`created`和`mounted`两个钩子之间的时间差值主要受以下因�
 渲染到页面 ：React DOM 接收虚拟 DOM，通过高效的 Diffing 算法计算差异，并更新真实 DOM。
 更新与同步 ：当组件状态变化时，React 重新构建虚拟 DOM，React DOM 对比差异并高效更新真实 DOM。
 
-#### React Portals 有什么用
+### React Portals 有什么用
 
 突破 React 组件树与 DOM 树的层级限制 ，适用于需要将内容渲染到特定 DOM 位置的场景
 
@@ -362,6 +362,11 @@ import CodeFromUrl from "@components/astro/UI/code.astro";
 />
 
 </details>
+
+### `try...catch` 可以捕获到异步代码中的错误吗
+
+- https://developer.mozilla.org/zh-CN/docs/Web/API/Window/unhandledrejection_event
+- 在 JavaScript 中，`try...catch `不能直接捕获异步代码中的错误 ，除非你显式地将错误传递到 try...catch 的作用域中。这是因为异步代码的执行上下文与同步代码不同，错误不会自动冒泡到外层的 try...catch 块中。
 
 ## 涉及到的文章
 
