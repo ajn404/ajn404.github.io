@@ -90,6 +90,10 @@
         labelLayerId
       );
     });
+
+    document.getElementById("map").addEventListener("wheel", (e) => {
+      e.stopPropagation();
+    });
   });
 </script>
 <div id="map" class="max-h-[50vh] user-select-none"></div>
