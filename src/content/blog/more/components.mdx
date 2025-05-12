@@ -18,6 +18,7 @@ import TanstackTable from "components/react/little/tanstackTable.tsx";
 import Text from "@components/react/UI/Text.tsx";
 import Excalidraw from "@components/astro/UI/excalidraw.astro";
 import DriverNoText from "@components/react/little/driverString.tsx";
+import DriverNoTextNew from "@components/react/little/driverNoText.tsx";
 import Tagify from "@components/react/little/tagify.tsx";
 
 ## 目录
@@ -132,3 +133,64 @@ import MaplibreExample from "@components/astro/map/MaplibreExample.astro";
 import SoundBtn from "@components/react/little/sound.tsx";
 
 <SoundBtn client:load />
+
+## driverjs
+
+**一个实现引导功能的 sdk**
+
+import Driver from "@components/react/little/driver.tsx";
+
+<Driver
+  client:load
+  elements='[
+    {"element":"#driverjs","popover":{"title":"driverjs","description":"driverjs很强哟,实现了向导的功能","side":"top","align":"start"}},
+    {"element":"header","popover":{"title":"header","description":"这里是页面的header","doneBtnText":"完成"}},
+    { "popover": { "title": "Happy Coding", "description": "欢迎来到猎奇者的世界👏👏👏👏👏👏,输入hh解锁VIP"}}    ]'
+/>
+
+<blockquote>
+  Fabric is a <span class="fabric">JSON schema</span> for describing{" "}
+  <span class="cesiumjs">materials in CesiumJS </span>.Materials represent the
+  appearance of an object such as <span class="polygons">polygons</span> ,
+  <span class="polylines">polylines</span>,{" "}
+  <span class="ellipsoids">ellipsoids</span>, and{" "}
+  <span class="sensors">sensors</span>.<br />
+  Note: For details about applying{" "}
+  <span class="custom-materials">custom materials</span> to{" "}
+  <span class="d_models">3D models</span>or{" "}
+  <span class="d_tiles">3D Tiles</span>, use the{" "}
+  <span class="custom-shader-guide">Custom Shader Guide</span> instead.
+  <br />
+  Materials can be as simple as draping an image over an object, or applying a
+  pattern such as <span class="stripes">stripes</span>or a{" "}
+  <span class="checkerboard">checkerboard</span>. Using Fabric and{" "}
+  <span class="glsl"> GLSL </span>, new materials can be scripted from scratch
+  or created by combining existing materials in a hierarchy; for example,{" "}
+  <span class="wet-bricks"> wet crumbling bricks </span> can be created with a
+  combination of <span class="procedural-brick"> procedural brick </span> ,{" "}
+  <span class="bump-map">bump map</span>, and{" "}
+  <span class="specular-map"> specular map </span> materials.
+</blockquote>
+
+<DriverNoTextNew
+  client:load
+  elements='[
+          {"element":".fabric","popover":{"title":"JSON schema","description":"用于描述数据结构的格式，便于数据的交换和存储。"}},
+          {"element":".cesiumjs","popover":{"title":"materials in CesiumJS","description":"CesiumJS中的材料，用于定义3D对象的外观。"}},
+          {"element":".polygons","popover":{"title":"polygons","description":"多边形，表示二维平面上的封闭形状。"}},
+          {"element":".polylines","popover":{"title":"polylines","description":"折线，由多个线段连接而成的图形。"}},
+          {"element":".ellipsoids","popover":{"title":"ellipsoids","description":"椭球体，三维空间中的一种曲面。"}},
+          {"element":".sensors","popover":{"title":"sensors","description":"传感器，用于收集环境数据的设备。"}},
+          {"element":".custom-materials","popover":{"title":"custom materials","description":"自定义材料，用户定义的材料类型。"}},
+          {"element":".d_models","popover":{"title":"3D models","description":"三维模型，表示物体的三维形态。"}},
+          {"element":".d_tiles","popover":{"title":"3D Tiles","description":"用于高效传输和渲染大规模3D城市和建筑数据的格式。"}},
+          {"element":".custom-shader-guide","popover":{"title":"Custom Shader Guide","description":"自定义着色器指南，提供如何创建和应用自定义着色器的详细信息。"}},
+          {"element":".stripes","popover":{"title":"stripes","description":"条纹图案，交替的颜色或纹理。"}},
+          {"element":".checkerboard","popover":{"title":"checkerboard","description":"棋盘格图案，交替的黑白方块。"}},
+          {"element":".glsl","popover":{"title":"GLSL","description":"OpenGL着色语言，用于编写图形渲染的着色器。"}},
+          {"element":".wet-bricks","popover":{"title":"wet crumbling bricks","description":"湿润的破碎砖块，表示一种特定的材料效果。"}},
+          {"element":".procedural-brick","popover":{"title":"procedural brick","description":"程序生成的砖块材料，用于创建复杂的表面效果。"}},
+          {"element":".bump-map","popover":{"title":"bump map","description":"凹凸贴图，用于在不增加几何体的情况下添加表面细节。"}},
+          {"element":".specular-map","popover":{"title":"specular map","description":"高光贴图，用于定义表面反射光的强度。"}}
+        ]'
+/>
