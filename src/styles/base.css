@@ -596,7 +596,7 @@ pre {
   transition: all 3s ease; /* 添加过渡效果 */
 }
 
-.card__content:hover {
+.card__content:hover,.card__content:focus {
   background: radial-gradient(
     ellipse at left top,
     rgba(var(--color-fill), var(--tw-bg-opacity)) 0%,
@@ -604,7 +604,8 @@ pre {
     /* 稍微提亮的深灰 */ #2a292e 100%
   );
 }
-.card__content:hover::before {
+.card__content:hover::before,
+.card__content:focus::before {
   background: linear-gradient(
       45deg,
       #3a393f,

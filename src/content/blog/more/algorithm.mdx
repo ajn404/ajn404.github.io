@@ -135,6 +135,87 @@ var addTwoNumbers = function (l1, l2) {
 };
 ```
 
+3.最长无重复子串长度
+
+```js
+var lengthOfLongestSubstring = function (s) {
+  let max = 0;
+  let left = 0;
+  const len = s.length;
+  const map = new Array(128).fill(-1);
+  for (let right = 0; right < len; right++) {
+    const charCode = s[right].charCodeAt(0);
+    if (map[charCode] >= left) {
+      left = map[charCode] + 1;
+    }
+    map[charCode] = right;
+    const currentLength = right - left + 1;
+    if (currentLength > max) {
+      max = currentLength;
+    }
+  }
+  return max;
+};
+```
+
+优化代码
+
+```js
+var lengthOfLongestSubstring = function (s) {
+  const len = s.length;
+  if (len <= 1) return len;
+
+  let max = 0;
+  let left = 0;
+  const map = new Int32Array(128).fill(-1); // 使用 Int32Array 替代普通数组
+  let charCode;
+
+  for (let right = 0; right < len; right++) {
+    // 提前终止：剩余可能的最大窗口不超过当前 max
+    if (len - left <= max) break;
+
+    charCode = s[right].charCodeAt(0);
+
+    // 如果字符在窗口内出现过，移动左指针
+    if (map[charCode] >= left) {
+      left = map[charCode] + 1;
+    }
+
+    // 更新字符的最新位置
+    map[charCode] = right;
+
+    // 计算当前窗口长度并更新最大值
+    const currentLength = right - left + 1;
+    if (currentLength > max) {
+      max = currentLength;
+    }
+  }
+
+  return max;
+};
+```
+
+简化后
+
+```js
+var lengthOfLongestSubstring = function (s) {
+  const n = s.length;
+  if (n <= 1) return n;
+  let max = 0,
+    l = 0,
+    map = new Int32Array(128).fill(-1);
+  for (let r = 0; r < n && n - l > max; r++) {
+    const c = s[r].charCodeAt(0);
+    if (map[c] >= l) l = map[c] + 1;
+    map[c] = r;
+    max = Math.max(max, r - l + 1);
+  }
+  return max;
+};
+```
+
+5.最长回文子串
+
 704.二分查找
 
 ```js
