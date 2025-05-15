@@ -41,7 +41,7 @@ const socialImageURL = new URL(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href=`/favicon.svg` />
+    <link rel="icon" id="favicon" type="image/svg+xml" href=`/favicon.svg` />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -100,5 +100,80 @@ const socialImageURL = new URL(
         { passive: true }
       );
     }
+  </script>
+
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", () => {
+      // === 配置中心 ===
+      const config = {
+        iconPaths: [
+          "public/assets/favicon/1.jpg",
+          "public/assets/favicon/2.jpg",
+          "public/assets/favicon/3.jpg",
+          "public/assets/favicon/4.jpg",
+          "public/assets/favicon/5.jpg",
+          "public/assets/favicon/6.jpg",
+        ],
+        interval: 500, // 切换间隔（ms）
+        selector: "link[rel='icon']",
+      };
+
+      // === 状态管理 ===
+      let currentIndex = 0;
+      let rafId = null;
+      let isRunning = false;
+
+      // === 工具函数 ===
+      const getNextIndex = () => (currentIndex + 1) % config.iconPaths.length;
+      const getFaviconElement = () => document.querySelector(config.selector);
+
+      // === 动画逻辑 ===
+      const animate = () => {
+        if (!isRunning) return;
+
+        const favicon = getFaviconElement();
+        if (!favicon) return;
+
+        favicon.href = config.iconPaths[currentIndex];
+        currentIndex = getNextIndex();
+
+        rafId = requestAnimationFrame(() => {
+          setTimeout(() => animate(), config.interval);
+        });
+      };
+
+      // === 控制器 ===
+      const startAnimation = () => {
+        if (isRunning) return;
+        isRunning = true;
+        animate();
+      };
+
+      const stopAnimation = () => {
+        isRunning = false;
+        if (rafId) cancelAnimationFrame(rafId);
+      };
+
+      // === 初始化 ===
+      const init = () => {
+        // 基础校验
+        if (!config.iconPaths.length || !getFaviconElement()) {
+          console.warn(
+            "Favicon animation failed: Missing resources or DOM elements"
+          );
+          return;
+        }
+
+        // 页面可见性控制
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) stopAnimation();
+          else startAnimation();
+        });
+
+        startAnimation();
+      };
+
+      init();
+    });
   </script>
 </html>
