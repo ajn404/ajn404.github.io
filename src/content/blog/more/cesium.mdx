@@ -176,3 +176,11 @@ CesiumJS 使用 Web Workers 和 WebAssembly 提升性能，但浏览器安全策
 根据瓦片集的不同，可能需要调整 maximumScreenSpaceError 以实现正确的平衡。更高的值提供更好的性能，但视觉质量较低。
 
 ### cesium 用帧缓存实现了什么
+
+### 渲染不生效问题
+
+> 为啥有时候在cesium地图上触发某些接口不会立马生效，例如上面的map.removeGraphic(graphic); 需要拖动地图或者放大缩小等操作才会看到生效
+
+```js
+map.viewer.scene.requestRender(); // 手动触发渲染
+```
